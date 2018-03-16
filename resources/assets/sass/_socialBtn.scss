@@ -1,0 +1,54 @@
+.btn-social {
+  text-align: left;
+  font-weight: 400;
+  font-size: 1.2rem;
+  
+  .svg-inline--fa {
+    display: inline-block;
+    width: 2rem !important;
+    margin-right: .5rem;
+  } 
+}
+
+.social-icon {
+  width: 2rem !important;
+  height: 2rem !important;
+  padding: .5rem;
+  vertical-align: middle;
+}
+
+.fb {
+  background: #3b5998;
+  color: $light;
+  &:hover {
+    background: darken(#3b5998, 10%);
+    color: $light;
+  }
+}
+
+.g-plus {
+  background: #dd4b39;
+  color: $light;
+  &:hover {
+    background: darken(#dd4b39, 10%);
+    color: $light;
+  }
+}
+
+.youtube {
+  background: #bb0000;
+  color: $light;
+  &:hover {
+    background: darken(#bb0000, 10%);
+    color: $light;
+  }
+}
+
+.ig {
+  background: #125688;
+  color: $light;
+  &:hover {
+    background: darken(#125688, 10%);
+    color: $light;
+  }
+}

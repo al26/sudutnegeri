@@ -1,0 +1,82 @@
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.text-wrap {
+	word-wrap: break-word !important;
+}
+
+.sponsor-logo {
+	max-height: 50px;
+}
+
+
+#scroll {
+	position: fixed;
+	right: 1rem;
+	bottom: 3rem;
+	cursor: pointer;
+	width: 2rem; 
+	height: 2rem; 
+	background-color: $danger; 
+	text-indent: -9999px; 
+	display: none; 
+	-webkit-border-radius: 5px; 
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	@include media-breakpoint-up(md) {
+		width: 2.5rem; 
+		height: 2.5rem;
+	} 
+	
+	span {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -8px; 
+		margin-top: -12px;
+		height: 0;
+		width: 0;
+		border: 8px solid transparent;
+		border-bottom-color: $light;
+	}
+
+	&:hover {
+		opacity: 1;
+		filter: "alpha(opacity=100)";
+		-ms-filter: "alpha(opacity=100)";
+	}
+}
+
+@include media-breakpoint-up(lg) {
+  a.navbar-brand {
+  	border-right: 3px solid $body-bg;
+  }
+  div#desktopNavbar {
+    input[type="text"] {
+      border-radius: 0;
+      border-width: 0 0 2px;
+      border-bottom-color: $primary;
+      background: transparent;
+      width: 20.5rem;
+      padding: .5rem 0 !important;
+      -webkit-transition: border 0.4s ease-in-out;
+      transition: 0.4s ease all;
+      
+      @include placeholder {
+    	color: $body-bg !important;
+	  }
+    }
+
+    input[type="text"]:focus {
+        border-bottom-color: $body-bg;
+        box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        outline-offset: 0px !important;
+        outline: none !important;
+      }
+  }
+}
