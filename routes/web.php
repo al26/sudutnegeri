@@ -20,6 +20,7 @@ Route::namespace('Auth')->group(function () {
     Route::get('/logout', 'LoginController@logout')->name('logout');
 });
 Route::get('/home', 'HomeController@index')->name('home');
+<<<<<<< HEAD
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/login', 'AdminController@showLoginForm')->name('admin.login');
@@ -30,3 +31,10 @@ Route::group(['prefix' => 'admin'], function () {
     });
     Route::get('/dashboard', 'AdminController@index')->name('admin.dashboard');
 });
+=======
+Route::group(['prefix' => 'admin'], function() {
+    Route::get('/login', 'AuthAdmin\LoginController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'AuthAdmin\LoginController@login')->name('admin.login.submit');
+    Route::get('/', 'AdminController@index')->name('admin.home');
+});
+>>>>>>> e07b1cb4aa087676456dc3b987e16ae4943721b4

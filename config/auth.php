@@ -112,6 +112,10 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+<<<<<<< HEAD
+=======
+
+>>>>>>> e07b1cb4aa087676456dc3b987e16ae4943721b4
         'admins' => [
             'provider' => 'admins',
             'table' => 'password_resets',
