@@ -8,10 +8,6 @@ use Request;
 use Response;
 use Illuminate\Auth\AuthenticationException;
 
-use Request;
-use Response;
-use Illuminate\Auth\AuthenticationException;
-
 class Handler extends ExceptionHandler
 {
     /**
@@ -60,7 +56,6 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-<<<<<<< HEAD
         $loginPage = in_array('admin', $exception->guards())
             ? 'admin.login'
             : 'login';
@@ -71,27 +66,4 @@ class Handler extends ExceptionHandler
 
     } 
 
-=======
-        // return $request->expectsJson()
-        //             ? response()->json(['message' => $exception->getMessage()], 401)
-        //             : redirect()->guest(route('login'));
-
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated'], 401);
-        }
-
-        $guard = array_get($exception->guards(), 0);
-        switch ($guard) {
-            case 'admin':
-                $loginPage = 'admin.login';
-                break;
-            
-            default:
-                $loginPage = 'login';
-                break;
-        }
-
-        return redirect()->guest(route($loginPage));
-    }
->>>>>>> e07b1cb4aa087676456dc3b987e16ae4943721b4
 }
