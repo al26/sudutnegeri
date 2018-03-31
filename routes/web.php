@@ -16,5 +16,17 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
+Route::namespace('Auth')->group(function () {
+    Route::get('/logout', 'LoginController@logout')->name('logout');
+});
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/login', 'AdminController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'AdminController@login')->name('admin.login.submit');
+    Route::get('/logout', 'AdminController@logout')->name('admin.logout');
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');  
+    });
+    Route::get('/dashboard', 'AdminController@index')->name('admin.dashboard');
+});
