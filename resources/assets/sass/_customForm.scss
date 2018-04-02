@@ -23,8 +23,8 @@ h2#form-divider {
     // margin-bottom: 1rem;
     .animated-label {
       position: absolute;
-      // visibility: hidden;
-      top: 20px;
+      font-size: 1rem;
+      top: 30px;
       left: 0;
       bottom: 0;
       z-index: 2;
@@ -51,7 +51,7 @@ h2#form-divider {
     &.not-empty {
       .animated-label {
         top: 0;
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
     }
     .form-control {

@@ -236,9 +236,7 @@
                     </div>
                     <div class="col-lg-4 d-none d-lg-block text-justify">
                         <h5 class="font-weight-bold text-light">
-                            <a class="btn-link" href="{{ url('/') }}">
-                                {{ config('app.name', 'Laravel') }}
-                            </a>
+                            <a class="btn-link" href="{{ url('/') }}">SudutNegeri</a>
                             <small> adalah platform yang mempertemukan antara Volunteer dan Donatur dengan bagian Indonesia yang membutuhkan bantuan pendidikan</small>
                         </h5>
                         <h5 class="font-weight-bold text-light">Didukung Oleh :</h5>

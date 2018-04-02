@@ -9150,6 +9150,10 @@ body {
   border-left: 3px solid #2A5D6F !important;
 }
 
+.offcanvas-collapse li.nav-item.active a.nav-link {
+  font-weight: bold;
+}
+
 .offcanvas-collapse li.nav-item a.nav-link > .svg-inline--fa {
   display: inline-block;
   width: 1em !important;
@@ -9339,7 +9343,8 @@ h2#form-divider span {
 
 .custom-form .form-group .animated-label {
   position: absolute;
-  top: 20px;
+  font-size: 1rem;
+  top: 30px;
   left: 0;
   bottom: 0;
   z-index: 2;
@@ -9370,7 +9375,7 @@ h2#form-divider span {
 
 .custom-form .form-group.not-empty .animated-label {
   top: 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .custom-form .form-group .form-control {

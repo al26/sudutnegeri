@@ -18,6 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 Route::namespace('Auth')->group(function () {
     Route::get('/logout', 'LoginController@logout')->name('logout');
+    Route::get('/auth/{provider}',          'SocialAccountController@redirectToProvider')->name('oauth.login');
+    Route::get('/auth/{provider}/callback', 'SocialAccountController@handleProviderCallback');
 });
 Route::get('/home', 'HomeController@index')->name('home');
 

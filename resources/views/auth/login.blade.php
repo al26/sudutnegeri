@@ -41,8 +41,8 @@
                 
                 <h2 id="form-divider"><span>atau</span></h2>
 
-                <a href="" class="w-100 mb-2 btn btn-default btn-social fb"><span class="fab fa-facebook-f"></span>Masuk Dengan Akun Facebook</a>
-                <a href="" class="w-100 mb-2 btn btn-default btn-social g-plus"><span class="fab fa-google-plus-g"></span>Masuk Dengan Akun Google</a>
+                <a href="{{ route('oauth.login', ['provider' => 'facebook']) }}" class="w-100 mb-2 btn btn-default btn-social fb"><span class="fab fa-facebook-f"></span>Masuk Dengan Akun Facebook</a>
+                <a href="{{ route('oauth.login', ['provider' => 'google']) }}" class="w-100 mb-2 btn btn-default btn-social g-plus"><span class="fab fa-google-plus-g"></span>Masuk Dengan Akun Google</a>
             </form>
         </div>
     </div>
