@@ -12,7 +12,7 @@ use App\Rules\CheckRole;
 class AdminController extends Controller
 {
     public function __construct(){
-        $this->middleware(['auth:admin','admin'])->except(['showLoginForm', 'login']);
+        $this->middleware(['auth:admin'])->except(['showLoginForm', 'login']);
     }
 
     public function index() {

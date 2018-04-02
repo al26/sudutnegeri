@@ -24,8 +24,8 @@ Route::namespace('Auth')->group(function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/login', 'AdminController@showLoginForm')->name('admin.login');
-    Route::post('/login', 'AdminController@login')->name('admin.login.submit');
+    Route::get('/login', 'AdminController@showLoginForm')->name('admin.login')->middleware(['guest']);
+    Route::post('/login', 'AdminController@login')->name('admin.login.submit')->middleware(['guest']);
     Route::get('/logout', 'AdminController@logout')->name('admin.logout');
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');  

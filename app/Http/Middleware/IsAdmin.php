@@ -16,7 +16,7 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('admin')->user()->role !== 'admin'){
+        if(!Auth::guard('admin')->check()){
             return redirect('/home');
         }
         return $next($request);
