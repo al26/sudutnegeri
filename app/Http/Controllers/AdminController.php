@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use App\Rules\CheckRole;
 
 class AdminController extends Controller
 {
@@ -22,7 +25,7 @@ class AdminController extends Controller
 
     public function login (Request $request) {
         $this->validate($request, [
-            'email' => 'required|email',
+            'email' => ['required','email','exists:users,email', new CheckRole('users', 'admin')],
             'password' => 'required|min:6',
         ]);
 

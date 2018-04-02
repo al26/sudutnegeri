@@ -27,6 +27,10 @@ body {
 	li.nav-item {
 		&.active {
 			border-left: 3px solid $secondary-color !important;
+
+			a.nav-link {
+				font-weight: bold;
+			}
 		}
 
 		a.nav-link > .svg-inline--fa {

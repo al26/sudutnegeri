@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
                     <label for="email" class="animated-label">{{ __('E-Mail Kamu') }}</label>
 
                     @if ($errors->has('email'))
@@ -21,7 +21,7 @@
                         </span>
                     @endif
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-5">
                     <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
                     <label for="password" class="animated-label">{{ __('Kata sandi') }}</label>
                     @if ($errors->has('password'))
