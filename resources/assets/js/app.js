@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 require('./fontawesome-all');
+require('./owl.carousel.min');
 require('./offCanvas');
 require('./main');
 

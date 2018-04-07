@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +14,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $data['carousel_img'] = Storage::files('public/homepage_carousel');
+    $data['carousel_url'] = Storage::url('public/homepage_carousel/');
+    $data['sponsor_img'] = Storage::files('public/sponsors_logo');
+    $data['sponsor_url'] = Storage::url('public/sponsors_logo/');
+    // dd($data);
+    return view('home', $data);
 });
 
 Auth::routes();

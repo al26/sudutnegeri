@@ -12,10 +12,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- owl carousel plugin -->
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
 </head>
 <body>
     <div id="app" class="bg-light">
-        <nav class="navbar navbar-expand-lg navbar-dark navbar-laravel bg-gradient-primary fixed-top">
+        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-change fixed-top">
             <div class="container">
                 <button class="navbar-toggler p-0 border-0 text-light" type="button" data-toggle="offcanvas">
                     <span class="fas fa-th-list"></span>
@@ -49,7 +52,7 @@
                         @else
                             <div class="card-body media p-0">
                                 <div class="media-body">
-                                  <p class="my-0 text-light lead">{{ Auth::user()->name }}</p>
+                                  <p class="my-0 text-light lead">{{ Auth::user()->profile->name }}</p>
                                   <p class="my-0 text-light">{{ Auth::user()->email }}</p>
                                   <a class="mt-3 btn btn-sm btn-primary" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -61,7 +64,7 @@
                                         @csrf
                                     </form>
                                 </div>
-                                <img class="d-flex ml-3 rounded-0 img-fluid" src="{{ asset('img/userPhoto/profile_image_dummy.svg') }}" alt="Image Icon" style="width: 100px;">
+                                <img class="d-flex ml-3 rounded-0 img-fluid" src="{{ asset('storage/'.Auth::user()->profile->profile_picture ?? 'profile_pictures/profile_image_dummy.svg') }}" alt="Image Icon" style="width: 100px;">
                             </div>
                         @endguest
                     </div>
@@ -120,7 +123,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->profile->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -141,7 +144,7 @@
             </div>
         </nav>
 
-        <main class="py-3 py-md-5">
+        <main class="">
             @yield('content')
         </main>
 
@@ -241,12 +244,11 @@
                         </h5>
                         <h5 class="font-weight-bold text-light">Didukung Oleh :</h5>
                         <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <img src="{{ asset('img/sponsorsLogo/pertamina-hulu-energi.png') }}" class="img-fluid">
-                            </li>
-                             <li class="list-inline-item">
-                                <img src="{{ asset('img/sponsorsLogo/bulog.png') }}" class="img-fluid">
-                            </li>
+                            @foreach ($sponsor_img as $item)
+                                <li class="list-inline-item">
+                                    <img src="{{ asset($sponsor_url.File::basename($item)) }}" class="img-fluid">
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="col-12 d-block d-lg-none px-3">

@@ -13,5 +13,6 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
-   .copyDirectory('resources/assets/img/', 'public/img', false)
+   .copyDirectory('resources/assets/css/', 'public/css', false)
    .options({processCssUrls: false});
+//    .styles(['resources/assets/css/*'], 'public/css/third_party.css');

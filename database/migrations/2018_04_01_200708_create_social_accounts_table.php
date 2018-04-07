@@ -16,7 +16,7 @@ class CreateSocialAccountsTable extends Migration
         Schema::create('social_accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');  
-            $table->foreign('user_id')->references('id')->on('users');         
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');         
             $table->string('provider_name')->nullable();
             $table->string('provider_id')->unique()->nullable();   
             $table->timestamps();

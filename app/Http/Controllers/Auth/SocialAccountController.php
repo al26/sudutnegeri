@@ -32,7 +32,6 @@ class SocialAccountController extends Controller
 
         try {
             $user = Socialite::driver($provider)->user();
-            // dd($user);
         } catch (Exception $e) {
             return redirect('/login');
         }    
@@ -55,13 +54,15 @@ class SocialAccountController extends Controller
         } else {
 
             $user = User::where('email', $providerUser->getEmail())->first();
-
             if (! $user) {
                 $user = User::create([  
                     'email' => $providerUser->getEmail(),
-                    'name'  => $providerUser->getName(),
                 ]);
             }
+
+            $user->profile()->create([
+                'name'  => $providerUser->getName(),
+            ]);
 
             $user->socialAccounts()->create([
                 'provider_id'   => $providerUser->getId(),

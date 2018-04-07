@@ -32,4 +32,12 @@ class User extends Authenticatable
         return $this->hasMany('App\SocialAccount');
     }
 
+    public function profile() {
+        return $this->hasOne('App\User_profile');
+    }
+
+    public function verify() {
+        return $this->hasOne('App\User_verification');
+    }
+
 }
