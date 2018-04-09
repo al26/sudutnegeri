@@ -64,7 +64,7 @@
                                         @csrf
                                     </form>
                                 </div>
-                                <img class="d-flex ml-3 rounded-0 img-fluid" src="{{ asset('storage/'.Auth::user()->profile->profile_picture ?? 'profile_pictures/profile_image_dummy.svg') }}" alt="Image Icon" style="width: 100px;">
+                                <img class="d-flex ml-3 rounded-0 img-fluid" src="{{ asset('storage/'.Auth::user()->profile->profile_picture ?? 'profile_pictures/dummy.svg') }}" alt="Image Icon" style="width: 100px;">
                             </div>
                         @endguest
                     </div>

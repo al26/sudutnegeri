@@ -100,26 +100,6 @@ div#section-title {
 	}
 }
 
-div.owl-dots {
-	padding-bottom: 1rem;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	.owl-dot {
-		width: 30px;
-		height: 5px;
-		margin: 0 3px;
-		background: #fff;
-
-		&.active {
-			background: #000;
-		}
-	}
-}
-
 div#list-container {
 	height: 17.5rem;
 	overflow: hidden;

@@ -51,7 +51,7 @@
             </div>
         </div>
     </section>
-    <section id="project" class="text-secondary">
+    <section id="project" class="text-secondary py-3">
         <div class="container py-3">
             <div class="section-headline mb-5">
                 <h1 class="section-title text-center text-uppercase font-weight-bold">Project Populer</h1>
@@ -59,7 +59,7 @@
             </div>
             <div class="section-content">
                 <div class="owl-carousel">
-                    <div class="card m-0 border-0 rounded-0">
+                    <div class="card m-0 rounded-0">
                         <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
                         <div class="media campaigner">
                             <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
@@ -74,7 +74,7 @@
                         <div class="project-needs">
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Uang
+                                    Dana
                                     <div class="progress w-50 position-relative">
                                         <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
@@ -103,7 +103,7 @@
                             </div>					      	
                         </div>
                     </div>
-                    <div class="card m-0 border-0 rounded-0">
+                    <div class="card m-0 rounded-0">
                         <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
                         <div class="media campaigner">
                             <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
@@ -118,7 +118,7 @@
                         <div class="project-needs">
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Uang
+                                    Dana
                                     <div class="progress w-50 position-relative">
                                         <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
@@ -147,7 +147,7 @@
                             </div>					      	
                         </div>
                     </div>
-                    <div class="card m-0 border-0 rounded-0">
+                    <div class="card m-0 rounded-0">
                         <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
                         <div class="media campaigner">
                             <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
@@ -162,7 +162,7 @@
                         <div class="project-needs">
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Uang
+                                    Dana
                                     <div class="progress w-50 position-relative">
                                         <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
@@ -191,7 +191,7 @@
                             </div>					      	
                         </div>
                     </div>
-                    <div class="card m-0 border-0 rounded-0">
+                    <div class="card m-0 rounded-0">
                         <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
                         <div class="media campaigner">
                             <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
@@ -206,7 +206,183 @@
                         <div class="project-needs">
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Uang
+                                    Dana
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Relawan
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">50 / 100 orang</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Buku
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">20 / 100 </small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer px-3">
+                            <div class="btn-group btn-group-sm w-100 rounded-0" role="group">
+                                <a href="" class="btn btn-sm btn-danger w-50 rounded-0">Jadi Volunteer</a>
+                                <a href="" class="btn btn-sm btn-primary w-50 rounded-0">Mulai Investasi</a>
+                            </div>					      	
+                        </div>
+                    </div>
+                    <div class="card m-0 rounded-0">
+                        <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
+                        <div class="media campaigner">
+                            <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
+                            <div class="media-body">
+                                Nama Campaigner
+                            </div>
+                        </div>
+                        <div class="card-body py-0 px-3">
+                            <a href="" class="card-link text-danger"><h5 class="card-title">Judul Project</h5></a>
+                            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                        <div class="project-needs">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Dana
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Relawan
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">50 / 100 orang</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Buku
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">20 / 100 </small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer px-3">
+                            <div class="btn-group btn-group-sm w-100 rounded-0" role="group">
+                                <a href="" class="btn btn-sm btn-danger w-50 rounded-0">Jadi Volunteer</a>
+                                <a href="" class="btn btn-sm btn-primary w-50 rounded-0">Mulai Investasi</a>
+                            </div>					      	
+                        </div>
+                    </div>
+                    <div class="card m-0 rounded-0">
+                        <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
+                        <div class="media campaigner">
+                            <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
+                            <div class="media-body">
+                                Nama Campaigner
+                            </div>
+                        </div>
+                        <div class="card-body py-0 px-3">
+                            <a href="" class="card-link text-danger"><h5 class="card-title">Judul Project</h5></a>
+                            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                        <div class="project-needs">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Dana
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Relawan
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">50 / 100 orang</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Buku
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">20 / 100 </small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer px-3">
+                            <div class="btn-group btn-group-sm w-100 rounded-0" role="group">
+                                <a href="" class="btn btn-sm btn-danger w-50 rounded-0">Jadi Volunteer</a>
+                                <a href="" class="btn btn-sm btn-primary w-50 rounded-0">Mulai Investasi</a>
+                            </div>					      	
+                        </div>
+                    </div>
+                    <div class="card m-0 rounded-0">
+                        <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
+                        <div class="media campaigner">
+                            <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
+                            <div class="media-body">
+                                Nama Campaigner
+                            </div>
+                        </div>
+                        <div class="card-body py-0 px-3">
+                            <a href="" class="card-link text-danger"><h5 class="card-title">Judul Project</h5></a>
+                            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                        <div class="project-needs">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Dana
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Relawan
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">50 / 100 orang</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Buku
+                                    <div class="progress w-50 position-relative">
+                                        <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">20 / 100 </small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer px-3">
+                            <div class="btn-group btn-group-sm w-100 rounded-0" role="group">
+                                <a href="" class="btn btn-sm btn-danger w-50 rounded-0">Jadi Volunteer</a>
+                                <a href="" class="btn btn-sm btn-primary w-50 rounded-0">Mulai Investasi</a>
+                            </div>					      	
+                        </div>
+                    </div>
+                    <div class="card m-0 rounded-0">
+                        <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
+                        <div class="media campaigner">
+                            <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
+                            <div class="media-body">
+                                Nama Campaigner
+                            </div>
+                        </div>
+                        <div class="card-body py-0 px-3">
+                            <a href="" class="card-link text-danger"><h5 class="card-title">Judul Project</h5></a>
+                            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                        </div>
+                        <div class="project-needs">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Dana
                                     <div class="progress w-50 position-relative">
                                         <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
@@ -236,7 +412,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="customNavigation">
+                    <a class="btn oc-prev"><i class="fas fa-caret-left fa-2x"></i></a>
+                    <a href="" class="btn btn-sm btn-secondary">Semua Project</a>
+                    <a class="btn oc-next"><i class="fas fa-caret-right fa-2x"></i></a>
+                </div>
             </div>
+        </div>
+    </section>
+    <section id="people" class="bg-white py-3">
+        <div class="section-headline mb-5 text-secondary">
+            <h1 class="section-title text-center text-uppercase font-weight-bold">Ikuti Jejak Kami</h1>
+            <h3 class="section-subtitle text-center text-capitalize">Bantu kami dan lebih dari 3000 orang lain untuk majukan pendidikan di Indonesia</h3>
+        </div>
+        <div class="accordion container">
+            <ul>
+              @foreach ($profile_img as $item)
+                <li style="background-image: url({{ asset($profile_url.File::basename($item)) }});">
+                    <div><a href=""><h2>Title x</h2><p>Content x</p></a></div>
+                </li>
+              @endforeach
+            </ul>
         </div>
     </section>
 @endsection

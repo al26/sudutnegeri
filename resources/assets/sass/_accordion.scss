@@ -1,0 +1,109 @@
+.accordion {
+	width: 100%;
+	// max-width: 1080px;
+	height: 250px;
+	overflow: hidden;
+	margin: 50px auto;
+
+	ul {
+		width: 100%;
+		display: table;
+		table-layout: fixed;
+		margin: 0;
+		padding: 0;
+
+		&:hover li { 
+			width: 8%; 
+			&:hover { 
+				width: 60%; 
+				a { 
+					background: $secondary;
+					opacity: .4; 
+					* {
+						opacity: 1;
+						-webkit-transform: translateX(0);
+						transform: translateX(0);
+					}
+				}
+			}
+		}
+
+		li {
+			display: table-cell;
+			vertical-align: bottom;
+			position: relative;
+			width: auto;
+			height: 250px;
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
+			transition: all 500ms ease;
+
+			div {
+				display: block;
+				overflow: hidden;
+				width: 100%;
+
+				a {
+					display: block;
+					height: 250px;
+					width: 100%;
+					position: relative;
+					z-index: 3;
+					// vertical-align: bottom;
+					padding: 15px 20px;
+					box-sizing: border-box;
+					color: #fff;
+					text-decoration: none;
+					font-family: Open Sans, sans-serif;
+					transition: all 200ms ease;
+
+					* {
+						opacity: 0;
+						margin: 0;
+						width: 100%;
+						text-overflow: ellipsis;
+						position: relative;
+						z-index: 5;
+						white-space: nowrap;
+						overflow: hidden;
+						-webkit-transform: translateX(-20px);
+						transform: translateX(-20px);
+						-webkit-transition: all 400ms ease;
+						transition: all 400ms ease;
+					}
+					h2 {
+						// font-family: Montserrat, sans-serif;
+						text-overflow: clip;
+						font-size: 1.5rem;
+						text-transform: uppercase;
+						margin-bottom: 2px;
+						top: 10rem;
+					}
+					p {
+						top: 10rem;
+						font-size: .9rem;
+					}
+				}
+			}
+		}
+	}
+
+	@include media-breakpoint-down(sm) { 
+
+		.accordion { 
+			height: auto; 
+			ul li, 
+			ul li:hover,
+			ul:hover li,
+			ul:hover li:hover {
+				position: relative;
+				display: table;
+				table-layout: fixed;
+				width: 100%;
+				-webkit-transition: none;
+				transition: none;
+			}
+		}
+	}
+}
