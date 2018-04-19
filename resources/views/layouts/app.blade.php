@@ -18,7 +18,7 @@
 </head>
 <body>
     <div id="app" class="bg-light">
-        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-change fixed-top">
+        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark @yield('bg-nav', 'bg-gradient-secondary')">
             <div class="container">
                 <button class="navbar-toggler p-0 border-0 text-light" type="button" data-toggle="offcanvas">
                     <span class="fas fa-th-list"></span>
@@ -144,14 +144,14 @@
             </div>
         </nav>
 
-        <main class="">
+        <main id="main-content">
             @yield('content')
         </main>
 
         <footer class="bg-gradient-secondary">
             <div class="container border-bottom border-light">
-                <div class="pt-3 row">
-                    <div class="col-lg-2 d-none d-lg-block">
+                <div class="row">
+                    <div class="col-lg-2 d-none d-lg-block pt-3">
                         <h5 class="font-weight-bold  text-light">Bidang Pendidikan</h5>
                         <ul class="list-unstyled">
                             <li><a href="" class="p-0 btn btn-link text-light">
@@ -177,7 +177,7 @@
                             </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-2 d-none d-lg-block">
+                    <div class="col-lg-2 d-none d-lg-block pt-3">
                         <h5 class="font-weight-bold  text-light">Pelajari Lebih</h5>
                         <ul class="list-unstyled">
                             <li><a href="" class="p-0 btn btn-link text-light">
@@ -200,7 +200,7 @@
                             </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-2 d-none d-lg-block">
+                    <div class="col-lg-2 d-none d-lg-block pt-3">
                         <h5 class="font-weight-bold  text-light">Dukungan</h5>
                         <ul class="list-unstyled">
                             <li><a href="" class="p-0 btn btn-link text-light">
@@ -217,7 +217,7 @@
                             </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-2 d-none d-lg-block">
+                    <div class="col-lg-2 d-none d-lg-block pt-3">
                         <h5 class="font-weight-bold  text-light">Ikut Peduli</h5>
                         <ul class="list-unstyled">
                             <li><a href="" class="p-0 btn btn-link text-light">
@@ -237,21 +237,21 @@
                             </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-4 d-none d-lg-block text-justify">
+                    <div class="col-lg-4 d-none d-lg-block pt-3 text-justify">
                         <h5 class="font-weight-bold text-light">
                             <a class="btn-link" href="{{ url('/') }}">SudutNegeri</a>
                             <small> adalah platform yang mempertemukan antara Volunteer dan Donatur dengan bagian Indonesia yang membutuhkan bantuan pendidikan</small>
                         </h5>
                         <h5 class="font-weight-bold text-light">Didukung Oleh :</h5>
                         <ul class="list-inline">
-                            @foreach ($sponsor_img as $item)
+                            @foreach (Storage::files('public/sponsors_logo') as $item)
                                 <li class="list-inline-item">
-                                    <img src="{{ asset($sponsor_url.File::basename($item)) }}" class="img-fluid">
+                                    <img src="{{ asset(Storage::url('public/sponsors_logo/').File::basename($item)) }}" class="img-fluid">
                                 </li>
                             @endforeach
                         </ul>
                     </div>
-                    <div class="col-12 d-block d-lg-none px-3">
+                    {{-- <div class="col-12 d-block d-lg-none px-3">
                         <ul class="list-inline">
                             <li class="list-inline-item"><a href="" class="p-0 text-white"><small>Pelajari Sudut</small></a></li>
                             <li class="list-inline-item"><a href="" class="p-0 text-white"><small>Pelajari Negeri</small></a></li>
@@ -259,10 +259,10 @@
                             <li class="list-inline-item"><a href="" class="p-0 text-white"><small>Kepercayaan & Keamanan</small></a></li>
                             <li class="list-inline-item"><a href="" class="p-0 text-white"><small>Kontak Kami</small></a></li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
-            <nav class="navbar navbar-expand-lg navbar-dark">
+            <nav class="navbar navbar-dark d-block">
                 <div class="container">
                     <ul class="mr-sm-auto my-0 list-inline">
                         <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fab fa-facebook-f rounded-circle social-icon fb"></i></a></li>
@@ -271,19 +271,19 @@
                         <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fab fa-instagram rounded-circle social-icon ig"></i></a></li>
                     </ul>
 
-                    <ul class="ml-sm-auto my-2 my-sm-0 list-inline">
+                    <ul class="ml-sm-auto my-2 my-sm-0 list-inline d-none d-md-block">
                         <li class="list-inline-item"><small class="text-light">&copy; {{date('Y')}} | All Right Reserved</small></li>
                     </ul>
                 </div>
             </nav>
-            <!-- <div class='scrolltop'>
-                <div class='scroll icon'><i class="fas fa-chevron-up"></i></div>
-            </div> -->
             <a id="scroll" href="javascript:void(0);" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left" style="display:none;"><span class="glyphicon glyphicon-chevron-up"></span></a>
         </footer>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        @yield('script')
+    </script>
 </body>
 </html>

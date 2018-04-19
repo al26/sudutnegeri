@@ -1,12 +1,12 @@
 @extends('layouts.app')
-
+@section('bg-nav', 'bg-change')
 @section('content')
     <section id="banner" class="text-center ">
         <div id="img-banner" class="carousel slide d-flex flex-column" data-ride="carousel">
             <div class="carousel-inner">
-                @foreach ($carousel_img as $item)
+                @foreach (Storage::files('public/homepage_carousel') as $item)
                     <div class="carousel-item {{$loop->first ? 'active' : ''}}">
-                        <img src="{{ asset($carousel_url.File::basename($item) ) }}" alt="First Image" class="img-fluid">
+                        <img src="{{ asset(Storage::url('public/homepage_carousel/').File::basename($item) ) }}" alt="First Image" class="img-fluid">
                     </div>
                 @endforeach
             </div>
@@ -414,7 +414,7 @@
                 </div>
                 <div class="customNavigation">
                     <a class="btn oc-prev"><i class="fas fa-caret-left fa-2x"></i></a>
-                    <a href="" class="btn btn-sm btn-secondary">Semua Project</a>
+                    <a href="{{ route('project.browse', ['category' => 'all']) }}" class="btn btn-sm btn-secondary">Semua Project</a>
                     <a class="btn oc-next"><i class="fas fa-caret-right fa-2x"></i></a>
                 </div>
             </div>
@@ -427,12 +427,19 @@
         </div>
         <div class="accordion container">
             <ul>
-              @foreach ($profile_img as $item)
-                <li style="background-image: url({{ asset($profile_url.File::basename($item)) }});">
+              @foreach (Storage::files('public/profile_pictures') as $item)
+                <li style="background-image: url({{ asset(Storage::url('public/profile_pictures/').File::basename($item)) }});">
                     <div><a href=""><h2>Title x</h2><p>Content x</p></a></div>
                 </li>
               @endforeach
             </ul>
         </div>
     </section>
+@endsection
+@section('script')
+    $(document).ready(function(){
+        accordion.init({
+            id: 'accordion'
+        });
+    });
 @endsection

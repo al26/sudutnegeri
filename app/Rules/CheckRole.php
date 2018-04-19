@@ -34,8 +34,7 @@ class CheckRole implements Rule
         $role = DB::table($this->table)
                     ->select('role')
                     ->where($attribute, $value)->first();
-
-        return $role === $this->role;
+        return $role->role === $this->role;
     }
 
     /**
@@ -45,6 +44,6 @@ class CheckRole implements Rule
      */
     public function message()
     {
-        return "Please use account listed as $role";
+        return "Please use account listed as $this->role";
     }
 }

@@ -14,14 +14,9 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
-    $data['carousel_img'] = Storage::files('public/homepage_carousel');
-    $data['carousel_url'] = Storage::url('public/homepage_carousel/');
-    $data['sponsor_img'] = Storage::files('public/sponsors_logo');
-    $data['sponsor_url'] = Storage::url('public/sponsors_logo/');
-    $data['profile_img'] = Storage::files('public/profile_pictures');
-    $data['profile_url'] = Storage::url('public/profile_pictures/');
-    // dd($data);
-    return view('home', $data);
+    // $a = Storage::url('public/homepage_carousel');
+    // dd($a);
+    return view('home');
 });
 
 Auth::routes();
@@ -40,4 +35,9 @@ Route::group(['prefix' => 'admin'], function () {
         return redirect()->route('admin.dashboard');  
     });
     Route::get('/dashboard', 'AdminController@index')->name('admin.dashboard');
+});
+
+Route::group(['prefix' => 'project'], function () {
+    Route::get('browse/{category}', 'ProjectController@index')->name('project.browse');
+    Route::get('details/{slug}', 'ProjectController@show')->name('project.show');
 });

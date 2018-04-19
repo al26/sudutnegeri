@@ -1,3 +1,94 @@
+@mixin fixed-element {
+	position: fixed !important; 
+	z-index: 1030 !important;
+	width: 100% !important;
+}
+
+@mixin sticky-on-scroll-nav {
+	position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    border-bottom: 1px solid darken($light, 10%) !important;
+    -webkit-transition: all .5s !important;
+	transition: all .5s !important;
+	height: 4rem;
+	@include media-breakpoint-down(lg) {
+		height: 3rem !important;			
+	}
+
+	&.fixed {
+		@include fixed-element();
+		top: 0 !important;
+		box-shadow: 0 1px 5px darken($light, 10%) !important;
+		@include media-breakpoint-down(lg) {
+			top: 3rem !important;			
+		}
+	}
+}
+
+#sticky--{
+	position: relative !important;
+    z-index: 2 !important;
+    -webkit-transition: all .5s !important;
+	transition: all .5s !important;
+
+	&.fixed {
+		position: fixed !important;
+		top: 1rem !important;
+		box-shadow: 0 1px 5px darken($light, 10%) !important;
+		@include media-breakpoint-down(lg) {
+			top: 7rem !important;			
+		}
+	}
+}
+
+#h-project-nav{
+	position: relative !important;
+    z-index: 2 !important;
+    -webkit-transition: all .5s !important;
+	transition: all .5s !important;
+	// height: 4rem;
+	// margin-left: calc(100%/3);
+	// @include media-breakpoint-down(lg) {
+	// 	height: 3rem !important;			
+	// }
+
+	&.fixed {
+		position: fixed !important;
+		top: 0 !important;
+		@include media-breakpoint-down(lg) {
+			top: 3rem !important;			
+		}
+	}
+}
+
+.project-detail {
+	.tab-content > .active {
+		display: block;
+		min-height: 20rem;
+	}
+}
+
+#main-nav {
+	margin-bottom: 1rem;
+	height: 4rem !important;
+	@include media-breakpoint-down(lg) {
+		@include fixed-element();
+		height: 3rem !important;			
+	}
+}
+
+#filter-nav, #sticky-project-nav {
+	@include sticky-on-scroll-nav();
+}
+
+main#main-content {
+	@include media-breakpoint-down(lg){
+		padding-top: 5rem !important;
+	}
+}
+
 .text-wrap {
 	word-wrap: break-word !important;
 }
@@ -8,9 +99,15 @@
 
 .bg-change {
 	background: transparent;
-	transition: 500ms ease-in-out;
+	transition: all 1s;
+	@include fixed-element();
+
+	@include media-breakpoint-down(lg) {
+		background: $secondary linear-gradient(180deg, mix($body-bg, $secondary, 15%), $secondary) repeat-x !important;
+	}
 
 	&.scrolled {
+		transition: all 1s;
 		background: $secondary linear-gradient(180deg, mix($body-bg, $secondary, 15%), $secondary) repeat-x !important;		
 	}
 }
@@ -50,6 +147,49 @@
 		opacity: 1;
 		filter: "alpha(opacity=100)";
 		-ms-filter: "alpha(opacity=100)";
+	}
+}
+
+.section-content {
+	.campaigner {
+		position: relative;
+		top: -2rem; 
+		left: 1rem;
+		right: 1rem;
+		margin: 0;
+
+		img {
+			max-width: 4rem;
+			border: 2px solid #fff;
+		}
+
+		.media-body {
+			position: relative;
+			bottom: -2.2rem;
+		}
+	}
+
+	.card-body {
+		position: relative;
+		top: -1rem;
+	}
+
+	.card-footer {
+		background: inherit;
+		border-radius: 0;
+		border: 0;
+	}
+
+	.project-needs {
+		.list-group-item {
+			border-radius: 0;
+			border: 0;
+			padding: 0.3rem 1rem;
+
+			.progress {
+				border-radius: 0;
+			}
+		}
 	}
 }
 

@@ -45,50 +45,9 @@ section#banner {
 
 }
 
-section#project {
-	.section-content {
-		.campaigner {
-			position: relative;
-			top: -2rem; 
-			left: 1rem;
-			right: 1rem;
-			margin: 0;
-
-			img {
-				max-width: 4rem;
-				border: 2px solid #fff;
-			}
-
-			.media-body {
-				position: relative;
-				bottom: -2.2rem;
-			}
-		}
-
-		.card-body {
-			position: relative;
-			top: -1rem;
-		}
-
-		.card-footer {
-			background: inherit;
-			border-radius: 0;
-			border: 0;
-		}
-
-		.project-needs {
-			.list-group-item {
-				border-radius: 0;
-				border: 0;
-				padding: 0.3rem 1rem;
-
-				.progress {
-					border-radius: 0;
-				}
-			}
-		}
-	}
-}
+// section#project {
+	
+// }
 
 div#section-title {
 	padding: 1rem;

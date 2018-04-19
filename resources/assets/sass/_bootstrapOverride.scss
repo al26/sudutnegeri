@@ -23,3 +23,21 @@
         z-index: 3;
     }
 }
+
+.card-group {
+    .card{
+        margin-left: 1rem !important;
+        @include media-breakpoint-down(md) {
+            max-width: 100% !important;
+        }
+        @include media-breakpoint-only(md) {
+            max-width: calc(100%/2) !important;
+        }
+        @include media-breakpoint-only(lg) {
+            max-width: calc(100%/3) !important;
+        }
+        @include media-breakpoint-only(xl) {
+            max-width: calc(100%/4) !important;
+        }
+    }
+  }

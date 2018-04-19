@@ -10,7 +10,13 @@ $(document).ready(function(){
           $('#scroll').fadeOut();
       }
 
-      $('#main-nav').toggleClass('scrolled', $(this).scrollTop() > 50);
+	  $('#main-nav').toggleClass('scrolled', $(this).scrollTop() > 50);
+	  $('#filter-nav').toggleClass('fixed', $(this).scrollTop() >= 150);
+	//   $('#myTab').toggleClass('fixed', $(this).scrollTop() >= 50);
+	//   $('#sticky--').toggleClass('fixed', $(this).scrollTop() >= 50);
+
+	  
+	//   $('#v-project-nav').toggleClass('fixed', $(this).scrollTop() >= 150);
     });
 
     $('#scroll').click(function(){
@@ -49,9 +55,5 @@ $(document).ready(function(){
 	});
 	$(".oc-prev").click(function(){
 		owl.trigger('prev.owl.carousel');
-	});
-
-	accordion.init({
-		id: 'accordion'
 	});
 });
