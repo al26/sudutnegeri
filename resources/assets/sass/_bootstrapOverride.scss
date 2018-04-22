@@ -1,3 +1,6 @@
+body {
+    color: $body-color;
+}
 .carousel.carousel-fade {
     .carousel-item {
         -webkit-transition: opacity .8s ease-in-out;
@@ -24,20 +27,24 @@
     }
 }
 
-.card-group {
-    .card{
-        margin-left: 1rem !important;
-        @include media-breakpoint-down(md) {
-            max-width: 100% !important;
-        }
-        @include media-breakpoint-only(md) {
-            max-width: calc(100%/2) !important;
-        }
-        @include media-breakpoint-only(lg) {
-            max-width: calc(100%/3) !important;
-        }
-        @include media-breakpoint-only(xl) {
-            max-width: calc(100%/4) !important;
-        }
+.badge {
+    display: inline-block;
+    padding: 0.5em 0.7em;
+    font-size: 70%;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.text-default {
+    color: $body-color !important;
+}
+
+.decoration-none {
+    text-decoration: none;
+    &:hover, &:focus {
+        text-decoration: none;
     }
-  }
+}

@@ -27,12 +27,21 @@
             <div class="row">
                 <div class="col-md-4 border-right">
                     <div class="card" id="sticky--">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
+                        <div class="card-body p-md-0">
+                            <div class="info-donasi">
+                                <span class="info-donasi-percent bg-secondary">
+                                    <p>70% <small>tercapai</small> </p>
+                                </span>
+                                <div class="info-donasi-content">
+                                    <span class="info-donasi-text">terkumpul</span>
+                                    <span class="info-donasi-number">Rp 490.000.000</span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 70%"></div>
+                                    </div>
+                                    <span class="info-donasi-text">target Rp 700.000.000</span>
+                                </div>
+                                <a href="" class="btn btn-small btn-secondary text-capitalize w-100">Mulai Investasi</a>
+                            </div>
                         </div>
                     </div>
                 </div>                
@@ -45,24 +54,6 @@
         </div>
     </section>
 
-    {{-- <section id="d" class="mt-3">
-        <div class="container p-0">
-            <nav id="h-project-nav" class="navbar navbar-expand-sm bg-light navbar-dark">
-                <ul class="nav nav-tabs ml-auto" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </section> --}}
-
     <section class="project-detail">
         <div class="container p-0">
             <div class="row">
@@ -74,39 +65,88 @@
                             <nav id="h-project-nav" class="navbar navbar-expand-sm bg-light navbar-dark p-0 py-3">
                                 <ul class="nav nav-tabs w-100" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                                        <a class="nav-link active" id="updates-tab" data-toggle="tab" href="#updates" role="tab" aria-controls="updates" aria-selected="true">Data Historis</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                                        <a class="nav-link" id="donatur-tab" data-toggle="tab" href="#donatur" role="tab" aria-controls="donatur" aria-selected="false">Donatur</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                                        <a class="nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">F A Q</a>
                                     </li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
-                    <div class="tab-content clearfix px-3 pt-5 pb-3" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            1
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi modi eaque iusto ullam iste fuga molestiae quasi expedita culpa animi nihil, magni porro cumque vitae, excepturi suscipit. Maiores, impedit unde.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic fuga delectus numquam? Cupiditate, commodi iusto eveniet voluptatibus rem omnis sed ipsum illum possimus. Modi blanditiis excepturi molestias porro consectetur soluta!
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit neque fuga accusantium saepe ad tenetur, voluptas dolor consequatur unde sequi, minus itaque doloremque debitis eligendi expedita quo quibusdam atque dolores.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus ducimus libero eaque, debitis voluptate ullam in similique hic impedit incidunt autem quidem sunt vel, reprehenderit, ipsum quas adipisci illo blanditiis.
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores repudiandae pariatur expedita asperiores unde autem eligendi ullam similique voluptate! Quaerat fugit eum dicta laudantium reprehenderit modi doloribus at porro fugiat.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit accusamus dolor perspiciatis recusandae maiores, non et, maxime assumenda fugiat nihil corporis doloremque sunt laboriosam, modi dolorem quo perferendis ratione impedit.
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur necessitatibus, iure sapiente dolorum reprehenderit harum eaque ducimus aliquam veniam laborum consectetur, animi rerum cupiditate asperiores, ab illum esse mollitia eos!
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, quis eaque provident sequi, amet eius animi culpa officia aperiam enim expedita eum. Autem deleniti aliquam neque ab nihil, perferendis eaque.
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus ea eos accusantium nemo, quo ad, error ipsam aspernatur laborum delectus recusandae adipisci expedita qui rem ducimus molestias ut ex quibusdam.
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto alias incidunt blanditiis excepturi, magnam rerum nam beatae reprehenderit non doloremque nisi ipsam perspiciatis accusantium obcaecati corrupti ab nulla doloribus a.
+                    <div class="tab-content clearfix p-3 pt-4" id="myTabContent">
+                        <div class="tab-pane fade show active" id="updates" role="tabpanel" aria-labelledby="updates-tab">
+                            <div class="container">
+                                <h2 class="custom-divider text-secondary border-secondary w-50"><span>2019</span></h2>
+                                <div class="timeline">
+                                    <div class="line text-muted"></div>
+                                    <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="card card-default">
+                                            <div class="card-heading" role="tab" id="heading1">
+                                                <div class=" icon"><i class="fas fa-square-full"></i><span class="sr-only">Expand/Collapse</i></div>
+                                                <p class="card-text"><span class="badge badge-secondary">24 April 2019</span></p>
+                                            </div>
+                                            <div class="card-body p-0 pt-2">
+                                                <div class="timeline-article">
+                                                    <h5 class="card-title"><a class="text-default decoration-none" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse2">Update #1</a></h5>
+                                                    <div id="collapse2" class="card-collapse collapse in" role="tabpanel" aria-labelledby="heading1">
+                                                        <img src="http://placehold.it/800x400" />
+                                                        <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
+                                                            put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                                                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="timeline-article">
+                                                    <h5 class="card-title"><a class="text-default decoration-none" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="true" aria-controls="collapse4">Update #4</a></h5>
+                                                    <div id="collapse4" class="card-collapse collapse in" role="tabpanel" aria-labelledby="heading1">
+                                                        <img src="http://placehold.it/800x400" />
+                                                        <p> 444 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
+                                                            put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                                                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card card-default">
+                                            <div class="card-heading" role="tab" id="heading1">
+                                                <div class=" icon"><i class="fas fa-square-full"></i><span class="sr-only">Expand/Collapse</i></div>
+                                                <p class="card-text"><span class="badge badge-secondary">24 Juni 2019</span></p>
+                                            </div>
+                                            <div class="card-body p-0 pt-2">
+                                                <div class="timeline-article">
+                                                    <h5 class="card-title"><a class="text-default decoration-none" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse10" aria-expanded="true" aria-controls="collapse10">Update #10</a></h5>
+                                                    <div id="collapse10" class="card-collapse collapse in" role="tabpanel" aria-labelledby="heading1">
+                                                        <img src="http://placehold.it/800x400" />
+                                                        <p> 101010 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
+                                                            put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                                                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="timeline-article">
+                                                    <h5 class="card-title"><a class="text-default decoration-none" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">Update #3</a></h5>
+                                                    <div id="collapse3" class="card-collapse collapse in" role="tabpanel" aria-labelledby="heading1">
+                                                        <img src="http://placehold.it/800x400" />
+                                                        <p> 333 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
+                                                            put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                                                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="donatur" role="tabpanel" aria-labelledby="donatur-tab">
                             2
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, sunt. Voluptatibus quae odio reprehenderit excepturi voluptate. At vel, consequuntur eos unde recusandae autem quam voluptates, animi debitis quis placeat. Amet.
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, laborum! Sunt minus error molestiae doloribus perferendis, soluta veniam dolor sequi maiores facere perspiciatis incidunt itaque assumenda accusantium ducimus, voluptas totam!
                             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt labore ipsam voluptatum sapiente suscipit quaerat, ab dolor dignissimos consequuntur cumque minus numquam, quas aliquam, exercitationem quis quidem est rerum libero!
                         </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
                             3
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam aspernatur excepturi officiis, harum illum porro sequi impedit. Sequi eos iste incidunt explicabo minus quasi autem porro laudantium impedit. Id, iusto.
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde fugiat sint inventore nam eligendi modi quos voluptatem? Asperiores quae necessitatibus neque animi voluptas nam quasi recusandae id molestias, expedita velit!
