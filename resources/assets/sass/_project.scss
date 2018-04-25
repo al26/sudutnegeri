@@ -1,3 +1,33 @@
+#filter-nav {
+	// position: relative !important;
+    // width: 100% !important;
+    // overflow: hidden;
+    // border-bottom: 1px solid darken($light, 10%);
+    // -webkit-transition: all .5s;
+	// transition: all .5s;
+	// height: 4rem;
+	// @include media-breakpoint-down(lg) {
+	// 	height: 3rem !important;			
+	// }
+
+	&.fixed {
+		position: fixed ; 
+		z-index: 100;
+		top: -2px;
+		width: 100%;
+		box-shadow: 0 1px 5px darken($light, 10%);
+		@include media-breakpoint-down(md) {
+			top: 3rem;			
+		}
+	}
+
+	h3 {
+		@include media-breakpoint-down(lg) {
+			font-size: 1rem !important;			
+		}
+	}
+}
+
 .project-body {
 	#sticky--{
 		position: relative !important;
@@ -12,7 +42,7 @@
 			position: fixed !important;
 			top: 1rem !important;
 			@include media-breakpoint-down(lg) {
-				top: 7rem !important;			
+				top: 3.5rem !important;			
 			}
 		}
 
@@ -20,38 +50,31 @@
 			.info-donasi {
 				display: block;
 				min-height: 6rem;
-				// background: #fff;
 				width: 100%;
-				// box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-				// border-radius: 2px;
 				margin-bottom: 1rem;
 
-				.info-donasi-percent {
-					// border-top-left-radius: 2px;
-					// border-top-right-radius: 0;
-					// border-bottom-right-radius: 0;
-					// border-bottom-left-radius: 2px;
-					display: block;
-					float: left;
-					height: 6rem;
-					width: 6rem;
-					p {
-						margin: 0;
-						text-align: center;
-						font-size: 1.8rem;
-						line-height: 80%;
-						padding-top: 1.5rem;
-						color: $body-bg;
-						small {
-							text-transform: uppercase;
-							font-size: .8rem;
-						}
-					}
-				}
+				// .info-donasi-percent {
+				// 	display: block;
+				// 	float: left;
+				// 	height: 6rem;
+				// 	width: 6rem;
+				// 	p {
+				// 		margin: 0;
+				// 		text-align: center;
+				// 		font-size: 1.8rem;
+				// 		line-height: 80%;
+				// 		padding-top: 1.5rem;
+				// 		color: $body-bg;
+				// 		small {
+				// 			text-transform: uppercase;
+				// 			font-size: .8rem;
+				// 		}
+				// 	}
+				// }
 
 				.info-donasi-content {
-					padding: 5px 10px;
-					margin-left: 6rem;
+					padding: .5rem 0;
+					// margin-left: 6rem;
 
 					.info-donasi-text {
 						text-transform: uppercase;
@@ -66,17 +89,40 @@
 					.info-donasi-number {
 						display: block;
 						font-weight: bold;
-						font-size: 1.5rem;
+						font-size: 1.8rem;
 						color: $secondary;
 					}
 
 					.progress {
 						background: rgba(0,0,0,0.2);
-						margin: 5px -10px 5px -10px;
+						margin: .5rem 0;
 						height: 2px;
 
 						.progress-bar {
 							background: $secondary;
+						}
+					}
+				}
+			}
+
+			.info-relawan {
+				.media {
+					.media-img {
+						display: flex;
+						flex-wrap: wrap;
+						padding: 0 0 0 .5rem;
+						max-width: 100%;
+						height: auto;
+						overflow: hidden;
+						img {
+							width: 3.125rem;
+							height: 3.125rem;
+							border: 2px solid #fff;
+							// margin-right: -.6rem;
+
+							// &:last-child {
+							// 	margin-right: 0;
+							// }
 						}
 					}
 				}

@@ -18,7 +18,9 @@
 	}
 
 	&.fixed {
-		@include fixed-element();
+		position: fixed !important; 
+		z-index: 100 !important;
+		width: 100% !important;
 		top: 0 !important;
 		box-shadow: 0 1px 5px darken($light, 10%) !important;
 		@include media-breakpoint-down(lg) {
@@ -28,21 +30,17 @@
 }
 
 #main-nav {
-	margin-bottom: 1rem;
+	// margin-bottom: 1rem;
 	height: 4rem !important;
-	@include media-breakpoint-down(lg) {
+	@include media-breakpoint-down(md) {
 		@include fixed-element();
 		height: 3rem !important;			
 	}
 }
 
-#filter-nav, #sticky-project-nav {
-	@include sticky-on-scroll-nav();
-}
-
 main#main-content {
-	@include media-breakpoint-down(lg){
-		padding-top: 5rem !important;
+	@include media-breakpoint-down(md){
+		padding-top: 3rem !important;
 	}
 }
 
@@ -59,7 +57,7 @@ main#main-content {
 	transition: all 1s;
 	@include fixed-element();
 
-	@include media-breakpoint-down(lg) {
+	@include media-breakpoint-down(md) {
 		background: $secondary linear-gradient(180deg, mix($body-bg, $secondary, 15%), $secondary) repeat-x !important;
 	}
 

@@ -1,9 +1,9 @@
 .accordion {
 	width: 100%;
 	// max-width: 1080px;
-	height: 250px;
+	height: 15.5rem;
 	overflow: hidden;
-	margin: 50px auto;
+	margin: 3.125 auto;
 
 	ul {
 		width: 100%;
@@ -33,11 +33,17 @@
 			vertical-align: bottom;
 			position: relative;
 			width: auto;
-			height: 250px;
+			height: 15.5rem;
 			background-repeat: no-repeat;
 			background-position: center center;
 			background-size: cover;
 			transition: all 500ms ease;
+
+			@include media-breakpoint-down(sm) {
+				&:nth-of-type(1n+7) {
+					display: none;
+				}
+			}
 
 			div {
 				display: block;
@@ -77,7 +83,7 @@
 						text-overflow: clip;
 						font-size: 1.5rem;
 						text-transform: uppercase;
-						margin-bottom: 2px;
+						margin-bottom: 0.125rem;
 						top: 10rem;
 					}
 					p {

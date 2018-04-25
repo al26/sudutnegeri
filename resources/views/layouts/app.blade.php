@@ -15,6 +15,7 @@
     <!-- owl carousel plugin -->
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-select.min.css') }}">
 </head>
 <body>
     <div id="app" class="bg-light">
@@ -263,7 +264,7 @@
                 </div>
             </div>
             <nav class="navbar navbar-dark d-block">
-                <div class="container">
+                <div class="container p-0">
                     <ul class="mr-sm-auto my-0 list-inline">
                         <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fab fa-facebook-f rounded-circle social-icon fb"></i></a></li>
                         <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Google Plus"><i class="fab fa-google-plus-g rounded-circle social-icon g-plus"></i></a></li>

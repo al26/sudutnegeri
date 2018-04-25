@@ -582,7 +582,7 @@ pre code {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1140px;
+    max-width: 90%;
   }
 }
 
@@ -9249,11 +9249,10 @@ h2#form-divider span {
 }
 
 #main-nav {
-  margin-bottom: 1rem;
   height: 4rem !important;
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 991.98px) {
   #main-nav {
     position: fixed !important;
     z-index: 1030 !important;
@@ -9262,41 +9261,9 @@ h2#form-divider span {
   }
 }
 
-#filter-nav, #sticky-project-nav {
-  position: relative !important;
-  z-index: 2 !important;
-  width: 100% !important;
-  overflow: hidden !important;
-  border-bottom: 1px solid #d3e0e9 !important;
-  -webkit-transition: all .5s !important;
-  transition: all .5s !important;
-  height: 4rem;
-}
-
-@media (max-width: 1199.98px) {
-  #filter-nav, #sticky-project-nav {
-    height: 3rem !important;
-  }
-}
-
-#filter-nav.fixed, #sticky-project-nav.fixed {
-  position: fixed !important;
-  z-index: 1030 !important;
-  width: 100% !important;
-  top: 0 !important;
-  -webkit-box-shadow: 0 1px 5px #d3e0e9 !important;
-          box-shadow: 0 1px 5px #d3e0e9 !important;
-}
-
-@media (max-width: 1199.98px) {
-  #filter-nav.fixed, #sticky-project-nav.fixed {
-    top: 3rem !important;
-  }
-}
-
-@media (max-width: 1199.98px) {
+@media (max-width: 991.98px) {
   main#main-content {
-    padding-top: 5rem !important;
+    padding-top: 3rem !important;
   }
 }
 
@@ -9317,7 +9284,7 @@ h2#form-divider span {
   width: 100% !important;
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 991.98px) {
   .bg-change {
     background: #2A5D6F -webkit-gradient(linear, left top, left bottom, from(#487484), to(#2A5D6F)) repeat-x !important;
     background: #2A5D6F linear-gradient(180deg, #487484, #2A5D6F) repeat-x !important;
@@ -9472,9 +9439,9 @@ h2#form-divider span {
 /* RADIUS */
 .accordion {
   width: 100%;
-  height: 250px;
+  height: 15.5rem;
   overflow: hidden;
-  margin: 50px auto;
+  margin: 3.125 auto;
 }
 
 .accordion ul {
@@ -9509,12 +9476,18 @@ h2#form-divider span {
   vertical-align: bottom;
   position: relative;
   width: auto;
-  height: 250px;
+  height: 15.5rem;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   -webkit-transition: all 500ms ease;
   transition: all 500ms ease;
+}
+
+@media (max-width: 767.98px) {
+  .accordion ul li:nth-of-type(1n+7) {
+    display: none;
+  }
 }
 
 .accordion ul li div {
@@ -9558,7 +9531,7 @@ h2#form-divider span {
   text-overflow: clip;
   font-size: 1.5rem;
   text-transform: uppercase;
-  margin-bottom: 2px;
+  margin-bottom: 0.125rem;
   top: 10rem;
 }
 
@@ -9623,6 +9596,10 @@ div.owl-dots .owl-dot.active {
   -webkit-tap-highlight-color: transparent;
 }
 
+.customNavigation .oc-next.disabled, .customNavigation .oc-prev.disabled {
+  opacity: .6 !important;
+}
+
 body {
   overflow-x: hidden;
 }
@@ -9632,59 +9609,135 @@ section#banner div#img-banner {
 }
 
 section#banner div#caption-banner {
-  top: 2rem !important;
+  top: 1.5rem !important;
   right: 0 !important;
   left: 0 !important;
   padding: 1rem !important;
 }
 
-@media (min-width: 576px) and (max-width: 767.98px) {
-  section#banner div#caption-banner {
-    top: 5rem !important;
-  }
-}
-
-@media (min-width: 768px) {
-  section#banner div#caption-banner {
-    top: 10rem !important;
-  }
-}
-
 @media (min-width: 992px) {
   section#banner div#caption-banner {
-    top: 5rem !important;
+    top: 8rem !important;
   }
+}
+
+section#banner div#caption-banner #left-board {
+  text-align: left;
 }
 
 section#banner div#caption-banner #left-board .card-title {
-  font-size: 3rem;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
 section#banner div#caption-banner #left-board .card-text {
+  font-size: .8rem;
+}
+
+@media (min-width: 576px) {
+  section#banner div#caption-banner #left-board .card-title {
+    font-size: 1.4rem;
+  }
+  section#banner div#caption-banner #left-board .card-text {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  section#banner div#caption-banner #left-board .card-title {
+    font-size: 1.7rem;
+  }
+  section#banner div#caption-banner #left-board .card-text {
+    font-size: 1.2rem;
+  }
+}
+
+section#banner div#caption-banner #right-board {
+  min-height: 6.5rem;
+}
+
+.info-box {
+  position: relative;
+  display: block;
+  margin-bottom: .5rem;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  background: rgba(245, 248, 250, 0.7);
+  text-align: left;
+}
+
+.info-box > .info-box-inner {
+  padding: .625rem;
+}
+
+.info-box .info-box-icon {
+  -webkit-transition: all .3s linear;
+  transition: all .3s linear;
+  position: absolute;
+  top: -.625rem;
+  right: .625rem;
+  z-index: 0;
+  font-size: 5rem;
+  color: rgba(42, 93, 111, 0.3);
+}
+
+.info-box .small-box-footer {
+  position: relative;
+  text-align: center;
+  padding: 3px 0;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  #right-board {
+    margin-top: 2rem;
+  }
+  #right-board .info-box-parent .info-box {
+    margin-bottom: .25rem !important;
+  }
+  #right-board .info-box-parent:nth-child(odd) {
+    padding-left: 1rem !important;
+    padding-right: .25rem !important;
+  }
+  #right-board .info-box-parent:nth-child(even) {
+    padding-left: 0 !important;
+    padding-right: 1rem !important;
+  }
+}
+
+.section-headline {
+  margin-bottom: 1rem;
+}
+
+.section-headline .section-title {
   font-size: 1.2rem;
 }
 
-section#banner div#caption-banner #right-board li.content {
-  background-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
-  display: inline-block;
-  line-height: 25px;
-  text-align: center;
-  width: 49%;
-  margin-bottom: 3px;
+.section-headline .section-subtitle {
+  font-size: .8rem;
 }
 
-div#section-title {
-  padding: 1rem;
+@media (min-width: 576px) {
+  .section-headline .section-title {
+    font-size: 1.4rem !important;
+  }
+  .section-headline .section-subtitle {
+    font-size: 1rem !important;
+  }
 }
 
-div#section-title h2#st-main {
-  font-size: 1.5rem;
-}
-
-div#section-title h3#st-secondary {
-  font-size: 1rem;
+@media (min-width: 768px) {
+  .section-headline .section-title {
+    font-size: 1.7rem !important;
+  }
+  .section-headline .section-subtitle {
+    font-size: 1.2rem !important;
+  }
 }
 
 div#list-container {
@@ -9773,6 +9826,27 @@ div#myCard {
   }
 }
 
+#filter-nav.fixed {
+  position: fixed;
+  z-index: 100;
+  top: -2px;
+  width: 100%;
+  -webkit-box-shadow: 0 1px 5px #d3e0e9;
+          box-shadow: 0 1px 5px #d3e0e9;
+}
+
+@media (max-width: 991.98px) {
+  #filter-nav.fixed {
+    top: 3rem;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  #filter-nav h3 {
+    font-size: 1rem !important;
+  }
+}
+
 .project-body #sticky-- {
   position: relative !important;
   z-index: 2 !important;
@@ -9791,7 +9865,7 @@ div#myCard {
 
 @media (max-width: 1199.98px) {
   .project-body #sticky--.fixed {
-    top: 7rem !important;
+    top: 3.5rem !important;
   }
 }
 
@@ -9802,30 +9876,8 @@ div#myCard {
   margin-bottom: 1rem;
 }
 
-.project-body #sticky-- .card-body .info-donasi .info-donasi-percent {
-  display: block;
-  float: left;
-  height: 6rem;
-  width: 6rem;
-}
-
-.project-body #sticky-- .card-body .info-donasi .info-donasi-percent p {
-  margin: 0;
-  text-align: center;
-  font-size: 1.8rem;
-  line-height: 80%;
-  padding-top: 1.5rem;
-  color: #f5f8fa;
-}
-
-.project-body #sticky-- .card-body .info-donasi .info-donasi-percent p small {
-  text-transform: uppercase;
-  font-size: .8rem;
-}
-
 .project-body #sticky-- .card-body .info-donasi .info-donasi-content {
-  padding: 5px 10px;
-  margin-left: 6rem;
+  padding: .5rem 0;
 }
 
 .project-body #sticky-- .card-body .info-donasi .info-donasi-content .info-donasi-text {
@@ -9841,18 +9893,36 @@ div#myCard {
 .project-body #sticky-- .card-body .info-donasi .info-donasi-content .info-donasi-number {
   display: block;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: #2A5D6F;
 }
 
 .project-body #sticky-- .card-body .info-donasi .info-donasi-content .progress {
   background: rgba(0, 0, 0, 0.2);
-  margin: 5px -10px 5px -10px;
+  margin: .5rem 0;
   height: 2px;
 }
 
 .project-body #sticky-- .card-body .info-donasi .info-donasi-content .progress .progress-bar {
   background: #2A5D6F;
+}
+
+.project-body #sticky-- .card-body .info-relawan .media .media-img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 0 0 0 .5rem;
+  max-width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.project-body #sticky-- .card-body .info-relawan .media .media-img img {
+  width: 3.125rem;
+  height: 3.125rem;
+  border: 2px solid #fff;
 }
 
 .project-detail #h-project-nav {

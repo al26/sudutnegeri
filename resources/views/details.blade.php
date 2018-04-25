@@ -25,15 +25,15 @@
     <section class="project-body">
         <div class="container p-0">
             <div class="row">
-                <div class="col-md-4 border-right">
+                <div class="col-lg-4 d-lg-block d-none border-right">
                     <div class="card" id="sticky--">
                         <div class="card-body p-md-0">
                             <div class="info-donasi">
-                                <span class="info-donasi-percent bg-secondary">
+                                {{-- <span class="info-donasi-percent bg-secondary">
                                     <p>70% <small>tercapai</small> </p>
-                                </span>
+                                </span> --}}
                                 <div class="info-donasi-content">
-                                    <span class="info-donasi-text">terkumpul</span>
+                                    <span class="info-donasi-text">terkumpul 70%</span>
                                     <span class="info-donasi-number">Rp 490.000.000</span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 70%"></div>
@@ -42,10 +42,26 @@
                                 </div>
                                 <a href="" class="btn btn-small btn-secondary text-capitalize w-100">Mulai Investasi</a>
                             </div>
+                            <div class="info-relawan">
+                                <div class="media mb-1">
+                                    <div class="media-body">
+                                        <h5 class="mt-0 text-capitalized">10</h5>
+                                        <p class="mb-0">Relawan </p>
+                                    </div>
+                                    <div id="volunteer-carousel" class="owl-carousel owl-theme media-img">
+                                        @for ($i = 0; $i < 5; $i++)
+                                            <div class="item">                                            
+                                                <img class="align-self-center" src="http://via.placeholder.com/50x50" alt="Generic placeholder image">
+                                            </div>
+                                        @endfor
+                                    </div>
+                                </div>
+                                <a href="" class="btn btn-small btn-danger text-capitalize w-100">Jadi Relawan</a>                                
+                            </div>
                         </div>
                     </div>
                 </div>                
-                <div class="col-md-8">
+                <div class="col-lg-8 col-12">
                     <div class="project-img">
                         <img src="http://via.placeholder.com/800x500" alt="Project Image" class="img-thumbnail img-fluid">
                     </div>
@@ -57,9 +73,9 @@
     <section class="project-detail">
         <div class="container p-0">
             <div class="row">
-                <div class="col-md-4 border-right">
+                <div class="col-lg-4 d-lg-block d-none border-right">
                 </div>                
-                <div class="col-md-8">
+                <div class="col-lg-8 col-12">
                     <div id="detail-container" class="mt-3">
                         <div class="container p-0">
                             <nav id="h-project-nav" class="navbar navbar-expand-sm bg-light navbar-dark p-0 py-3">
@@ -183,6 +199,23 @@ $(document).ready(function(){
             isPositionFixed = true;
         } else {
             tab.removeClass('fixed');
+        }
+    });
+
+    $('#volunteer-carousel').owlCarousel({
+        loop:true,
+        margin:2,
+        nav:false,
+        responsive:{
+            0:{
+                items:1
+            },
+            600:{
+                items:3
+            },
+            1000:{
+                items:5
+            }
         }
     })
 })

@@ -1,41 +1,76 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="section-headline mb-5 text-secondary">
-        <div class="container">
-            <h1 class="text-uppercase">project</h1>
-        </div>
+    <div class="section-headline text-secondary">
         <nav id="filter-nav" class="navbar navbar-expand-sm bg-light navbar-dark">
             <div class="container">
-                <h3>Ada 1244 Project Membutuhkan Bantuanmu</h3>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <select class="custom-select" id="inputGroupSelect01">
+                {{-- <ul class="navbar-nav row">
+                    <li class="nav-item col-12">
+                        <select class="selectpicker" data-live-search="true">
                             <option value="1">Semua Bidang</option>
-                            <option value="2">Pengembangan Karakter Anak</option>
-                            <option value="3">Kewirausahaan</option>
-                            <option value="4">Kesehatan dan Lingkungan</option>
-                            <option value="5">Keterampilan</option>
-                            <option value="6">Edukasi Science Dasar</option>
-                            <option value="7">Pendidikan Perempuan</option>
-                            <option value="8">Wawasan Umum</option>
+                            <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
+                            <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
+                            <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
+                            <option value="5" data-tokens="Keterampilan">Keterampilan</option>
+                            <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
+                            <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
+                            <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
                         </select>
                     </li>
                     <li class="nav-item">
-                        <select class="custom-select" id="inputGroupSelect01">
-                            <option value="1">Semua Lokasi</option>
-                            <option value="2">Pengembangan Karakter Anak</option>
-                            <option value="3">Kewirausahaan</option>
-                            <option value="4">Kesehatan dan Lingkungan</option>
-                            <option value="5">Keterampilan</option>
-                            <option value="6">Edukasi Science Dasar</option>
-                            <option value="7">Pendidikan Perempuan</option>
-                            <option value="8">Wawasan Umum</option>
+                        <select class="selectpicker" data-live-search="true">
+                            <option value="1">Semua Bidang</option>
+                            <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
+                            <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
+                            <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
+                            <option value="5" data-tokens="Keterampilan">Keterampilan</option>
+                            <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
+                            <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
+                            <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
                         </select>
                     </li>
-                </ul>
+                </ul> --}}
+                <div class="row clearfix">
+                    <div class="col-12">
+                        <select class="selectpicker" data-live-search="true">
+                            <option value="1">Semua Bidang</option>
+                            <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
+                            <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
+                            <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
+                            <option value="5" data-tokens="Keterampilan">Keterampilan</option>
+                            <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
+                            <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
+                            <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <select class="selectpicker" data-live-search="true">
+                            <option value="1">Semua Bidang</option>
+                            <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
+                            <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
+                            <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
+                            <option value="5" data-tokens="Keterampilan">Keterampilan</option>
+                            <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
+                            <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
+                            <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </nav>
+        <div class="container my-3">
+            <h3>Ada 1244 Project Membutuhkan Bantuanmu</h3>
+            {{-- <select class="selectpicker" data-live-search="true">
+                <option value="1">Semua Bidang</option>
+                <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
+                <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
+                <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
+                <option value="5" data-tokens="Keterampilan">Keterampilan</option>
+                <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
+                <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
+                <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
+            </select> --}}
+        </div>
     </div>
     <div class="container">
         <div class="section-content">
@@ -70,20 +105,30 @@
                                             <small class="justify-content-center d-flex position-absolute w-100">50 / 100 orang</small>
                                         </div>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{-- <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Buku
                                         <div class="progress w-50 position-relative">
                                             <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                             <small class="justify-content-center d-flex position-absolute w-100">20 / 100 </small>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                             <div class="card-footer px-3">
-                                <div class="btn-group btn-group-sm w-100 rounded-0" role="group">
+                                {{-- <div class="btn-group btn-group-sm w-100 rounded-0" role="group">
                                     <a href="" class="btn btn-sm btn-danger w-50 rounded-0">Jadi Volunteer</a>
                                     <a href="" class="btn btn-sm btn-primary w-50 rounded-0">Mulai Investasi</a>
-                                </div>					      	
+                                </div>	 --}}
+                                <div class="row">
+                                    <div class="col-6 text-left">
+                                        <p class="mb-0"><small>Lokasi</small></p>
+                                        <p class="mb-0">DKI Jakarta</p>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <p class="mb-0"><small>Sisa Hari</small></p>
+                                        <p class="mb-0">20</p>
+                                    </div>
+                                </div>				      	
                             </div>
                         </div>
                     </div>
@@ -92,4 +137,9 @@
             
         </div>
     </div>
+@endsection
+@section('script')
+    $(function() {
+        $('.selectpicker').selectpicker();
+    });
 @endsection
