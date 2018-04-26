@@ -1,76 +1,79 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="section-headline text-secondary">
-        <nav id="filter-nav" class="navbar navbar-expand-sm bg-light navbar-dark">
+     <div class="section-headline text-secondary">
+        <nav id="filter-nav" class="navbar bg-light navbar-light">
             <div class="container">
-                {{-- <ul class="navbar-nav row">
-                    <li class="nav-item col-12">
-                        <select class="selectpicker" data-live-search="true">
-                            <option value="1">Semua Bidang</option>
-                            <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
-                            <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
-                            <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
-                            <option value="5" data-tokens="Keterampilan">Keterampilan</option>
-                            <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
-                            <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
-                            <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
-                        </select>
-                    </li>
-                    <li class="nav-item">
-                        <select class="selectpicker" data-live-search="true">
-                            <option value="1">Semua Bidang</option>
-                            <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
-                            <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
-                            <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
-                            <option value="5" data-tokens="Keterampilan">Keterampilan</option>
-                            <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
-                            <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
-                            <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
-                        </select>
-                    </li>
-                </ul> --}}
-                <div class="row clearfix">
-                    <div class="col-12">
-                        <select class="selectpicker" data-live-search="true">
-                            <option value="1">Semua Bidang</option>
-                            <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
-                            <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
-                            <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
-                            <option value="5" data-tokens="Keterampilan">Keterampilan</option>
-                            <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
-                            <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
-                            <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <select class="selectpicker" data-live-search="true">
-                            <option value="1">Semua Bidang</option>
-                            <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
-                            <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
-                            <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
-                            <option value="5" data-tokens="Keterampilan">Keterampilan</option>
-                            <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
-                            <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
-                            <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
-                        </select>
+                <div>
+                    <h5 class="d-none d-md-block">Ada 4220 Project Membutuhkan Bantuanmu</h5>
+                    <h5 class="d-block d-md-none">Menampilkan 4220 Project</h5>
+                </div>
+                <button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#n" aria-controls="n" aria-expanded="false" aria-label="Toggle navigation">
+                    Filter <i class="fas fa-filter"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="n">
+                    <div class="mt-2 row">
+                        <div class="col-12 col-md-6">
+                            <select class="selectpicker show-tick" data-live-search="true" multiple data-actions-box="true" data-style="btn-primary" title="Pilih Bidang">
+                                {{-- <option value="1">Semua Bidang</option> --}}
+                                <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
+                                <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
+                                <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
+                                <option value="5" data-tokens="Keterampilan">Keterampilan</option>
+                                <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
+                                <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
+                                <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <select class="selectpicker show-tick" data-live-search="true" multiple data-actions-box="true" data-style="btn-primary" title="Pilih Lokasi">
+                                {{-- <option value="1">Semua Lokasi</option> --}}
+                                <option value="2" data-tokens="Jakarta">Jakarta</option>
+                                <option value="3" data-tokens="Palembang">Palembang</option>
+                                <option value="4" data-tokens="Bandung">Bandung</option>
+                                <option value="5" data-tokens="Semarang">Semarang</option>
+                                <option value="6" data-tokens="Surabaya">Surabaya</option>
+                                <option value="7" data-tokens="Bali">Bali</option>
+                                <option value="8" data-tokens="Jayapura">Jayapura</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <select class="selectpicker show-tick" data-live-search="false" multiple data-actions-box="true" data-style="btn-primary" title="Pilih Jenis Project">
+                                {{-- <option value="1">Semua Jenis</option> --}}
+                                <option value="2" data-tokens="Project Dana">Project Dana</option>
+                                <option value="3" data-tokens="Project Pengabdian">Project Pengabdian</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
         </nav>
-        <div class="container my-3">
+        {{-- <div class="container my-3">
             <h3>Ada 1244 Project Membutuhkan Bantuanmu</h3>
-            {{-- <select class="selectpicker" data-live-search="true">
-                <option value="1">Semua Bidang</option>
-                <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
-                <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
-                <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
-                <option value="5" data-tokens="Keterampilan">Keterampilan</option>
-                <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
-                <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
-                <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
-            </select> --}}
+        </div> --}}
+    </div> 
+    {{-- <div class="section-deadline">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="selectpicker" multiple title="Choose one of the following...">
+                        <option>Mustard</option>
+                        <option>Ketchup</option>
+                        <option>Relish</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select class="selectpicker" multiple title="Choose one of the following...">
+                        <option>Mustard</option>
+                        <option>Ketchup</option>
+                        <option>Relish</option>
+                    </select>
+                </div>
+            </div>
         </div>
+    </div> --}}
+    <div class="section-deadline">
+
     </div>
     <div class="container">
         <div class="section-content">
@@ -140,6 +143,9 @@
 @endsection
 @section('script')
     $(function() {
-        $('.selectpicker').selectpicker();
+        $('.selectpicker').selectpicker({
+            width: auto,
+            mobile: true
+        });
     });
 @endsection

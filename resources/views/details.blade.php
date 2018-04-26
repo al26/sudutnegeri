@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="project-header mb-3">
-        <div class="container px-0">
+    <section class="project-header mb-3 d-none d-lg-block">
+        <div class="container px-lg-0 pt-3">
             <h1 class="project-title text-capitalize">Judul Project</h1>
             <ul class="list-inline mt-3">
                 <li class="list-inline-item pr-3 mr-3 border-right">
@@ -22,16 +22,14 @@
             <hr>
         </div>
     </section>
-    <section class="project-body">
+
+    <section class="project-body pt-3 py-lg-0">
         <div class="container p-0">
             <div class="row">
-                <div class="col-lg-4 d-lg-block d-none border-right">
+                <div class="col-lg-4 col-12 border-lg-right order-2 order-lg-1">
                     <div class="card" id="sticky--">
-                        <div class="card-body p-md-0">
-                            <div class="info-donasi">
-                                {{-- <span class="info-donasi-percent bg-secondary">
-                                    <p>70% <small>tercapai</small> </p>
-                                </span> --}}
+                        <div class="card-body p-md-0 row">
+                            <div class="info-donasi col-12 col-md-6 col-lg-12">
                                 <div class="info-donasi-content">
                                     <span class="info-donasi-text">terkumpul 70%</span>
                                     <span class="info-donasi-number">Rp 490.000.000</span>
@@ -42,27 +40,27 @@
                                 </div>
                                 <a href="" class="btn btn-small btn-secondary text-capitalize w-100">Mulai Investasi</a>
                             </div>
-                            <div class="info-relawan">
-                                <div class="media mb-1">
+                            <div class="info-relawan col-12 col-md-6 col-lg-12">
+                                <div class="media py-2">
                                     <div class="media-body">
-                                        <h5 class="mt-0 text-capitalized">10</h5>
-                                        <p class="mb-0">Relawan </p>
+                                        <h5 class="mt-0 text-capitalized">10 Relawan</h5>
+                                        <div id="volunteer-carousel" class="owl-carousel owl-theme">
+                                            @for ($i = 0; $i < 10; $i++)
+                                                <div class="item">                                            
+                                                    <img class="" src="http://via.placeholder.com/50x50" alt="Generic placeholder image">
+                                                </div>
+                                            @endfor
+                                        </div>
                                     </div>
-                                    <div id="volunteer-carousel" class="owl-carousel owl-theme media-img">
-                                        @for ($i = 0; $i < 5; $i++)
-                                            <div class="item">                                            
-                                                <img class="align-self-center" src="http://via.placeholder.com/50x50" alt="Generic placeholder image">
-                                            </div>
-                                        @endfor
-                                    </div>
+                                    
                                 </div>
                                 <a href="" class="btn btn-small btn-danger text-capitalize w-100">Jadi Relawan</a>                                
                             </div>
                         </div>
                     </div>
                 </div>                
-                <div class="col-lg-8 col-12">
-                    <div class="project-img">
+                <div class="col-lg-8 col-12 order-1 order-lg-2">
+                    <div class="container project-img p-md-0">
                         <img src="http://via.placeholder.com/800x500" alt="Project Image" class="img-thumbnail img-fluid">
                     </div>
                 </div>
@@ -77,7 +75,7 @@
                 </div>                
                 <div class="col-lg-8 col-12">
                     <div id="detail-container" class="mt-3">
-                        <div class="container p-0">
+                        <div class="container p-md-0">
                             <nav id="h-project-nav" class="navbar navbar-expand-sm bg-light navbar-dark p-0 py-3">
                                 <ul class="nav nav-tabs w-100" id="myTab" role="tablist">
                                     <li class="nav-item">
@@ -95,7 +93,7 @@
                     </div>
                     <div class="tab-content clearfix p-3 pt-4" id="myTabContent">
                         <div class="tab-pane fade show active" id="updates" role="tabpanel" aria-labelledby="updates-tab">
-                            <div class="container">
+                            <div class="container p-0">
                                 <h2 class="custom-divider text-secondary border-secondary w-50"><span>2019</span></h2>
                                 <div class="timeline">
                                     <div class="line text-muted"></div>
@@ -204,19 +202,14 @@ $(document).ready(function(){
 
     $('#volunteer-carousel').owlCarousel({
         loop:true,
+        items:8,
         margin:2,
         nav:false,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:3
-            },
-            1000:{
-                items:5
-            }
-        }
+        dots:false,
+        autoWidth:true,
+        autoplay:true,
+        autoplayTimeout:1000,
+        autoplayHoverPause:true,
     })
 })
 @endsection

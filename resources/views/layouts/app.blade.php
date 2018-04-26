@@ -15,7 +15,6 @@
     <!-- owl carousel plugin -->
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-select.min.css') }}">
 </head>
 <body>
     <div id="app" class="bg-light">

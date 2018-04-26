@@ -1,3 +1,4 @@
+// explore page
 #filter-nav {
 	// position: relative !important;
     // width: 100% !important;
@@ -28,6 +29,7 @@
 	}
 }
 
+// details page
 .project-body {
 	#sticky--{
 		position: relative !important;
@@ -38,11 +40,10 @@
 		box-shadow: none;
 		background: $body-bg;
 	
-		&.fixed {
-			position: fixed !important;
-			top: 1rem !important;
-			@include media-breakpoint-down(lg) {
-				top: 3.5rem !important;			
+		@include media-breakpoint-up (lg) {
+			&.fixed {
+				position: fixed !important;
+				top: 1rem !important;
 			}
 		}
 
@@ -107,9 +108,10 @@
 
 			.info-relawan {
 				.media {
+					overflow: hidden;
 					.media-img {
-						display: flex;
-						flex-wrap: wrap;
+						// display: block;
+						// flex-wrap: wrap;
 						padding: 0 0 0 .5rem;
 						max-width: 100%;
 						height: auto;
@@ -123,6 +125,18 @@
 							// &:last-child {
 							// 	margin-right: 0;
 							// }
+						}
+					}
+
+					#volunteer-carousel {
+						.owl-item {
+							// width: 3.125rem !important;
+							img {
+								width: 3.125rem;
+								height: 3.125rem;
+								border: 2px solid #fff;
+								margin: 0;
+							}
 						}
 					}
 				}
@@ -146,7 +160,7 @@
 		&.fixed {
 			position: fixed !important;
 			top: 0 !important;
-			@include media-breakpoint-down(lg) {
+			@include media-breakpoint-down(md) {
 				top: 3rem !important;			
 			}
 		}
@@ -209,7 +223,7 @@
 				// margin: 10px 0px 0px 40px;
 				clear: both;
 				margin: 0 auto;
-				padding: 1rem 0 0 1.5rem;
+				padding: 1rem 0 0 1rem;
 				background: none;
 				width: 100%;
 		

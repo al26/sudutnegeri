@@ -6,7 +6,7 @@
  */
 
 require('./bootstrap');
-require('./bootstrap-select.min');
+// require('./bootstrap-select.min');
 require('./fontawesome-all');
 require('./owl.carousel.min');
 require('./offCanvas');
