@@ -149,34 +149,40 @@ main#main-content {
 }
 
 @include media-breakpoint-up(lg) {
-  a.navbar-brand {
-  	border-right: 3px solid $body-bg;
-  }
-  div#desktopNavbar {
-    input[type="text"] {
-      border-radius: 0;
-      border-width: 0 0 2px;
-      border-bottom-color: transparent;
-      background: transparent;
-      width: 20.5rem;
-      padding: .5rem 0 !important;
-      -webkit-transition: border 0.4s ease-in-out;
-      transition: 0.4s ease all;
-      
-      @include placeholder {
-    	color: $body-bg !important;
-	  }
-    }
+	a.navbar-brand {
+		border-right: 3px solid $body-bg;
+	}
+	div#desktopNavbar {
+		input[type="text"] {
+		border-radius: 0;
+		border-width: 0 0 2px;
+		border-bottom-color: transparent;
+		background: transparent;
+		width: 20.5rem;
+		padding: .5rem 0 !important;
+		-webkit-transition: border 0.4s ease-in-out;
+		transition: 0.4s ease all;
+		
+		@include placeholder {
+			color: $body-bg !important;
+		}
+		}
 
-    input[type="text"]:focus {
-        border-bottom-color: $body-bg;
-        box-shadow: none !important;
-        -moz-box-shadow: none !important;
-        -webkit-box-shadow: none !important;
-        outline-offset: 0px !important;
-        outline: none !important;
-      }
-  }
+		input[type="text"]:focus {
+			border-bottom-color: $body-bg;
+			box-shadow: none !important;
+			-moz-box-shadow: none !important;
+			-webkit-box-shadow: none !important;
+			outline-offset: 0px !important;
+			outline: none !important;
+		}
+	}
+
+	footer {
+		> .container {
+			border-bottom: 1px solid $light;
+		}
+	}
 }
 
 .custom-divider {
@@ -188,4 +194,8 @@ main#main-content {
 		background: $body-bg !important; 
 		padding: 0 1rem;
 	}
-} 
+}
+
+.inner-fill {
+	background-clip: content-box !important;
+}

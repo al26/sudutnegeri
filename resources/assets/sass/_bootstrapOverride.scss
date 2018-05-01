@@ -48,3 +48,24 @@ body {
         text-decoration: none;
     }
 }
+
+@mixin custom-tab {
+    .nav-tabs {
+        border-bottom: 1px solid $gray-300;
+        .nav-link {
+            color: $body-color;
+            border: none;
+            // border-bottom: 1px solid $gray-300;
+            transition: border-width .25s ease;
+
+            &.active, &:hover {
+                border: none;
+                background: inherit;
+                border-bottom: 2px solid $secondary;
+                color: $secondary;
+                font-weight: bolder;
+
+            }
+        }
+    }
+}

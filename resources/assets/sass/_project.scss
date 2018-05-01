@@ -30,6 +30,184 @@
 }
 
 // details page
+@mixin info-text {
+	text-transform: uppercase;
+	font-size: .8rem;
+	margin: 0;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+@mixin custom-card () {
+	.card {
+		border: none !important;
+		.card-body {
+			border: none !important;
+			padding: .5rem 1rem !important;
+			@include media-breakpoint-up(md) {
+				padding: 1rem !important;
+			}
+		}
+		.card-footer {
+			background: inherit !important;
+			border: none !important;
+			padding: .5rem 1rem !important;
+			@include media-breakpoint-up(md) {
+				padding: 1rem !important;
+			}
+			padding-top: 0 !important;
+		}
+	}
+}
+
+
+.--container {
+	padding: 0;
+	@include custom-card();
+}
+.--content {
+	// margin-bottom: 1rem;
+	padding: 0;
+}
+.--text {
+	font-size: 1rem;
+	// text-transform: uppercase;
+	margin: 0;
+	display: block;
+	// white-space: nowrap;
+	// overflow: hidden;
+	// text-overflow: ellipsis;
+	&._head {
+		font-size: 2rem;
+	}
+	&._sub {
+		font-size: .75rem;
+	}
+}
+.--headline, .--caption, .--author {
+	padding: .5rem 1rem;
+}
+
+@include media-breakpoint-up(lg) {
+	.--left {
+		padding-right: .5rem;
+		// float: left;
+	}
+	
+	.--right {
+		padding-left: .5rem;
+		// float: right;
+	}
+}
+
+.sticky-side-info {
+	border-top: 1px solid $gray-300;
+	border-bottom: 1px solid $gray-300;
+	@include media-breakpoint-up(lg) {
+		border: 0;
+	}
+	@include media-breakpoint-only(md) {
+		.card-body {
+			min-height: 10rem;
+		}
+	}
+	.info-donasi {
+		@include media-breakpoint-only(md) {
+			width: 50%;
+			float: left;
+		}
+		.progress {
+			background: rgba($secondary,0.2);
+			margin: .5rem 0;
+			height: 2px;
+
+			.progress-bar {
+				background: $secondary;
+			}
+		}
+	}
+
+	.info-relawan {
+		overflow: hidden;
+		@include media-breakpoint-only(md) {
+			width: 50%;
+			float: right;
+		}
+		#volunteer-carousel {
+			.owl-item {
+				// width: 3.125rem !important;
+				img {
+					width: 3.125rem;
+					height: 3.125rem;
+					border: 2px solid #fff;
+					margin: 0;
+				}
+			}
+		}
+	}
+}
+
+.featured {
+	.--img {
+		.img-thumbnail {
+			background: inherit;
+			border: none !important;
+		}
+	}
+}
+
+#sticky--{
+	position: relative !important;
+	-webkit-transition: all .5s !important;
+	transition: all .5s !important;
+	border: none;
+	box-shadow: none;
+	// background: $body-bg;
+	width: auto;
+	// padding: 0 1rem;
+
+	@include media-breakpoint-up (lg) {
+		// padding: 0 !important;
+		&.fixed {
+			position: fixed !important;
+			z-index: 2 !important;
+			top: 0 !important;
+		}
+	}
+}
+
+#h-project-nav{
+	position: relative !important;
+	-webkit-transition: all .5s !important;
+	transition: all .5s !important;
+	width: auto;
+
+	&.fixed {
+		position: fixed !important;
+		top: 0 !important;
+		z-index: 2 !important;
+		@include media-breakpoint-down(md) {
+			top: 3rem !important;
+			left: 0 !important;
+			// padding: 1rem !important;			
+		}
+	}
+}
+
+#faq-accordion {
+	[data-toggle="collapse"] .fas:before {
+		font-family: "Font Awesome 5 Free";  
+		content: "\f0d8";
+	}
+	
+	[data-toggle="collapse"].collapsed .fas:before {
+		font-family: "Font Awesome 5 Free";
+		content: "\f0d7";
+	}
+}
+
 .project-body {
 	#sticky--{
 		position: relative !important;
@@ -39,15 +217,21 @@
 		border: none;
 		box-shadow: none;
 		background: $body-bg;
+		width: auto;
+		padding: 0 1rem;
 	
 		@include media-breakpoint-up (lg) {
+			padding: 0 !important;
 			&.fixed {
 				position: fixed !important;
-				top: 1rem !important;
+				top: 0 !important;
 			}
 		}
 
 		.card-body {
+			@include media-breakpoint-down(lg) {
+				background: $white;
+			}
 			.info-donasi {
 				display: block;
 				min-height: 6rem;
@@ -74,17 +258,11 @@
 				// }
 
 				.info-donasi-content {
-					padding: .5rem 0;
+					// padding: .5rem 0;
 					// margin-left: 6rem;
 
 					.info-donasi-text {
-						text-transform: uppercase;
-						font-size: .8rem;
-						margin: 0;
-						display: block;
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
+						@include info-text();
 					}
 					
 					.info-donasi-number {
@@ -107,7 +285,7 @@
 			}
 
 			.info-relawan {
-				.media {
+				.info-relawan-content {
 					overflow: hidden;
 					.media-img {
 						// display: block;
@@ -128,6 +306,10 @@
 						}
 					}
 
+					.info-relawan-text {
+						@include info-text();
+					}
+
 					#volunteer-carousel {
 						.owl-item {
 							// width: 3.125rem !important;
@@ -145,26 +327,10 @@
 	}
 }
 
-.project-detail {
-	#h-project-nav{
-		position: relative !important;
-		z-index: 2 !important;
-		-webkit-transition: all .5s !important;
-		transition: all .5s !important;
-		// height: 4rem;
-		// margin-left: calc(100%/3);
-		// @include media-breakpoint-down(lg) {
-		// 	height: 3rem !important;			
-		// }
-	
-		&.fixed {
-			position: fixed !important;
-			top: 0 !important;
-			@include media-breakpoint-down(md) {
-				top: 3rem !important;			
-			}
-		}
-	}
+.details {
+
+	//custom-tab
+	@include custom-tab();
 
 	.tab-content {
 		> .active {
@@ -177,7 +343,6 @@
 			width: 100%;
 			float: left;
 			position: relative;
-			padding: 0 0 4rem 0;
 			margin-top: 0;
 			margin-top: .25rem;
 		
@@ -207,6 +372,7 @@
 					border-radius: 50%;
 					background: #0039A6;
 				}
+
 			}
 		
 			.separator {
@@ -220,7 +386,6 @@
 		
 			.card {
 				position: relative;
-				// margin: 10px 0px 0px 40px;
 				clear: both;
 				margin: 0 auto;
 				padding: 1rem 0 0 1rem;
@@ -245,25 +410,20 @@
 				.card-heading {
 					.icon {
 						position: absolute;
-						left: -1.12rem;
+						left: -1.165rem;
 						width: 2.5rem;
 						height: 2.5rem;
 						padding: 0;
 						text-align: center;
 						float: left;
 		
-						.fa-square-full{
-							color: $body-bg;
-							border: .2rem solid $secondary;
+						.fa-dot-circle {
+							color: $secondary;
+							font-size: 1.5em;
 							z-index: 2;
+							background: $white;
 						}
 					}
-		
-					// &.icon * {
-					// 	font-size: 14px;
-					// 	vertical-align: middle;
-					// 	line-height: 40px;
-					// }
 				}
 		
 				.card-body {

@@ -148,8 +148,8 @@
             @yield('content')
         </main>
 
-        <footer class="bg-gradient-secondary">
-            <div class="container border-bottom border-light">
+        <footer class="bg-gradient-secondary mt-lg-3">
+            <div class="container">
                 <div class="row">
                     <div class="col-lg-2 d-none d-lg-block pt-3">
                         <h5 class="font-weight-bold  text-light">Bidang Pendidikan</h5>
