@@ -10,11 +10,13 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
     <!-- owl carousel plugin -->
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dataTables-bs4.css') }}">
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app" class="bg-light">
@@ -281,6 +283,9 @@
     </div>
 
     <!-- Scripts -->
+    <script>
+        FontAwesomeConfig = { searchPseudoElements: true };
+    </script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
         @yield('script')

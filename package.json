@@ -20,6 +20,8 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "bootstrap-select": "^1.13.1"
+        "bootstrap-select": "^1.13.1",
+        "datatables.net-bs4": "^1.10.16",
+        "jquery-bootstrap-scrolling-tabs": "^2.4.0"
     }
 }

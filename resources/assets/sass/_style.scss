@@ -48,6 +48,22 @@ main#main-content {
 	word-wrap: break-word !important;
 }
 
+.--text {
+	font-size: 1rem;
+	// text-transform: uppercase;
+	margin: 0;
+	display: block;
+	// white-space: nowrap;
+	// overflow: hidden;
+	// text-overflow: ellipsis;
+	&._head {
+		font-size: 2rem;
+	}
+	&._sub {
+		font-size: .75rem;
+	}
+}
+
 .sponsor-logo {
 	max-height: 50px;
 }
@@ -185,6 +201,7 @@ main#main-content {
 	}
 }
 
+
 .custom-divider {
 	text-align: center; 
 	border-bottom: 2px solid $body-color; 
@@ -198,4 +215,11 @@ main#main-content {
 
 .inner-fill {
 	background-clip: content-box !important;
+}
+
+table {
+	th, td {
+		vertical-align: middle !important;
+		padding: .5rem .75rem !important;
+	}
 }

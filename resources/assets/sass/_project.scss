@@ -46,7 +46,7 @@
 		.card-body {
 			border: none !important;
 			padding: .5rem 1rem !important;
-			@include media-breakpoint-up(md) {
+			@include media-breakpoint-only(md) {
 				padding: 1rem !important;
 			}
 		}
@@ -54,7 +54,7 @@
 			background: inherit !important;
 			border: none !important;
 			padding: .5rem 1rem !important;
-			@include media-breakpoint-up(md) {
+			@include media-breakpoint-only(md) {
 				padding: 1rem !important;
 			}
 			padding-top: 0 !important;
@@ -71,21 +71,7 @@
 	// margin-bottom: 1rem;
 	padding: 0;
 }
-.--text {
-	font-size: 1rem;
-	// text-transform: uppercase;
-	margin: 0;
-	display: block;
-	// white-space: nowrap;
-	// overflow: hidden;
-	// text-overflow: ellipsis;
-	&._head {
-		font-size: 2rem;
-	}
-	&._sub {
-		font-size: .75rem;
-	}
-}
+
 .--headline, .--caption, .--author {
 	padding: .5rem 1rem;
 }
@@ -196,17 +182,25 @@
 	}
 }
 
-#faq-accordion {
-	[data-toggle="collapse"] .fas:before {
-		font-family: "Font Awesome 5 Free";  
-		content: "\f0d8";
-	}
-	
-	[data-toggle="collapse"].collapsed .fas:before {
-		font-family: "Font Awesome 5 Free";
-		content: "\f0d7";
-	}
+#myTab {
+	overflow: auto;
+	white-space: nowrap;
 }
+
+// #faq-accordion {
+// 	[data-toggle="collapse"] {
+// 		.fas:before {
+// 			// display: none;
+// 			font-family: "Font Awesome 5 Solid";  
+// 			content: "\f067";
+// 		}
+// 		&.collapsed .fas:before {
+// 			// display: none;
+// 			font-family: "Font Awesome 5 Solid";
+// 			content: "\f068";
+// 		}
+// 	}
+// }
 
 .project-body {
 	#sticky--{

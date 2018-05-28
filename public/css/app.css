@@ -9342,6 +9342,86 @@ select.selectpicker {
   float: none;
 }
 
+.scrtabs-tab-container * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.scrtabs-tab-container {
+  height: 42px;
+}
+
+.scrtabs-tab-container .tab-content {
+  clear: left;
+}
+
+.scrtabs-tab-container.scrtabs-bootstrap4 .scrtabs-tabs-movable-container > .navbar-nav {
+  -ms-flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+}
+
+.scrtabs-tabs-fixed-container {
+  float: left;
+  height: 42px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.scrtabs-tabs-movable-container {
+  position: relative;
+}
+
+.scrtabs-tabs-movable-container .tab-content {
+  display: none;
+}
+
+.scrtabs-tab-container.scrtabs-rtl .scrtabs-tabs-movable-container > ul.nav-tabs {
+  padding-right: 0;
+}
+
+.scrtabs-tab-scroll-arrow {
+  border: 1px solid #dddddd;
+  border-top: none;
+  color: #428bca;
+  display: none;
+  float: left;
+  font-size: 12px;
+  height: 42px;
+  margin-bottom: -1px;
+  padding-left: 2px;
+  padding-top: 13px;
+  width: 20px;
+}
+
+.scrtabs-tab-scroll-arrow:hover {
+  background-color: #eeeeee;
+}
+
+.scrtabs-tab-scroll-arrow,
+.scrtabs-tab-scroll-arrow .scrtabs-click-target {
+  cursor: pointer;
+}
+
+.scrtabs-tab-scroll-arrow.scrtabs-with-click-target {
+  cursor: default;
+}
+
+.scrtabs-tab-scroll-arrow.scrtabs-disable,
+.scrtabs-tab-scroll-arrow.scrtabs-disable .scrtabs-click-target {
+  color: #ddd;
+  cursor: default;
+}
+
+.scrtabs-tab-scroll-arrow.scrtabs-disable:hover {
+  background-color: initial;
+}
+
+.scrtabs-tabs-fixed-container ul.nav-tabs > li {
+  white-space: nowrap;
+}
+
 body {
   color: #212529;
 }
@@ -9683,6 +9763,18 @@ h2#form-divider span {
   left: 0;
 }
 
+table.dataTable {
+  border-collapse: collapse !important;
+}
+
+table.dataTable thead th[rowspan="2"].sorting:before, table.dataTable thead th[rowspan="2"].sorting:after, table.dataTable thead th[rowspan="2"].sorting_asc:before, table.dataTable thead th[rowspan="2"].sorting_asc:after, table.dataTable thead th[rowspan="2"].sorting_desc:before, table.dataTable thead th[rowspan="2"].sorting_desc:after, table.dataTable thead th[rowspan="2"].sorting_asc_disabled:before, table.dataTable thead th[rowspan="2"].sorting_asc_disabled:after, table.dataTable thead th[rowspan="2"].sorting_desc_disabled:before, table.dataTable thead th[rowspan="2"].sorting_desc_disabled:after {
+  bottom: 40% !important;
+}
+
+table.dataTable thead th.sorting:before, table.dataTable thead th.sorting:after, table.dataTable thead th.sorting_asc:before, table.dataTable thead th.sorting_asc:after, table.dataTable thead th.sorting_desc:before, table.dataTable thead th.sorting_desc:after, table.dataTable thead th.sorting_asc_disabled:before, table.dataTable thead th.sorting_asc_disabled:after, table.dataTable thead th.sorting_desc_disabled:before, table.dataTable thead th.sorting_desc_disabled:after {
+  bottom: .7em !important;
+}
+
 #main-nav {
   height: 4rem !important;
 }
@@ -9704,6 +9796,20 @@ h2#form-divider span {
 
 .text-wrap {
   word-wrap: break-word !important;
+}
+
+.\--text {
+  font-size: 1rem;
+  margin: 0;
+  display: block;
+}
+
+.\--text._head {
+  font-size: 2rem;
+}
+
+.\--text._sub {
+  font-size: .75rem;
 }
 
 .sponsor-logo {
@@ -9867,6 +9973,11 @@ h2#form-divider span {
 
 .inner-fill {
   background-clip: content-box !important;
+}
+
+table th, table td {
+  vertical-align: middle !important;
+  padding: .5rem .75rem !important;
 }
 
 /* FLIP */
@@ -10302,7 +10413,7 @@ div#myCard {
   padding: .5rem 1rem !important;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 991.98px) {
   .\--container .card .card-body {
     padding: 1rem !important;
   }
@@ -10315,7 +10426,7 @@ div#myCard {
   padding-top: 0 !important;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 991.98px) {
   .\--container .card .card-footer {
     padding: 1rem !important;
   }
@@ -10323,20 +10434,6 @@ div#myCard {
 
 .\--content {
   padding: 0;
-}
-
-.\--text {
-  font-size: 1rem;
-  margin: 0;
-  display: block;
-}
-
-.\--text._head {
-  font-size: 2rem;
-}
-
-.\--text._sub {
-  font-size: .75rem;
 }
 
 .\--headline, .\--caption, .\--author {
@@ -10447,14 +10544,9 @@ div#myCard {
   }
 }
 
-#faq-accordion [data-toggle="collapse"] .fas:before {
-  font-family: "Font Awesome 5 Free";
-  content: "\F0D8";
-}
-
-#faq-accordion [data-toggle="collapse"].collapsed .fas:before {
-  font-family: "Font Awesome 5 Free";
-  content: "\F0D7";
+#myTab {
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .project-body #sticky-- {

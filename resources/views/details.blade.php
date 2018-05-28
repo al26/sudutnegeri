@@ -107,7 +107,7 @@
             <div class="col-12 col-lg-4"></div>
             <div class="col-12 col-lg-8 --container --right details">
                 <section class="card --content">
-                    <nav id="h-project-nav" class="navbar navbar-expand-sm bg-white navbar-dark p-0 m-0">
+                    {{-- <nav id="h-project-nav" class="navbar navbar-expand-sm bg-white navbar-dark p-0 m-0">
                         <ul class="nav nav-tabs w-100 nav-fill" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="detil-tab" data-toggle="tab" href="#detil" role="tab" aria-controls="detil" aria-selected="true">Detil</a>
@@ -122,6 +122,22 @@
                                 <a class="nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">F A Q</a>
                             </li>
                         </ul>
+                    </nav> --}}
+                    <nav id="h-project-nav" class="navbar navbar-expand-sm bg-white navbar-dark p-0 m-0">
+                        <div class="nav nav-tabs owl-carousel" id="myTab" role="tablist">
+                            <div class="item " role="presentation">
+                                <a class="nav-item nav-link active" id="detil-tab" data-toggle="tab" href="#detil" role="tab" aria-controls="detil" aria-selected="true">Detil</a>
+                            </div>
+                            <div class="item" role="presentation">
+                                <a class="nav-item nav-link" id="updates-tab" data-toggle="tab" href="#updates" role="tab" aria-controls="updates" aria-selected="true">Data Historis</a>
+                            </div>
+                            <div class="item" role="presentation">
+                                <a class="nav-item nav-link" id="sinegeri-tab" data-toggle="tab" href="#sinegeri" role="tab" aria-controls="sinegeri" aria-selected="false">Si Negeri Peduli</a>
+                            </div>
+                            <div class="item" role="presentation">
+                                <a class="nav-item nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">F A Q</a>
+                            </div>
+                        </div>
                     </nav>
                 </section>
                 <section class="card --content">
@@ -174,7 +190,7 @@
                         <div class="tab-pane fade" id="sinegeri" role="tabpanel" aria-labelledby="donatur-tab">
                             <div class="list-relawan">
                                 <span class="--text text-uppercase mb-2 border-bottom"><a class="text-default decoration-none" role="button" data-toggle="collapse" data-parent=".list-relawan" href="#lr" aria-expanded="true" aria-controls="lr">Relawan</a></span>
-                                <div id="lr" class="collapse in mb-2" role="tabpanel" aria-labelledby="heading1">
+                                <div id="lr" class="collapse show mb-2">
                                     <div class="row">
                                         @for ($i = 0; $i < 10; $i++)
                                             <div class="col-12 col-md-6 col-xl-4">
@@ -192,7 +208,7 @@
                             </div>
                             <div class="list-donatur">
                                 <span class="--text text-uppercase mb-2 border-bottom"><a class="text-default decoration-none" role="button" data-toggle="collapse" data-parent=".list-donatur" href="#ld" aria-expanded="true" aria-controls="ld">Donatur</a></span>
-                                <div id="ld" class="collapse in mb-2" role="tabpanel" aria-labelledby="heading1">
+                                <div id="ld" class="collapse show mb-2">
                                     <div class="row">
                                         @for ($i = 0; $i < 10; $i++)
                                             <div class="col-12 col-md-6 col-xl-4">
@@ -211,22 +227,21 @@
                         </div>
                         <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
                             <div id="faq-accordion">
-                                <div class="card">
-                                    <div class="card-header" id="headingOne">
-                                        <h5 class="mb-0">
-                                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false" aria-controls="collapseOne">
-                                            <i class="fas" aria-hidden="true"></i>
-                                            Link with href
-                                        </a>
-                                        </h5>
-                                    </div>
-                                
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                @for ($i = 1; $i < 6; $i++)
+                                    <div class="card">
+                                    <div class="card-header collapsed" role="button" data-toggle="collapse" data-target="#faq{{$i}}" aria-expanded="false" aria-controls="collapse{{$i}}" id="q{{$i}}">
+                                            <h5 class="mb-0"> Question {{$i}}
+                                                <i class="more-less fas fa-chevron-up float-right" aria-hidden="true"></i>
+                                            </h5>
+                                        </div>
+                                    
+                                        <div id="faq{{$i}}" class="collapse" data-parent="#faq-accordion" aria-labelledby="q{{$i}}">
+                                            <div class="card-body">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endfor
                             </div>
                         </div>
                     </div>
@@ -430,5 +445,26 @@ $(document).ready(function(){
             this.options.loop = true;
         }
     }
+
+    function toggleIcon(e) {
+        $(e.target)
+            .prev('.card-header')
+            .find(".more-less")
+            .toggleClass('fa-chevron-up fa-chevron-down');
+    }
+
+    $('#faq-accordion > .card').on('hidden.bs.collapse', toggleIcon);
+    $('#faq-accordion > .card').on('shown.bs.collapse', toggleIcon);
+
+    {{-- $('#myTab').scrollingTabs({
+        bootstrapVersion: 4,
+    }); --}}
+
+    $('#myTab').owlCarousel({
+        margin:0,
+        loop:false,
+        autoWidth:true,
+        items:4
+    });
 })
 @endsection
