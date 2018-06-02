@@ -223,3 +223,41 @@ table {
 		padding: .5rem .75rem !important;
 	}
 }
+
+.loader-overlay {
+	position: absolute;
+	width: 90%;
+	height: 90%;
+	left: 5%;
+    background-color: rgba(0,0,0,0.5);
+	z-index: 1;
+	visibility: hidden;
+	&.active {
+		visibility: visible;
+	}
+}
+
+.loader {
+	z-index: 3;
+	border: .5rem solid $body-bg;
+	border-radius: 50%;
+	border-top: .5rem solid $secondary;
+	border-bottom: .5rem solid $secondary;
+	width: 3rem;
+	height: 3rem;
+	-webkit-animation: spin 2s linear infinite;
+	animation: spin 2s linear infinite;
+	position: absolute;
+	left: 47.5%;
+	top: 50%;
+}
+  
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+  
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}

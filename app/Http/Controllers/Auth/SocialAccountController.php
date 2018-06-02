@@ -40,7 +40,7 @@ class SocialAccountController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect()->to('/home');
+        return redirect()->route('dashboard', ['menu' => 'overview']);
         
     }
 

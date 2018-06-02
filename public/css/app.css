@@ -9980,6 +9980,55 @@ table th, table td {
   padding: .5rem .75rem !important;
 }
 
+.loader-overlay {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  left: 5%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  visibility: hidden;
+}
+
+.loader-overlay.active {
+  visibility: visible;
+}
+
+.loader {
+  z-index: 3;
+  border: 0.5rem solid #f5f8fa;
+  border-radius: 50%;
+  border-top: 0.5rem solid #2A5D6F;
+  border-bottom: 0.5rem solid #2A5D6F;
+  width: 3rem;
+  height: 3rem;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  position: absolute;
+  left: 47.5%;
+  top: 50%;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
 /* FLIP */
 /* FONT FACE */
 /* OPACITY */
@@ -10788,4 +10837,81 @@ div#myCard {
   border-top: 0;
   padding-top: 0;
   border-bottom: 0;
+}
+
+.m-topcard #p-cover {
+  max-height: 20rem !important;
+}
+
+.m-topcard #p-data {
+  top: 55%;
+  color: #ffffff;
+  text-align: center;
+  bottom: inherit;
+}
+
+.m-topcard #p-cover-overlay {
+  position: absolute;
+  background: #2a5d6f;
+  color: #ffffff;
+  opacity: .5;
+  padding: .5rem;
+  right: 1rem;
+  top: 1rem;
+}
+
+.m-topcard #p-cover-overlay:hover {
+  opacity: 1;
+  border: 2px solid #ffffff;
+}
+
+.m-topcard #p-pic-container {
+  position: absolute;
+  left: 42%;
+  bottom: 10rem;
+  height: 12rem !important;
+  width: 12rem !important;
+}
+
+.m-topcard #p-pic-container #p-pic-overlay {
+  position: absolute;
+  background: rgba(42, 93, 111, 0.8);
+  padding: 1rem .5rem;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  width: inherit !important;
+  visibility: hidden;
+}
+
+.m-topcard #p-pic-container #p-pic-overlay:hover {
+  visibility: visible;
+}
+
+.m-topcard #p-pic-container #p-pic {
+  width: inherit;
+  height: inherit;
+}
+
+.m-topcard #p-pic-container #p-pic:hover ~ #p-pic-overlay {
+  visibility: visible;
+}
+
+.m-leftcard {
+  width: 23.5%;
+  float: left;
+  margin-right: 1.5%;
+}
+
+.m-leftcard .card {
+  border: none;
+}
+
+.m-rightcard {
+  float: left;
+  width: 75%;
+}
+
+.m-rightcard .card {
+  border: none;
 }

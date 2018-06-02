@@ -25,7 +25,25 @@ Route::namespace('Auth')->group(function () {
     Route::get('/auth/{provider}',          'SocialAccountController@redirectToProvider')->name('oauth.login');
     Route::get('/auth/{provider}/callback', 'SocialAccountController@handleProviderCallback');
 });
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::get('/', function(){
+        return redirect()->route('dashboard', ['menu' => 'overview']);
+    }); 
+    Route::get('/{menu?}/{section?}', 'MemberController@index')
+            ->where(
+                ['menu'     => '(overview|setting|sudut|negeri)', 
+                'section'   => '(personal-info|account|campaigns|donations|activity)']
+            )
+            ->name('dashboard');
+
+    // Route::get('setting/personal-info', function () {
+    //     return view('member.partials.main-content.personal-info');
+    // });
+    // Route::get('setting/account', function () {
+    //     return view('member.partials.main-content.account');
+    // });
+});
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/login', 'AdminController@showLoginForm')->name('admin.login')->middleware(['guest']);

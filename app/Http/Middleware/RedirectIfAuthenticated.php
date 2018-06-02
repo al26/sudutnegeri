@@ -23,7 +23,7 @@ class RedirectIfAuthenticated
                 break;
             
             default:
-                $redirect = redirect()->route('home');
+                $redirect = redirect()->route('dashboard', ['menu' => 'overview']);
                 break;
         }
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 
-class HomeController extends Controller
+class MemberController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -22,8 +22,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($menu = null, $section = null)
     {
-        return view('member.dashboard');
+        // dd($request->query('section'));
+        return view('member.dashboard', ['menu' => $menu, 'section' => $section]);
     }
 }
