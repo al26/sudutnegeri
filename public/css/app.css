@@ -9914,6 +9914,34 @@ table.dataTable thead th.sorting:before, table.dataTable thead th.sorting:after,
 
 .section-content .project-needs .list-group-item .progress {
   border-radius: 0;
+  position: relative;
+  background: inherit;
+  margin: 0;
+  width: 50%;
+}
+
+.section-content .project-needs .list-group-item .progress .progress-bar {
+  background: #2A5D6F;
+  height: 1px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+.section-content .project-needs .list-group-item .progress .progress-capt {
+  position: absolute;
+  color: #2A5D6F;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
 }
 
 @media (min-width: 992px) {
@@ -10027,6 +10055,36 @@ table th, table td {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
+}
+
+.form-section {
+  margin-bottom: 1.5rem !important;
+}
+
+.form-section .fs-head {
+  padding-bottom: .5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+}
+
+.form-section .fs-head-text {
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  .form-section .fs-label {
+    padding-left: 0 !important;
+  }
+}
+
+.btn-box:focus {
+  outline: 0 !important;
+  border: 0 !important;
+}
+
+.btn-box:hover {
+  text-decoration: none !important;
 }
 
 /* FLIP */
@@ -10204,6 +10262,7 @@ div.owl-dots .owl-dot.active {
 
 body {
   overflow-x: hidden;
+  padding: 0 !important;
 }
 
 section#banner div#img-banner {
@@ -10368,64 +10427,6 @@ div#list-container ::-webkit-scrollbar-thumb {
 
 div#myCard {
   overflow: hidden;
-}
-
-@media (min-width: 992px) {
-  div#app {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-  #card-slider-container #card-slider {
-    padding: 0 !important;
-  }
-  section#banner {
-    -webkit-box-ordinal-group: 2;
-        -ms-flex-order: 1;
-            order: 1;
-    -webkit-order: 1;
-    -moz-order: 1;
-  }
-  section#info {
-    -webkit-box-ordinal-group: 3;
-        -ms-flex-order: 2;
-            order: 2;
-    -webkit-order: 2;
-    -moz-order: 2;
-  }
-  section#project {
-    -webkit-box-ordinal-group: 4;
-        -ms-flex-order: 3;
-            order: 3;
-    -webkit-order: 3;
-    -moz-order: 3;
-  }
-  section#campaign {
-    -webkit-box-ordinal-group: 5;
-        -ms-flex-order: 4;
-            order: 4;
-    -webkit-order: 4;
-    -moz-order: 4;
-    background-image: -webkit-linear-gradient(150deg, #dc3545 45%, #ff263b 45%);
-  }
-  section#team {
-    -webkit-box-ordinal-group: 6;
-        -ms-flex-order: 5;
-            order: 5;
-    -webkit-order: 5;
-    -moz-order: 5;
-  }
-  footer {
-    -webkit-box-ordinal-group: 7;
-        -ms-flex-order: 6;
-            order: 6;
-    -webkit-order: 6;
-    -moz-order: 6;
-  }
 }
 
 #filter-nav.fixed {
@@ -10880,6 +10881,8 @@ div#myCard {
   z-index: 2;
   left: 0;
   bottom: 0;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
   width: inherit !important;
   visibility: hidden;
 }
@@ -10914,4 +10917,73 @@ div#myCard {
 
 .m-rightcard .card {
   border: none;
+}
+
+#user-connect li.ucl:hover ~ .sns-overlay {
+  visibility: visible;
+}
+
+#user-connect li .sns-overlay {
+  position: absolute;
+  background: rgba(42, 93, 111, 0.8);
+  left: 1em;
+  bottom: .3em;
+  visibility: hidden;
+}
+
+#user-connect li .sns-overlay:hover {
+  visibility: visible;
+}
+
+.d-campaigns .card:hover ~ .cml, .d-campaigns .card-img-top:hover ~ .cml, .d-campaigns .card-body:hover ~ .cml, .d-campaigns .card-footer:hover ~ .cml, .d-campaigns .project-needs:hover ~ .cml, .d-campaigns .list-group:hover ~ .cml, .d-campaigns .list-group-item:hover ~ .cml {
+  visibility: visible;
+}
+
+.d-campaigns .cml {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(42, 93, 111, 0.8);
+  text-align: center;
+  font-size: 2rem;
+  text-decoration: none;
+  font-weight: bolder;
+  visibility: hidden;
+}
+
+.d-campaigns .cml:hover {
+  visibility: visible;
+}
+
+.d-campaigns .cml span {
+  position: relative;
+  width: 100%;
+  top: 30%;
+}
+
+.d-campaigns .cal {
+  z-index: 2;
+  width: 100%;
+  min-height: 20rem;
+  background: inherit;
+  text-align: center;
+  color: #2A5D6F;
+  font-size: 2rem;
+  text-decoration: none;
+  font-weight: bolder;
+  padding: 8rem 0;
+}
+
+.d-campaigns .cal:hover {
+  background: #2a5d6f;
+  color: #ffffff;
+}
+
+.d-campaigns .cal span {
+  position: relative;
+  width: 100%;
+  top: 30%;
 }

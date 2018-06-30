@@ -96,16 +96,16 @@
                                 <ul class="list-group">
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Dana
-                                        <div class="progress w-50 position-relative">
+                                        <div class="progress">
                                             <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            <small class="justify-content-center d-flex position-absolute w-100">25 jt / 100 jt</small>
+                                            <small class="progress-capt">25 jt / 100 jt</small>
                                         </div>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Relawan
-                                        <div class="progress w-50 position-relative">
+                                        <div class="progress">
                                             <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                            <small class="justify-content-center d-flex position-absolute w-100">50 / 100 orang</small>
+                                            <small class="progress-capt">50 / 100 orang</small>
                                         </div>
                                     </li>
                                     {{-- <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -141,11 +141,6 @@
         </div>
     </div>
 @endsection
-@section('script')
-    $(function() {
-        $('.selectpicker').selectpicker({
-            width: auto,
-            mobile: true
-        });
-    });
-@endsection
+{{-- @section('script')
+    
+@endsection --}}

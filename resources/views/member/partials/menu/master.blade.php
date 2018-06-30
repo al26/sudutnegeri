@@ -9,7 +9,7 @@
         if (empty($section)) {
             switch ($menu) {
                 case 'setting':
-                    $section = "personal-info";
+                    $section = "profile";
                     break;
                 case 'sudut':
                     $section = "campaigns";

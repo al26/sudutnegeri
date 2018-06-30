@@ -17,5 +17,16 @@ $(document).ready(function(){
     $('#scroll').click(function(){
         $("html, body").animate({ scrollTop: 0 }, 600);
         return false;
-	});
+    });
+    
+    // $(window).on('show.bs.modal', function(e){
+    //     $('body').css("padding-right", "0");
+    // });
+});
+
+$(function() {
+    $('.selectpicker').selectpicker({
+        width: auto,
+        mobile: true
+    });
 });

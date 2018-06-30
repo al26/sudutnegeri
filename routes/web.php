@@ -33,16 +33,10 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/{menu?}/{section?}', 'MemberController@index')
             ->where(
                 ['menu'     => '(overview|setting|sudut|negeri)', 
-                'section'   => '(personal-info|account|campaigns|donations|activity)']
+                'section'   => '(profile|account|campaigns|donations|activity)']
             )
             ->name('dashboard');
-
-    // Route::get('setting/personal-info', function () {
-    //     return view('member.partials.main-content.personal-info');
-    // });
-    // Route::get('setting/account', function () {
-    //     return view('member.partials.main-content.account');
-    // });
+    Route::get('sudut/campaigns/manage/{id}', 'MemberController@manageCampaign')->name('manage.campaign');
 });
 
 Route::group(['prefix' => 'admin'], function () {

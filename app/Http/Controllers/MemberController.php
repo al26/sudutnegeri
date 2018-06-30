@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Project;
 
 class MemberController extends Controller
 {
@@ -26,5 +27,11 @@ class MemberController extends Controller
     {
         // dd($request->query('section'));
         return view('member.dashboard', ['menu' => $menu, 'section' => $section]);
+    }
+
+    public function manageCampaign($id) {
+        $data = Project::find($id)->first();
+        // dd($data['id']);
+        return view('member.dashboard', ['menu' => 'sudut', 'section' => 'manage-campaign', 'data' => $data]);
     }
 }

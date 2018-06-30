@@ -151,9 +151,9 @@
         </main>
 
         <footer class="bg-gradient-secondary mt-lg-3">
-            <div class="container">
+            <div class="container d-none d-lg-block">
                 <div class="row">
-                    <div class="col-lg-2 d-none d-lg-block pt-3">
+                    <div class="col-lg-2 pt-3">
                         <h5 class="font-weight-bold  text-light">Bidang Pendidikan</h5>
                         <ul class="list-unstyled">
                             <li><a href="" class="p-0 btn btn-link text-light">
@@ -179,7 +179,7 @@
                             </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-2 d-none d-lg-block pt-3">
+                    <div class="col-lg-2 pt-3">
                         <h5 class="font-weight-bold  text-light">Pelajari Lebih</h5>
                         <ul class="list-unstyled">
                             <li><a href="" class="p-0 btn btn-link text-light">
@@ -202,7 +202,7 @@
                             </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-2 d-none d-lg-block pt-3">
+                    <div class="col-lg-2 pt-3">
                         <h5 class="font-weight-bold  text-light">Dukungan</h5>
                         <ul class="list-unstyled">
                             <li><a href="" class="p-0 btn btn-link text-light">
@@ -219,7 +219,7 @@
                             </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-2 d-none d-lg-block pt-3">
+                    <div class="col-lg-2 pt-3">
                         <h5 class="font-weight-bold  text-light">Ikut Peduli</h5>
                         <ul class="list-unstyled">
                             <li><a href="" class="p-0 btn btn-link text-light">
@@ -239,7 +239,7 @@
                             </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-4 d-none d-lg-block pt-3 text-justify">
+                    <div class="col-lg-4 pt-3 text-justify">
                         <h5 class="font-weight-bold text-light">
                             <a class="btn-link" href="{{ url('/') }}">SudutNegeri</a>
                             <small> adalah platform yang mempertemukan antara Volunteer dan Donatur dengan bagian Indonesia yang membutuhkan bantuan pendidikan</small>

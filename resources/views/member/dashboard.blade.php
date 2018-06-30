@@ -21,12 +21,12 @@
                 <a id="p-pic-overlay" class="text-white decoration-none" href=""><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
             </div>
             <div id="p-data" class="card-img-overlay">
-                <span class="--text _head">{{Auth::user()->profile->name}}</span>
-                <span class="--text _sub"><i class="far fw fa-check-square" data-fa-transform="grow-2"></i> Pengguna Terverifikasi</span>
+                <span class="--text _head">{{Auth::user()->profile->name}} <i class="far fw fa-check-square" data-fa-transform="grow-3"></i></span>
+                <span class="--text _sub">Tergabung Sejak : 3-6-2018 | Terakhir Online : 3-6-2018</span>
             </div>
         </div>
     </section>
-    <section class="m-content mt-3" id="mc" data-pjax-container>
+    <section class="m-content mt-3 clearfix" id="mc" data-pjax-container>
         {{-- <div class="loader-overlay">
             <div class="loader"></div>
         </div> --}}
@@ -53,6 +53,17 @@
         toggleActiveContentTab();
     });
 
+    $('#mc, #mr').on('pjax:complete', function() {
+        reactivateSelectPicker();
+    });
+
+    $('.dsp').selectpicker();     
+    
+    function reactivateSelectPicker() {
+        $('.dsp').selectpicker('render');
+        $('.dsp').selectpicker('refresh');
+    }
+
     function toggleActiveMenuTab() {
         var path = document.location.pathname,
             menu = path.split("/");
@@ -62,6 +73,8 @@
             }
         });
         $('#m-'+menu[2]).addClass('active');
+        $('.dsp').selectpicker('render');
+        $('.dsp').selectpicker('refresh');
     }
 
     function toggleActiveContentTab() {

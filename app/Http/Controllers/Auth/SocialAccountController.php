@@ -58,6 +58,16 @@ class SocialAccountController extends Controller
                 $user = User::create([  
                     'email' => $providerUser->getEmail(),
                 ]);
+
+                // switch ($provider) {
+                //     case 'facebook':
+                //         $link = $providerUser->getLink()
+                //         break;
+                    
+                //     default:
+                //         # code...
+                //         break;
+                // }
             }
 
             $user->profile()->create([
@@ -67,6 +77,7 @@ class SocialAccountController extends Controller
             $user->socialAccounts()->create([
                 'provider_id'   => $providerUser->getId(),
                 'provider_name' => $provider,
+                'link'          => $link,
             ]);
 
             return $user;

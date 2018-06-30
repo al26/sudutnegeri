@@ -1,6 +1,6 @@
 body{
 	overflow-x: hidden;
-	// background: #fff;
+	padding: 0 !important;
 }
 
 section#banner {
@@ -189,48 +189,47 @@ div#myCard {
 	overflow: hidden;
 }
 
-@include media-breakpoint-up(lg) {
-	div#app {
-		display: flex;
-		flex-direction: column;
-	}
+// @include media-breakpoint-up(lg) {
+// 	div#app {
+// 		display: flex;
+// 		flex-direction: column;
+// 	}
 
-	#card-slider-container {
-		#card-slider {
-			padding: 0 !important;
-		}
-	}
+// 	#card-slider-container {
+// 		#card-slider {
+// 			padding: 0 !important;
+// 		}
+// 	}
 
-	section#banner {
-		order: 1;
-		-webkit-order: 1;
-		-moz-order: 1;
-	}
-	section#info {
-		order: 2;
-		-webkit-order: 2;
-		-moz-order: 2;
-	}
-	section#project {
-		order: 3;
-		-webkit-order: 3;
-		-moz-order: 3;
-		// background-image: -webkit-linear-gradient(30deg, #17a2b8 45%, #10bbd6 45%);
-	}
-	section#campaign {
-		order: 4;
-		-webkit-order: 4;
-		-moz-order: 4;
-		background-image: -webkit-linear-gradient(150deg, #dc3545 45%, #ff263b 45%);
-	}
-	section#team {
-		order: 5;
-		-webkit-order: 5;
-		-moz-order: 5;
-	}
-	footer {
-		order: 6;
-		-webkit-order: 6;
-		-moz-order: 6;	
-	}
-}
+// 	section#banner {
+// 		order: 1;
+// 		-webkit-order: 1;
+// 		-moz-order: 1;
+// 	}
+// 	section#info {
+// 		order: 2;
+// 		-webkit-order: 2;
+// 		-moz-order: 2;
+// 	}
+// 	section#project {
+// 		order: 3;
+// 		-webkit-order: 3;
+// 		-moz-order: 3;
+// 	}
+// 	section#campaign {
+// 		order: 4;
+// 		-webkit-order: 4;
+// 		-moz-order: 4;
+// 		background-image: -webkit-linear-gradient(150deg, #dc3545 45%, #ff263b 45%);
+// 	}
+// 	section#team {
+// 		order: 5;
+// 		-webkit-order: 5;
+// 		-moz-order: 5;
+// 	}
+// 	footer {
+// 		order: 6;
+// 		-webkit-order: 6;
+// 		-moz-order: 6;	
+// 	}
+// }
