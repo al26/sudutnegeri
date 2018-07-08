@@ -18,7 +18,7 @@ class CreateUserProfilesTable extends Migration
             $table->unsignedInteger('user_id');  
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
             $table->string('name');
-            $table->string('gender')->nullable();
+            $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
             $table->date('dob')->nullable();
             $table->text('address')->nullable();
             $table->string('phone_number')->nullable();

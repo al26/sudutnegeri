@@ -152,6 +152,10 @@
             top: 30%;
             // margin: auto 0;
         }
+        &:focus{
+            outline: 0 !important;
+            border: 0 !important;
+        }
     }
      
 }

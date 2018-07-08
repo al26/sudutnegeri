@@ -12,7 +12,7 @@
                 <div class="nav nav-pills nav-fill w-100" id="h-menu">
                     <a id="m-overview" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/overview')}}">Overview</a>
                     <a id="m-setting" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/setting')}}">Pengaturan</a>
-                    <a id="m-sudut" class="nav-item nav-link p-3 border-left border-right" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/sudut')}}">Jadi Sudut</a>
+                    <a id="m-sudut" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/sudut')}}">Jadi Sudut</a>
                     <a id="m-negeri" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/negeri')}}">Jadi Negeri</a>
                 </div>
             </div>
@@ -37,24 +37,33 @@
         @endphp
         @include('member.partials.menu.'.$menu, ['section' => $section, 'menu' => $menu])
     </section>
+    @include('components.modal')
 </div>
 @endsection
 @section('script')
+    $(document).ready(function() {
+        $('#example').DataTable();
+        toggleActiveMenuTab();
+        toggleActiveContentTab();
+        $(document).loadModal();
+        $(document).activeteSummernote();
+        $('.the-summernote').summernote();
+    });
+
     $(document).pjax('a[data-pjax=menu]', '#mc');
-    toggleActiveMenuTab();
     $('#mc').on('pjax:send', function() {
         toggleActiveMenuTab();
         toggleActiveContentTab();
     });
 
     $(document).pjax('a[data-pjax=main-content]', '#mr');
-    toggleActiveContentTab();
     $('#mr').on('pjax:send', function() {
         toggleActiveContentTab();
     });
 
     $('#mc, #mr').on('pjax:complete', function() {
         reactivateSelectPicker();
+        $('#example').DataTable();
     });
 
     $('.dsp').selectpicker();     

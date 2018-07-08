@@ -18,15 +18,13 @@ $(document).ready(function(){
         $("html, body").animate({ scrollTop: 0 }, 600);
         return false;
     });
-    
-    // $(window).on('show.bs.modal', function(e){
-    //     $('body').css("padding-right", "0");
-    // });
+
+    $('.smnt').summernote();
 });
 
 $(function() {
     $('.selectpicker').selectpicker({
-        width: auto,
+        width: 'auto',
         mobile: true
     });
 });

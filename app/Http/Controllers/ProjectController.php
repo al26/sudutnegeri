@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Project;
 
 class ProjectController extends Controller
 {
@@ -23,7 +24,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('member.partials.modal.create_project');
     }
 
     /**
@@ -34,7 +35,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->data;
+        $data["project_slug"] = md5($request->data['project_name']);
+        
+        return Project::create($data);
+        
+        // return redirect()->route('dashboard', ['menu' => 'sudut', 'section' => 'projects']);
     }
 
     /**
@@ -56,7 +62,10 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Project::where('id', $id)->first();
+        // die(var_dump($data));
+        // dd($data['deadline']);
+        return view('member.partials.modal.edit_project', $data);
     }
 
     /**
@@ -68,7 +77,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return Project::where('id', $id)->update($request->data);
     }
 
     /**
@@ -79,6 +88,6 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

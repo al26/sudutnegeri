@@ -33,10 +33,10 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/{menu?}/{section?}', 'MemberController@index')
             ->where(
                 ['menu'     => '(overview|setting|sudut|negeri)', 
-                'section'   => '(profile|account|campaigns|donations|activity)']
+                'section'   => '(profile|account|projects|donations|activity)']
             )
             ->name('dashboard');
-    Route::get('sudut/campaigns/manage/{id}', 'MemberController@manageCampaign')->name('manage.campaign');
+    Route::get('sudut/projects/manage/{slug}', 'MemberController@manageProject')->name('manage.project');
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -52,4 +52,14 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'project'], function () {
     Route::get('browse/{category}', 'ProjectController@index')->name('project.browse');
     Route::get('details/{slug}', 'ProjectController@show')->name('project.show');
+    Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
+    Route::post('update/{id}', 'ProjectController@update')->name('project.update');
+    Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
+    Route::get('create', 'ProjectController@create')->name('project.create');
+    Route::post('store', 'ProjectController@store')->name('project.store');
+});
+
+Route::group(['prefix' => 'component'], function () {
+    Route::get('modal-body/{parent_directory?}/{content}', 'ComponentContentController@getModalBody')->name("get.modal");
+    Route::get('modal','ComponentContentController@loadModal')->name('load.modal');
 });

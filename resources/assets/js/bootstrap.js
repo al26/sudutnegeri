@@ -15,6 +15,7 @@ try {
     require('bootstrap-select');
     require('jquery-bootstrap-scrolling-tabs');
     require('datatables.net-bs4');
+    require('summernote/dist/summernote-bs4');
 } catch (e) {}
 
 /**

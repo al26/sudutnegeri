@@ -12,7 +12,7 @@
                     $section = "profile";
                     break;
                 case 'sudut':
-                    $section = "campaigns";
+                    $section = "projects";
                     break;
                 case 'negeri':
                     $section = "donations";

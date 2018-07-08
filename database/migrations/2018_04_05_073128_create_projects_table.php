@@ -15,7 +15,18 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');  
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
+            $table->string('project_name');
+            $table->string('project_slug');
+            $table->text('description');
+            $table->unsignedInteger('funding_target');
+            $table->unsignedInteger('funding_progress');
+            $table->unsignedInteger('volunteer_spot');
+            $table->unsignedInteger('volunteer_applied');
+            $table->string('project_banner')->default('avatar.jpg');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

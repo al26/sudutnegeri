@@ -10,6 +10,7 @@ require('./fontawesome-all');
 require('./owl.carousel.min');
 require('./offCanvas');
 require('jquery-pjax');
+require('./components/modal');
 require('./main');
 
 window.Vue = require('vue');

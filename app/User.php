@@ -40,4 +40,7 @@ class User extends Authenticatable
         return $this->hasOne('App\User_verification');
     }
 
+    public function projects() {
+        return $this->hasMany('App\Project');
+    }
 }

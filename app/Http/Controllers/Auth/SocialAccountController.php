@@ -77,7 +77,7 @@ class SocialAccountController extends Controller
             $user->socialAccounts()->create([
                 'provider_id'   => $providerUser->getId(),
                 'provider_name' => $provider,
-                'link'          => $link,
+                // 'link'          => $link,
             ]);
 
             return $user;
