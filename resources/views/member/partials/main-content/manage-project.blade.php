@@ -5,7 +5,7 @@
         </div>
         <div class="row section-content">
             <div class="col-4 px-2 info-box-parent">
-                <a class="btn-box" href="{{route('project.edit', ['id' => $data['id']])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Ubah Data Proyek","actionUrl":"{{route('project.update', ["id" => $data['id']])}}","edit":"Simpan Perubahan","lg":true}'>
+                <a class="btn-box" href="{{route('project.edit', ['id' => $data['id']])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Ubah Data Proyek","actionUrl":"{{route('project.update', ["id" => $data['id']])}}","edit":"Simpan Perubahan","lg":true,"cancel":"Batal"}'>
                     <div class="info-box">
                         <div class="info-box-inner">
                             <h3 class="text-secondary">Ubah</h3>
@@ -31,7 +31,7 @@
                 </a>
             </div>
             <div class="col-4 px-2 info-box-parent">
-                <a class="btn-box" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus Proyek","text":"Hapus proyek {{$data['name']}} ?", "actionUrl":"{{route('project.delete', ["id" => $data['id']])}}","delete":"Hapus Proyek", "cancel":"Batalkan"}'>
+                <a class="btn-box" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus Proyek","text":"Hapus proyek {{$data['name']}} ?", "actionUrl":"{{route('project.delete', ["id" => $data['id']])}}","delete":"Hapus Proyek", "cancel":"Batalkan","redirectAfter":"{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}","pjax-container":"#mr"}'>
                     <div class="info-box">
                         <div class="info-box-inner">
                             <h3 class="text-secondary">Hapus</h3>

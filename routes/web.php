@@ -53,7 +53,7 @@ Route::group(['prefix' => 'project'], function () {
     Route::get('browse/{category}', 'ProjectController@index')->name('project.browse');
     Route::get('details/{slug}', 'ProjectController@show')->name('project.show');
     Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
-    Route::post('update/{id}', 'ProjectController@update')->name('project.update');
+    Route::put('update/{id}', 'ProjectController@update')->name('project.update');
     Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
     Route::get('create', 'ProjectController@create')->name('project.create');
     Route::post('store', 'ProjectController@store')->name('project.store');

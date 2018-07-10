@@ -5,7 +5,7 @@
             var url     = $(e.relatedTarget).attr('href'),
                 md      = $('.modal-dialog');
                 data    = $(e.relatedTarget).data('modal');
-            // console.log(data);
+            
             $(".modal-title").text(data['title']);
 
             md.removeClass('modal-lg');
@@ -29,7 +29,10 @@
         resetBtn();
 
         if(data['delete']) {
-            $("#mbtn-delete").attr('href', data['actionUrl']);
+            $("#mbtn-delete").on('click', function(e){
+                e.preventDefault();
+                deleteData(data);
+            });
             $("#mbtn-delete").html("<i class='far fw fa-trash-alt'></i> " + data['delete']);
             $("#mbtn-delete").show(100);
         }
@@ -68,14 +71,27 @@
         var form    = $('#modal form'),
             action  = data['actionUrl'],
             data    = form.serialize();
-        
+
         $.ajax({
             url : action,
             type: "POST",
             data: data,
-            success: function(data) {
-                $('#modal').modal('hide');
-                $.pjax.reload('#mr')
+            success: function(response) {
+                if(response.errors) {
+                    resetFeedback();
+                    getFeedback(response.errors);
+                } 
+
+                if(response.success) {
+                    $.pjax.reload('#mr');
+                    $('#modal').modal('hide');
+                    swal({
+                        type: 'success',
+                        title: response.success,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             },
             error: function(response){
                 alert(response);
@@ -83,9 +99,61 @@
         });
     }
 
+    function getFeedback(errors) {
+        var inputs = $('input:not([type="submit"]), textarea');
+        $.each(errors, function(index, value){
+            $('#'+index).parent().append('<div class="invalid-feedback">'+value+'</div>');
+            $('#'+index).addClass('is-invalid');
+        });
+    }
+
+    function resetFeedback(){
+        var inputs = $('input:not([type="submit"]), textarea');
+        $.each(inputs, function(){
+            $(this).siblings('.invalid-feedback').remove();
+            $(this).removeClass('is-invalid');
+        });
+    }
+
+    function deleteData(data){
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: data['actionUrl'],
+            type: "POST",
+            data: {'_method' : 'DELETE', '_token': csrf_token},
+            success: function(response) {
+                if(response.success) {
+                    $('#modal').modal('hide');
+                    $('#modal').on('hidden.bs.modal', function(){
+                        swal({
+                            type: 'success',
+                            title: response.success,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    });
+                    $.pjax({url:data['redirectAfter'], container:data['pjax-container']})
+                }
+
+                if(response.errors) {
+                    $('#modal').modal('hide');
+                    $('#modal').on('hidden.bs.modal', function(){
+                        swal({
+                            type: 'error',
+                            title: response.errors,
+                            showConfirmButton: true
+                        });
+                    });
+                }
+                
+            }
+        })
+    }
+
     $.fn.activeteSummernote = function() {
         $("#modal").on("shown.bs.modal", function(e) {
             $('.the-summernote').summernote();
         });
     }
+
 }(jQuery));

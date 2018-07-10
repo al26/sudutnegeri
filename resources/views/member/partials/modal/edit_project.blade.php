@@ -1,4 +1,5 @@
 <form method="POST">
+    @method('PUT')
     @csrf
     <div class="form-section">
         <div class="fs-head"><span class="fs-head-text">Data Proyek</span></div>

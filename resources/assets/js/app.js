@@ -13,6 +13,7 @@ require('jquery-pjax');
 require('./components/modal');
 require('./main');
 
+window.swal = require('sweetalert2');
 window.Vue = require('vue');
 
 /**
