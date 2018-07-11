@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- <h1>{{$cek}}</h1> --}}
 <div class="container">
     <section class="m-topcard mt-3">
         <div class="card border-0">
@@ -17,11 +18,11 @@
                 </div>
             </div>
             <div id="p-pic-container" class="text-center">
-                <img id="p-pic" class="card-img-bottom img-thumbnail" src="{{asset('storage/profile_pictures/'.Auth::user()->profile->profile_picture)}}" alt="Profile Picture">
+                <img id="p-pic" class="card-img-bottom img-thumbnail" src="{{asset('storage/profile_pictures/'.$user_profile->profile_picture)}}" alt="Profile Picture">
                 <a id="p-pic-overlay" class="text-white decoration-none" href=""><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
             </div>
             <div id="p-data" class="card-img-overlay">
-                <span class="--text _head">{{Auth::user()->profile->name}} <i class="far fw fa-check-square" data-fa-transform="grow-3"></i></span>
+                <span class="--text _head">{{$user_profile->name}} <i class="far fw fa-check-square" data-fa-transform="grow-3"></i></span>
                 <span class="--text _sub">Tergabung Sejak : 3-6-2018 | Terakhir Online : 3-6-2018</span>
             </div>
         </div>
@@ -46,6 +47,7 @@
         toggleActiveMenuTab();
         toggleActiveContentTab();
         $(document).loadModal();
+        $(document).ajaxPagination();
         $(document).activeteSummernote();
         $('.the-summernote').summernote();
     });

@@ -11,6 +11,7 @@ require('./owl.carousel.min');
 require('./offCanvas');
 require('jquery-pjax');
 require('./components/modal');
+require('./ajaxPagination');
 require('./main');
 
 window.swal = require('sweetalert2');

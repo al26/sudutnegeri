@@ -49,6 +49,11 @@ body {
     }
 }
 
+.card-deck {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
 @mixin custom-tab {
     .nav-tabs {
         border-bottom: 1px solid $gray-300;

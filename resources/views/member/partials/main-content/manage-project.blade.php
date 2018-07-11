@@ -1,7 +1,10 @@
 <div class="card">
     <div class="card-body">
         <div class="form-section">
-            <div class="fs-head"><span class="fs-head-text">Kelola Proyek {{$data['project_name']}}</span></div>
+            <div class="fs-head">
+                <span class="fs-head-text">Kelola Proyek {{$data['project_name']}}</span>
+                <a href="#" class="btn btn-sm btn-primary float-right" onclick="history.back();return false;"><i class="fas fw fa-arrow-left"></i> Kembali</a>
+            </div>
         </div>
         <div class="row section-content">
             <div class="col-4 px-2 info-box-parent">

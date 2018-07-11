@@ -76,10 +76,10 @@
 
     </div>
     <div class="container">
-        <div class="section-content">
-            <div class="row">
+        <div class="row section-content">
+            {{-- <div class="row"> --}}
                 @for ($i = 0; $i < 10; $i++)    
-                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 card-deck">
                         <div class="card m-0 mb-3">
                             <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
                             <div class="media campaigner">
@@ -136,7 +136,7 @@
                         </div>
                     </div>
                 @endfor
-            </div>
+            {{-- </div> --}}
             
         </div>
     </div>
