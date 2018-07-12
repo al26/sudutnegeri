@@ -49,17 +49,35 @@
                 </section>
             </div>
         </div> --}}
+        @php
+            $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
+            $progressRelawan = round(($project->volunteer_applied / $project->volunteer_spot) * 100);
+
+            date_default_timezone_set('Asia/Jakarta');
+
+            $today = new DateTime('now');
+            $deadline = new DateTime($project->deadline);
+            $remainingDays = $today->diff($deadline)->format('%d hari'); 
+            $remainingHours = $today->diff($deadline)->format('%h jam'); 
+
+            if($remainingDays <= 0) {
+                $remainingDays = $remainingHours;
+            }
+            if($remainingDays <= 0 && $remainingHours < 0) {
+                $remainingDays = "Proyek berakhir";
+            }
+        @endphp
         <div class="row">
             <div class="col-12 col-lg-4 sticky-side-info --container --left order-2 order-lg-1">
                 <div id="sticky--">
                     <section class="card --content mb-lg-3 info-donasi">
                         <div class="card-body">
-                            <span class="--text text-capitalize">terkumpul 70%</span>
-                            <span class="--text _head text-capitalize">Rp 490.000.000</span>
+                            <span class="--text text-capitalize">terkumpul {{$progressDana}}%</span>
+                            <span class="--text _head text-capitalize">{{$project->funding_progress}}</span>
                             <div class="progress">
-                                <div class="progress-bar" style="width: 70%"></div>
+                                <div class="progress-bar" style="width: {{$progressDana}}%"></div>
                             </div>
-                            <span class="--text text-capitalize">target Rp 700.000.000</span>                            
+                            <span class="--text text-capitalize">target {{$project->funding_target}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
                             <a href="" class="btn btn-small btn-secondary text-capitalize w-100">Mulai Investasi</a>
@@ -67,7 +85,7 @@
                     </section>
                     <section class="card --content mb-lg-3 info-relawan">
                         <div class="card-body">
-                            <span class="--text text-capitalize">10 relawan</span>
+                            <span class="--text text-capitalize">{{$project->volunteer_applied}} relawan</span>
                             <div id="volunteer-carousel" class="owl-carousel owl-theme my-2">
                                 @for ($i = 1; $i < 9; $i++)
                                     <div class="item">                                            
@@ -75,7 +93,7 @@
                                     </div>
                                 @endfor
                             </div>
-                            <span class="--text text-capitalize">target 20</span>                            
+                            <span class="--text text-capitalize">target {{$project->volunteer_spot}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
                             <a href="" class="btn btn-small btn-danger text-capitalize w-100">Jadi Relawan</a>
@@ -89,14 +107,14 @@
                         <img src="http://via.placeholder.com/800x500" alt="Project Image" class="img-thumbnail img-fluid">
                     </div>
                     <div class="--headline">
-                        <span class="--text _head">Lorem ipsum dolor, sit amet consectetur adipisicing elit</span>
+                        <span class="--text _head">{{$project->project_name}}</span>
                     </div>
                     <div class="--author">
                         <div class="media">
-                            <img class="mr-3" src="http://via.placeholder.com/50x50" alt="Generic placeholder image" width="50">
+                            <img class="mr-3" src="{{asset('storage/profile_pictures/'.$project->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
                             <div class="media-body">
                                 <p class="mb-2">Campaigner</p>
-                                <h5 class="mb-0">Nama Campaigner</h5>
+                                <h5 class="mb-0">{{$project->user->profile->name}}</h5>
                             </div>
                         </div>
                     </div>
@@ -124,26 +142,21 @@
                         </ul>
                     </nav> --}}
                     <nav id="h-project-nav" class="navbar navbar-expand-sm bg-white navbar-dark p-0 m-0">
-                        <div class="nav nav-tabs owl-carousel" id="myTab" role="tablist">
-                            <div class="item " role="presentation">
+                        <div class="nav nav-tabs" id="myTab" role="tablist">
                                 <a class="nav-item nav-link active" id="detil-tab" data-toggle="tab" href="#detil" role="tab" aria-controls="detil" aria-selected="true">Detil</a>
-                            </div>
-                            <div class="item" role="presentation">
+                            
                                 <a class="nav-item nav-link" id="updates-tab" data-toggle="tab" href="#updates" role="tab" aria-controls="updates" aria-selected="true">Data Historis</a>
-                            </div>
-                            <div class="item" role="presentation">
+                            
                                 <a class="nav-item nav-link" id="sinegeri-tab" data-toggle="tab" href="#sinegeri" role="tab" aria-controls="sinegeri" aria-selected="false">Si Negeri Peduli</a>
-                            </div>
-                            <div class="item" role="presentation">
+                            
                                 <a class="nav-item nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">F A Q</a>
-                            </div>
                         </div>
                     </nav>
                 </section>
                 <section class="card --content">
                     <div class="tab-content clearfix p-3 pt-4" id="myTabContent">
                         <div class="tab-pane fade show active" id="detil" role="tabpanel" aria-labelledby="detil-tab">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste nisi incidunt ab, provident unde officia soluta voluptas quos! Recusandae, nulla? Ipsum itaque ullam a accusantium, quisquam enim est facilis obcaecati.
+                            {!! $project->description !!}
                         </div>
                         <div class="tab-pane fade" id="updates" role="tabpanel" aria-labelledby="updates-tab">
                             <div class="timeline">
@@ -460,11 +473,11 @@ $(document).ready(function(){
         bootstrapVersion: 4,
     }); --}}
 
-    $('#myTab').owlCarousel({
+    {{-- $('#myTab').owlCarousel({
         margin:0,
         loop:false,
         autoWidth:true,
         items:4
-    });
+    }); --}}
 })
 @endsection

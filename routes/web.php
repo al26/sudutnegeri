@@ -57,6 +57,9 @@ Route::group(['prefix' => 'project'], function () {
     Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
     Route::get('create', 'ProjectController@create')->name('project.create');
     Route::post('store', 'ProjectController@store')->name('project.store');
+
+    Route::resource('history', 'DataHistorisController');
+    Route::get('history/create/{projectId?}', 'DataHistorisController@create')->name('history.create');
 });
 
 Route::group(['prefix' => 'component'], function () {

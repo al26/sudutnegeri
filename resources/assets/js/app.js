@@ -12,6 +12,7 @@ require('./offCanvas');
 require('jquery-pjax');
 require('./components/modal');
 require('./ajaxPagination');
+require('./countdown');
 require('./main');
 
 window.swal = require('sweetalert2');

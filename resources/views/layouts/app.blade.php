@@ -147,7 +147,7 @@
             </div>
         </nav>
 
-        <main id="main-content">
+        <main id="main-content" data-pjax-container>
             @yield('content')
         </main>
 

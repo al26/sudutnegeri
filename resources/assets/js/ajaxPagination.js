@@ -8,15 +8,32 @@
             $(this).parent().siblings().removeClass('active');
             $(this).parent().addClass('active');
             
-            window.history.pushState("", "", url);
-            $.ajax({
-                url : url  
-            }).done(function (data) {
-                $.pjax.reload('#mr');
-            }).fail(function () {
-                alert('Articles could not be loaded.');
-            });
+            $(this).redireload(url);
+            
         });
+
+        $('body').on('click', '.pagination .page-item.active', function(e) {
+            e.preventDefault();
+        });
+    }
+
+    $.fn.redireload = function(url) {
+        window.history.pushState("", "", url);
+        $.ajax({
+            url : url  
+        }).done(function (data) {
+            $.pjax.reload('#mr');
+        }).fail(function () {
+            alert('An error occured');
+        });
+    }
+
+    $.fn.setBackUrl = function() {
+        backUrl = document.location.href;
+    }
+
+    $.fn.getBackUrl = function() {
+        return backUrl;
     }
 
 }(jQuery));

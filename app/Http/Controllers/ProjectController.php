@@ -8,6 +8,9 @@ use App\Project;
 
 class ProjectController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['auth'])->except(['index', 'show']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +18,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('explore');
+        $data['projects'] = Project::paginate(6); 
+        return view('explore', $data);
     }
 
     /**
@@ -66,12 +70,17 @@ class ProjectController extends Controller
         ];
         $data = $request->data;
         
+        // die(var_dump($data["deadline"]));
+
         $validator = Validator::make($data, $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             $return = ["errors" => $validator->messages()];
         } else {
             $data["project_slug"] = md5($request->data['project_name']);
+            date_default_timezone_set('Asia/Jakarta');
+            $data["deadline"] = date_create_from_format('Y-m-d', $request->data['deadline'])->format('Y-m-d H:i:s');
+            
             $store = Project::create($data);
             if($store) {
                 $return = ["success" => "Proyek baru berhasil dibuat"];
@@ -91,7 +100,8 @@ class ProjectController extends Controller
      */
     public function show($slug)
     {
-        return view('details');
+        $data['project'] = Project::where('project_slug', $slug)->first();
+        return view('details', $data);
     }
 
     /**

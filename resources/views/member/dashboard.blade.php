@@ -42,6 +42,7 @@
 </div>
 @endsection
 @section('script')
+    {{-- var backUrl = null; --}}
     $(document).ready(function() {
         $('#example').DataTable();
         toggleActiveMenuTab();
@@ -98,4 +99,27 @@
         });
         $('#m-'+menu[2]+'-'+menu[3]).addClass('active');
     }
+
+    {{-- function setBackUrl() {
+        backUrl = document.location.href;
+        console.log(backUrl);
+    }
+
+    function getBackUrl() {
+        return backUrl;
+    } --}}
+
+    {{-- function goBack(url) {
+        
+    } --}}
+
+    {{-- function loadCountDown() {
+        var path = document.location.pathname,
+            menu = path.split("/"),
+            container = $('#remainingTime');
+        
+        if(menu[2] == 'sudut' || menu[3] == 'projects') {
+            container.countRemainingTime({{!empty($today) ? $today->format('Y-m-d H:i:s') : ""}}, {{!empty($deadline) ? $deadline->format('Y-m-d H:i:s') : ""}}, "Proyek berakhir");
+        }
+    } --}}
 @endsection

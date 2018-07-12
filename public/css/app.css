@@ -12558,6 +12558,64 @@ div#myCard {
   border-bottom: 0;
 }
 
+.d-campaigns .card:hover ~ .cml, .d-campaigns .card-img-top:hover ~ .cml, .d-campaigns .card-body:hover ~ .cml, .d-campaigns .card-footer:hover ~ .cml, .d-campaigns .project-needs:hover ~ .cml, .d-campaigns .list-group:hover ~ .cml, .d-campaigns .list-group-item:hover ~ .cml, .d-campaigns .media:hover ~ .cml, .d-campaigns .campaigner:hover ~ .cml, .d-campaigns .campaigner img:hover ~ .cml, .d-campaigns .media-body:hover ~ .cml {
+  visibility: visible;
+}
+
+.d-campaigns .cml {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(42, 93, 111, 0.8);
+  text-align: center;
+  font-size: 2rem;
+  text-decoration: none;
+  font-weight: bolder;
+  visibility: hidden;
+}
+
+.d-campaigns .cml:hover {
+  visibility: visible;
+}
+
+.d-campaigns .cml span {
+  position: relative;
+  width: 100%;
+  top: 30%;
+}
+
+.d-campaigns .cal {
+  z-index: 10;
+  width: 100%;
+  min-height: 20rem;
+  background: inherit;
+  text-align: center;
+  color: #2A5D6F;
+  font-size: 2rem;
+  text-decoration: none;
+  font-weight: bolder;
+  padding: 8rem 0;
+}
+
+.d-campaigns .cal:hover {
+  background: #2a5d6f;
+  color: #ffffff;
+}
+
+.d-campaigns .cal span {
+  position: relative;
+  width: 100%;
+  top: 30%;
+}
+
+.d-campaigns .cal:focus {
+  outline: 0 !important;
+  border: 0 !important;
+}
+
 .m-topcard #p-cover {
   max-height: 20rem !important;
 }
@@ -12651,62 +12709,4 @@ div#myCard {
 
 #user-connect li .sns-overlay:hover {
   visibility: visible;
-}
-
-.d-campaigns .card:hover ~ .cml, .d-campaigns .card-img-top:hover ~ .cml, .d-campaigns .card-body:hover ~ .cml, .d-campaigns .card-footer:hover ~ .cml, .d-campaigns .project-needs:hover ~ .cml, .d-campaigns .list-group:hover ~ .cml, .d-campaigns .list-group-item:hover ~ .cml {
-  visibility: visible;
-}
-
-.d-campaigns .cml {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(42, 93, 111, 0.8);
-  text-align: center;
-  font-size: 2rem;
-  text-decoration: none;
-  font-weight: bolder;
-  visibility: hidden;
-}
-
-.d-campaigns .cml:hover {
-  visibility: visible;
-}
-
-.d-campaigns .cml span {
-  position: relative;
-  width: 100%;
-  top: 30%;
-}
-
-.d-campaigns .cal {
-  z-index: 2;
-  width: 100%;
-  min-height: 20rem;
-  background: inherit;
-  text-align: center;
-  color: #2A5D6F;
-  font-size: 2rem;
-  text-decoration: none;
-  font-weight: bolder;
-  padding: 8rem 0;
-}
-
-.d-campaigns .cal:hover {
-  background: #2a5d6f;
-  color: #ffffff;
-}
-
-.d-campaigns .cal span {
-  position: relative;
-  width: 100%;
-  top: 30%;
-}
-
-.d-campaigns .cal:focus {
-  outline: 0 !important;
-  border: 0 !important;
 }

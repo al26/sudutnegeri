@@ -21,12 +21,22 @@
                 @php
                     $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
                     $progressRelawan = round(($project->volunteer_applied / $project->volunteer_spot) * 100);
-                    $now = time();
-                    $deadline = strtotime($project->deadline);
-                    $remainingDays = round(($deadline - $now) / (60 * 60 * 24));
-                    $remainingHours = round(($deadline - $now) / (60 * 60));
-                    if($remainingDays < 0) {
-                        $remainingDays = "Proyek Selesai";
+                    // $now = time();
+                    // $deadline = strtotime($project->deadline);
+                    // $remainingDays = round(($deadline - $now) / (60 * 60 * 24));
+                    // $remainingHours = round(($deadline - $now) / (60 * 60));
+                    date_default_timezone_set('Asia/Jakarta');
+
+                    $today = new DateTime('now');
+                    $deadline = new DateTime($project->deadline);
+                    $remainingDays = $today->diff($deadline)->format('%d hari'); 
+                    $remainingHours = $today->diff($deadline)->format('%h jam'); 
+
+                    if($remainingDays <= 0) {
+                        $remainingDays = $remainingHours;
+                    }
+                    if($remainingDays <= 0 && $remainingHours < 0) {
+                        $remainingDays = "Proyek berakhir";
                     }
                 @endphp
                 <div class="d-campaigns col-12 col-sm-6 col-lg-4 card-deck">
@@ -61,12 +71,12 @@
                                     <p class="mb-0">{{$project->location}}</p>
                                 </div>
                                 <div class="col-6 text-right">
-                                    <p class="mb-0"><small>Sisa Hari</small></p>
-                                    <p class="mb-0">{{$remainingDays}}</p>
+                                    <p class="mb-0"><small>Sisa Waktu</small></p>
+                                    <p class="mb-0" id="remainingTime">{{$remainingDays}}</p>
                                 </div>
                             </div>				      	
                         </div>
-                        <a class="cml text-white" data-toggle="pjax" data-pjax="main-content" href="{{route('manage.project', ['slug' => $project->project_slug])}}">
+                        <a class="cml text-white" data-toggle="pjax" data-pjax="main-content" href="{{route('manage.project', ['slug' => $project->project_slug])}}" onclick="javascript:$(this).setBackUrl();">
                             <span>
                                 <i class="fas fa-cogs fa-2x"></i><br>
                                 Kelola <br>Project

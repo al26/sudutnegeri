@@ -72,6 +72,7 @@
             action  = data['actionUrl'],
             data    = form.serialize();
 
+            console.log(data);
         $.ajax({
             url : action,
             type: "POST",
@@ -80,6 +81,7 @@
                 if(response.errors) {
                     resetFeedback();
                     getFeedback(response.errors);
+                    console.log(response.errors);
                 } 
 
                 if(response.success) {
@@ -91,6 +93,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    console.log(response.success);
                 }
             },
             error: function(response){

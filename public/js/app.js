@@ -23506,6 +23506,7 @@ __webpack_require__(45);
 __webpack_require__(46);
 __webpack_require__(47);
 __webpack_require__(48);
+__webpack_require__(64);
 __webpack_require__(49);
 
 window.swal = __webpack_require__(50);
@@ -74564,6 +74565,7 @@ if ($.support.pjax) {
             action = data['actionUrl'],
             data = form.serialize();
 
+        console.log(data);
         $.ajax({
             url: action,
             type: "POST",
@@ -74572,6 +74574,7 @@ if ($.support.pjax) {
                 if (response.errors) {
                     resetFeedback();
                     getFeedback(response.errors);
+                    console.log(response.errors);
                 }
 
                 if (response.success) {
@@ -74583,6 +74586,7 @@ if ($.support.pjax) {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    console.log(response.success);
                 }
             },
             error: function error(response) {
@@ -74662,15 +74666,31 @@ if ($.support.pjax) {
             $(this).parent().siblings().removeClass('active');
             $(this).parent().addClass('active');
 
-            window.history.pushState("", "", url);
-            $.ajax({
-                url: url
-            }).done(function (data) {
-                $.pjax.reload('#mr');
-            }).fail(function () {
-                alert('Articles could not be loaded.');
-            });
+            $(this).redireload(url);
         });
+
+        $('body').on('click', '.pagination .page-item.active', function (e) {
+            e.preventDefault();
+        });
+    };
+
+    $.fn.redireload = function (url) {
+        window.history.pushState("", "", url);
+        $.ajax({
+            url: url
+        }).done(function (data) {
+            $.pjax.reload('#mr');
+        }).fail(function () {
+            alert('An error occured');
+        });
+    };
+
+    $.fn.setBackUrl = function () {
+        backUrl = document.location.href;
+    };
+
+    $.fn.getBackUrl = function () {
+        return backUrl;
     };
 })(jQuery);
 
@@ -89651,6 +89671,50 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */
+/***/ (function(module, exports) {
+
+(function ($) {
+    $.fn.countRemainingTime = function (now, countDownDate, expiryMsg) {
+        var container = $(this).data();
+        setInterval(function () {
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor(distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+            var minutes = Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
+            var seconds = Math.floor(distance % (1000 * 60) / 1000);
+
+            container.innerHTML = days + " hari";
+
+            if (days <= 0) {
+                container.innerHTML = hours + " jam";
+            }
+
+            if (days <= 0 && hours <= 0) {
+                container.innerHTML = minutes + " menit";
+            }
+
+            if (days <= 0 && hours <= 0 && minutes <= 0) {
+                container.innerHTML = seconds + " detik";
+            }
+
+            if (distance < 0) {
+                clearInterval(x);
+                container.innerHTML = expiryMsg;
+            }
+        }, 1000);
+    };
+})(jQuery);
 
 /***/ })
 /******/ ]);

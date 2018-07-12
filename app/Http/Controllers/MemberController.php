@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Project;
+use App\Data_historis As History;
 
 class MemberController extends Controller
 {
@@ -39,7 +40,9 @@ class MemberController extends Controller
     public function manageProject(Request $request, $slug) {
         $data['user_profile']  = $request->user()->profile;
         $data['data'] = Project::where("project_slug",$slug)->first();
-        // dd($data['id']);
+        $project_id = $data['data']['id'];
+        $data['historis'] = History::where('project_id', $project_id)->get(); 
+        // dd($data);
         return view('member.dashboard', ['menu' => 'sudut', 'section' => 'manage-project'], $data);
     }
 }
