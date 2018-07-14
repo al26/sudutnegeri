@@ -63,13 +63,23 @@ body {
             // border-bottom: 1px solid $gray-300;
             transition: border-width .25s ease;
 
-            &.active, &:hover {
+            &.active {
                 border: none;
                 background: inherit;
                 border-bottom: 2px solid $secondary;
                 color: $secondary;
                 font-weight: bolder;
+                &:hover {                    
+                    border-bottom: 2px solid $secondary;
+                }
+            }
 
+            &:hover {
+                border: none;
+                background: inherit;
+                border-bottom: none;
+                color: $secondary;
+                font-weight: bolder;
             }
         }
     }

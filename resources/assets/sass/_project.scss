@@ -331,128 +331,128 @@
 			display: block;
 			min-height: 20rem;
 		}
-
-		.timeline {
-			position: relative;
-			width: 100%;
-			float: left;
-			position: relative;
-			margin-top: 0;
-			margin-top: .25rem;
-		
-			.line {
+	}
+	
+	.timeline {
+		position: relative;
+		width: 100%;
+		float: left;
+		position: relative;
+		margin-top: 0;
+		margin-top: .25rem;
+	
+		.line {
+			position: absolute;
+			width: .2rem;
+			display: block;
+			top: 1.5rem;
+			bottom: 0;
+			background: $secondary;
+	
+			&::before {
+				top: -2px;
+			}
+	
+			&::after {
+				bottom: -2px;
+			}
+	
+			&::before, &::after {
+				content: '';
 				position: absolute;
-				width: .2rem;
+				left: -6px;
+				width: 0;
+				height: 0;
 				display: block;
-				top: 1.5rem;
-				bottom: 0;
-				background: $secondary;
-		
-				&::before {
-					top: -2px;
-				}
-		
-				&::after {
-					bottom: -2px;
-				}
-		
-				&::before, &::after {
-					content: '';
-					position: absolute;
-					left: -6px;
-					width: 0;
-					height: 0;
-					display: block;
-					border-radius: 50%;
-					background: #0039A6;
-				}
+				border-radius: 50%;
+				background: #0039A6;
+			}
 
+		}
+	
+		.separator {
+			border-top: 1px solid #0039A6;
+			padding: 5px;
+			padding-left: 40px;
+			font-style: italic;
+			font-size: .9em;
+			margin-left: 30px;
+		}
+	
+		.card {
+			position: relative;
+			clear: both;
+			margin: 0 auto;
+			padding: 1rem 0 0 1rem;
+			background: none;
+			width: 100%;
+	
+			&::before {
+				position: absolute;
+				display: block;
+				top: 8px;
+				left: -24px;
+				content: '';
+				width: 0px;
+				height: 0px;
+				border: inherit;
+				border-width: 12px;
+				border-top-color: transparent;
+				border-bottom-color: transparent;
+				border-left-color: transparent;
 			}
-		
-			.separator {
-				border-top: 1px solid #0039A6;
-				padding: 5px;
-				padding-left: 40px;
-				font-style: italic;
-				font-size: .9em;
-				margin-left: 30px;
-			}
-		
-			.card {
-				position: relative;
-				clear: both;
-				margin: 0 auto;
-				padding: 1rem 0 0 1rem;
-				background: none;
-				width: 100%;
-		
-				&::before {
+	
+			.card-heading {
+				.icon {
 					position: absolute;
-					display: block;
-					top: 8px;
-					left: -24px;
-					content: '';
-					width: 0px;
-					height: 0px;
-					border: inherit;
-					border-width: 12px;
-					border-top-color: transparent;
-					border-bottom-color: transparent;
-					border-left-color: transparent;
-				}
-		
-				.card-heading {
-					.icon {
-						position: absolute;
-						left: -1.165rem;
-						width: 2.5rem;
-						height: 2.5rem;
-						padding: 0;
-						text-align: center;
-						float: left;
-		
-						.fa-dot-circle {
-							color: $secondary;
-							font-size: 1.5em;
-							z-index: 2;
-							background: $white;
-						}
-					}
-				}
-		
-				.card-body {
-					img {
-						max-width: 100%;
-						height: auto;
-						margin-bottom: .5rem;
+					left: -1.165rem;
+					width: 2.5rem;
+					height: 2.5rem;
+					padding: 0;
+					text-align: center;
+					float: left;
+	
+					.fa-dot-circle {
+						color: $secondary;
+						font-size: 1.5em;
+						z-index: 2;
+						background: $white;
 					}
 				}
 			}
-		
-			.card-outline {
-				border-color: transparent;
-				background: transparent;
-				box-shadow: none;
-		
-				.card-body {
-					padding: 10px 0px;
+	
+			.card-body {
+				img {
+					max-width: 100%;
+					height: auto;
+					margin-bottom: .5rem;
 				}
 			}
-		
-			.card-default {
+		}
+	
+		.card-outline {
+			border-color: transparent;
+			background: transparent;
+			box-shadow: none;
+	
+			.card-body {
+				padding: 10px 0px;
+			}
+		}
+	
+		.card-default {
+			border: 0;
+			
+			> .card-heading {
 				border: 0;
-				
-				> .card-heading {
-					border: 0;
-					background: none;
-					font-weight: 400;
-		
-					+ .card-collapse {
-						> .card-body {
-							border-top: 0;
-							padding-top: 0;
-							border-bottom: 0;
-						}
+				background: none;
+				font-weight: 400;
+	
+				+ .card-collapse {
+					> .card-body {
+						border-top: 0;
+						padding-top: 0;
+						border-bottom: 0;
 					}
 				}
 			}

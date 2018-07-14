@@ -42,84 +42,86 @@
 </div>
 @endsection
 @section('script')
-    {{-- var backUrl = null; --}}
-    $(document).ready(function() {
-        $('#example').DataTable();
-        toggleActiveMenuTab();
-        toggleActiveContentTab();
-        $(document).loadModal();
-        $(document).ajaxPagination();
-        $(document).activeteSummernote();
-        $('.the-summernote').summernote();
-    });
-
-    $(document).pjax('a[data-pjax=menu]', '#mc');
-    $('#mc').on('pjax:send', function() {
-        toggleActiveMenuTab();
-        toggleActiveContentTab();
-    });
-
-    $(document).pjax('a[data-pjax=main-content]', '#mr');
-    $('#mr').on('pjax:send', function() {
-        toggleActiveContentTab();
-    });
-
-    $('#mc, #mr').on('pjax:complete', function() {
-        reactivateSelectPicker();
-        $('#example').DataTable();
-    });
-
-    $('.dsp').selectpicker();     
-    
-    function reactivateSelectPicker() {
-        $('.dsp').selectpicker('render');
-        $('.dsp').selectpicker('refresh');
-    }
-
-    function toggleActiveMenuTab() {
-        var path = document.location.pathname,
-            menu = path.split("/");
-        $('#h-menu a').each(function() {
-            if($(this).hasClass('active')) {
-                $(this).removeClass('active');
-            }
+    <script>
+        {{-- var backUrl = null; --}}
+        $(document).ready(function() {
+            $('#example').DataTable();
+            toggleActiveMenuTab();
+            toggleActiveContentTab();
+            $(document).loadModal();
+            $(document).ajaxPagination();
+            $(document).activeteSummernote();
+            $('.the-summernote').summernote();
         });
-        $('#m-'+menu[2]).addClass('active');
-        $('.dsp').selectpicker('render');
-        $('.dsp').selectpicker('refresh');
-    }
 
-    function toggleActiveContentTab() {
-        var path = document.location.pathname,
-            menu = path.split("/");
-        $('#'+menu[2]+'-menu a').not('#m-'+menu[2]+'-'+menu[3]).each(function() {
-            if($(this).hasClass('active')) {
-                $(this).removeClass('active');
-            }
+        $(document).pjax('a[data-pjax=menu]', '#mc');
+        $('#mc').on('pjax:send', function() {
+            toggleActiveMenuTab();
+            toggleActiveContentTab();
         });
-        $('#m-'+menu[2]+'-'+menu[3]).addClass('active');
-    }
 
-    {{-- function setBackUrl() {
-        backUrl = document.location.href;
-        console.log(backUrl);
-    }
+        $(document).pjax('a[data-pjax=main-content]', '#mr');
+        $('#mr').on('pjax:send', function() {
+            toggleActiveContentTab();
+        });
 
-    function getBackUrl() {
-        return backUrl;
-    } --}}
+        $('#mc, #mr').on('pjax:complete', function() {
+            reactivateSelectPicker();
+            $('#example').DataTable();
+        });
 
-    {{-- function goBack(url) {
+        $('.dsp').selectpicker();     
         
-    } --}}
-
-    {{-- function loadCountDown() {
-        var path = document.location.pathname,
-            menu = path.split("/"),
-            container = $('#remainingTime');
-        
-        if(menu[2] == 'sudut' || menu[3] == 'projects') {
-            container.countRemainingTime({{!empty($today) ? $today->format('Y-m-d H:i:s') : ""}}, {{!empty($deadline) ? $deadline->format('Y-m-d H:i:s') : ""}}, "Proyek berakhir");
+        function reactivateSelectPicker() {
+            $('.dsp').selectpicker('render');
+            $('.dsp').selectpicker('refresh');
         }
-    } --}}
+
+        function toggleActiveMenuTab() {
+            var path = document.location.pathname,
+                menu = path.split("/");
+            $('#h-menu a').each(function() {
+                if($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                }
+            });
+            $('#m-'+menu[2]).addClass('active');
+            $('.dsp').selectpicker('render');
+            $('.dsp').selectpicker('refresh');
+        }
+
+        function toggleActiveContentTab() {
+            var path = document.location.pathname,
+                menu = path.split("/");
+            $('#'+menu[2]+'-menu a').not('#m-'+menu[2]+'-'+menu[3]).each(function() {
+                if($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                }
+            });
+            $('#m-'+menu[2]+'-'+menu[3]).addClass('active');
+        }
+
+        {{-- function setBackUrl() {
+            backUrl = document.location.href;
+            console.log(backUrl);
+        }
+
+        function getBackUrl() {
+            return backUrl;
+        } --}}
+
+        {{-- function goBack(url) {
+            
+        } --}}
+
+        {{-- function loadCountDown() {
+            var path = document.location.pathname,
+                menu = path.split("/"),
+                container = $('#remainingTime');
+            
+            if(menu[2] == 'sudut' || menu[3] == 'projects') {
+                container.countRemainingTime({{!empty($today) ? $today->format('Y-m-d H:i:s') : ""}}, {{!empty($deadline) ? $deadline->format('Y-m-d H:i:s') : ""}}, "Proyek berakhir");
+            }
+        } --}}
+    </script>
 @endsection

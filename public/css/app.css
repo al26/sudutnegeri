@@ -12425,10 +12425,22 @@ div#myCard {
   transition: border-width .25s ease;
 }
 
-.details .nav-tabs .nav-link.active, .details .nav-tabs .nav-link:hover {
+.details .nav-tabs .nav-link.active {
   border: none;
   background: inherit;
   border-bottom: 2px solid #2A5D6F;
+  color: #2A5D6F;
+  font-weight: bolder;
+}
+
+.details .nav-tabs .nav-link.active:hover {
+  border-bottom: 2px solid #2A5D6F;
+}
+
+.details .nav-tabs .nav-link:hover {
+  border: none;
+  background: inherit;
+  border-bottom: none;
   color: #2A5D6F;
   font-weight: bolder;
 }
@@ -12438,7 +12450,7 @@ div#myCard {
   min-height: 20rem;
 }
 
-.details .tab-content .timeline {
+.details .timeline {
   position: relative;
   width: 100%;
   float: left;
@@ -12447,7 +12459,7 @@ div#myCard {
   margin-top: .25rem;
 }
 
-.details .tab-content .timeline .line {
+.details .timeline .line {
   position: absolute;
   width: .2rem;
   display: block;
@@ -12456,15 +12468,15 @@ div#myCard {
   background: #2A5D6F;
 }
 
-.details .tab-content .timeline .line::before {
+.details .timeline .line::before {
   top: -2px;
 }
 
-.details .tab-content .timeline .line::after {
+.details .timeline .line::after {
   bottom: -2px;
 }
 
-.details .tab-content .timeline .line::before, .details .tab-content .timeline .line::after {
+.details .timeline .line::before, .details .timeline .line::after {
   content: '';
   position: absolute;
   left: -6px;
@@ -12475,7 +12487,7 @@ div#myCard {
   background: #0039A6;
 }
 
-.details .tab-content .timeline .separator {
+.details .timeline .separator {
   border-top: 1px solid #0039A6;
   padding: 5px;
   padding-left: 40px;
@@ -12484,7 +12496,7 @@ div#myCard {
   margin-left: 30px;
 }
 
-.details .tab-content .timeline .card {
+.details .timeline .card {
   position: relative;
   clear: both;
   margin: 0 auto;
@@ -12493,7 +12505,7 @@ div#myCard {
   width: 100%;
 }
 
-.details .tab-content .timeline .card::before {
+.details .timeline .card::before {
   position: absolute;
   display: block;
   top: 8px;
@@ -12508,7 +12520,7 @@ div#myCard {
   border-left-color: transparent;
 }
 
-.details .tab-content .timeline .card .card-heading .icon {
+.details .timeline .card .card-heading .icon {
   position: absolute;
   left: -1.165rem;
   width: 2.5rem;
@@ -12518,41 +12530,41 @@ div#myCard {
   float: left;
 }
 
-.details .tab-content .timeline .card .card-heading .icon .fa-dot-circle {
+.details .timeline .card .card-heading .icon .fa-dot-circle {
   color: #2A5D6F;
   font-size: 1.5em;
   z-index: 2;
   background: #fff;
 }
 
-.details .tab-content .timeline .card .card-body img {
+.details .timeline .card .card-body img {
   max-width: 100%;
   height: auto;
   margin-bottom: .5rem;
 }
 
-.details .tab-content .timeline .card-outline {
+.details .timeline .card-outline {
   border-color: transparent;
   background: transparent;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
 
-.details .tab-content .timeline .card-outline .card-body {
+.details .timeline .card-outline .card-body {
   padding: 10px 0px;
 }
 
-.details .tab-content .timeline .card-default {
+.details .timeline .card-default {
   border: 0;
 }
 
-.details .tab-content .timeline .card-default > .card-heading {
+.details .timeline .card-default > .card-heading {
   border: 0;
   background: none;
   font-weight: 400;
 }
 
-.details .tab-content .timeline .card-default > .card-heading + .card-collapse > .card-body {
+.details .timeline .card-default > .card-heading + .card-collapse > .card-body {
   border-top: 0;
   padding-top: 0;
   border-bottom: 0;

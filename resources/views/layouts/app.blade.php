@@ -288,8 +288,6 @@
         FontAwesomeConfig = { searchPseudoElements: true };
     </script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-        @yield('script')
-    </script>
+    @yield('script')
 </body>
 </html>

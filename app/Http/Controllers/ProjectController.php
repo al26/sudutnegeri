@@ -98,9 +98,13 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($slug, $menu = null)
     {
+        $data['slug'] = $slug;
+        $data['menu'] = $menu;
         $data['project'] = Project::where('project_slug', $slug)->first();
+        
+        // dd($data['project']->historis);
         return view('details', $data);
     }
 

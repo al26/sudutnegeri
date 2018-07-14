@@ -28,3 +28,5 @@ $(function() {
         mobile: true
     });
 });
+
+$.pjax.defaults.scrollTo = false;

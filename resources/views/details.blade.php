@@ -141,7 +141,7 @@
                             </li>
                         </ul>
                     </nav> --}}
-                    <nav id="h-project-nav" class="navbar navbar-expand-sm bg-white navbar-dark p-0 m-0">
+                    {{-- <nav id="h-project-nav" class="navbar navbar-expand-sm bg-white navbar-dark p-0 m-0">
                         <div class="nav nav-tabs" id="myTab" role="tablist">
                                 <a class="nav-item nav-link active" id="detil-tab" data-toggle="tab" href="#detil" role="tab" aria-controls="detil" aria-selected="true">Detil</a>
                             
@@ -151,10 +151,16 @@
                             
                                 <a class="nav-item nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">F A Q</a>
                         </div>
-                    </nav>
+                    </nav> --}}
+                    <div class="nav nav-tabs nav-fill w-100" id="h-project-nav">
+                        <a id="hpn-detail" class="nav-item nav-link p-3 active" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'detail'])}}">Detail</a>
+                        <a id="hpn-history" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'history'])}}">Data Historis</a>
+                        <a id="hpn-sinegeri" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'sinegeri'])}}">Si Negeri Peduli</a>
+                        <a id="hpn-faq" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'faq'])}}">FAQ</a>
+                    </div>
                 </section>
-                <section class="card --content">
-                    <div class="tab-content clearfix p-3 pt-4" id="myTabContent">
+                <section class="card --content" id="hpn-content" data-pjax-container>
+                    {{-- <div class="tab-content clearfix p-3 pt-4" id="myTabContent">
                         <div class="tab-pane fade show active" id="detil" role="tabpanel" aria-labelledby="detil-tab">
                             {!! $project->description !!}
                         </div>
@@ -257,6 +263,13 @@
                                 @endfor
                             </div>
                         </div>
+                    </div> --}}
+                    @php
+                        if (empty($menu)) $menu = "detail";
+                        $data['project'] = $project;
+                    @endphp
+                    <div class="card-body">
+                        @include("guest.partials.project_$menu", $data)
                     </div>
                 </section>
             </div>
@@ -395,57 +408,63 @@
 @endsection
 
 @section('script')
-
-$(document).ready(function(){
-    $(window).scroll(function(){
-        var tab_offset = $('.details').offset().top;
-        var sticky_offset = $('.sticky-side-info').offset().top;
-        var tab = $('#h-project-nav');
-        var content_width = tab.innerWidth();
-        var side_info = $('#sticky--');
-        var si_width = side_info.width();
-        {{-- var footer_pos = $('footer').offset().top; --}}
-
-        if ($(this).scrollTop() >= sticky_offset) {  
-            side_info.addClass('fixed');
-            side_info.width(si_width);
-        } else {
-            side_info.removeClass('fixed');
-        }
-
-        if ($(this).scrollTop() >= tab_offset) {
-            tab.addClass('fixed'); 
-            tab.width(content_width);
-        } else {
-            if (tab.hasClass('fixed')) {
-                tab.removeClass('fixed');
-            }
-        }
-
-        if (screen.width < 992 ) {
-            side_info.width('auto');
-            tab.width('100%');
-        }
+<script>
+    $(document).ready(function(){
+        toggleActiveMenuTab();
         
-        {{-- if (footer_pos < $(this).scrollTop()) --}}
+        $(window).scroll(function(){
+            var tab_offset = $('.details').offset().top;
+            var sticky_offset = $('.sticky-side-info').offset().top;
+            var tab = $('#h-project-nav');
+            var content_width = tab.innerWidth();
+            var side_info = $('#sticky--');
+            var si_width = side_info.width();
+            {{-- var footer_pos = $('footer').offset().top; --}}
 
-        console.log( "scrolltop :" + $(this).scrollTop() );
-        console.log( "tab offset :" + tab_offset );
-        console.log( "tab pos :" + tab.offset().top );
-        {{-- console.log( "footer :" + footer_pos ); --}}
-        console.log( "innerHeight :" + $(this).innerHeight() );
-        {{-- console.log( "content innerHeight :" + $('#myTabContent').innerHeight() ); --}}
-    });
+            if ($(this).scrollTop() >= sticky_offset) {  
+                side_info.addClass('fixed');
+                side_info.width(si_width);
+            } else {
+                side_info.removeClass('fixed');
+            }
 
-    $('#volunteer-carousel').owlCarousel({
-        margin:2,
-        nav:false,
-        dots:false,
-        autoWidth:true,
-        autoplay:true,
-        autoplayTimeout:1000,
-        autoplayHoverPause:true,
-        onInitialized: callback,
+            if ($(this).scrollTop() >= tab_offset) {
+                tab.addClass('fixed'); 
+                tab.width(content_width);
+            } else {
+                if (tab.hasClass('fixed')) {
+                    tab.removeClass('fixed');
+                }
+            }
+
+            if (screen.width < 992 ) {
+                side_info.width('auto');
+                tab.width('100%');
+            }
+            
+            {{-- if (footer_pos < $(this).scrollTop()) --}}
+
+            console.log( "scrolltop :" + $(this).scrollTop() );
+            console.log( "tab offset :" + tab_offset );
+            console.log( "tab pos :" + tab.offset().top );
+            {{-- console.log( "footer :" + footer_pos ); --}}
+            console.log( "innerHeight :" + $(this).innerHeight() );
+            {{-- console.log( "content innerHeight :" + $('#myTabContent').innerHeight() ); --}}
+        });
+
+        $('#volunteer-carousel').owlCarousel({
+            margin:2,
+            nav:false,
+            dots:false,
+            autoWidth:true,
+            autoplay:true,
+            autoplayTimeout:1000,
+            autoplayHoverPause:true,
+            onInitialized: callback,
+        });
+
+        $('#faq-accordion > .card').on('hidden.bs.collapse', toggleIcon);
+            $('#faq-accordion > .card').on('shown.bs.collapse', toggleIcon);
     });
 
     function callback(event) {
@@ -466,18 +485,21 @@ $(document).ready(function(){
             .toggleClass('fa-chevron-up fa-chevron-down');
     }
 
-    $('#faq-accordion > .card').on('hidden.bs.collapse', toggleIcon);
-    $('#faq-accordion > .card').on('shown.bs.collapse', toggleIcon);
+    $(document).pjax('a[data-pjax=hpn-menu]', '#hpn-content', {scrollTo:false});
 
-    {{-- $('#myTab').scrollingTabs({
-        bootstrapVersion: 4,
-    }); --}}
+    $('#hpn-content').on('pjax:send', function() {
+        toggleActiveMenuTab();
+    });
 
-    {{-- $('#myTab').owlCarousel({
-        margin:0,
-        loop:false,
-        autoWidth:true,
-        items:4
-    }); --}}
-})
+    function toggleActiveMenuTab() {
+        var path = document.location.pathname,
+            menu = path.split("/");
+        $('#h-project-nav a').each(function() {
+            if($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            }
+        });
+        $('#hpn-'+menu[4]).addClass('active');
+    }
+</script>
 @endsection

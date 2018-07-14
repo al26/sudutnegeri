@@ -51,7 +51,11 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::group(['prefix' => 'project'], function () {
     Route::get('browse/{category}', 'ProjectController@index')->name('project.browse');
-    Route::get('details/{slug}', 'ProjectController@show')->name('project.show');
+    Route::get('details/{slug}/{menu?}', 'ProjectController@show')
+            ->where(
+                ['menu'     => '(detail|history|sinegeri|faq)']
+            )
+            ->name('project.show');
     Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
     Route::put('update/{id}', 'ProjectController@update')->name('project.update');
     Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
