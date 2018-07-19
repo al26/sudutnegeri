@@ -19,12 +19,14 @@ class CreateProjectsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
             $table->string('project_name');
             $table->string('project_slug');
-            $table->text('description');
+            $table->text('project_description');
+            $table->string('project_location');
+            $table->dateTime('project_deadline');
             $table->unsignedInteger('funding_target');
             $table->unsignedInteger('funding_progress');
-            $table->unsignedInteger('volunteer_spot');
-            $table->unsignedInteger('volunteer_applied');
-            $table->string('project_banner')->default('avatar.jpg');
+            $table->unsignedInteger('volunteer_quota');
+            $table->unsignedInteger('registered_volunteer');
+            $table->string('project_banner');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- <h1>{{$cek}}</h1> --}}
 <div class="container">
     <section class="m-topcard mt-3">
         <div class="card border-0">
@@ -43,7 +42,6 @@
 @endsection
 @section('script')
     <script>
-        {{-- var backUrl = null; --}}
         $(document).ready(function() {
             $('#example').DataTable();
             toggleActiveMenuTab();
@@ -52,6 +50,16 @@
             $(document).ajaxPagination();
             $(document).activeteSummernote();
             $('.the-summernote').summernote();
+        });
+
+        $('#password-create').on('click', function(e){
+            e.preventDefault();
+            $('#form-account').ajaxCrudNonModal('#mr');
+        });
+
+        $('#profile-edit').on('click', function(e){
+            e.preventDefault();
+            $('#form-profile').ajaxCrudNonModal('#mr');
         });
 
         $(document).pjax('a[data-pjax=menu]', '#mc');
@@ -101,27 +109,6 @@
             $('#m-'+menu[2]+'-'+menu[3]).addClass('active');
         }
 
-        {{-- function setBackUrl() {
-            backUrl = document.location.href;
-            console.log(backUrl);
-        }
-
-        function getBackUrl() {
-            return backUrl;
-        } --}}
-
-        {{-- function goBack(url) {
-            
-        } --}}
-
-        {{-- function loadCountDown() {
-            var path = document.location.pathname,
-                menu = path.split("/"),
-                container = $('#remainingTime');
-            
-            if(menu[2] == 'sudut' || menu[3] == 'projects') {
-                container.countRemainingTime({{!empty($today) ? $today->format('Y-m-d H:i:s') : ""}}, {{!empty($deadline) ? $deadline->format('Y-m-d H:i:s') : ""}}, "Proyek berakhir");
-            }
-        } --}}
+        
     </script>
 @endsection

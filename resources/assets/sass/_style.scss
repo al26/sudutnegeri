@@ -313,3 +313,11 @@ table {
 		text-decoration: none !important;
 	}
 }
+
+.avatar {
+	display: block;
+	width: 2rem;
+	height: 2rem;
+	border: 2px solid white;
+	cursor: pointer;
+}

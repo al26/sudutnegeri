@@ -4,8 +4,10 @@
             $(".modal-body").empty();
             var url     = $(e.relatedTarget).attr('href'),
                 md      = $('.modal-dialog');
-                data    = $(e.relatedTarget).data('modal');
-            
+                data    = $(e.relatedTarget).data('modal'),
+                data['modal'] = true,
+                data['pjax-reload'] = '#mr';
+            console.log(data);
             $(".modal-title").text(data['title']);
 
             md.removeClass('modal-lg');
@@ -40,7 +42,7 @@
         if(data['add']) {
             $('#mbtn-add').on('click', function(e){
                 e.preventDefault();
-                doSubmit(data);
+                doSubmit(data, $('#modal form'));
             });
             $("#mbtn-add").html("<i class='fas fa-plus fw'></i> " + data['add']);
             $("#mbtn-add").show(100);
@@ -49,7 +51,7 @@
         if(data['edit']) {
             $('#mbtn-edit').on('click', function(e){
                 e.preventDefault();
-                doSubmit(data);
+                doSubmit(data, $('#modal form'));
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
             $("#mbtn-edit").show(100);
@@ -67,16 +69,16 @@
         });
     }
 
-    function doSubmit(data) {
-        var form    = $('#modal form'),
+    function doSubmit(data, form) {
+        var form    = form,
             action  = data['actionUrl'],
-            data    = form.serialize();
+            value   = form.serialize();
 
-            console.log(data);
+            console.log(form);
         $.ajax({
             url : action,
             type: "POST",
-            data: data,
+            data: value,
             success: function(response) {
                 if(response.errors) {
                     resetFeedback();
@@ -85,8 +87,12 @@
                 } 
 
                 if(response.success) {
-                    $.pjax.reload('#mr');
-                    $('#modal').modal('hide');
+                    if(data['pjax-reload']) {
+                        $.pjax.reload("#mr");
+                    }
+                    if(data['modal']) {
+                        $('#modal').modal('hide');
+                    }
                     swal({
                         type: 'success',
                         title: response.success,
@@ -97,13 +103,14 @@
                 }
             },
             error: function(response){
-                alert(response);
+                // alert(response);
+                console.log(response);
             }
         });
     }
 
     function getFeedback(errors) {
-        var inputs = $('input:not([type="submit"]), textarea');
+        var inputs = $('input:not([type="submit"]), textarea, select');
         $.each(errors, function(index, value){
             $('#'+index).parent().append('<div class="invalid-feedback">'+value+'</div>');
             $('#'+index).addClass('is-invalid');
@@ -111,7 +118,7 @@
     }
 
     function resetFeedback(){
-        var inputs = $('input:not([type="submit"]), textarea');
+        var inputs = $('input:not([type="submit"]), textarea, select');
         $.each(inputs, function(){
             $(this).siblings('.invalid-feedback').remove();
             $(this).removeClass('is-invalid');
@@ -152,11 +159,27 @@
             }
         })
     }
-
+    
     $.fn.activeteSummernote = function() {
         $("#modal").on("shown.bs.modal", function(e) {
             $('.the-summernote').summernote();
         });
+    }
+
+    $.fn.activeteSelectPicker = function() {
+        $("#modal").on("shown.bs.modal", function(e) {
+            $('.selectpicker').selectpicker();
+        });
+    }
+
+    $.fn.ajaxCrudNonModal = function(pjax = null) {
+        var form = $(this),
+            data = {
+                "actionUrl" : form.attr('action'),
+                "pjax-reload" : pjax,
+            };
+            
+            doSubmit(data, form);
     }
 
 }(jQuery));

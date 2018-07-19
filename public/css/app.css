@@ -11805,6 +11805,14 @@ table th, table td {
   text-decoration: none !important;
 }
 
+.avatar {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
 /* FLIP */
 /* FONT FACE */
 /* OPACITY */
@@ -12275,16 +12283,18 @@ div#myCard {
 }
 
 #sticky-- {
-  position: relative !important;
   -webkit-transition: all .5s !important;
   transition: all .5s !important;
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
-  width: auto;
+  width: inherit;
 }
 
 @media (min-width: 992px) {
+  #sticky-- {
+    position: absolute !important;
+  }
   #sticky--.fixed {
     position: fixed !important;
     z-index: 2 !important;
@@ -12292,21 +12302,22 @@ div#myCard {
   }
 }
 
-#h-project-nav {
-  position: relative !important;
-  -webkit-transition: all .5s !important;
-  transition: all .5s !important;
-  width: auto;
+#hpn-menu {
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  overflow: hidden;
 }
 
-#h-project-nav.fixed {
-  position: fixed !important;
-  top: 0 !important;
-  z-index: 2 !important;
+#hpn-menu.fixed {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+  width: initial;
 }
 
 @media (max-width: 991.98px) {
-  #h-project-nav.fixed {
+  #hpn-menu.fixed {
     top: 3rem !important;
     left: 0 !important;
   }

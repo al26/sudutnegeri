@@ -24,6 +24,9 @@ Route::namespace('Auth')->group(function () {
     Route::get('/logout', 'LoginController@logout')->name('logout');
     Route::get('/auth/{provider}',          'SocialAccountController@redirectToProvider')->name('oauth.login');
     Route::get('/auth/{provider}/callback', 'SocialAccountController@handleProviderCallback');
+    Route::put('/password/create', 'SocialAccountController@createPassword')->name('password.create');
+    Route::get('/connect/{provider}',          'SocialAccountController@redirectToProvider')->name('oauth.connect');
+    Route::get('/connect/{provider}/callback', 'SocialAccountController@connect');
 });
 
 Route::group(['prefix' => 'dashboard'], function () {
@@ -36,17 +39,18 @@ Route::group(['prefix' => 'dashboard'], function () {
                 'section'   => '(profile|account|projects|donations|activity)']
             )
             ->name('dashboard');
-    Route::get('sudut/projects/manage/{slug}', 'MemberController@manageProject')->name('manage.project');
+    Route::get('sudut/projects/manage/{slug}', 'ProjectController@manage')->name('project.manage');
+    Route::get('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/login', 'AdminController@showLoginForm')->name('admin.login')->middleware(['guest']);
-    Route::post('/login', 'AdminController@login')->name('admin.login.submit')->middleware(['guest']);
-    Route::get('/logout', 'AdminController@logout')->name('admin.logout');
+    Route::get('login', 'AdminController@showLoginForm')->name('admin.login')->middleware(['guest']);
+    Route::post('login', 'AdminController@login')->name('admin.login.submit')->middleware(['guest']);
+    Route::get('logout', 'AdminController@logout')->name('admin.logout');
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');  
     });
-    Route::get('/dashboard', 'AdminController@index')->name('admin.dashboard');
+    Route::get('dashboard', 'AdminController@index')->name('admin.dashboard');
 });
 
 Route::group(['prefix' => 'project'], function () {
@@ -64,6 +68,11 @@ Route::group(['prefix' => 'project'], function () {
 
     Route::resource('history', 'DataHistorisController');
     Route::get('history/create/{projectId?}', 'DataHistorisController@create')->name('history.create');
+});
+
+Route::group(['prefix' => 'donation', 'middleware' => 'web'], function () {
+    Route::resource('donation', 'DonationController');
+    Route::get('create/{projectId?}', 'DonationController@create')->name('donation.create');
 });
 
 Route::group(['prefix' => 'component'], function () {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ComponentContentController extends Controller
 {
@@ -15,6 +16,13 @@ class ComponentContentController extends Controller
     }
 
     public function loadModal() {
-        return view("components.modal");
+        // return view("components.modal");
+        $json = Storage::get("json_data/provinces.json");
+        $data = json_decode($json);
+        foreach ($data as $obj) {
+            dd($obj);
+        }
     }
+
+    
 }

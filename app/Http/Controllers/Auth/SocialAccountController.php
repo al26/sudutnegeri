@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\SocialAccount;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Socialite;
 use Auth;
 use Exception;
+use Validator;
 
 class SocialAccountController extends Controller
 {
@@ -17,8 +20,11 @@ class SocialAccountController extends Controller
      *
      * @return Response
      */
+    protected $redirectBack = '';
+    
     public function redirectToProvider($provider)
     {
+        // $this->$redirectBack = $prev;
         return Socialite::driver($provider)->redirect();
     }
 
@@ -27,9 +33,8 @@ class SocialAccountController extends Controller
      *
      * @return Response
      */
-    public function handleProviderCallback($provider)
+    public function handleProviderCallback(Request $request, $provider)
     {
-
         try {
             $user = Socialite::driver($provider)->user();
         } catch (Exception $e) {
@@ -40,7 +45,7 @@ class SocialAccountController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect()->route('dashboard', ['menu' => 'overview']);
+        return redirect('/dashboard');
         
     }
 
@@ -82,5 +87,66 @@ class SocialAccountController extends Controller
 
             return $user;
         }
+    }
+
+    public function createPassword(Request $request) {
+        $rules = [
+            "new_pass" => 'required|string|min:6|confirmed',
+            "new_pass_confirmation" => 'required',
+        ];
+
+        $messages = [
+            "new_pass.required" => "Kolom :attribute tidak boleh kosong",
+            "new_pass.string"   => "Isikan kolom :attribute dengan huruf, angka, dan karakter apapun (boleh termasuk spasi)",
+            "new_pass.min"      => "Password minimal tidak kurang dari :min karakter",
+            "new_pass.confirmed"=> "Password konfirmasi harus sama",
+            "new_pass_confirmation.required" => "Kolom :attribute tidak boleh kosong",
+        ];
+
+        $attributes = [
+            "new_pass" => 'password',
+            "new_pass_confirmation" => 'konformasi password',        
+        ];
+
+        $data = $request->data;
+        // die(var_dump($email));
+
+        $validator = Validator::make($data, $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        } else {
+            $password = Hash::make($request->data['new_pass']);
+            $email = $request->data['email'];
+
+            $store = User::where('email', $email)->update(['password' => $password]);
+            if($store) {
+                $return = ["success" => "Password baru berhasil dibuat"];
+            } else {
+                $return = ["errors" => "Terjadi Kesalahan. Gagal membuat password baru."];
+            }
+        }
+
+        return response()->json($return);
+    }
+
+    public function connect(Request $request, $provider) {
+        try {
+            $providerUser = Socialite::driver($provider)->user();
+        } catch (Exception $e) {
+            return "Tidak dapat terhubung ke $provider";
+        }    
+
+        $user = User::where('email', $request->data['email'])->first();
+        if (! $user) {
+            return "terjadi kesalahan. Silahkan coba lagi";
+        }
+
+        $user->socialAccounts()->create([
+            'provider_id'   => $providerUser->getId(),
+            'provider_name' => $provider,
+        ]);
+
+        return $user;
     }
 }

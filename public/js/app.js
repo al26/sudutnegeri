@@ -72536,8 +72536,8 @@ if ($.support.pjax) {
             $(".modal-body").empty();
             var url = $(e.relatedTarget).attr('href'),
                 md = $('.modal-dialog');
-            data = $(e.relatedTarget).data('modal');
-
+            data = $(e.relatedTarget).data('modal'), data['modal'] = true, data['pjax-reload'] = '#mr';
+            console.log(data);
             $(".modal-title").text(data['title']);
 
             md.removeClass('modal-lg');
@@ -72572,7 +72572,7 @@ if ($.support.pjax) {
         if (data['add']) {
             $('#mbtn-add').on('click', function (e) {
                 e.preventDefault();
-                doSubmit(data);
+                doSubmit(data, $('#modal form'));
             });
             $("#mbtn-add").html("<i class='fas fa-plus fw'></i> " + data['add']);
             $("#mbtn-add").show(100);
@@ -72581,7 +72581,7 @@ if ($.support.pjax) {
         if (data['edit']) {
             $('#mbtn-edit').on('click', function (e) {
                 e.preventDefault();
-                doSubmit(data);
+                doSubmit(data, $('#modal form'));
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
             $("#mbtn-edit").show(100);
@@ -72599,16 +72599,16 @@ if ($.support.pjax) {
         });
     }
 
-    function doSubmit(data) {
-        var form = $('#modal form'),
+    function doSubmit(data, form) {
+        var form = form,
             action = data['actionUrl'],
-            data = form.serialize();
+            value = form.serialize();
 
-        console.log(data);
+        console.log(form);
         $.ajax({
             url: action,
             type: "POST",
-            data: data,
+            data: value,
             success: function success(response) {
                 if (response.errors) {
                     resetFeedback();
@@ -72617,8 +72617,12 @@ if ($.support.pjax) {
                 }
 
                 if (response.success) {
-                    $.pjax.reload('#mr');
-                    $('#modal').modal('hide');
+                    if (data['pjax-reload']) {
+                        $.pjax.reload("#mr");
+                    }
+                    if (data['modal']) {
+                        $('#modal').modal('hide');
+                    }
                     swal({
                         type: 'success',
                         title: response.success,
@@ -72629,13 +72633,14 @@ if ($.support.pjax) {
                 }
             },
             error: function error(response) {
-                alert(response);
+                // alert(response);
+                console.log(response);
             }
         });
     }
 
     function getFeedback(errors) {
-        var inputs = $('input:not([type="submit"]), textarea');
+        var inputs = $('input:not([type="submit"]), textarea, select');
         $.each(errors, function (index, value) {
             $('#' + index).parent().append('<div class="invalid-feedback">' + value + '</div>');
             $('#' + index).addClass('is-invalid');
@@ -72643,7 +72648,7 @@ if ($.support.pjax) {
     }
 
     function resetFeedback() {
-        var inputs = $('input:not([type="submit"]), textarea');
+        var inputs = $('input:not([type="submit"]), textarea, select');
         $.each(inputs, function () {
             $(this).siblings('.invalid-feedback').remove();
             $(this).removeClass('is-invalid');
@@ -72688,6 +72693,24 @@ if ($.support.pjax) {
         $("#modal").on("shown.bs.modal", function (e) {
             $('.the-summernote').summernote();
         });
+    };
+
+    $.fn.activeteSelectPicker = function () {
+        $("#modal").on("shown.bs.modal", function (e) {
+            $('.selectpicker').selectpicker();
+        });
+    };
+
+    $.fn.ajaxCrudNonModal = function () {
+        var pjax = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+        var form = $(this),
+            data = {
+            "actionUrl": form.attr('action'),
+            "pjax-reload": pjax
+        };
+
+        doSubmit(data, form);
     };
 })(jQuery);
 
@@ -72798,7 +72821,41 @@ $(document).ready(function () {
     });
 
     $('.smnt').summernote();
+
+    var validateNumericInput = function validateNumericInput(selector) {
+        console.log(selector);
+        $(selector).keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl/cmd+A
+            e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true) ||
+            // Allow: Ctrl/cmd+C
+            e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true) ||
+            // Allow: Ctrl/cmd+X
+            e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true) ||
+            // Allow: home, end, left, right
+            e.keyCode >= 35 && e.keyCode <= 39) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    };
+
+    isNumberKey = function isNumberKey(evt) {
+        console.log('iaoisasa');
+        var charCode = evt.which ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+        return true;
+    };
 });
+
+// $(function () {
+//     $('[data-toggle="popover"]').popover()
+// });
 
 $(function () {
     $('.selectpicker').selectpicker({

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Project;
+use App\Data_historis As History;
 
 class ProjectController extends Controller
 {
@@ -41,32 +42,32 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            "project_name"      => 'required|min:10',
-            "description"       => 'required',
-            "location"          => 'required',
-            "deadline"          => 'required|after_or_equal:today',
-            "funding_target"    => 'required|numeric',
-            "volunteer_spot"    => 'required|numeric'
+            "project_name"          => 'required|min:10',
+            "project_description"   => 'required',
+            "project_location"      => 'required',
+            "project_deadline"      => 'required|after_or_equal:today',
+            "funding_target"        => 'required|numeric',
+            "volunteer_quota"       => 'required|numeric'
         ];
         $messages = [
-            "project_name.required"     => ":attribute tidak boleh kosong",
-            "project_name.min"          => "Mohon isi judul proyek setidaknya :min karakter",
-            "description.required"      => "Mohon isi :attribute untuk menjelaskan detai proyek Anda",
-            "location.required"         => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
-            "deadline.required"         => "Mohon untuk mengisi :attribute proyek Anda",
-            "deadline.after_or_equal"   => "Mohon isikan :attribute setidaknya tanggal hari ini",
-            "funding_target.required"   => "Mohon isikan :attribute",
-            "funding_target.numeric"    => "Harap isikan dengan angka",
-            "volunteer_spot.required"   => "Mohon isikan :attribute",
-            "volunteer_spot.numeric"    => "Harap isikan dengan angka",
+            "project_name.required"             => ":attribute tidak boleh kosong",
+            "project_name.min"                  => "Mohon isi judul proyek setidaknya :min karakter",
+            "project_description.required"      => "Mohon isi :attribute untuk menjelaskan detai proyek Anda",
+            "project_location.required"         => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
+            "project_deadline.required"         => "Mohon untuk mengisi :attribute proyek Anda",
+            "project_deadline.after_or_equal"   => "Mohon isikan :attribute setidaknya tanggal hari ini",
+            "funding_target.required"           => "Mohon isikan :attribute",
+            "funding_target.numeric"            => "Harap isikan dengan angka",
+            "volunteer_quota.required"          => "Mohon isikan :attribute",
+            "volunteer_quota.numeric"           => "Harap isikan dengan angka",
         ];
         $attributes = [
-            "project_name"      => 'Judul Proyek',
-            "description"       => 'deskripsi proyek',
-            "location"          => 'lokasi',
-            "deadline"          => 'tenggat waktu',
-            "funding_target"    => 'nominal target dana',
-            "volunteer_spot"    => 'jumlah target relawan'
+            "project_name"          => 'Judul Proyek',
+            "project_description"   => 'deskripsi proyek',
+            "project_location"      => 'lokasi',
+            "project_deadline"      => 'tenggat waktu',
+            "funding_target"        => 'nominal target dana',
+            "volunteer_quota"       => 'jumlah target relawan'
         ];
         $data = $request->data;
         
@@ -79,7 +80,7 @@ class ProjectController extends Controller
         } else {
             $data["project_slug"] = md5($request->data['project_name']);
             date_default_timezone_set('Asia/Jakarta');
-            $data["deadline"] = date_create_from_format('Y-m-d', $request->data['deadline'])->format('Y-m-d H:i:s');
+            $data["project_deadline"] = date_create_from_format('Y-m-d', $request->data['project_deadline'])->format('Y-m-d H:i:s');
             
             $store = Project::create($data);
             if($store) {
@@ -108,6 +109,15 @@ class ProjectController extends Controller
         return view('details', $data);
     }
 
+    public function manage(Request $request, $slug) {
+        $data['user_profile']  = $request->user()->profile;
+        $data['data'] = Project::where("project_slug",$slug)->first();
+        $project_id = $data['data']['id'];
+        $data['historis'] = History::where('project_id', $project_id)->get(); 
+        // dd($data);
+        return view('member.dashboard', ['menu' => 'sudut', 'section' => 'manage-project'], $data);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -132,40 +142,43 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            "project_name"      => 'required|min:10',
-            "description"       => 'required',
-            "location"          => 'required',
-            "deadline"          => 'required|after_or_equal:today',
-            "funding_target"    => 'required|numeric',
-            "volunteer_spot"    => 'required|numeric'
+            "project_name"          => 'required|min:10',
+            "project_description"   => 'required',
+            "project_location"      => 'required',
+            "project_deadline"      => 'required|after_or_equal:today',
+            "funding_target"        => 'required|numeric',
+            "volunteer_quota"       => 'required|numeric'
         ];
         $messages = [
-            "project_name.required"     => ":attribute tidak boleh kosong",
-            "project_name.min"          => "Mohon isi judul proyek setidaknya :min karakter",
-            "description.required"      => "Mohon isi :attribute untuk menjelaskan detai proyek Anda",
-            "location.required"         => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
-            "deadline.required"         => "Mohon untuk mengisi :attribute proyek Anda",
-            "deadline.after_or_equal"   => "Mohon isikan :attribute setidaknya tanggal hari ini",
-            "funding_target.required"   => "Mohon isikan :attribute",
-            "funding_target.numeric"    => "Harap isikan dengan angka",
-            "volunteer_spot.required"   => "Mohon isikan :attribute",
-            "volunteer_spot.numeric"    => "Harap isikan dengan angka",
+            "project_name.required"             => ":attribute tidak boleh kosong",
+            "project_name.min"                  => "Mohon isi judul proyek setidaknya :min karakter",
+            "project_description.required"      => "Mohon isi :attribute untuk menjelaskan detai proyek Anda",
+            "project_location.required"         => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
+            "project_deadline.required"         => "Mohon untuk mengisi :attribute proyek Anda",
+            "project_deadline.after_or_equal"   => "Mohon isikan :attribute setidaknya tanggal hari ini",
+            "funding_target.required"           => "Mohon isikan :attribute",
+            "funding_target.numeric"            => "Harap isikan dengan angka",
+            "volunteer_quota.required"          => "Mohon isikan :attribute",
+            "volunteer_quota.numeric"           => "Harap isikan dengan angka",
         ];
         $attributes = [
-            "project_name"      => 'Judul Proyek',
-            "description"       => 'deskripsi proyek',
-            "location"          => 'lokasi',
-            "deadline"          => 'tenggat waktu',
-            "funding_target"    => 'nominal target dana',
-            "volunteer_spot"    => 'jumlah target relawan'
+            "project_name"          => 'Judul Proyek',
+            "project_description"   => 'deskripsi proyek',
+            "project_location"      => 'lokasi',
+            "project_deadline"      => 'tenggat waktu',
+            "funding_target"        => 'nominal target dana',
+            "volunteer_quota"       => 'jumlah target relawan'
         ];
         $data = $request->data;
-        
+
         $validator = Validator::make($data, $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             $return = ["errors" => $validator->messages()];
         } else {
+            date_default_timezone_set('Asia/Jakarta');
+            $data["project_deadline"] = date_create_from_format('Y-m-d', $request->data['project_deadline'])->format('Y-m-d H:i:s');
+            
             $store = Project::where('id', $id)->update($data);
             if($store) {
                 $return = ["success" => "Data proyek berhasil diubah"];
@@ -193,4 +206,6 @@ class ProjectController extends Controller
         }
         return response()->json($return);
     }
+
+    
 }

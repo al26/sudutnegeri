@@ -20,4 +20,9 @@ class Project extends Model
     {
         return $this->hasMany('App\Data_historis');
     }
+
+    public function donation() 
+    {
+        return $this->hasOne('App\Donation');
+    }
 }

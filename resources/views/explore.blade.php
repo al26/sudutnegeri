@@ -5,7 +5,7 @@
         <nav id="filter-nav" class="navbar bg-light navbar-light">
             <div class="container">
                 <div>
-                    <h5 class="d-none d-md-block">Ada 4220 Project Membutuhkan Bantuanmu</h5>
+                    <h5 class="d-none d-md-block">Ada {{count($projects)}} Project Membutuhkan Bantuanmu</h5>
                     <h5 class="d-block d-md-none">Menampilkan 4220 Project</h5>
                 </div>
                 <button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#n" aria-controls="n" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,20 +72,17 @@
             </div>
         </div>
     </div> --}}
-    <div class="section-deadline">
-
-    </div>
     <div class="container clearfix">
         <div class="row section-content">
             @foreach ($projects as $key => $project)    
                 @php
                     $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
-                    $progressRelawan = round(($project->volunteer_applied / $project->volunteer_spot) * 100);
+                    $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
 
                     date_default_timezone_set('Asia/Jakarta');
 
                     $today = new DateTime('now');
-                    $deadline = new DateTime($project->deadline);
+                    $deadline = new DateTime($project->project_deadline);
                     $remainingDays = $today->diff($deadline)->format('%d hari'); 
                     $remainingHours = $today->diff($deadline)->format('%h jam'); 
 
@@ -131,7 +128,7 @@
                             <div class="row">
                                 <div class="col-6 text-left">
                                     <p class="mb-0"><small>Lokasi</small></p>
-                                    <p class="mb-0">{{$project->location}}</p>
+                                    <p class="mb-0">{{$project->project_location}}</p>
                                 </div>
                                 <div class="col-6 text-right">
                                     <p class="mb-0"><small>Sisa Hari</small></p>

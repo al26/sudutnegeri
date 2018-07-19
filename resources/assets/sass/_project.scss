@@ -145,17 +145,14 @@
 }
 
 #sticky--{
-	position: relative !important;
 	-webkit-transition: all .5s !important;
 	transition: all .5s !important;
 	border: none;
 	box-shadow: none;
-	// background: $body-bg;
-	width: auto;
-	// padding: 0 1rem;
+	width: inherit;
 
 	@include media-breakpoint-up (lg) {
-		// padding: 0 !important;
+		position: absolute !important;
 		&.fixed {
 			position: fixed !important;
 			z-index: 2 !important;
@@ -164,20 +161,23 @@
 	}
 }
 
-#h-project-nav{
-	position: relative !important;
-	-webkit-transition: all .5s !important;
-	transition: all .5s !important;
-	width: auto;
+#hpn-menu{
+	// position: relative !important;
+	// top: -100px;
+	-webkit-transition: all .5s;
+	transition: all .5s;
+	overflow: hidden;
 
 	&.fixed {
-		position: fixed !important;
-		top: 0 !important;
-		z-index: 2 !important;
+		position: fixed;
+		top: 0;
+		z-index: 2;
+		background: #fff;
+		width: initial;
+
 		@include media-breakpoint-down(md) {
 			top: 3rem !important;
-			left: 0 !important;
-			// padding: 1rem !important;			
+			left: 0 !important;			
 		}
 	}
 }

@@ -20,15 +20,12 @@
             @foreach ($user_projects as $project)    
                 @php
                     $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
-                    $progressRelawan = round(($project->volunteer_applied / $project->volunteer_spot) * 100);
-                    // $now = time();
-                    // $deadline = strtotime($project->deadline);
-                    // $remainingDays = round(($deadline - $now) / (60 * 60 * 24));
-                    // $remainingHours = round(($deadline - $now) / (60 * 60));
+                    $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
+
                     date_default_timezone_set('Asia/Jakarta');
 
                     $today = new DateTime('now');
-                    $deadline = new DateTime($project->deadline);
+                    $deadline = new DateTime($project->project_deadline);
                     $remainingDays = $today->diff($deadline)->format('%d hari'); 
                     $remainingHours = $today->diff($deadline)->format('%h jam'); 
 
@@ -44,7 +41,7 @@
                         <img class="card-img-top rounded-0" src="https://via.placeholder.com/600x400" alt="Card image cap">
                         <div class="card-body py-0 px-3 pt-3" style="top:0">
                             <h5 class="card-title text-danger">{{$project->project_name}}</h5>
-                            <p class="card-text">{!!$project->description!!}</p>
+                            <p class="card-text">{!!$project->project_description!!}</p>
                         </div>
                         <div class="project-needs">
                             <ul class="list-group">
@@ -68,7 +65,7 @@
                             <div class="row">
                                 <div class="col-6 text-left">
                                     <p class="mb-0"><small>Lokasi</small></p>
-                                    <p class="mb-0">{{$project->location}}</p>
+                                    <p class="mb-0">{{$project->project_location}}</p>
                                 </div>
                                 <div class="col-6 text-right">
                                     <p class="mb-0"><small>Sisa Waktu</small></p>
@@ -76,7 +73,7 @@
                                 </div>
                             </div>				      	
                         </div>
-                        <a class="cml text-white" data-toggle="pjax" data-pjax="main-content" href="{{route('manage.project', ['slug' => $project->project_slug])}}" onclick="javascript:$(this).setBackUrl();">
+                        <a class="cml text-white" data-toggle="pjax" data-pjax="main-content" href="{{route('project.manage', ['slug' => $project->project_slug])}}" onclick="javascript:$(this).setBackUrl();">
                             <span>
                                 <i class="fas fa-cogs fa-2x"></i><br>
                                 Kelola <br>Project

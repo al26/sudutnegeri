@@ -122,23 +122,30 @@
 
                     <ul class="navbar-nav ml-auto">
                         @guest
-                            <li><a class="btn btn-sm btn-danger" href="{{ route('login') }}">{{ __('Masuk') }}</a></li>
+                            <li><a class="btn btn-sm btn-danger" href="{{ route('login') }}">Masuk <i class="fas fw fa-sign-in-alt"></i></a></li>
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->profile->name }} <span class="caret"></span>
+                            <li class="nav-item d-flex flex-row align-items-center">
+                                <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="btn d-flex flex-row align-items-center border-right" data-toggle="tooltip" data-placement="bottom" title="Dashboard">
+                                    <img src="{{asset('storage/profile_pictures/'.Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar"> 
+                                    <span class="ml-2 text-white">{{Auth::user()->profile->name}}</span>
                                 </a>
 
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                <a href="#" class="text-white ml-3" id="user-desktop-menu"><i class="fas fa-ellipsis-v" data-fa-transform ="grow-20"></i></a>
+                                
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+                                <div id="user-desktop-menu-content" style="display:none">
+                                    <div class="card border-0" style="min-width:200px">
+                                        <div class="card-body p-2 text-center">
+                                            <a class="btn btn-sm btn-link text-danger decoration-none" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">Keluar <i class="fas fw fa-sign-out-alt"></i>
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         @endguest
@@ -288,6 +295,23 @@
         FontAwesomeConfig = { searchPseudoElements: true };
     </script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+    $(function(){
+        // Enables popover
+        $("#user-desktop-menu").popover({
+            container : 'body',
+            placement : 'bottom',
+            html : true, 
+            content: function() {
+                return $("#user-desktop-menu-content").html();
+            }, 
+        });
+
+        $('#user-desktop-menu').on('shown.bs.popover', function () {
+            $('.popover-body').css('padding', 0);
+        })
+    });
+    </script>
     @yield('script')
 </body>
 </html>

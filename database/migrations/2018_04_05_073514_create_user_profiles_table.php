@@ -24,10 +24,10 @@ class CreateUserProfilesTable extends Migration
             $table->string('phone_number')->nullable();
             $table->text('biography')->nullable();
             $table->string('profession')->nullable();
-            $table->string('institute')->nullable();
-            $table->string('passion')->nullable();
-            $table->string('skill')->nullable();
-            $table->string('profile_picture')->default('avatar.jpg');
+            $table->string('institution')->nullable();
+            $table->string('interest')->nullable();
+            $table->string('skills')->nullable();
+            $table->string('profile_picture')->default('storage/profile_pictures/avatar.jpg');
             $table->timestamps();
         });
     }

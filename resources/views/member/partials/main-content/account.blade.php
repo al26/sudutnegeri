@@ -1,14 +1,12 @@
 <div class="card">
     <div class="card-body">
-        <form>
             <div class="form-section">
                 <div class="fs-head"><span class="fs-head-text">Email</span></div>
                 <div class="form-group row mx-0">
-                    {{-- <label class="fs-label col-12 col-md-3" for="old_pass">Password Lama</label> --}}
-                    <input type="text" class="form-control col-12" id="email" placeholder="Email" value="{{Auth::user()->email}}" disabled>
+                    <input type="text" readonly class="form-control-plaintext col-12" id="email" placeholder="Email" value="{{Auth::user()->email}}" name="data[email]">
                 </div>    
             </div>
-            @if (empty(Auth::user()->password))
+            @if (!empty(Auth::user()->password))
             <div class="form-section">
                 <div class="fs-head"><span class="fs-head-text">Ubah Password</span></div>
                 <div class="form-group row mx-0">
@@ -26,20 +24,25 @@
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>    
             </div>
             @else
-            <div class="form-section">
-                <div class="fs-head"><span class="fs-head-text">Buat Password</span></div>
-                <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3" for="new_pass">Password Baru</label>
-                    <input type="text" class="form-control col-12 col-md-9" id="new_pass" placeholder="Password baru">
+            <form method="POST" action="{{route('password.create')}}" id="form-account">
+                @method('PUT')
+                @csrf 
+                <input type="hidden" value="{{Auth::user()->email}}" name="data[email]">
+                <div class="form-section">
+                    <div class="fs-head"><span class="fs-head-text">Buat Password</span></div>
+                    <div class="form-group row mx-0">
+                        <label class="fs-label col-12 col-md-3" for="new_pass">Password Baru</label>
+                        <input type="password" class="form-control col-12 col-md-9" id="new_pass" placeholder="Password baru" name="data[new_pass]">
+                    </div>
+                    <div class="form-group row mx-0">
+                        <label class="fs-label col-12 col-md-3" for="new_pass_confirmation">Konfirmasi Password</label>
+                        <input type="password" class="form-control col-12 col-md-9" id="new_pass_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_confirmation]">
+                    </div>
+                    <button type="submit" id="password-create" class="btn btn-primary">Buat Password</button>
                 </div>
-                <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3" for="confirm_pass">Konfirmasi Password</label>
-                    <input type="text" class="form-control col-12 col-md-9" id="confirm_pass" placeholder="Ketik ulang password baru">
-                </div>
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            </div>
+            </form>
             @endif
-        </form>
+        
         <form>
             <div class="form-section">
                 @php
@@ -62,7 +65,12 @@
                         @if (in_array("google", $sns))
                             <a class="btn btn-link decoration-none p-0" href="">Putuskan koneksi dengan akun Google</a>
                         @else
-                            <a class="btn btn-link decoration-none p-0" href="">Hubungkan dengan akun Google</a>
+                            <form action="{{route('oauth.login', ['provider' => 'google'])}}" method="GET" style="display:none;" id="g-connect">
+                                @csrf
+                                <input type="hidden" name="data[email]" value="{{Auth::user()->email}}">
+                            </form>
+                            <a class="btn btn-sm btn-link decoration-none" target="_blank" href="{{route('oauth.login', ['provider' => 'google'])}}">Hubungkan dengan akun google
+                            </a>
                         @endif    
                     </li>
                 </ul>

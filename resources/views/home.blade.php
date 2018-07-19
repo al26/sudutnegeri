@@ -261,6 +261,7 @@
     </section>
 @endsection
 @section('script')
+<script>
     $(document).ready(function(){
         var owl = $('.owl-carousel');
         owl.owlCarousel({
@@ -299,4 +300,5 @@
             id: 'accordion'
         });        
     });
+</script>
 @endsection

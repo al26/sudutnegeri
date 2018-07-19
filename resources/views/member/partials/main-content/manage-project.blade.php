@@ -21,7 +21,7 @@
                 </a>
             </div>
             <div class="col-4 px-2 info-box-parent">
-                <a class="btn-box" href="" target="_blank">
+                <a class="btn-box" href="{{route('project.show', ['slug' => $data['project_slug']])}}" target="_blank">
                     <div class="info-box">
                         <div class="info-box-inner">
                             <h3 class="text-secondary">Lihat</h3>
