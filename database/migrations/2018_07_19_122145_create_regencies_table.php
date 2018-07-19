@@ -14,8 +14,8 @@ class CreateRegenciesTable extends Migration
     public function up()
     {
         Schema::create('regencies', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('province_id');  
+            $table->string('id', 4)->primary();
+            $table->string('province_id', 2);  
             $table->foreign('province_id')->references('id')->on('provinces')->onDelete('cascade');
             $table->string('name');
         });

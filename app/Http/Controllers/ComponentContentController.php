@@ -19,9 +19,10 @@ class ComponentContentController extends Controller
         // return view("components.modal");
         $json = Storage::get("json_data/provinces.json");
         $data = json_decode($json);
-        foreach ($data as $obj) {
-            dd($obj);
-        }
+        
+        // foreach ($data as $obj) {
+        //     dd($obj);
+        // }
     }
 
     

@@ -14,8 +14,8 @@ class CreateDistrictsTable extends Migration
     public function up()
     {
         Schema::create('districts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('regency_id');  
+            $table->string('id', 7)->primary();
+            $table->string('regency_id', 4);  
             $table->foreign('regency_id')->references('id')->on('regencies')->onDelete('cascade');
             $table->string('name');
         });

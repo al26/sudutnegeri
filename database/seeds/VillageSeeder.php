@@ -15,7 +15,13 @@ class VillageSeeder extends Seeder
         $json = Storage::get("json_data/villages.json");
         $data = json_decode($json);
         foreach ($data as $obj) {
-            DB::table('villages')->insert($obj);
+            DB::table('villages')->insert(
+                [
+                    "id" => $obj->id,
+                    "district_id" => $obj->district_id,
+                    "name" => $obj->name,
+                ]
+            );
         }
         
     }

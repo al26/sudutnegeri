@@ -15,7 +15,12 @@ class ProvinceSeeder extends Seeder
         $json = Storage::get("json_data/provinces.json");
         $data = json_decode($json);
         foreach ($data as $obj) {
-            DB::table('provinces')->insert($obj);
+            DB::table('provinces')->insert(
+                [
+                    "id"    => $obj->id,
+                    "name"  => $obj->name,
+                ]
+            );
         }
         
     }

@@ -15,7 +15,13 @@ class DistrictSeeder extends Seeder
         $json = Storage::get("json_data/districts.json");
         $data = json_decode($json);
         foreach ($data as $obj) {
-            DB::table('districts')->insert($obj);
+            DB::table('districts')->insert(
+                [
+                    "id" => $obj->id,
+                    "regency_id" => $obj->regency_id,
+                    "name" => $obj->name,
+                ]
+            );
         }
         
     }

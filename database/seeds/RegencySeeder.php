@@ -15,7 +15,13 @@ class RegencySeeder extends Seeder
         $json = Storage::get("json_data/regencies.json");
         $data = json_decode($json);
         foreach ($data as $obj) {
-            DB::table('regencies')->insert($obj);
+            DB::table('regencies')->insert(
+                [
+                    "id" => $obj->id,
+                    "province_id" => $obj->province_id,
+                    "name" => $obj->name,
+                ]
+            );
         }
         
     }

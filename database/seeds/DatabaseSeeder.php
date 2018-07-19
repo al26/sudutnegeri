@@ -13,5 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(BankSeeder::class);
         $this->call(EducationSectorSeeder::class);
+        $this->call(ProvinceSeeder::class);
+        $this->call(RegencySeeder::class);
+        $this->call(DistrictSeeder::class);
+        $this->call(VillageSeeder::class);
     }
 }
