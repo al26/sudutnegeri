@@ -20,7 +20,6 @@ class CreateUserProfilesTable extends Migration
             $table->string('name');
             $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
             $table->date('dob')->nullable();
-            $table->text('address')->nullable();
             $table->string('phone_number')->nullable();
             $table->text('biography')->nullable();
             $table->string('profession')->nullable();

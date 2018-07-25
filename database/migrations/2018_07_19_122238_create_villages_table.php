@@ -13,12 +13,12 @@ class CreateVillagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('villages', function (Blueprint $table) {
-            $table->string('id', 10)->primary();
-            $table->string('district_id', 7);  
-            $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
-            $table->string('name');
-        });
+        // Schema::create('villages', function (Blueprint $table) {
+        //     $table->string('id', 10)->primary();
+        //     $table->string('district_id', 7);  
+        //     $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
+        //     $table->string('name');
+        // });
     }
 
     /**

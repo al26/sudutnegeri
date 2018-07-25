@@ -58,7 +58,7 @@
                         @if (in_array("facebook", $sns))
                             <a class="btn btn-link decoration-none p-0" href="">Putuskan koneksi dengan Facebook</a>
                         @else
-                            <a class="btn btn-link decoration-none p-0" href="">Hubungkan dengan akun Facebook</a>
+                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.connect', ['provider' => 'facebook'])}}">Hubungkan dengan akun Facebook</a>
                         @endif
                     </li>
                     <li class="list-group-item border-0"><span class="fa-li"><i class="fab fw fa-google-plus-square" data-fa-transform ="grow-20" style="color:#dd4b39"></i></span>

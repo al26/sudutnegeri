@@ -22,9 +22,10 @@ class CreateDonationsTable extends Migration
             $table->unsignedInteger('bank_id');  
             $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
             $table->unsignedInteger('amount');
+            $table->unsignedSmallInteger('payment_code');
             $table->enum('anonymouse', ['yes', 'no']);
             $table->string('status');
-            $table->string('transfer_receipt');
+            $table->string('transfer_receipt')->nullable();
             $table->timestamps();
         });
     }

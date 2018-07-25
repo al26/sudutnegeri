@@ -17,14 +17,17 @@ class CreateUserAddressesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_profile_id');  
             $table->foreign('user_profile_id')->references('id')->on('user_profiles')->onDelete('cascade');
-            $table->string('province_id', 2);  
+            $table->string('province_id', 2)->nullable();  
             $table->foreign('province_id')->references('id')->on('provinces')->onDelete('cascade');
-            $table->string('regency_id', 4);  
+            $table->string('regency_id', 4)->nullable();  
             $table->foreign('regency_id')->references('id')->on('regencies')->onDelete('cascade');
-            $table->string('district_id', 7);  
+            $table->string('district_id', 7)->nullable();  
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
-            $table->string('village_id', 10);  
-            $table->foreign('village_id')->references('id')->on('villages')->onDelete('cascade');
+            $table->text('exact_location')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->timestamps();            
+            // $table->string('village_id', 10);  
+            // $table->foreign('village_id')->references('id')->on('villages')->onDelete('cascade');
         });
     }
 

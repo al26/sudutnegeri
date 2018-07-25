@@ -52,16 +52,41 @@ $(document).ready(function(){
         return true;
     }
 
+    generateOption = function(triggerElem, targetElem, table, placeholder) {
+        $(triggerElem).on('change', function(e){
+            var filter_id = e.target.value,
+                url = '/json/option/'+table+'?id=' + filter_id;
+
+            $.get(url, function(data){
+                $(targetElem).empty();
+                $(targetElem).append('<option selected disabled>--Pilih '+placeholder+'--</option>');
+                $.each(data, function(index, obj){
+                    $(targetElem).append('<option value="'+ obj.id +'">' + obj.name + '</option>')
+                });
+            })
+        })
+    }
+
+    handleAgreement = function(checkbox, target) {
+        if(checkbox.checked == true){
+            $('#'+target).removeAttr("disabled");
+            console.log('checked');
+        } else{
+            $('#'+target).attr("disabled", "disabled");
+            console.log('not checked');
+        }
+    }
 });
 
-// $(function () {
-//     $('[data-toggle="popover"]').popover()
-// });
+$.fn.select2.defaults.set( "theme", "bootstrap4" );
 
 $(function() {
     $('.selectpicker').selectpicker({
-        width: 'auto',
-        mobile: true
+        mobile: true,
+    });
+
+    $('.selectpicker').on( 'hide.bs.select', function ( ) {
+        $(this).trigger("focusout");
     });
 });
 

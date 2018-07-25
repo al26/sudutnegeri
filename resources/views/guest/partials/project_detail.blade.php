@@ -1,1 +1,1 @@
-{!! $project->description !!}
+{!! $project->project_description !!}

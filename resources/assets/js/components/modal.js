@@ -1,5 +1,5 @@
 (function($) {
-    $.fn.loadModal = function() {
+    $.fn.loadModal = function() {        
         $("#modal").on("show.bs.modal", function(e) {
             $(".modal-body").empty();
             var url     = $(e.relatedTarget).attr('href'),
@@ -7,7 +7,7 @@
                 data    = $(e.relatedTarget).data('modal'),
                 data['modal'] = true,
                 data['pjax-reload'] = '#mr';
-            console.log(data);
+
             $(".modal-title").text(data['title']);
 
             md.removeClass('modal-lg');
@@ -18,6 +18,8 @@
             if(url) {
                 $.get(url, function( content ) {
                     $(".modal-body").html(content);
+                }).fail(function(response) {
+                    console.log(response);
                 });
             } else {
                 $(".modal-body").html(data['text']);
@@ -74,7 +76,6 @@
             action  = data['actionUrl'],
             value   = form.serialize();
 
-            console.log(form);
         $.ajax({
             url : action,
             type: "POST",
@@ -83,7 +84,6 @@
                 if(response.errors) {
                     resetFeedback();
                     getFeedback(response.errors);
-                    console.log(response.errors);
                 } 
 
                 if(response.success) {
@@ -99,11 +99,9 @@
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    console.log(response.success);
                 }
             },
             error: function(response){
-                // alert(response);
                 console.log(response);
             }
         });
@@ -111,8 +109,9 @@
 
     function getFeedback(errors) {
         var inputs = $('input:not([type="submit"]), textarea, select');
+
         $.each(errors, function(index, value){
-            $('#'+index).parent().append('<div class="invalid-feedback">'+value+'</div>');
+            $('#'+index).parent().append('<div class="invalid-feedback d-block">'+value+'</div>');
             $('#'+index).addClass('is-invalid');
         });
     }
@@ -160,15 +159,40 @@
         })
     }
     
-    $.fn.activeteSummernote = function() {
+    $.fn.activateSummernote = function() {
         $("#modal").on("shown.bs.modal", function(e) {
             $('.the-summernote').summernote();
         });
     }
 
-    $.fn.activeteSelectPicker = function() {
+    $.fn.ajaxSelect2 = function(id, url) {
         $("#modal").on("shown.bs.modal", function(e) {
-            $('.selectpicker').selectpicker();
+            $('#'+id).select2({
+                theme: "bootstrap4",
+                tags: true, 
+                dropdownParent: $('#modal'),
+                ajax: {
+                    url: url,
+                    type: "POST",
+                    dataType: "json",
+                    delay:250,
+                    data: function(params) {
+                        return {
+                            key : params.term,
+                            _token : $('meta[name="csrf-token"]').attr('content'),
+                        };
+                    },
+
+                    processResults: function(data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data.items, function(val, index){
+                                return {id:val, text:val};
+                            })
+                        }
+                    }, 
+                },
+            });
         });
     }
 
@@ -179,7 +203,7 @@
                 "pjax-reload" : pjax,
             };
             
-            doSubmit(data, form);
+        doSubmit(data, form);
     }
 
 }(jQuery));

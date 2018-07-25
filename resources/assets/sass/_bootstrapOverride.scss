@@ -54,6 +54,14 @@ body {
     margin-right: 0 !important;
 }
 
+.btn-outline-default {
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0;
+}
+
 @mixin custom-tab {
     .nav-tabs {
         border-bottom: 1px solid $gray-300;
@@ -83,4 +91,36 @@ body {
             }
         }
     }
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__rendered {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    line-height: 1;
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0.125rem 0.375rem 0.375rem 0.375rem !important;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+    color: #fff !important;
+    background: $primary !important;
+    border: none !important;
+    cursor: default;
+    float: left;
+    margin: 0.25rem 0 0 0.1875rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 0.8rem !important;
 }

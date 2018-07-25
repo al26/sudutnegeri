@@ -16,6 +16,9 @@ try {
     // require('jquery-bootstrap-scrolling-tabs');
     require('datatables.net-bs4');
     require('summernote/dist/summernote-bs4');
+    require('select2');
+    // require('select2-bootstrap4-theme');
+    require('owl.carousel');
 } catch (e) {}
 
 /**

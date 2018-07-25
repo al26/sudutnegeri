@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Project;
 use Validator;
+use App\Education_sector as Sector;
+use App\Province;
+use App\User_profile as Profile;
+use App\User_address as Address;
 
 class MemberController extends Controller
 {
@@ -28,6 +32,8 @@ class MemberController extends Controller
     {
         $data['user_projects'] = Project::where('user_id', $request->user()->id)->paginate(5);
         $data['user_profile']  = $request->user()->profile;
+        $data['sectors'] = Sector::all();
+        $data['provinces'] = Province::all();
         
         return view('member.dashboard', ['menu' => $menu, 'section' => $section], $data);
     }
@@ -37,60 +43,97 @@ class MemberController extends Controller
             "name"          => "required",
             "gender"        => "required",
             "dob"           => "required|date",
-            "address"       => "required",
             "phone_number"  => "required",
             "biography"     => "required",
             "profession"    => "required",
             "institution"   => "required",
-            "interest"      => "required",
-            "skils"         => "required",
+            // "interest"      => "required",
+            "skills"        => "required",
+            "province_id"   => "required",
+            "regency_id"    => "required",
+            "district_id"   => "required",
+            "exact_location"=> "required",
+            "zip_code"      => "required",
         ];
 
         $messages = [
             "name.required"          => "Kolom :attribute tidak boleh kosong",
             "gender.required"        => "Kolom :attribute tidak boleh kosong",
             "dob.required"           => "Kolom :attribute tidak boleh kosong",
-            "address.required"       => "Kolom :attribute tidak boleh kosong",
+            "province_id.required"   => "Kolom :attribute tidak boleh kosong",
+            "regency_id.required"    => "Kolom :attribute tidak boleh kosong",
+            "district_id.required"   => "Kolom :attribute tidak boleh kosong",
             "phone_number.required"  => "Isikan :attribute Anda yang dapat dihubungi",
             "biography.required"     => "Tuliskan :attribute Anda",
             "profession.required"    => "Kolom :attribute tidak boleh kosong",
             "institution.required"   => "Mohon isikan :attribute Anda saat ini",
-            "interest.required"      => "Kolom :attribute tidak boleh kosong",
-            "skils.required"         => "Mohin isikan minimal satu :attribute Anda",
+            // "interest.required"      => "Kolom :attribute tidak boleh kosong",
+            "skills.required"        => "Mohon isikan minimal satu :attribute Anda",
+            "exact_location.required"=> "Kolom :attribute tidak boleh kosong",
+            "zip_code.required"      => "Kolom :attribute tidak boleh kosong",
         ];
 
         $attributes = [
             "name"          => "nama",
             "gender"        => "jenis kelamin",
             "dob"           => "tanggal lahir",
-            "address"       => "alamat",
             "phone_number"  => "nomor hp",
             "biography"     => "biografi",
             "profession"    => "profesi",
             "institution"   => "institusi",
-            "interest"      => "minat",
-            "skils"         => "keahlian",
+            // "interest"      => "minat",
+            "skills"        => "keahlian",
+            "province_id"   => "provinsi",
+            "regency_id"    => "kabupaten/kota",
+            "district_id"   => "kecamatan",
+            "exact_location"=> "alamat lengkap",
+            "zip_code"      => "kode pos",
         ];
 
         $data = $request->data;
-        // die(var_dump($email));
+        // dd($data);
 
         $validator = Validator::make($data, $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             $return = ["errors" => $validator->messages()];
         } else {
-            // $password = Hash::make($request->data['new_pass']);
-            // $email = $request->data['email'];
+            $profile = [
+                "name" => $request->data['name'],
+                "gender" => $request->data['gender'],
+                "dob" => $request->data['dob'],
+                "biography" => $request->data['biography'],
+                // "interest" => implode(', ', $request->data['interest']),
+                "skills" => $request->data['skills'],
+                "profession" => $request->data['profession'],
+                "institution" => $request->data['institution'],
+                "phone_number" => $request->data['phone_number'],
+            ];
 
-            // $store = User::where('email', $email)->update(['password' => $password]);
-            // if($store) {
-            //     $return = ["success" => "Password baru berhasil dibuat"];
-            // } else {
-            //     $return = ["errors" => "Terjadi Kesalahan. Gagal membuat password baru."];
-            // }
+            $address = [
+                "user_profile_id" => $id,
+                "province_id" => $request->data['province_id'],
+                "regency_id" => $request->data['regency_id'],
+                "district_id" => $request->data['district_id'],
+                "exact_location" => $request->data['exact_location'],
+                "zip_code" => $request->data['zip_code'],
+            ];
 
-            dd($request->data);
+
+            $store = Profile::find($id)->update($profile);
+            $store .= Address::where('user_profile_id', $id)->update($address);
+
+            if($store) {
+                $return = [
+                    "success" => "Profile berhasil di ubah",
+                    "profile" => $profile,
+                    "address" => $address,
+                ];
+            } else {
+                $return = ["errors" => "Terjadi Kesalahan. Gagal edit profil."];
+            }
+
+            // $return = ["success" => $request->data];
         }
 
         return response()->json($return);

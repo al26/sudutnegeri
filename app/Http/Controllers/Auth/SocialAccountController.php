@@ -79,6 +79,11 @@ class SocialAccountController extends Controller
                 'name'  => $providerUser->getName(),
             ]);
 
+            // dd($user->profile->id);
+            $user->profile->address()->create([
+                'user_profile_id' => $user->profile->id,
+            ]);
+
             $user->socialAccounts()->create([
                 'provider_id'   => $providerUser->getId(),
                 'provider_name' => $provider,
@@ -133,20 +138,21 @@ class SocialAccountController extends Controller
     public function connect(Request $request, $provider) {
         try {
             $providerUser = Socialite::driver($provider)->user();
+            dd($providerUser);
         } catch (Exception $e) {
             return "Tidak dapat terhubung ke $provider";
         }    
 
-        $user = User::where('email', $request->data['email'])->first();
-        if (! $user) {
-            return "terjadi kesalahan. Silahkan coba lagi";
-        }
+        // $user = User::where('email', $request->data['email'])->first();
+        // if (! $user) {
+        //     return "terjadi kesalahan. Silahkan coba lagi";
+        // }
 
-        $user->socialAccounts()->create([
-            'provider_id'   => $providerUser->getId(),
-            'provider_name' => $provider,
-        ]);
+        // $user->socialAccounts()->create([
+        //     'provider_id'   => $providerUser->getId(),
+        //     'provider_name' => $provider,
+        // ]);
 
-        return $user;
+        // return $user;
     }
 }

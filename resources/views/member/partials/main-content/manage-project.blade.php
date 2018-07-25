@@ -71,7 +71,7 @@
                             <td>{{$history->updated_at}}</td>
                             <td>
                                 <a href="{{route('history.edit', ['id' => $history->id])}}" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Ubah History {{$history->title}}","actionUrl":"{{route('history.update', ['id' => $history->id])}}","edit":"Ubah Histori", "lg":true, "cancel":"Batal"}'><i class="far fw fa-edit"></i> Edit</a>
-                                <a class="btn btn-sm btn-danger" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus History","text":"Hapus proyek {{$history->title}} ?", "actionUrl":"{{route('history.destroy', ["id" => $history->id])}}","delete":"Hapus History", "cancel":"Batalkan","redirectAfter":"{{route('manage.project', ['slug' => $history->project->project_slug])}}","pjax-container":"#mr"}'><i class="far fw fa-trash-alt"></i> Hapus</a>
+                                <a class="btn btn-sm btn-danger" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus History","text":"Hapus proyek {{$history->title}} ?", "actionUrl":"{{route('history.destroy', ["id" => $history->id])}}","delete":"Hapus History", "cancel":"Batalkan","redirectAfter":"{{route('project.manage', ['slug' => $history->project->project_slug])}}","pjax-container":"#mr"}'><i class="far fw fa-trash-alt"></i> Hapus</a>
                             </td>
                         </tr>
                     @endforeach

@@ -12,9 +12,17 @@
 // Summernote WYSIWYG
 @import '~summernote/dist/summernote-bs4.css';
 // Jquery Bootstrap scrolling tabs
-@import '~jquery-bootstrap-scrolling-tabs/src/scss/jquery.scrolling-tabs';
-// // Data Tables Bootstrap 4
-// @import '~datatables.net-bs4/css/dataTables.bootstrap4';
+// @import '~jquery-bootstrap-scrolling-tabs/src/scss/jquery.scrolling-tabs';
+// Data Tables Bootstrap 4
+@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+// Owl Carousel 2
+@import '~owl.carousel/dist/assets/owl.carousel.min.css';
+// Animate.css
+@import '~animate.css/animate.min.css';
+// select 2 core
+@import '~select2/src/scss/core';
+// select 2 bs 4
+@import '~select2-bootstrap4-theme/src/select2-bootstrap4';
 // SweetAlert2
 @import '~sweetalert2/src/sweetalert2';
 // Bootstrap Overriding

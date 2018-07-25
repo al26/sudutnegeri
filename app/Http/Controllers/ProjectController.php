@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Project;
+use App\Regency;
+use App\Donation;
 use App\Data_historis As History;
 
 class ProjectController extends Controller
@@ -30,7 +32,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('member.partials.modal.create_project');
+        $data['regencies'] = Regency::all();
+        return view('member.partials.modal.create_project', $data);
     }
 
     /**
@@ -101,11 +104,12 @@ class ProjectController extends Controller
      */
     public function show($slug, $menu = null)
     {
+        $project = Project::where('project_slug', $slug)->first();
         $data['slug'] = $slug;
         $data['menu'] = $menu;
-        $data['project'] = Project::where('project_slug', $slug)->first();
-        
-        // dd($data['project']->historis);
+        $data['project'] = $project;
+        $data['donators'] = Donation::where('project_id', $project->id)->get();
+    
         return view('details', $data);
     }
 

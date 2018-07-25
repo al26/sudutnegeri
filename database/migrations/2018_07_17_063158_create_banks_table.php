@@ -17,6 +17,9 @@ class CreateBanksTable extends Migration
             $table->increments('id');
             $table->string('bank_name');
             $table->string('bank_code');
+            $table->string('bank_address');
+            $table->string('account_name');
+            $table->string('account_number');
             $table->string('logo');
         });
     }

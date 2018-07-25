@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div id="p-pic-container" class="text-center">
-                <img id="p-pic" class="card-img-bottom img-thumbnail" src="{{asset('storage/profile_pictures/'.$user_profile->profile_picture)}}" alt="Profile Picture">
+                <img id="p-pic" class="card-img-bottom img-thumbnail" src="{{asset($user_profile->profile_picture)}}" alt="Profile Picture">
                 <a id="p-pic-overlay" class="text-white decoration-none" href=""><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
             </div>
             <div id="p-data" class="card-img-overlay">
@@ -48,16 +48,19 @@
             toggleActiveContentTab();
             $(document).loadModal();
             $(document).ajaxPagination();
-            $(document).activeteSummernote();
+            $(document).activateSummernote();
+            $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
             $('.the-summernote').summernote();
+            activateOptGenerator();
+            $('.select2').select2({theme: "bootstrap4",tags: true,});
         });
 
-        $('#password-create').on('click', function(e){
+        $(document).on('click', '#password-create', function(e){
             e.preventDefault();
             $('#form-account').ajaxCrudNonModal('#mr');
         });
 
-        $('#profile-edit').on('click', function(e){
+        $(document).on('click', '#profile-edit', function(e){
             e.preventDefault();
             $('#form-profile').ajaxCrudNonModal('#mr');
         });
@@ -74,16 +77,12 @@
         });
 
         $('#mc, #mr').on('pjax:complete', function() {
-            reactivateSelectPicker();
+            $('.select2').select2({theme: "bootstrap4",tags: true,});
             $('#example').DataTable();
+            activateOptGenerator();
+            $(document).activateSummernote();
+            $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
         });
-
-        $('.dsp').selectpicker();     
-        
-        function reactivateSelectPicker() {
-            $('.dsp').selectpicker('render');
-            $('.dsp').selectpicker('refresh');
-        }
 
         function toggleActiveMenuTab() {
             var path = document.location.pathname,
@@ -94,8 +93,6 @@
                 }
             });
             $('#m-'+menu[2]).addClass('active');
-            $('.dsp').selectpicker('render');
-            $('.dsp').selectpicker('refresh');
         }
 
         function toggleActiveContentTab() {
@@ -107,6 +104,11 @@
                 }
             });
             $('#m-'+menu[2]+'-'+menu[3]).addClass('active');
+        }
+
+        function activateOptGenerator(){
+            generateOption('#province_id', '#regency_id', 'regencies', 'Kabupaten/Kota');
+            generateOption('#regency_id', '#district_id', 'districts', 'Kecamatan');
         }
 
         

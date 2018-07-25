@@ -23,10 +23,10 @@ class CreateProjectsTable extends Migration
             $table->string('project_location');
             $table->dateTime('project_deadline');
             $table->unsignedInteger('funding_target');
-            $table->unsignedInteger('funding_progress');
+            $table->unsignedInteger('funding_progress')->nullable();
             $table->unsignedInteger('volunteer_quota');
-            $table->unsignedInteger('registered_volunteer');
-            $table->string('project_banner');
+            $table->unsignedInteger('registered_volunteer')->nullable();
+            $table->string('project_banner')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

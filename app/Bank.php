@@ -10,6 +10,6 @@ class Bank extends Model
 
     public function donations() 
     {
-        return $this->belongsTo('App\Donation');
+        return $this->hasMany('App\Donation');
     }
 }

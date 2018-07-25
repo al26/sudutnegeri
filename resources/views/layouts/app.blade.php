@@ -12,9 +12,9 @@
 
     
     <!-- owl carousel plugin -->
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/dataTables-bs4.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('css/animate.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('css/dataTables-bs4.css') }}"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}"> --}}
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -126,7 +126,7 @@
                         @else
                             <li class="nav-item d-flex flex-row align-items-center">
                                 <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="btn d-flex flex-row align-items-center border-right" data-toggle="tooltip" data-placement="bottom" title="Dashboard">
-                                    <img src="{{asset('storage/profile_pictures/'.Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar"> 
+                                    <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar"> 
                                     <span class="ml-2 text-white">{{Auth::user()->profile->name}}</span>
                                 </a>
 
@@ -138,10 +138,10 @@
                                         <div class="card-body p-2 text-center">
                                             <a class="btn btn-sm btn-link text-danger decoration-none" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
-                                                        document.getElementById('logout-form').submit();">Keluar <i class="fas fw fa-sign-out-alt"></i>
+                                                        document.getElementById('ds-logout-form').submit();">Keluar <i class="fas fw fa-sign-out-alt"></i>
                                             </a>
 
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            <form id="ds-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                                 @csrf
                                             </form>
                                         </div>

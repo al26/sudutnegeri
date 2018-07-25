@@ -97,7 +97,7 @@
                     <div class="card m-0 mb-3">
                         <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
                         <div class="media campaigner">
-                            <img class="mr-3" src="http://via.placeholder.com/200x200" alt="Generic placeholder image">
+                            <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Generic placeholder image">
                             <div class="media-body">
                                 {{$project->user->profile->name}}
                             </div>

@@ -33,12 +33,12 @@
                             <span class="--text text-capitalize">target {{$project->funding_target}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['projectId' => $project->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Mulai Investasi","add":"Investasi Sekarang","cancel":"Batal", "actionUrl":"{{route('donation.store')}}"}'>Mulai Investasi</a>
+                            <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug])}}">Mulai Investasi</a>
                         </div>
                     </section>
                     <section class="card --content mb-lg-3 info-relawan">
                         <div class="card-body">
-                            <span class="--text text-capitalize">{{$project->registered_volunteer}} relawan</span>
+                            <span class="--text text-capitalize">{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}} relawan</span>
                             <div id="volunteer-carousel" class="owl-carousel owl-theme my-2">
                                 @for ($i = 1; $i < 9; $i++)
                                     <div class="item">                                            
@@ -49,7 +49,7 @@
                             <span class="--text text-capitalize">target {{$project->volunteer_quota}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            <a href="" class="btn btn-small btn-danger text-capitalize w-100">Jadi Relawan</a>
+                            <a class="btn btn-small btn-danger text-capitalize w-100">Jadi Relawan</a>
                         </div>
                     </section>
                 </div>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="--author">
                         <div class="media">
-                            <img class="mr-3" src="{{asset('storage/profile_pictures/'.$project->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
+                            <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
                             <div class="media-body">
                                 <p class="mb-2">Campaigner</p>
                                 <h5 class="mb-0">{{$project->user->profile->name}}</h5>
@@ -104,23 +104,23 @@
     $(document).ready(function(){
         toggleActiveMenuTab();
         $(document).loadModal();
-        $(document).activeteSelectPicker();
+        // $(document).activeteSelectPicker();
 
         $('#donation-btn').on('click', function(e){
-            e.preventDefault();
+            // e.preventDefault();
             var isAuth = "{{Auth::check()}}";
             
             if(!isAuth) {
-                $('#modal').on('show.bs.modal', function(ev){
-                    ev.stopPropegation();
-                });
+                return false;
                 swal({
                     type: 'error',
                     title: 'Oops...',
                     text: 'Anda belum Login. Silahkan Login terlebih dahulu !',
                     showConfirmButton: false,
                     footer: '<a href="{{route('login')}}" class="btn btn-secondary btn-sm">Login</a>'
-                })
+                });
+            } else {
+                return true;
             }
         });
 

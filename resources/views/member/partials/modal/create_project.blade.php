@@ -13,7 +13,12 @@
         </div>
         <div class="form-group">
             <label for="project_location">Lokasi</label>
-            <input type="text" class="form-control" id="project_location" placeholder="Lokasi" name="data[project_location]">
+            <select id="project_location" name="data[project_location]" class="select2 col-12">
+                <option selected disabled>--Pilih Lokasi--</option>
+                {{-- @foreach($regencies as $regency)
+                    <option value="{{$regency->name}}">{{$regency->name}}</option>
+                @endforeach --}}
+            </select>
         </div>
         <div class="form-group">
             <label for="project_deadline">Tenggat Waktu</label>

@@ -25,8 +25,8 @@ Route::namespace('Auth')->group(function () {
     Route::get('/auth/{provider}',          'SocialAccountController@redirectToProvider')->name('oauth.login');
     Route::get('/auth/{provider}/callback', 'SocialAccountController@handleProviderCallback');
     Route::put('/password/create', 'SocialAccountController@createPassword')->name('password.create');
-    Route::get('/connect/{provider}',          'SocialAccountController@redirectToProvider')->name('oauth.connect');
-    Route::get('/connect/{provider}/callback', 'SocialAccountController@connect');
+    Route::get('/connect/{provider}',          'SocialAccountController@connect')->name('oauth.connect');
+    // Route::get('/connect/{provider}/callback', 'SocialAccountController@connect');
 });
 
 Route::group(['prefix' => 'dashboard'], function () {
@@ -40,7 +40,7 @@ Route::group(['prefix' => 'dashboard'], function () {
             )
             ->name('dashboard');
     Route::get('sudut/projects/manage/{slug}', 'ProjectController@manage')->name('project.manage');
-    Route::get('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
+    Route::put('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -60,6 +60,10 @@ Route::group(['prefix' => 'project'], function () {
                 ['menu'     => '(detail|history|sinegeri|faq)']
             )
             ->name('project.show');
+    Route::get('details/{slug}/donate', 'DonationController@create')->name('donation.create');
+    Route::get('details/{slug}/donate/invoice', 'DonationController@invoice')->name('donation.invoice');
+    Route::get('details/{slug}/donate', 'DonationController@create')->name('donation.create');
+
     Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
     Route::put('update/{id}', 'ProjectController@update')->name('project.update');
     Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
@@ -71,11 +75,31 @@ Route::group(['prefix' => 'project'], function () {
 });
 
 Route::group(['prefix' => 'donation', 'middleware' => 'web'], function () {
-    Route::resource('donation', 'DonationController');
-    Route::get('create/{projectId?}', 'DonationController@create')->name('donation.create');
+    Route::post('store', 'DonationController@store')->name('donation.store');
 });
 
 Route::group(['prefix' => 'component'], function () {
     Route::get('modal-body/{parent_directory?}/{content}', 'ComponentContentController@getModalBody')->name("get.modal");
     Route::get('modal','ComponentContentController@loadModal')->name('load.modal');
 });
+
+Route::get('json/option/{table}', function (\Illuminate\Http\Request $request, $table) {
+    $id = $request->id;
+    if($table == 'regencies'){
+        $data = \App\Regency::where('province_id', $id)->get();
+    }
+
+    if($table == 'districts'){
+        $data = \App\District::where('regency_id', $id)->get();
+    }
+    
+    return response()->json($data);
+})->name('json.option');
+
+Route::post('location', function (\Illuminate\Http\Request $request) {
+    $key = $request->key;
+
+    $items = \App\Regency::where("name","like","%$key%")->pluck('name');
+
+    return response()->json(["items" => $items]);
+})->name('get.location');

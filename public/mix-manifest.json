@@ -1,6 +1,4 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/css/dataTables-bs4.css": "/css/dataTables-bs4.css",
-    "/css/summernote-bs4.css": "/css/summernote-bs4.css"
+    "/css/app.css": "/css/app.css"
 }
