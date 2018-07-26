@@ -79,15 +79,13 @@ class DonationController extends Controller
                 "status"     => "Pending"
             ];
 
-            // dd($create);
-
             $store = Donation::create($create);
             if($store) {
                 $pid = Project::where('project_slug', $request->data['project_slug'])->pluck('id')[0];
                 $progress = [
-                    "funding_progress" => Donation::where('project_id', $pid)->sum('amount');
+                    "funding_progress" => Donation::where('project_id', $pid)->sum('amount')
                 ];
-
+                
                 Project::where('project_slug', $request->data['project_slug'])->update($progress);
 
                 $return = redirect()->route('donation.invoice', ['slug' => $request->data['project_slug']]);
