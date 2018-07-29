@@ -49,7 +49,7 @@
                             <span class="--text text-capitalize">target {{$project->volunteer_quota}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            <a class="btn btn-small btn-danger text-capitalize w-100" href="">Jadi Relawan</a>
+                            <a class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
                         </div>
                     </section>
                 </div>

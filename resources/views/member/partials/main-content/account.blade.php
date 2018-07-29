@@ -58,19 +58,14 @@
                         @if (in_array("facebook", $sns))
                             <a class="btn btn-link decoration-none p-0" href="">Putuskan koneksi dengan Facebook</a>
                         @else
-                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.connect', ['provider' => 'facebook'])}}">Hubungkan dengan akun Facebook</a>
+                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.login', ['provider' => 'facebook', 'action' => 'connect'])}}">Hubungkan dengan akun Facebook</a>
                         @endif
                     </li>
                     <li class="list-group-item border-0"><span class="fa-li"><i class="fab fw fa-google-plus-square" data-fa-transform ="grow-20" style="color:#dd4b39"></i></span>
                         @if (in_array("google", $sns))
-                            <a class="btn btn-link decoration-none p-0" href="">Putuskan koneksi dengan akun Google</a>
+                            <a class="btn btn-link decoration-none p-0" href="">Putuskan koneksi dengan Google</a>
                         @else
-                            <form action="{{route('oauth.login', ['provider' => 'google'])}}" method="GET" style="display:none;" id="g-connect">
-                                @csrf
-                                <input type="hidden" name="data[email]" value="{{Auth::user()->email}}">
-                            </form>
-                            <a class="btn btn-sm btn-link decoration-none" target="_blank" href="{{route('oauth.login', ['provider' => 'google'])}}">Hubungkan dengan akun google
-                            </a>
+                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.login', ['provider' => 'google', 'action' => 'connect'])}}">Hubungkan dengan akun Google</a>
                         @endif    
                     </li>
                 </ul>

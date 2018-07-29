@@ -8,6 +8,6 @@
     </div>
     <div class="form-group">
         <label for="description">Detail Update</label>
-        <textarea class="form-control the-summernote" id="body" rows="3" name="data[body]"></textarea>
+        <textarea class="form-control editor" id="body" rows="3" name="data[body]"></textarea>
     </div>
 </form>

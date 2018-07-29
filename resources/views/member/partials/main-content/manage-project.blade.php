@@ -47,36 +47,47 @@
                 </a>
             </div>
         </div>
-        <div class="form-section mt-3">
-            <div class="fs-head"><span class="fs-head-text">Data Historis {{$data['name']}}</span></div>
+        <div class="form-section mt-3 clearfix">
+            <div class="fs-head">
+                <span class="fs-head-text">Data Historis {{$data['name']}}</span>
+                <a href="{{route('history.create', ['projectId' => $data['id']])}}" class="btn btn-sm btn-secondary float-right" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Tulis Update Proyek {{$data['name']}}","actionUrl":"{{route('history.store')}}","add":"Post Update", "lg":true, "cancel":"Batal"}'><i class="fas fw fa-pencil-alt"></i> Tulis Update</a>
+            </div>
+            
         </div>
         <div class="row section-content">
-            <a href="{{route('history.create', ['projectId' => $data['id']])}}" class="btn btn-sm btn-secondary mx-3 mb-3" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Tulis Update Proyek {{$data['name']}}","actionUrl":"{{route('history.store')}}","add":"Post Update", "lg":true, "cancel":"Batal"}'><i class="fas fw fa-pencil-alt"></i> Tulis Update</a>
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Judul Update</th>
-                        <th>Penulis</th>
-                        <th>Dibuat</th>
-                        <th>Diperbarui</th>
-                        <th>Opsi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($historis as $history)
+            <div class="col-12">
+                <table id="example" class="table table-striped table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{$history->title}}</td>
-                            <td>{{$history->user->profile->name}}</td>
-                            <td>{{$history->created_at}}</td>
-                            <td>{{$history->updated_at}}</td>
-                            <td>
-                                <a href="{{route('history.edit', ['id' => $history->id])}}" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Ubah History {{$history->title}}","actionUrl":"{{route('history.update', ['id' => $history->id])}}","edit":"Ubah Histori", "lg":true, "cancel":"Batal"}'><i class="far fw fa-edit"></i> Edit</a>
-                                <a class="btn btn-sm btn-danger" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus History","text":"Hapus proyek {{$history->title}} ?", "actionUrl":"{{route('history.destroy', ["id" => $history->id])}}","delete":"Hapus History", "cancel":"Batalkan","redirectAfter":"{{route('project.manage', ['slug' => $history->project->project_slug])}}","pjax-container":"#mr"}'><i class="far fw fa-trash-alt"></i> Hapus</a>
-                            </td>
+                            <th>Judul Update</th>
+                            <th>Penulis</th>
+                            <th>Dibuat</th>
+                            <th>Diperbarui</th>
+                            <th>Opsi</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($historis as $history)
+                            @php
+                                $created_at = new DateTime($history->created_at);
+                                $created_at->setTimezone(new DateTimeZone('Asia/Jakarta'));
+                                $updated_at = new DateTime($history->updated_at);
+                                $updated_at->setTimezone(new DateTimeZone('Asia/Jakarta'));
+                            @endphp
+                            <tr>
+                                <td>{{$history->title}}</td>
+                                <td>{{$history->user->profile->name}}</td>
+                                <td>{{$created_at->format('d-m-Y, H:i')}}</td>
+                                <td>{{$updated_at->format('d-m-Y, H:i')}}</td>
+                                <td>
+                                    <a href="{{route('history.edit', ['id' => $history->id])}}" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Ubah History {{$history->title}}","actionUrl":"{{route('history.update', ['id' => $history->id])}}","edit":"Ubah Histori", "lg":true, "cancel":"Batal"}'><i class="far fw fa-edit"></i> Edit</a>
+                                    <a class="btn btn-sm btn-danger" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus History","text":"Hapus proyek {{$history->title}} ?", "actionUrl":"{{route('history.destroy', ["id" => $history->id])}}","delete":"Hapus History", "cancel":"Batalkan","redirectAfter":"{{route('project.manage', ['slug' => $history->project->project_slug])}}","pjax-container":"#mr"}'><i class="far fw fa-trash-alt"></i> Hapus</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

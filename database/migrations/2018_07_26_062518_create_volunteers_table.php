@@ -19,6 +19,8 @@ class CreateVolunteersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('project_id');  
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->text('motivation');
+            $table->text('eligibility');
             $table->string('status');
             $table->timestamps();
         });

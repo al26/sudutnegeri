@@ -19,7 +19,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $('.smnt').summernote();
+    // $('.smnt').summernote();
     
     var validateNumericInput = function(selector){
         console.log(selector);
@@ -70,24 +70,30 @@ $(document).ready(function(){
     handleAgreement = function(checkbox, target) {
         if(checkbox.checked == true){
             $('#'+target).removeAttr("disabled");
-            console.log('checked');
         } else{
             $('#'+target).attr("disabled", "disabled");
-            console.log('not checked');
+        }
+    }
+
+    checkAgreement = function(btn, reference) {
+        if($('#'+reference+':checkbox:checked').length > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 });
 
 $.fn.select2.defaults.set( "theme", "bootstrap4" );
 
-$(function() {
-    $('.selectpicker').selectpicker({
-        mobile: true,
-    });
+// $(function() {
+//     $('.selectpicker').selectpicker({
+//         mobile: true,
+//     });
 
-    $('.selectpicker').on( 'hide.bs.select', function ( ) {
-        $(this).trigger("focusout");
-    });
-});
+//     $('.selectpicker').on( 'hide.bs.select', function ( ) {
+//         $(this).trigger("focusout");
+//     });
+// });
 
 $.pjax.defaults.scrollTo = false;

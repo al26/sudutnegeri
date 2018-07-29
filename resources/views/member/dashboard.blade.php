@@ -41,18 +41,49 @@
 </div>
 @endsection
 @section('script')
+{{-- <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script> --}}
+<script>
+        ClassicEditor
+        .create( document.querySelector('.editor') )
+        .then( editor => {
+            console.log( editor );
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
     <script>
         $(document).ready(function() {
-            $('#example').DataTable();
+            $('#example').DataTable(
+                {
+                    "language": {
+                        "sProcessing":   "Sedang proses...",
+                        "sLengthMenu":   "Tampilan _MENU_ entri",
+                        "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+                        "sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+                        "sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+                        "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                        "sInfoPostFix":  "",
+                        "sSearch":       "Cari:",
+                        "sUrl":          "",
+                        "oPaginate": {
+                            "sFirst":    "Awal",
+                            "sPrevious": "Balik",
+                            "sNext":     "Lanjut",
+                            "sLast":     "Akhir"
+                        }
+                    }
+                }
+            );
             toggleActiveMenuTab();
             toggleActiveContentTab();
             $(document).loadModal();
             $(document).ajaxPagination();
-            $(document).activateSummernote();
-            $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
-            $('.the-summernote').summernote();
+            $(document).activateCKEditor();
+            // $('.the-summernote').summernote();
             activateOptGenerator();
             $('.select2').select2({theme: "bootstrap4",tags: true,});
+            $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
         });
 
         $(document).on('click', '#password-create', function(e){
@@ -80,7 +111,7 @@
             $('.select2').select2({theme: "bootstrap4",tags: true,});
             $('#example').DataTable();
             activateOptGenerator();
-            $(document).activateSummernote();
+            // $(document).activateSummernote();
             $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
         });
 

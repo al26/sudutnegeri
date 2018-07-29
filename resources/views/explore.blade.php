@@ -79,7 +79,7 @@
                     $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
                     $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
 
-                    date_default_timezone_set('Asia/Jakarta');
+                    // date_default_timezone_set('Asia/Jakarta');
 
                     $today = new DateTime('now');
                     $deadline = new DateTime($project->project_deadline);

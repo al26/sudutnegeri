@@ -33,7 +33,7 @@
                 <div class="form-group row mx-0">
                     <label class="fs-label col-12 col-md-3" for="biography">Biografi</label>
                     <div class="col-12 col-md-9">
-                        <textarea class="form-control" id="biography" name="data[biography]" rows="5" placeholder="Deskripsikan dirimu">{{Auth::user()->profile->biography}}</textarea>
+                        <textarea class="form-control editor" id="biography" name="data[biography]" rows="5" placeholder="Deskripsikan dirimu">{{Auth::user()->profile->biography}}</textarea>
                     </div>
                 </div>
                 {{-- <div class="form-group row mx-0">

@@ -22,8 +22,18 @@ class Project extends Model
         return $this->hasMany('App\Data_historis');
     }
 
-    public function donation() 
+    public function donations() 
     {
-        return $this->hasOne('App\Donation');
+        return $this->hasMany('App\Donation');
+    }
+
+    public function volunteers() 
+    {
+        return $this->hasMany('App\Volunteer');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany('App\Additional_question');
     }
 }

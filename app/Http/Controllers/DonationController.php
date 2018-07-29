@@ -151,6 +151,6 @@ class DonationController extends Controller
         $data['donation'] = Donation::where($where)->orderBy('id', 'desc')->first();
 
         // dd($data);
-        return view('member.partials.modal.invoice', $data);
+        return view('member.invoice', $data);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Rules\CheckRole;
+use App\Donation;
 
 class AdminController extends Controller
 {
@@ -15,8 +16,10 @@ class AdminController extends Controller
         $this->middleware(['auth:admin'])->except(['showLoginForm', 'login']);
     }
 
-    public function index() {
-        return view('admin.dashboard');
+    public function index($menu = null) {
+        $data['menu'] = $menu;
+        $data['donations'] = Donation::all();
+        return view('admin.dashboard', $data);
     }
 
     public function showLoginForm() {
@@ -35,9 +38,11 @@ class AdminController extends Controller
         ]; 
 
         if ( Auth::guard('admin')->attempt($credential, $request->remember) ) {
+            // dd('masuk');
             return redirect()->intended(route('admin.dashboard'));
         }
-
+        
+        // dd($credential);
         return redirect()->back()->withInput($request->only('email', 'remember'));
     }
 

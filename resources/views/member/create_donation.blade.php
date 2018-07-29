@@ -47,11 +47,11 @@
                             </small>
                         </div>
                         <div class="custom-control custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="agreement" name="data[agreement]" onchange="javascript:handleAgreement(this, 'donate');">
+                            <input type="checkbox" class="custom-control-input" id="agreement" onchange="javascript:handleAgreement(this, 'donate');">
                             <label class="custom-control-label" for="agreement">Saya setuju dengan <a href="">syarat & ketentuan</a> Sudut Negeri</label>
                         </div>
                         <div class="form-group d-flex">
-                            <button type="submit" id="donate" class="btn btn-secondary w-50 mx-1" disabled>Lanjut</button>
+                            <button type="submit" id="donate" class="btn btn-secondary w-50 mx-1" disabled onclick="javascript:return checkAgreement(this, 'permitance');">Lanjut</button>
                             <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="btn btn-danger w-50 mx-1">Batal</a>
                         </div>
                     </form>

@@ -159,9 +159,17 @@
         })
     }
     
-    $.fn.activateSummernote = function() {
+    $.fn.activateCKEditor = function() {
         $("#modal").on("shown.bs.modal", function(e) {
-            $('.the-summernote').summernote();
+            // $('.the-summernote').summernote();
+            ClassicEditor
+            .create( document.querySelector('.editor') )
+            .then( editor => {
+                console.log( editor );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
         });
     }
 

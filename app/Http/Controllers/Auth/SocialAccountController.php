@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Cookie;
 use App\User;
 use App\SocialAccount;
 use Illuminate\Support\Facades\Hash;
@@ -20,12 +21,20 @@ class SocialAccountController extends Controller
      *
      * @return Response
      */
-    protected $redirectBack = '';
+    protected $referer;
+    protected $socialUser;
+    protected $action;
     
-    public function redirectToProvider($provider)
+    public function redirectToProvider(Request $req, $provider)
     {
-        // $this->$redirectBack = $prev;
+        Cookie::queue('action', $req->query('action'), 2);
+        Cookie::queue('referer', $req->header('referer'), 2);
         return Socialite::driver($provider)->redirect();
+    }
+
+    private function setSocialUser($user)
+    {
+        $this->socialUser = $user;
     }
 
     /**
@@ -33,20 +42,26 @@ class SocialAccountController extends Controller
      *
      * @return Response
      */
-    public function handleProviderCallback(Request $request, $provider)
+    public function handleProviderCallback(Request $req, $provider)
     {
+        $this->referer = !empty($req->cookie('referer')) ? $req->cookie('referer') : '/dashboard';
+
         try {
             $user = Socialite::driver($provider)->user();
         } catch (Exception $e) {
-            return redirect('/login');
+            return 'error';
         }    
 
-        $authUser = $this->findOrCreate($user, $provider);
+        if($req->cookie('action') === 'login') {
+            $authUser = $this->findOrCreate($user, $provider);
+            Auth::login($authUser, true);
+        }
 
-        Auth::login($authUser, true);
+        if($req->cookie('action') === 'connect'){
+            $this->connect($user->getId(), $provider);
+        }
 
-        return redirect('/dashboard');
-        
+        return redirect($this->referer);        
     }
 
     public function findOrCreate($providerUser, $provider){
@@ -63,23 +78,12 @@ class SocialAccountController extends Controller
                 $user = User::create([  
                     'email' => $providerUser->getEmail(),
                 ]);
-
-                // switch ($provider) {
-                //     case 'facebook':
-                //         $link = $providerUser->getLink()
-                //         break;
-                    
-                //     default:
-                //         # code...
-                //         break;
-                // }
             }
 
             $user->profile()->create([
                 'name'  => $providerUser->getName(),
             ]);
 
-            // dd($user->profile->id);
             $user->profile->address()->create([
                 'user_profile_id' => $user->profile->id,
             ]);
@@ -87,7 +91,6 @@ class SocialAccountController extends Controller
             $user->socialAccounts()->create([
                 'provider_id'   => $providerUser->getId(),
                 'provider_name' => $provider,
-                // 'link'          => $link,
             ]);
 
             return $user;
@@ -135,24 +138,12 @@ class SocialAccountController extends Controller
         return response()->json($return);
     }
 
-    public function connect(Request $request, $provider) {
-        try {
-            $providerUser = Socialite::driver($provider)->user();
-            dd($providerUser);
-        } catch (Exception $e) {
-            return "Tidak dapat terhubung ke $provider";
-        }    
+    public function connect($provider_id, $provider) {
+        $user = auth()->user();
 
-        // $user = User::where('email', $request->data['email'])->first();
-        // if (! $user) {
-        //     return "terjadi kesalahan. Silahkan coba lagi";
-        // }
-
-        // $user->socialAccounts()->create([
-        //     'provider_id'   => $providerUser->getId(),
-        //     'provider_name' => $provider,
-        // ]);
-
-        // return $user;
+        $user->socialAccounts()->create([
+            'provider_id'   => $provider_id,
+            'provider_name' => $provider,
+        ]);
     }
 }

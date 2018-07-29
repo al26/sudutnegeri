@@ -1,3 +1,6 @@
+@php
+    $total = $investments->sum('amount');
+@endphp
 <div class="card">
     <div class="card-body">
         <div class="form-section">
@@ -10,9 +13,10 @@
                 <div class="info-box">
                     <div class="info-box-inner">
                         <h3 class="text-secondary">{{$total}}</h3>
+                        <br><br>
                     </div>
                     <div class="info-box-icon">
-                        <i class="far fa-edit"></i>
+                        <i class="fas fa-hands"></i>
                     </div>
                 </div>
             </div>
@@ -21,7 +25,6 @@
             <div class="fs-head"><span class="fs-head-text">Investasi Saya</span></div>
         </div>
         <div class="row section-content">
-            <a href="{{route('project.browse', ['category' => 'all'])}}" class="btn btn-sm btn-secondary mx-3 mb-3" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Tulis Update Proyek {{$data['name']}}","actionUrl":"{{route('history.store')}}","add":"Post Update", "lg":true, "cancel":"Batal"}'><i class="fas fw fa-pencil-alt"></i> Tambah Investasi</a>
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>

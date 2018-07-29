@@ -50,7 +50,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');  
     });
-    Route::get('dashboard', 'AdminController@index')->name('admin.dashboard');
+    Route::get('dashboard/{menu?}', 'AdminController@index')
+            ->where(
+                ['menu'     => '(overview|users|donations)',]
+            )
+            ->name('admin.dashboard');
 });
 
 Route::group(['prefix' => 'project'], function () {
@@ -62,7 +66,8 @@ Route::group(['prefix' => 'project'], function () {
             ->name('project.show');
     Route::get('details/{slug}/donate', 'DonationController@create')->name('donation.create');
     Route::get('details/{slug}/donate/invoice', 'DonationController@invoice')->name('donation.invoice');
-    Route::get('details/{slug}/donate', 'DonationController@create')->name('donation.create');
+    Route::get('details/{slug}/volunteer-reg', 'VolunteerController@create')->name('volunteer.create');
+    // Route::get('details/{slug}/volunteer-reg/post-reg', 'VolunteerController@create')->name('volunteer.create');
 
     Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
     Route::put('update/{id}', 'ProjectController@update')->name('project.update');
@@ -76,6 +81,10 @@ Route::group(['prefix' => 'project'], function () {
 
 Route::group(['prefix' => 'donation', 'middleware' => 'web'], function () {
     Route::post('store', 'DonationController@store')->name('donation.store');
+});
+
+Route::group(['prefix' => 'volunteer', 'middleware' => 'web'], function () {
+    Route::post('store', 'VolunteerController@store')->name('volunteer.store');
 });
 
 Route::group(['prefix' => 'component'], function () {

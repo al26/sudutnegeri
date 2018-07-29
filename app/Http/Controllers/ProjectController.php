@@ -82,7 +82,7 @@ class ProjectController extends Controller
             $return = ["errors" => $validator->messages()];
         } else {
             $data["project_slug"] = md5($request->data['project_name']);
-            date_default_timezone_set('Asia/Jakarta');
+            // date_default_timezone_set('Asia/Jakarta');
             $data["project_deadline"] = date_create_from_format('Y-m-d', $request->data['project_deadline'])->format('Y-m-d H:i:s');
             
             $store = Project::create($data);
