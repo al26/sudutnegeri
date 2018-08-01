@@ -13,6 +13,8 @@
                 <a href="" id="mbtn-delete" class="mbtn btn btn-danger btn-sm" style="display:none"></a>
                 <a href="" id="mbtn-add" class="mbtn btn btn-success btn-sm" style="display:none"></a>
                 <a href="" id="mbtn-edit" class="mbtn btn btn-primary btn-sm" style="display:none"></a>
+                <a href="" id="mbtn-yes" class="mbtn btn btn-success btn-sm" style="display:none"></a>
+                <a href="" id="mbtn-no" class="mbtn btn btn-danger btn-sm" style="display:none"></a>
                 <a href="" role="button" id="mbtn-cancel" class="mbtn btn btn-secondary btn-sm" data-dismiss="modal" style="display:none"></a>
             </div>
         </div>

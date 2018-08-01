@@ -62432,7 +62432,10 @@ $(function () {
             $(".modal-body").empty();
             var url = $(e.relatedTarget).attr('href'),
                 md = $('.modal-dialog');
-            data = $(e.relatedTarget).data('modal'), data['modal'] = true, data['pjax-reload'] = '#mr';
+            data = $(e.relatedTarget).data('modal');
+
+            console.log(data);
+            data['modal'] = true, data['pjax-reload'] = '#mr';
 
             $(".modal-title").text(data['title']);
 
@@ -62483,6 +62486,25 @@ $(function () {
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
             $("#mbtn-edit").show(100);
+        }
+
+        if (data['yes']) {
+            $('#mbtn-yes').on('click', function (e) {
+                e.preventDefault();
+                yesnoSubmit(data['yesUrl'], data, 'yes');
+            });
+
+            $("#mbtn-yes").html("<i class='fas fa-check'></i> " + data['yes']);
+            $("#mbtn-yes").show(100);
+        }
+
+        if (data['no']) {
+            $('#mbtn-no').on('click', function (e) {
+                e.preventDefault();
+                yesnoSubmit(data['noUrl'], data, 'no');
+            });
+            $("#mbtn-no").html("<i class='fas fa-times'></i> " + data['no']);
+            $("#mbtn-no").show(100);
         }
 
         if (data['cancel']) {
@@ -62558,29 +62580,84 @@ $(function () {
             data: { '_method': 'DELETE', '_token': csrf_token },
             success: function success(response) {
                 if (response.success) {
-                    $('#modal').modal('hide');
-                    $('#modal').on('hidden.bs.modal', function () {
-                        swal({
-                            type: 'success',
-                            title: response.success,
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                    if (data['modal']) {
+                        $('#modal').modal('hide');
+                    }
+                    swal({
+                        type: 'success',
+                        title: response.success,
+                        showConfirmButton: false,
+                        timer: 1500
                     });
+
                     $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
                 }
 
                 if (response.errors) {
-                    $('#modal').modal('hide');
-                    $('#modal').on('hidden.bs.modal', function () {
-                        swal({
-                            type: 'error',
-                            title: response.errors,
-                            showConfirmButton: true
-                        });
+                    if (data['modal']) {
+                        $('#modal').modal('hide');
+                    }
+                    swal({
+                        type: 'success',
+                        title: response.error,
+                        showConfirmButton: false,
+                        timer: 1500
                     });
                 }
             }
+        });
+    }
+
+    function yesnoSubmit(url, data, type) {
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { '_method': 'PUT', '_token': csrf_token },
+            cache: false,
+            ifModified: true,
+            global: false
+        }).done(function (response) {
+            if (response.success) {
+                if (data['modal']) {
+                    $('#modal').modal('hide');
+                }
+
+                if (type == 'yes') {
+                    swal({
+                        type: 'success',
+                        title: response.success,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    swal({
+                        type: 'error',
+                        title: response.success,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+
+                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+            }
+
+            if (response.errors) {
+                if (data['modal']) {
+                    $('#modal').modal('hide');
+                }
+                swal({
+                    type: 'success',
+                    title: response.error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            $('#mbtn-yes').off();
+            $('#mbtn-no').off();
+        }).fail(function (response) {
+            console.log(response);
         });
     }
 
@@ -62807,6 +62884,42 @@ $(document).ready(function () {
             return false;
         }
     };
+
+    // yesnoSubmit = function(link, redirect = nul, pjax = null){
+    //     var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         data: {'_method' : 'PUT', '_token': csrf_token},
+    //         success: function(response) {
+    //             if(response.success) {
+    //                 $('#modal').modal('hide');
+    //                 $('#modal').on('hidden.bs.modal', function(){
+    //                     swal({
+    //                         type: 'success',
+    //                         title: response.success,
+    //                         showConfirmButton: false,
+    //                         timer: 1500,
+    //                     });
+    //                 });
+    //                 $.pjax({url:redirect, container:pjax})
+    //             }
+
+    //             if(response.errors) {
+    //                 $('#modal').modal('hide');
+    //                 $('#modal').on('hidden.bs.modal', function(){
+    //                     swal({
+    //                         type: 'error',
+    //                         title: response.errors,
+    //                         showConfirmButton: true
+    //                     });
+    //                 });
+    //             }
+
+    //         }
+    //     })
+    // }
 });
 
 $.fn.select2.defaults.set("theme", "bootstrap4");

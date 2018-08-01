@@ -51,8 +51,7 @@
             <div class="fs-head">
                 <span class="fs-head-text">Data Historis {{$data['name']}}</span>
                 <a href="{{route('history.create', ['projectId' => $data['id']])}}" class="btn btn-sm btn-secondary float-right" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Tulis Update Proyek {{$data['name']}}","actionUrl":"{{route('history.store')}}","add":"Post Update", "lg":true, "cancel":"Batal"}'><i class="fas fw fa-pencil-alt"></i> Tulis Update</a>
-            </div>
-            
+            </div>      
         </div>
         <div class="row section-content">
             <div class="col-12">

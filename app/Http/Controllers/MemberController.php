@@ -11,6 +11,7 @@ use App\Province;
 use App\User_profile as Profile;
 use App\User_address as Address;
 use App\Donation;
+use App\Volunteer;
 
 class MemberController extends Controller
 {
@@ -36,6 +37,8 @@ class MemberController extends Controller
         $data['sectors'] = Sector::all();
         $data['provinces'] = Province::all();
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
+        $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
+        $data['volunteers'] = Volunteer::whereIn('project_id', $projects_id)->get();
         
         return view('member.dashboard', ['menu' => $menu, 'section' => $section], $data);
     }

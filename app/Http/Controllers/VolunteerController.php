@@ -52,11 +52,13 @@ class VolunteerController extends Controller
         ];
 
         $data = $request->data;
-
-        foreach ($request->questions as $key => $question) {
-            $rules["$key"] = "required";
-            $messages["$key.required"] = "Kolom diatas tidak boleh kosong";  
-            $data["$key"] = $question;
+        
+        if ($request->questions) {
+            foreach ($request->questions as $key => $question) {
+                $rules["$key"] = "required";
+                $messages["$key.required"] = "Kolom diatas tidak boleh kosong";  
+                $data["$key"] = $question;
+            }
         }
 
         $validator = Validator::make($data, $rules, $messages);
@@ -64,13 +66,6 @@ class VolunteerController extends Controller
         if ($validator->fails()) {
             $return = redirect()->back()->withErrors($validator)->withInput($data);
         } else {
-            $ansCreate = [];
-            foreach ($request->questions as $key => $answer) {
-                $ans["question_id"] = substr($key, 8);
-                $ans["answer"] = $answer;
-                array_push($ansCreate, $ans);
-            }
-
             $pid = Project::where('project_slug', $request->data['project_slug'])->pluck('id')[0];
             $create = [
                 "user_id" => $request->data['user_id'],
@@ -82,8 +77,20 @@ class VolunteerController extends Controller
 
             // dd($ansCreate);
 
-            $store = Volunteer::create($create);
-            $store->answers->insert($ansCreate);
+            $volunteer = Volunteer::create($create);
+            $ansCreate = [];
+            if ($request->questions) {
+                foreach ($request->questions as $key => $answer) {
+                    $ans["question_id"] = substr($key, 8);
+                    $ans["answer"] = $answer;
+                    $ans["volunteer_id"] = $volunteer->id;
+                    array_push($ansCreate, $ans);
+                }
+                
+                $store = Answer::insert($ansCreate);
+            } else {
+                $store = $volunteer;
+            }
 
             if($store) {
                 $return = redirect()->back()->with('success', 'sukses daftar');
@@ -104,7 +111,10 @@ class VolunteerController extends Controller
      */
     public function show($id)
     {
-        //
+        $data['volunteer'] = Volunteer::find($id);
+        // $data['questions'] = Question::where('project_id', $data['volunteer']->project_id)->get();
+        $data['answers'] = Answer::with('question')->where('volunteer_id', $data['volunteer']->id)->get();
+        return view('member.partials.modal.show_volunteer_application', $data);
     }
 
     /**
@@ -125,9 +135,58 @@ class VolunteerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id) {
+        $accept = null;
+        $reject = null;
+        $v = Volunteer::find($id);
+        
+        if ($request->query('code') === 'yes') {
+            $v->status = "diterima";
+            $accept = $v->save();
+        } else {
+            $v->status = "tidak diterima";
+            $reject = $v->save();
+        }
+
+        if($accept){
+            $return = ["success" => $v->user->profile->name." berhasil didaftarkan sebagai relawan proyek "]; 
+        } elseif($reject){
+            $return = ["success" => $v->user->profile->name." ditolak sebagai relawan proyek "]; 
+        } else {
+            $return = ["erorr" => "Terjadi kesalahan. Silahkan coba lagi atau hubingi administrator"];
+        }
+
+        return response()->json($return);
+    }
+
+    public function accept(Request $request, $id)
+    {   
+        $v = Volunteer::find($id);
+        $v->status = "diterima";
+        $accept = $v->save();
+
+        if($accept){
+            $return = ["success" => $v->user->profile->name." berhasil didaftarkan sebagai relawan proyek "]; 
+        } else {
+            $return = ["erorr" => "Terjadi kesalahan. Silahkan coba lagi atau hubingi administrator"];
+        }
+
+        return response()->json($return);
+    }
+
+    public function reject(Request $request, $id)
+    {   
+        $v = Volunteer::find($id);
+        $v->status = "tidak diterima";
+        $reject = $v->save();
+
+        if($reject){
+            $return = ["success" => $v->user->profile->name." ditolak sebagai relawan proyek "]; 
+        } else {
+            $return = ["erorr" => "Terjadi kesalahan. Silahkan coba lagi atau hubingi administrator"];
+        }
+
+        return response()->json($return);
     }
 
     /**

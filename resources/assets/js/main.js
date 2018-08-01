@@ -82,6 +82,42 @@ $(document).ready(function(){
             return false;
         }
     }
+
+    // yesnoSubmit = function(link, redirect = nul, pjax = null){
+    //     var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         data: {'_method' : 'PUT', '_token': csrf_token},
+    //         success: function(response) {
+    //             if(response.success) {
+    //                 $('#modal').modal('hide');
+    //                 $('#modal').on('hidden.bs.modal', function(){
+    //                     swal({
+    //                         type: 'success',
+    //                         title: response.success,
+    //                         showConfirmButton: false,
+    //                         timer: 1500,
+    //                     });
+    //                 });
+    //                 $.pjax({url:redirect, container:pjax})
+    //             }
+
+    //             if(response.errors) {
+    //                 $('#modal').modal('hide');
+    //                 $('#modal').on('hidden.bs.modal', function(){
+    //                     swal({
+    //                         type: 'error',
+    //                         title: response.errors,
+    //                         showConfirmButton: true
+    //                     });
+    //                 });
+    //             }
+                
+    //         }
+    //     })
+    // }
 });
 
 $.fn.select2.defaults.set( "theme", "bootstrap4" );

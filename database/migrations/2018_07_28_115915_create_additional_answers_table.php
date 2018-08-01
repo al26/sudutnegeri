@@ -20,7 +20,7 @@ class CreateAdditionalAnswersTable extends Migration
             $table->unsignedInteger('question_id');  
             $table->foreign('question_id')->references('id')->on('additional_questions')->onDelete('cascade');
             $table->text('answer');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 
