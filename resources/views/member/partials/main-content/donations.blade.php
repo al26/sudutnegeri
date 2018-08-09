@@ -1,19 +1,15 @@
 @php
     $total = $investments->sum('amount');
+    $total += $investments->sum('payment_code');
 @endphp
 <div class="card">
     <div class="card-body">
-        <div class="form-section">
-            <div class="fs-head">
-                <span class="fs-head-text">Total Investasi</span>
-            </div>
-        </div>
         <div class="row section-content">
             <div class="col-12 px-2 info-box-parent">
                 <div class="info-box">
                     <div class="info-box-inner">
-                        <h3 class="text-secondary">{{$total}}</h3>
-                        <br><br>
+                        <h3 class="text-secondary">{{Idnme::print_rupiah($total)}}</h3>
+                        <p class="text-secondary">Total Investasi</p>
                     </div>
                     <div class="info-box-icon">
                         <i class="fas fa-hands"></i>
@@ -40,8 +36,8 @@
                         @foreach ($investments as $i)
                             <tr>
                                 <td>{{$i->project->project_name}}</td>
-                                <td>{{$i->amount}}</td>
-                                <td>{{$i->created_at}}</td>
+                                <td>{{Idnme::print_rupiah($i->amount + $i->payment_code)}}</td>
+                                <td>{{Idnme::print_date($i->created_at, true)}}</td>
                                 <td>{{$i->status}}</td>
                                 <td>
                                     @if(empty($i->transfer_receipt))

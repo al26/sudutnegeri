@@ -3,23 +3,40 @@
 @endphp
 <div class="card">
     <div class="card-body">
-        <div class="form-section">
-            <div class="fs-head">
-                <span class="fs-head-text">Total Aktivitas</span>
-            </div>
-        </div>
         <div class="row section-content">
-            <div class="col-12 px-2 info-box-parent">
+            <div class="col-4 px-2 info-box-parent">
                 <div class="info-box">
                     <div class="info-box-inner">
                         <h3 class="text-secondary">{{$total}}</h3>
-                        <br><br>
+                        <p class="text-secondary">Total Aktivitas</p>
                     </div>
                     <div class="info-box-icon">
                         <i class="fas fa-hands"></i>
                     </div>
                 </div>
             </div>
+            {{-- <div class="col-4 px-2 info-box-parent">
+                <div class="info-box">
+                    <div class="info-box-inner">
+                        <h3 class="text-secondary"></h3>
+                        <p class="text-secondary">Lencana</p>
+                    </div>
+                    <div class="info-box-icon">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 px-2 info-box-parent">
+                <div class="info-box">
+                    <div class="info-box-inner">
+                        <h3 class="text-secondary"></h3>
+                        <p class="text-secondary">Total Waktu Pengabdian</p>
+                    </div>
+                    <div class="info-box-icon">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                </div>
+            </div> --}}
         </div>
         <div class="form-section mt-3">
             <div class="fs-head"><span class="fs-head-text">Aktivitas Saya</span></div>
@@ -30,19 +47,19 @@
                     <thead>
                         <tr>
                             <th>Proyek</th>
-                            <th></th>
-                            <th>Tanggal Investasi</th>
+                            <th>Tanggal Pelaksanaan</th>
                             <th>Status</th>
-                            <th>Bukti Transfer</th>
+                            <th>Data Historis</th>
+                            {{-- masuk ke list data historis ke proyek terkait, 
+                            ada menu edit pake modal --}}
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($investments as $i)
                             <tr>
                                 <td>{{$i->project->project_name}}</td>
-                                <td>{{$i->amount}}</td>
-                                <td>{{$i->created_at}}</td>
-                                <td>{{$i->status}}</td>
+                                <td>xx</td>
+                                <td>pending</td>
                                 <td>
                                     @if(empty($i->transfer_receipt))
                                         <a href="" class="btn btn-sm btn-primary"><i class="fas fa-cloud-upload-alt"></i> Upload Bukti Transfer</a>
@@ -54,6 +71,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                menu create data historis (create otomatis ke project yang sedang aktif diikuti)
+                <br>
+                ada riwayat per data historis (bisa edit)
             </div>
         </div>
     </div>

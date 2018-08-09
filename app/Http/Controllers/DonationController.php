@@ -7,6 +7,9 @@ use App\Bank;
 use App\Donation;
 use App\Project;
 use Validator;
+use Notification;
+use App\Notifications\DonationInvoice;
+use Nexmo;
 
 class DonationController extends Controller
 {
@@ -81,13 +84,6 @@ class DonationController extends Controller
 
             $store = Donation::create($create);
             if($store) {
-                $pid = Project::where('project_slug', $request->data['project_slug'])->pluck('id')[0];
-                $progress = [
-                    "funding_progress" => Donation::where('project_id', $pid)->sum('amount')
-                ];
-                
-                Project::where('project_slug', $request->data['project_slug'])->update($progress);
-
                 $return = redirect()->route('donation.invoice', ['slug' => $request->data['project_slug']]);
             } else {
                 $return = redirect()->back()->with('error', 'Terjadi kesalahan. Silahkan coba lagi')->withInput();
@@ -95,6 +91,21 @@ class DonationController extends Controller
         }
         
         return $return;
+    }
+
+    public function confirmDonation($id) {
+        $progress = [
+            "funding_progress" => Donation::where('project_id', $id)->sum('amount')
+        ];
+        
+        $up = Project::find($id)->update($progress);
+        if($up) {
+            $return = ['success' => 'Donasi berhasil dikonfirmasi'];
+        } else {
+            $return = ['error' => 'Terjadi kesalahan. Konfirmasi donasi gagal'];
+        }
+
+        return response()->json($return);
     }
 
     /**
@@ -148,8 +159,15 @@ class DonationController extends Controller
             "user_id" => $request->user()->id,
             "project_id" => $project_id
         ];
-        $data['donation'] = Donation::where($where)->orderBy('id', 'desc')->first();
-
+        $donation = Donation::where($where)->orderBy('id', 'desc')->first();
+        $data['donation'] = $donation;
+        $when = now()->addSeconds(10);
+        $request->user()->notify((new DonationInvoice($request->user()))->delay($when));
+        // Nexmo::message()->send([
+        //     'to'   => '+6285868444101',
+        //     'from' => '+6281392531719',
+        //     'text' => 'Using the facade to send a message.'
+        // ]);
         // dd($data);
         return view('member.invoice', $data);
     }

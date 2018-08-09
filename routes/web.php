@@ -36,11 +36,13 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/{menu?}/{section?}', 'MemberController@index')
             ->where(
                 ['menu'     => '(overview|setting|sudut|negeri)', 
-                'section'   => '(profile|account|projects|donations|activity|volunteer)']
+                'section'   => '(profile|account|projects|donations|activity|volunteer|cv)']
             )
             ->name('dashboard');
     Route::get('sudut/projects/manage/{slug}', 'ProjectController@manage')->name('project.manage');
     Route::put('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
+    Route::get('setting/profile/avatar/edit/{id}','MemberController@editProfilePicture')->name('avatar.edit');
+    Route::put('setting/profile/avatar/update/{id}','MemberController@updateProfilePicture')->name('avatar.update');
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -96,18 +98,41 @@ Route::group(['prefix' => 'component'], function () {
     Route::get('modal','ComponentContentController@loadModal')->name('load.modal');
 });
 
-Route::get('json/option/{table}', function (\Illuminate\Http\Request $request, $table) {
-    $id = $request->id;
-    if($table == 'regencies'){
-        $data = \App\Regency::where('province_id', $id)->get();
-    }
-
-    if($table == 'districts'){
-        $data = \App\District::where('regency_id', $id)->get();
-    }
+Route::group(['prefix' => 'json'], function () {
+    Route::get('option/{table}', function (\Illuminate\Http\Request $request, $table) {
+        $id = $request->id;
+        if($table == 'regencies'){
+            $data = \App\Regency::where('province_id', $id)->get();
+        }
     
-    return response()->json($data);
-})->name('json.option');
+        if($table == 'districts'){
+            $data = \App\District::where('regency_id', $id)->get();
+        }
+        
+        return response()->json($data);
+    })->name('json.option');
+
+    Route::get('projects', function (\Illuminate\Http\Request $request) {
+        $projects = new \App\Project();
+        $data = null;
+        $key = $request->key;
+
+        if(!empty($key)){
+            $data = $projects->where(function($query) use ($key) {
+                $query->where('project_name','LIKE','%'.$key.'%')
+                    ->orWhere('project_location','LIKE','%'.$key.'%');
+            })->get();
+
+            // $data = $projects->where('project_name', 'LIKE', "%$key%")->get();
+        } else {
+            $data = $projects->all();
+        }
+
+        dd($data);
+    });
+    
+});
+
 
 Route::post('location', function (\Illuminate\Http\Request $request) {
     $key = $request->key;

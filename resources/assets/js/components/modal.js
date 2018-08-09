@@ -26,7 +26,7 @@
             } else {
                 $(".modal-body").html(data['text']);
             }
-            
+
             generateBtn(data);
         });
     }
@@ -100,7 +100,9 @@
         $.ajax({
             url : action,
             type: "POST",
-            data: value,
+            data: new FormData(form[0]),
+            contentType : false,
+            processData : false,
             success: function(response) {
                 if(response.errors) {
                     resetFeedback();

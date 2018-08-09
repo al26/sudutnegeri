@@ -26,6 +26,7 @@ class CreateProjectsTable extends Migration
             $table->unsignedInteger('funding_progress')->nullable();
             $table->unsignedInteger('volunteer_quota');
             $table->unsignedInteger('registered_volunteer')->nullable();
+            $table->dateTime('project_day');
             $table->string('project_banner')->nullable();
             $table->timestamps();
             $table->softDeletes();

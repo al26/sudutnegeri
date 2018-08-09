@@ -10,7 +10,7 @@
         </div>
         <div class="form-group">
             <label for="project_description">Detail Proyek</label>
-            <textarea class="form-control the-summernote" id="project_description" rows="3" name="data[project_description]">{{$description}}</textarea>
+            <textarea class="form-control the-summernote" id="project_description" rows="3" name="data[project_description]">{{$project_description}}</textarea>
         </div>
         <div class="form-group">
             <label for="project_location">Lokasi</label>

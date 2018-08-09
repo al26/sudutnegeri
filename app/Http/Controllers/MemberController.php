@@ -12,6 +12,8 @@ use App\User_profile as Profile;
 use App\User_address as Address;
 use App\Donation;
 use App\Volunteer;
+use Hash;
+use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
@@ -139,6 +141,37 @@ class MemberController extends Controller
             }
 
             // $return = ["success" => $request->data];
+        }
+
+        return response()->json($return);
+    }
+
+    public function editProfilePicture($id) {
+        $data['id'] = $id;
+        return view('member.partials.modal.edit_profile_pic', $data);
+    }
+
+    public function updateProfilePicture(Request $request, $id) {
+        $path = "";
+        $filename = "";
+
+        $profile = Profile::findOrFail($id);
+        $old = substr($profile->profile_picture, 7);
+
+        if($request->hasFile('avatar')) {
+            $filename = Hash::make($id).time().'.'.$request->avatar->getClientOriginalExtension();
+            $file = $request->file('avatar');
+            $path = $file->storeAs('public/profile_pictures', $filename);
+        }
+
+        if($path) {
+            $update = $profile->update(['profile_picture' => "storage/profile_pictures/$filename"]);
+            if($update) {
+                Storage::delete('public'.$old); 
+                $return = ['success' => "Foto profil berhasil diubah"];
+            } else {
+                $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
+            }
         }
 
         return response()->json($return);

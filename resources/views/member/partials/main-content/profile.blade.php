@@ -33,10 +33,10 @@
                 <div class="form-group row mx-0">
                     <label class="fs-label col-12 col-md-3" for="biography">Biografi</label>
                     <div class="col-12 col-md-9">
-                        <textarea class="form-control editor" id="biography" name="data[biography]" rows="5" placeholder="Deskripsikan dirimu">{{Auth::user()->profile->biography}}</textarea>
+                        <textarea class="form-control" id="biography" name="data[biography]" rows="5" placeholder="Deskripsikan dirimu">{{Auth::user()->profile->biography}}</textarea>
                     </div>
                 </div>
-                {{-- <div class="form-group row mx-0">
+                <div class="form-group row mx-0">
                     <label class="fs-label col-12 col-md-3" for="interest">Minat</label>
                     <div class="col-12 col-md-9">
                         <select id="interest" name="data[interest][]" multiple="multiple" class="select2 col-12">
@@ -45,7 +45,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div> --}}
+                </div>
                 <div class="form-group row mx-0">
                     <label class="fs-label col-12 col-md-3" for="skills">Keahlian</label>
                     <div class="col-12 col-md-9">

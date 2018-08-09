@@ -21,7 +21,7 @@ class CreateVolunteersTable extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->text('motivation');
             $table->text('eligibility');
-            $table->string('status');
+            $table->enum('status', ['pending', 'accepted', 'rejeected', 'active', 'finished'])->default('pending');
             $table->timestamps();
         });
     }

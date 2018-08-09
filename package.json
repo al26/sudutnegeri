@@ -28,8 +28,10 @@
         "bootstrap-select": "^1.13.1",
         "codemirror": "^5.39.2",
         "datatables.net-bs4": "^1.10.19",
+        "dropzone": "^5.5.1",
         "jquery-bootstrap-scrolling-tabs": "^2.4.0",
         "jquery-pjax": "^2.0.1",
+        "npm": "^6.3.0",
         "owl.carousel": "^2.3.4",
         "select2": "^4.0.6-rc.1",
         "select2-bootstrap4-theme": "^1.0.0"
