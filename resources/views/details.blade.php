@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-lg-3">
+    <div class="container my-lg-3">
         @php
             $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
             $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
@@ -33,7 +33,7 @@
                             <span class="--text text-capitalize">target {{$project->funding_target}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug])}}">Mulai Investasi</a>
+                            <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
                         </div>
                     </section>
                     <section class="card --content mb-lg-3 info-relawan">
@@ -107,21 +107,28 @@
         // $(document).activeteSelectPicker();
 
         $('#donation-btn').on('click', function(e){
-            // e.preventDefault();
             var isAuth = "{{Auth::check()}}";
-            
+            // var continue = 
+            var url = "/login?continue=" + encodeURIComponent(window.btoa($(this).attr('href')));
             if(!isAuth) {
-                return false;
                 swal({
                     type: 'error',
                     title: 'Oops...',
                     text: 'Anda belum Login. Silahkan Login terlebih dahulu !',
                     showConfirmButton: false,
-                    footer: '<a href="{{route('login')}}" class="btn btn-secondary btn-sm">Login</a>'
+                    footer: '<a href="' + url + '" class="btn btn-secondary btn-sm">Login di sini</a>'
                 });
+                return false;
             } else {
                 return true;
             }
+        });
+
+        $(window).on('resize', function(){
+            var tab_content = $('#hpn-content'),
+                tab = $('#hpn-menu');
+            
+            tab.width(tab_content.innerWidth());
         });
 
 
@@ -136,19 +143,22 @@
                 edge = $('footer').offset().top - side_info.outerHeight(),
                 topPadding = 16;
 
-            if ($(this).scrollTop() > sticky_offset) {
-                side_info.stop().animate({
-                    marginTop: topPadding + $(this).scrollTop() - sticky_offset
-                });
-            } else {
-                side_info.stop().animate({
-                    marginTop: 0
-                });
+            if(window.innerWidth >= 768) {
+                if ($(this).scrollTop() > sticky_offset) {
+                    side_info.stop().animate({
+                        marginTop: topPadding + $(this).scrollTop() - sticky_offset
+                    });
+                } else {
+                    side_info.stop().animate({
+                        marginTop: 0
+                    });
+                }
+    
+                if ($(this).scrollTop() > edge) {
+                    side_info.stop();
+                }
             }
 
-            if ($(this).scrollTop() > edge) {
-                side_info.stop();
-            }
 
             if ($(this).scrollTop() >= tab_offset) {
                 tab.addClass('fixed');
@@ -157,21 +167,21 @@
                 tab.removeClass('fixed');
             }
 
-            if (tab.hasClass('fixed')) {
-                tab_content.stop().animate({
-                    'margin-top' : tab_height
-                });
-            } else {
-                tab_content.stop().animate({
-                    'margin-top' : '0'
-                });
-            }
+            // if (tab.hasClass('fixed')) {
+            //     tab_content.stop().animate({
+            //         'margin-top' : tab_height
+            //     });
+            // } else {
+            //     tab_content.stop().animate({
+            //         'margin-top' : '0'
+            //     });
+            // }
 
-            console.log( "scrolltop :" + $(this).scrollTop());
+            // console.log( "scrolltop :" + $(this).scrollTop());
             // console.log( "tab offset :" + tab_offset );
             // console.log( "tab pos :" + tab.offset().top );
-            console.log( "edge :" + edge );
-            console.log( "outerHeight :" + tab.outerHeight() );
+            // console.log( "edge :" + edge );
+            // console.log( "outerHeight :" + tab.outerHeight() );
             // console.log( "content innerHeight :" + $('#myTabContent').innerHeight() );
         });
 
@@ -186,9 +196,13 @@
             onInitialized: callback,
         });
 
-        $('#faq-accordion > .card').on('hidden.bs.collapse', toggleIcon);
-            $('#faq-accordion > .card').on('shown.bs.collapse', toggleIcon);
+        activateTogglingIcon();
     });
+
+    function activateTogglingIcon() {
+        $('#faq-accordion > .card').on('hidden.bs.collapse', toggleIcon);
+        $('#faq-accordion > .card').on('shown.bs.collapse', toggleIcon);
+    }
 
     function callback(event) {
         var items = event.item.count;
@@ -212,6 +226,11 @@
 
     $('#hpn-content').on('pjax:send', function() {
         toggleActiveMenuTab();
+        activateTogglingIcon();
+    });
+
+    $('#hpn-content').on('pjax:complete', function() {
+        activateTogglingIcon();
     });
 
     function toggleActiveMenuTab() {

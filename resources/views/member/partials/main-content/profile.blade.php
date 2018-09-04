@@ -40,8 +40,15 @@
                     <label class="fs-label col-12 col-md-3" for="interest">Minat</label>
                     <div class="col-12 col-md-9">
                         <select id="interest" name="data[interest][]" multiple="multiple" class="select2 col-12">
+                            @php
+                                $minat = array('1','2','4');
+                            @endphp
                             @foreach($sectors as $sector)
-                                <option value="{{$sector->id}}">{{$sector->sector}}</option>
+                                @if(in_array($sector->id, $minat))
+                                    <option value="{{$sector->id}}" selected="true">{{$sector->sector}}</option>
+                                @else
+                                    <option value="{{$sector->id}}">{{$sector->sector}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

@@ -6,6 +6,9 @@
         <div class="col-md-8">
             <form class="custom-form" method="POST" action="{{ route('login') }}">
                 @csrf
+                @if($continue)
+                    <input type="hidden" name="continue" value="{{$continue}}">
+                @endif
                 <div class="mb-3">
                     <h4 class="text-center font-weight-bold">Masuk</h4>    
                     <h4 class="text-justify"><small>Silahkan masuk untuk dapat mengakses semua layanan SudutNegeri atau daftar </small><a class="btn btn-md btn-link px-0" href="{{ route('register') }}">disini</a></h4>    
@@ -41,8 +44,8 @@
                 
                 <h2 id="form-divider"><span>atau</span></h2>
 
-                <a href="{{ route('oauth.login', ['provider' => 'facebook', 'action' => 'login']) }}" class="w-100 mb-2 btn btn-default btn-social fb"><span class="fab fa-facebook-f"></span>Masuk Dengan Akun Facebook</a>
-                <a href="{{ route('oauth.login', ['provider' => 'google', 'action' => 'login']) }}" class="w-100 mb-2 btn btn-default btn-social g-plus"><span class="fab fa-google-plus-g"></span>Masuk Dengan Akun Google</a>
+                <a href="{{ route('oauth.login', ['provider' => 'facebook', 'action' => 'login', 'continue' => $continue]) }}" class="w-100 mb-2 btn btn-default btn-social fb"><span class="fab fa-facebook-f"></span>Masuk Dengan Akun Facebook</a>
+                <a href="{{ route('oauth.login', ['provider' => 'google', 'action' => 'login', 'continue' => $continue]) }}" class="w-100 mb-2 btn btn-default btn-social g-plus"><span class="fab fa-google-plus-g"></span>Masuk Dengan Akun Google</a>
             </form>
         </div>
     </div>

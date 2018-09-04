@@ -1,6 +1,8 @@
 
 // Body
-$body-bg: #f5f8fa;
+$body-background: #E9EBEE;
+$body-clr: #4d4d4d;
+// $body-clr: #1d2129;
 
 // Typography
 $font-family-sans-serif: "Raleway", sans-serif;
@@ -8,8 +10,10 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Colors
-$main-color: #12b3ef;
-$secondary-color: #2A5D6F;
+$main-color: #0E82E4;
+// $secondary-color: #2A5D6F;
+$secondary-color : #0b65b1;
+$secondary-light : #4587BE;
 
 
 // ========== Bootstrap Override ==========
@@ -54,12 +58,16 @@ $blue:    #007bff !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
 $pink:    #e83e8c !default;
-$red:     #F22A56 !default;
+// $red:     #F22A56 !default;
+$red:     #E82D26 !default;
 $orange:  #fd7e14 !default;
-$yellow:  #BCB321 !default;
-$green:   #28a745 !default;
+// $yellow:  #BCB321 !default;
+$yellow:  #AFCA0D !default;
+// $green:   #28a745 !default;
+$green:   #00BE4C !default;
 $teal:    #20c997 !default;
-$cyan:    #2DC6FF !default;
+// $cyan:    #2DC6FF !default;
+$cyan:    #1091FD !default;
 
 $colors: () !default;
 $colors: map-merge((
@@ -84,19 +92,23 @@ $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
-$light:         $body-bg !default;
+$light:         $body-background !default;
 $dark:          $gray-800 !default;
 
 $theme-colors: () !default;
 $theme-colors: map-merge((
-  "primary":    $primary,
-  "secondary":  $secondary,
-  "success":    $success,
-  "info":       $info,
-  "warning":    $warning,
-  "danger":     $danger,
-  "light":      $light,
-  "dark":       $dark
+  "primary":         $primary,
+  "secondary":       $secondary,
+  "secondary-light": $secondary-light,
+  "success":         $success,
+  "info":            $info,
+  "warning":         $warning,
+  "danger":          $danger,
+  "light":           $light,
+  "dark":            $dark,
+  "white":           $white,
+  "black":           $black,
+  "secondary-black": $body-clr
 ), $theme-colors);
 // stylelint-enable
 
@@ -156,8 +168,8 @@ $sizes: map-merge((
 //
 // Settings for the `<body>` element.
 
-$body-bg:                   $white !default;
-$body-color:                $gray-900 !default;
+$body-bg:                   $body-background !default;
+$body-color:                $body-clr !default;
 
 // Links
 //
@@ -200,7 +212,7 @@ $grid-breakpoints: (
 //   sm: 540px,
 //   md: 720px,
 //   lg: 960px,
-//   xl: 1140px
+//   xl: 1440px
 // ) !default;
 
 $container-max-widths: (

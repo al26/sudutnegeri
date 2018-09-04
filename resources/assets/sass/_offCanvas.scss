@@ -16,8 +16,8 @@ body {
 	transition: -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out;
 	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
-	-webkit-transform: translateX(-100%);
-	transform: translateX(-100%);
+	-webkit-transform: translateX(100%);
+	transform: translateX(100%);
 
 	&.open {
 		-webkit-transform: translateX(0);
@@ -53,8 +53,8 @@ body {
 	transition: -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out;
 	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
-	-webkit-transform: translateX(100%);
-	transform: translateX(100%);
+	-webkit-transform: translateX(-100%);
+	transform: translateX(-100%);
 
 	&.open {
 		-webkit-transform: translateX(0);

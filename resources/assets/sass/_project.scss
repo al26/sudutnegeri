@@ -460,7 +460,7 @@
 	}
 }
 
-.d-campaigns{
+.d-campaigns, .owl-carousel{
     .card, .card-img-top, .card-body, .card-footer, .project-needs, .list-group, .list-group-item, .media, .campaigner, .campaigner img, .media-body{
         &:hover{
             ~.cml{
@@ -470,7 +470,7 @@
     }
     .cml {
         position: absolute;
-        z-index: 2;
+        z-index: 5;
         left: 0;
         top: 0;
         width: 100%;

@@ -3,15 +3,18 @@ $(function () {
 });
 
 $(document).ready(function(){
+    $('#main-nav').toggleClass('scrolled', $('#main-nav').offset().top >= 50);
+
+    // console.log('initial offset'+$('#main-nav').offset().top);
     $(window).scroll(function(){
       if($(this).scrollTop() >= 100){
           $('#scroll').fadeIn();
       }else{
           $('#scroll').fadeOut();
       }
-
-	  $('#main-nav').toggleClass('scrolled', $(this).scrollTop() > 50);
-	  $('#filter-nav').toggleClass('fixed', $(this).scrollTop() >= 150);
+    //   console.log('after scroll offset'+$('#main-nav').offset().top);
+	  $('#main-nav').toggleClass('scrolled', $('#main-nav').offset().top >= 50);
+	//   $('#filter-nav').toggleClass('fixed', $(this).scrollTop() >= 150);
     });
 
     $('#scroll').click(function(){
@@ -64,6 +67,26 @@ $(document).ready(function(){
                     $(targetElem).append('<option value="'+ obj.id +'">' + obj.name + '</option>')
                 });
             })
+        })
+    }
+
+    getSearcResult = function(input, targetElem) {
+        var key = input.value,
+            url = '/json/projects/?key=' + key;
+
+        $.get(url, function(data){
+            $(targetElem).empty();
+            if(key.length > 0) {
+                $.each(data, function(index, obj){               
+                    $(targetElem).append('<a href="/project/details/'+obj.project_slug+'"><div class="items"><div class="media"><img class="mr-3" src="http://via.placeholder.com/50x50" alt="Generic placeholder image"><div class="media-body"><h5 class="mt-0">'+obj.project_name+'</h5><i class="fas fa-map-marker-alt"></i> '+obj.project_location+'</div></div></div></a>');
+                });
+
+                if(data.length <= 0){
+                    $(targetElem).append('<div class="items text-center">Tidak ditemukan proyek dengan kata kunci pencarian <b>'+key+'</b></div>');    
+                }
+
+                $(targetElem).append('<a href="/project/browse/all"><div class="items text-center">Semua Proyek</div></a>');
+            }
         })
     }
 

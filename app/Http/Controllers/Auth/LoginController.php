@@ -39,6 +39,22 @@ class LoginController extends Controller
         $this->middleware('guest')->except(['logout', 'logoutUser']);
     }
 
+    public function showLoginForm(Request $request)
+    {
+        $data['continue'] = $request->query('continue') ?? null;   
+        return view('auth.login', $data);
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ( $request->continue ) {
+            $ret = base64_decode(urldecode($request->continue));
+            return redirect($ret);
+        }
+
+        return redirect('/dashboard/overview');
+    }
+
     public function logout()
     {
         Auth::guard('web')->logout();

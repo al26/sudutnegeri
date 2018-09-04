@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
-    // $a = Storage::url('public/homepage_carousel');
-    // dd($a);
-    return view('home');
+    $data['projects'] = \App\Project::take(10)->get();
+    // dd($data);
+    // echo $data['projects'];
+    return view('home', $data);
 });
 
 Auth::routes();
@@ -25,8 +26,8 @@ Route::namespace('Auth')->group(function () {
     Route::get('/auth/{provider}',          'SocialAccountController@redirectToProvider')->name('oauth.login');
     Route::get('/auth/{provider}/callback', 'SocialAccountController@handleProviderCallback');
     Route::put('/password/create', 'SocialAccountController@createPassword')->name('password.create');
-    Route::get('/connect/{provider}',          'SocialAccountController@connect')->name('oauth.connect');
-    // Route::get('/connect/{provider}/callback', 'SocialAccountController@connect');
+    // Route::get('/connect/{provider}',          'SocialAccountController@connect')->name('oauth.connect');
+    Route::get('/disconnect/{provider}/{continue}', 'SocialAccountController@disconnect')->name('oauth.disconnect');
 });
 
 Route::group(['prefix' => 'dashboard'], function () {
@@ -115,20 +116,17 @@ Route::group(['prefix' => 'json'], function () {
     Route::get('projects', function (\Illuminate\Http\Request $request) {
         $projects = new \App\Project();
         $data = null;
-        $key = $request->key;
 
-        if(!empty($key)){
+        if(!empty($request->key)){
+            $key = $request->key;
             $data = $projects->where(function($query) use ($key) {
                 $query->where('project_name','LIKE','%'.$key.'%')
                     ->orWhere('project_location','LIKE','%'.$key.'%');
-            })->get();
-
-            // $data = $projects->where('project_name', 'LIKE', "%$key%")->get();
-        } else {
-            $data = $projects->all();
+            })->with('user')->get();
         }
-
-        dd($data);
+        
+        // dd(json_encode($data));
+        return response()->json($data);
     });
     
 });

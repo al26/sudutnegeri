@@ -18,15 +18,20 @@
             </div>
             <div id="p-pic-container" class="text-center">
                 <img id="p-pic" class="card-img-bottom img-thumbnail" src="{{asset($user_profile->profile_picture)}}" alt="Profile Picture">
-                <a id="p-pic-overlay" class="text-white decoration-none" href="{{route('avatar.edit', ['id' => $user_profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => $user_profile->id])}}"}'><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
+                <a id="p-pic-overlay" class="text-white decoration-none" href="{{route('avatar.edit', ['id' => $user_profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => $user_profile->id])}}", "pjax-reload":false}'><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
             </div>
             <div id="p-data" class="card-img-overlay">
-                <span class="--text _head">{{$user_profile->name}} <i class="far fw fa-check-square" data-fa-transform="grow-3"></i></span>
-                <span class="--text _sub">Tergabung Sejak : 3-6-2018 | Terakhir Online : 3-6-2018</span>
+                <span class="--text _head">{{$user_profile->name}}</span>
+                <span class="--text _sub">
+                    Tergabung sejak : {{Idnme::print_date(Auth::user()->created_at, false)}}
+                    @if(Auth::user()->verified === 1)
+                        | Pengguna terverifikasi <i class="ml-1 far fw fa-check-square" data-fa-transform="grow-3"></i>
+                    @endif
+                </span>
             </div>
         </div>
     </section>
-    <section class="m-content mt-3 clearfix" id="mc" data-pjax-container>
+    <section class="m-content my-3 clearfix" id="mc" data-pjax-container>
         {{-- <div class="loader-overlay">
             <div class="loader"></div>
         </div> --}}
@@ -91,10 +96,10 @@
         $('#form-account').ajaxCrudNonModal('#mr');
     });
 
-    $(document).on('click', '#profile-edit', function(e){
-        e.preventDefault();
-        $('#form-profile').ajaxCrudNonModal('#mr');
-    });
+    // $(document).on('click', '#profile-edit', function(e){
+    //     e.preventDefault();
+    //     $('#form-profile').ajaxCrudNonModal('#mr');
+    // });
 
     $(document).pjax('a[data-pjax=menu]', '#mc');
     $('#mc').on('pjax:send', function() {

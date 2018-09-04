@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{route('donation.store')}}">
                         @csrf
-                        <input type="hidden" class="form-control" name="data[user_id]" value="{{Auth::user()->id}}">
+                        <input type="hidden" class="form-control" name="data[user_id]" value="{{urlencode(base64_encode(Auth::user()->id))}}">
                         <input type="hidden" class="form-control" name="data[project_slug]" value="{{$project->project_slug}}">
                         <div class="form-group">
                             <label for="amount">Jumlah Donasi</label>

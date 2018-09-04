@@ -8,7 +8,7 @@
 
                 console.log(data);
                 data['modal'] = true,
-                data['pjax-reload'] = '#mr';
+                // data['pjax-reload'] = '#mr';
 
             $(".modal-title").text(data['title']);
 

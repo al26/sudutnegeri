@@ -1,5 +1,5 @@
 h2#form-divider { 
-	color: $secondary;
+	// color: $secondary;
 	width: 100%; 
 	text-align: center; 
 	border-bottom: 2px solid $secondary; 
@@ -15,7 +15,7 @@ h2#form-divider {
   font-size: 1rem;
   max-width: 360px;
   margin: 40px auto 40px;
-  color: $secondary;
+  // color: $secondary;
   
   .form-group {
     position: relative;
@@ -48,12 +48,12 @@ h2#form-divider {
         transition: 0.2s ease all;
       }
     }
-    &.not-empty {
-      .animated-label {
-        top: 0;
-        font-size: 1.2rem;
-      }
-    }
+    // &:invalid {
+    //   .animated-label {
+    //     top: 0;
+    //     font-size: 1.2rem;
+    //   }
+    // }
     .form-control {
       background-color: transparent !important;
       position: relative;

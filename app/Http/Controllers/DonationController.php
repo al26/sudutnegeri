@@ -73,7 +73,7 @@ class DonationController extends Controller
             $anonymouse = !empty($request->data['anonymouse']) ? 'yes' : 'no';
             $project_id = Project::where('project_slug', $request->data['project_slug'])->pluck('id')[0];
             $create = [
-                "user_id"    => $request->data['user_id'],
+                "user_id"    => (int)base64_decode(urldecode($request->data['user_id'])),
                 "project_id" => $project_id,
                 "amount"     => $request->data['amount'],
                 "bank_id"    => $request->data['bank_id'],

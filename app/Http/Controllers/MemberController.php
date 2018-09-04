@@ -98,7 +98,7 @@ class MemberController extends Controller
         ];
 
         $data = $request->data;
-        // dd($data);
+        // dd($data['interest'][0]);
 
         $validator = Validator::make($data, $rules, $messages, $attributes);
 
@@ -159,7 +159,7 @@ class MemberController extends Controller
         $old = substr($profile->profile_picture, 7);
 
         if($request->hasFile('avatar')) {
-            $filename = Hash::make($id).time().'.'.$request->avatar->getClientOriginalExtension();
+            $filename = md5($id.time()).'.'.$request->avatar->getClientOriginalExtension();
             $file = $request->file('avatar');
             $path = $file->storeAs('public/profile_pictures', $filename);
         }
@@ -167,7 +167,9 @@ class MemberController extends Controller
         if($path) {
             $update = $profile->update(['profile_picture' => "storage/profile_pictures/$filename"]);
             if($update) {
-                Storage::delete('public'.$old); 
+                if($old !== '/profile_pictures/avatar.jpg'){
+                    Storage::delete('public'.$old); 
+                }
                 $return = ['success' => "Foto profil berhasil diubah"];
             } else {
                 $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];

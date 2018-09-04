@@ -56,16 +56,16 @@
                 <ul id="user-connect" class="list-group list-group fa-ul">
                     <li class="list-group-item border-0 pb-3 pt-0"><span class="fa-li mt-1"><i class="fab fw fa-facebook-square" data-fa-transform="grow-20" style="color:#3b5998"></i></span>
                         @if (in_array("facebook", $sns))
-                            <a class="btn btn-link decoration-none p-0" href="">Putuskan koneksi dengan Facebook</a>
+                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.disconnect', ['provider' => 'facebook', 'continue' => urlencode(base64_encode(URL::current()))])}}" {{empty(Auth::user()->password) ? 'disabled' : ''}}>Putuskan koneksi dengan Facebook</a>
                         @else
-                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.login', ['provider' => 'facebook', 'action' => 'connect'])}}">Hubungkan dengan akun Facebook</a>
+                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.login', ['provider' => 'facebook', 'action' => 'connect', 'continue' => urlencode(base64_encode(URL::current()))])}}">Hubungkan dengan akun Facebook</a>
                         @endif
                     </li>
                     <li class="list-group-item border-0"><span class="fa-li"><i class="fab fw fa-google-plus-square" data-fa-transform ="grow-20" style="color:#dd4b39"></i></span>
                         @if (in_array("google", $sns))
-                            <a class="btn btn-link decoration-none p-0" href="">Putuskan koneksi dengan Google</a>
+                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.disconnect', ['provider' => 'google', 'continue' => urlencode(base64_encode(URL::current()))])}}" {{empty(Auth::user()->password) ? 'disabled' : ''}}>Putuskan koneksi dengan Google</a>
                         @else
-                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.login', ['provider' => 'google', 'action' => 'connect'])}}">Hubungkan dengan akun Google</a>
+                            <a class="btn btn-link decoration-none p-0" href="{{route('oauth.login', ['provider' => 'google', 'action' => 'connect', 'continue' => urlencode(base64_encode(URL::current()))])}}">Hubungkan dengan akun Google</a>
                         @endif    
                     </li>
                 </ul>

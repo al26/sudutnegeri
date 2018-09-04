@@ -27,8 +27,13 @@ class SocialAccountController extends Controller
     
     public function redirectToProvider(Request $req, $provider)
     {
-        Cookie::queue('action', $req->query('action'), 2);
-        Cookie::queue('referer', $req->header('referer'), 2);
+        if($req->query('continue')) {
+            // Cookie::queue('continue', $req->query('continue'), 2);
+            $req->session()->put('continue', $req->query('continue'));        
+        }
+        $req->session()->put('action', $req->query('action'));        
+        // Cookie::queue('action', $req->query('action'), 2);
+        // Cookie::queue('referer', $req->header('referer'), 2);
         return Socialite::driver($provider)->redirect();
     }
 
@@ -44,7 +49,12 @@ class SocialAccountController extends Controller
      */
     public function handleProviderCallback(Request $req, $provider)
     {
-        $this->referer = !empty($req->cookie('referer')) ? $req->cookie('referer') : '/dashboard';
+        // $this->referer = !empty($req->cookie('referer')) ? $req->cookie('referer') : '/dashboard';
+        // $this->referer = !empty($req->cookie('continue')) ? base64_decode(urldecode($req->cookie('continue'))) : '/dashboard';
+        $this->referer = !empty($req->session()->get('continue')) ? base64_decode(urldecode($req->session()->get('continue'))) : '/dashboard';
+        if ($req->session()->has('continue')) {
+            $req->session()->forget('continue');
+        }
 
         try {
             $user = Socialite::driver($provider)->user();
@@ -52,13 +62,19 @@ class SocialAccountController extends Controller
             return 'error';
         }    
 
-        if($req->cookie('action') === 'login') {
+        // if($req->cookie('action') === 'login') {
+        if($req->session()->get('action') === 'login') {
             $authUser = $this->findOrCreate($user, $provider);
             Auth::login($authUser, true);
         }
 
-        if($req->cookie('action') === 'connect'){
+        // if($req->cookie('action') === 'connect'){
+        if($req->session()->get('action') === 'connect') {
             $this->connect($user->getId(), $provider);
+        }
+
+        if ($req->session()->has('action')) {
+            $req->session()->forget('action');
         }
 
         return redirect($this->referer);        
@@ -145,5 +161,12 @@ class SocialAccountController extends Controller
             'provider_id'   => $provider_id,
             'provider_name' => $provider,
         ]);
+    }
+
+    public function disconnect($provider, $continue) {
+        $user = auth()->user();
+        $user->socialAccounts()->where('provider_name', $provider)->delete();
+
+        return redirect(base64_decode(urldecode($continue)));
     }
 }
