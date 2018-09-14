@@ -9,9 +9,10 @@
                 @if($continue)
                     <input type="hidden" name="continue" value="{{$continue}}">
                 @endif
-                <div class="mb-3">
-                    <h4 class="text-center font-weight-bold">Masuk</h4>    
-                    <h4 class="text-justify"><small>Silahkan masuk untuk dapat mengakses semua layanan SudutNegeri atau daftar </small><a class="btn btn-md btn-link px-0" href="{{ route('register') }}">disini</a></h4>    
+                <div class="mb-0">
+                    <h3 class="text-center font-weight-bold">Silahkan Masuk</h3>    
+                    {{-- <h4 class="text-justify"><small>Silahkan masuk untuk dapat mengakses semua layanan SudutNegeri atau daftar </small><a class="btn btn-md btn-link px-0" href="{{ route('register') }}">disini</a></h4>     --}}
+                    <h4 class="text-center"><small>Belum punya akun? daftar </small><a class="btn btn-md btn-link px-0" href="{{ route('register') }}">disini</a></h4>    
                 </div>
 
                 <div class="form-group">
@@ -32,6 +33,12 @@
                             <strong>{{ $errors->first('password') }}</strong>
                         </span>
                     @endif
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <label class="custom-control-label" for="remember">Ingat Saya</label>
+                    </div>
                 </div>
                 <div class="form-group mb-0 p-0">
                     <button type="submit" class="btn btn-secondary w-100">

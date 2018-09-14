@@ -55,9 +55,15 @@ class LoginController extends Controller
         return redirect('/dashboard/overview');
     }
 
-    public function logout()
+    // public function logout()
+    // {
+    //     Auth::guard('web')->logout();
+    //     $request->session()->invalidate();
+    //     return redirect('/');
+    // }
+
+    protected function guard()
     {
-        Auth::guard('web')->logout();
-        return redirect('/');
+        return Auth::guard('web');
     }
 }
