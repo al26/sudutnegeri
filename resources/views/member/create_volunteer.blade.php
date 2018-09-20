@@ -12,7 +12,8 @@
         <div class="col-12 col-md-6">
             <div class="card border-0">
                 <div class="card-body text-center">
-                    <h4>Jadi Relawan</h4>
+                    <h4>Hai, {{Auth::user()->profile->name}}</h4>
+                    <p>Mohon lengkapi formulir berikut untuk melanjutkan pendaftaran sebagai relawan</p>
                 </div>
                 <div class="card-body">
                     @if(session()->has('success'))

@@ -41,9 +41,9 @@
                                 <td>{{$i->status}}</td>
                                 <td>
                                     @if(empty($i->transfer_receipt))
-                                        <a href="" class="btn btn-sm btn-primary"><i class="fas fa-cloud-upload-alt"></i> Upload Bukti Transfer</a>
+                                        <a class="btn btn-sm btn-primary" data-toggle="pjax" data-pjax="main-content" href="{{route('donation.upreceipt', ['id' => $i->id])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-cloud-upload-alt"></i> Upload Bukti Transfer</a>
                                     @else
-                                        <a href="" class="btn btn-sm btn-link"> Lihat Bukti Transfer</a>
+                                        <a href="{{URL::to('/').'/'.$i->transfer_receipt}}" class="btn btn-sm btn-link" target="_blank"> Lihat Bukti Transfer</a>
                                     @endif
                                 </td>
                             </tr>

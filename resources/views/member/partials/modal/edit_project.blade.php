@@ -14,11 +14,11 @@
         </div>
         <div class="form-group">
             <label for="project_location">Lokasi</label>
-            <input type="text" class="form-control" id="project_location" placeholder="Lokasi" name="data[project_location]" value="{{$location}}">
+            <input type="text" class="form-control" id="project_location" placeholder="Lokasi" name="data[project_location]" value="{{$project_location}}">
         </div>
         <div class="form-group">
             <label for="project_deadline">Tenggat Waktu</label>
-            <input type="date" class="form-control" id="project_deadline" placeholder="Tenggat Waktu" name="data[project_deadline]" value="{{$deadline}}">
+            <input type="date" class="form-control" id="project_deadline" placeholder="Tenggat Waktu" name="data[project_deadline]" value="{{$project_deadline}}">
         </div>
     </div>
     <div class="form-section">
@@ -34,7 +34,7 @@
         </div>
         <div class="form-group">
             <label for="volunteer_quota">Target Relawan</label>
-            <input type="text" class="form-control" id="volunteer_quota" placeholder="Target Relawan" name="data[volunteer_quota]" onkeypress="javascript:return isNumberKey(event);" value="{{$volunteer_spot}}">
+            <input type="text" class="form-control" id="volunteer_quota" placeholder="Target Relawan" name="data[volunteer_quota]" onkeypress="javascript:return isNumberKey(event);" value="{{$volunteer_quota}}">
         </div>
     </div>
 </form>

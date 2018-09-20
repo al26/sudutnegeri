@@ -271,6 +271,9 @@
                             </div>
                             <div class="project-needs">
                                 <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <p class="mb-0"><i class="fas fw fa-map-marker-alt mr-2"></i><small>{{$project->project_location}}</small></p>
+                                    </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Dana
                                         <div class="progress">
@@ -284,9 +287,6 @@
                                             <div class="progress-bar" role="progressbar" style="width: {{$progressRelawan}}%;" aria-valuenow="{{$progressRelawan}}" aria-valuemin="0" aria-valuemax="100"></div>
                                             <small class="progress-capt">{{$progressRelawan}}%</small>
                                         </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <p class="mb-0"><i class="fas fw fa-map-marker-alt mr-2"></i><small>{{$project->project_location}}</small></p>
                                     </li>
                                     <li class="list-group-item">
                                         <p class="mb-0"><i class="fas fw fa-calendar-times mr-1"></i> <small>{{$remainingDays}} lagi</small></p>
@@ -392,7 +392,9 @@
         <div class="container-fluid p-0">
             <div class="card">
                 <div class="card-body p-0">
-                    <img src="http://via.placeholder.com/1024x500" class="img-fluid" alt="Responsive image" style="width: 100%;">
+                    <a href="">
+                        <img src="http://via.placeholder.com/1024x500" class="img-fluid" alt="Responsive image" style="width: 100%;">
+                    </a>
                 </div>
             </div>
         </div>

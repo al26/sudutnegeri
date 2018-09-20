@@ -21,12 +21,14 @@ class CreateProjectsTable extends Migration
             $table->string('project_slug');
             $table->text('project_description');
             $table->string('project_location');
-            $table->dateTime('project_deadline');
+            $table->unsignedInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
             $table->unsignedInteger('funding_target');
             $table->unsignedInteger('funding_progress')->nullable();
             $table->unsignedInteger('volunteer_quota');
             $table->unsignedInteger('registered_volunteer')->nullable();
             $table->dateTime('project_day');
+            $table->dateTime('reg_deadline');
             $table->string('project_banner')->nullable();
             $table->timestamps();
             $table->softDeletes();

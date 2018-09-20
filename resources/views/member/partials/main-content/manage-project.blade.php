@@ -3,7 +3,7 @@
         <div class="form-section">
             <div class="fs-head">
                 <span class="fs-head-text">Kelola Proyek {{$data['project_name']}}</span>
-                <a href="" class="btn btn-sm btn-primary float-right" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="fas fw fa-arrow-left"></i> Kembali</a>
+                <a href="" class="btn btn-sm btn-danger float-right" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="far fa-window-close"></i> Kembali</a>
             </div>
         </div>
         <div class="row section-content">

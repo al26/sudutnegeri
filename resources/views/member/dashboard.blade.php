@@ -17,8 +17,8 @@
                 </div>
             </div>
             <div id="p-pic-container" class="text-center">
-                <img id="p-pic" class="card-img-bottom img-thumbnail" src="{{asset($user_profile->profile_picture)}}" alt="Profile Picture">
-                <a id="p-pic-overlay" class="text-white decoration-none" href="{{route('avatar.edit', ['id' => $user_profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => $user_profile->id])}}", "pjax-reload":false}'><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
+                <img id="p-pic" class="card-img-bottom img-thumbnail pchange" src="{{asset($user_profile->profile_picture)}}" alt="Profile Picture">
+                <a id="p-pic-overlay" class="text-white decoration-none" href="{{route('avatar.edit', ['id' => $user_profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => $user_profile->id])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => $user_profile->id])}}"}'><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
             </div>
             <div id="p-data" class="card-img-overlay">
                 <span class="--text _head">{{$user_profile->name}}</span>
@@ -96,10 +96,15 @@
         $('#form-account').ajaxCrudNonModal('#mr');
     });
 
-    // $(document).on('click', '#profile-edit', function(e){
-    //     e.preventDefault();
-    //     $('#form-profile').ajaxCrudNonModal('#mr');
-    // });
+    $(document).on('click', '#profile-edit', function(e){
+        e.preventDefault();
+        $('#form-profile').ajaxCrudNonModal('#mr');
+    });
+
+    $(document).on('click', '#upload-receipt', function(e){
+        e.preventDefault();
+        $('#form-receipt').ajaxCrudNonModal('#mr');
+    });
 
     $(document).pjax('a[data-pjax=menu]', '#mc');
     $('#mc').on('pjax:send', function() {

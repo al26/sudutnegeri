@@ -49,7 +49,7 @@
                             <span class="--text text-capitalize">target {{$project->volunteer_quota}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            <a class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
+                            <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
                         </div>
                     </section>
                 </div>
@@ -114,7 +114,25 @@
                 swal({
                     type: 'error',
                     title: 'Oops...',
-                    text: 'Anda belum Login. Silahkan Login terlebih dahulu !',
+                    text: 'Anda belum Login. Silahkan Login terlebih dahulu untuk melanjutkan donasi!',
+                    showConfirmButton: false,
+                    footer: '<a href="' + url + '" class="btn btn-secondary btn-sm">Login di sini</a>'
+                });
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $('#volunteer-btn').on('click', function(e){
+            var isAuth = "{{Auth::check()}}";
+            // var continue = 
+            var url = "/login?continue=" + encodeURIComponent(window.btoa($(this).attr('href')));
+            if(!isAuth) {
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Anda belum Login. Silahkan Login terlebih dahulu untuk melanjutkan pendaftaran sebagai relawan!',
                     showConfirmButton: false,
                     footer: '<a href="' + url + '" class="btn btn-secondary btn-sm">Login di sini</a>'
                 });

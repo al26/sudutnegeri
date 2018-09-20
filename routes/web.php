@@ -44,6 +44,9 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::put('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
     Route::get('setting/profile/avatar/edit/{id}','MemberController@editProfilePicture')->name('avatar.edit');
     Route::put('setting/profile/avatar/update/{id}','MemberController@updateProfilePicture')->name('avatar.update');
+    Route::get('negeri/donations/upload/{id}', 'DonationController@uploadReceipt')->name('donation.upreceipt');
+    Route::put('negeri/donations/upload/{id}', 'DonationController@saveReceipt')->name('donation.savereceipt');
+    Route::get('negeri/donations/receipt/{id}', 'DonationController@showReceipt')->name('donation.receipt');
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -70,7 +73,7 @@ Route::group(['prefix' => 'project'], function () {
     Route::get('details/{slug}/donate', 'DonationController@create')->name('donation.create');
     Route::get('details/{slug}/donate/invoice', 'DonationController@invoice')->name('donation.invoice');
     Route::get('details/{slug}/volunteer-reg', 'VolunteerController@create')->name('volunteer.create');
-    // Route::get('details/{slug}/volunteer-reg/post-reg', 'VolunteerController@create')->name('volunteer.create');
+    Route::get('details/{slug}/volunteer-reg/post-msg', 'VolunteerController@postmsg')->name('volunteer.postmsg');
 
     Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
     Route::put('update/{id}', 'ProjectController@update')->name('project.update');
@@ -128,6 +131,11 @@ Route::group(['prefix' => 'json'], function () {
         // dd(json_encode($data));
         return response()->json($data);
     });
+
+    Route::get('avatar', function (\Illuminate\Http\Request $request) {
+        $res = \App\User_profile::where("id", $request->id)->pluck('profile_picture');
+        return response()->json($res, 200);
+    })->name('pchange');
     
 });
 

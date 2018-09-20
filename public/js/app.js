@@ -62551,11 +62551,25 @@ $(function () {
                         showConfirmButton: false,
                         timer: 1500
                     });
+
+                    if (data['pchange']) {
+                        pchange(data['pchange-url']);
+                    }
                 }
             },
             error: function error(response) {
                 console.log(response);
             }
+        });
+    }
+
+    function pchange(url) {
+        var split = url.split("/");
+        baseurl = split[0] + '//' + split[2] + '/';
+
+        $.get(url, function (response) {
+            console.log("img src : " + baseurl + response);
+            $(".pchange").attr('src', baseurl + response);
         });
     }
 

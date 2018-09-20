@@ -33,6 +33,12 @@ class VolunteerController extends Controller
         return view('member.create_volunteer', $data);
     }
 
+    public function postmsg($slug) 
+    {
+        $data['project'] = Project::where('project_slug', $slug)->first();
+        return view('member.post_reg_msg', $data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -41,6 +47,8 @@ class VolunteerController extends Controller
      */
     public function store(Request $request)
     {
+        $slug = $request->data['project_slug'];
+
         $rules = [
             "motivation" => "required",
             "eligibility" => "required",
@@ -93,7 +101,7 @@ class VolunteerController extends Controller
             }
 
             if($store) {
-                $return = redirect()->back()->with('success', 'sukses daftar');
+                $return = redirect()->route('volunteer.postmsg', ['slug' => $slug]);
             } else {
                 $return = redirect()->back()->with('error', 'Terjadi kesalahan. Silahkan coba lagi')->withInput($data);
             }

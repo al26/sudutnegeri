@@ -10,6 +10,7 @@ use Validator;
 use Notification;
 use App\Notifications\DonationInvoice;
 use Nexmo;
+use Storage;
 
 class DonationController extends Controller
 {
@@ -93,14 +94,23 @@ class DonationController extends Controller
         return $return;
     }
 
-    public function confirmDonation($id) {
-        $progress = [
-            "funding_progress" => Donation::where('project_id', $id)->sum('amount')
-        ];
-        
-        $up = Project::find($id)->update($progress);
-        if($up) {
-            $return = ['success' => 'Donasi berhasil dikonfirmasi'];
+    public function confirmDonation(Request $request) {
+        $confirm = Donation::findOrFail($request->donation_id)->update('status', 'confirmed');
+
+        if ($confirm) {
+            $where = [
+                'project_id' => $request->project_id,
+                'status' => 'confirmed'
+            ];
+
+            $progress = [
+                "funding_progress" => Donation::where($where)->sum('amount')
+            ];
+            
+            $up = Project::find($request->project_id)->update($progress);
+            if($up) {
+                $return = ['success' => 'Donasi berhasil dikonfirmasi'];
+            }    
         } else {
             $return = ['error' => 'Terjadi kesalahan. Konfirmasi donasi gagal'];
         }
@@ -114,9 +124,10 @@ class DonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showReceipt($id)
     {
-        //
+        $donation = Donation::findOrFail($id);
+        return $donation->transfer_receipt;
     }
 
     /**
@@ -125,9 +136,12 @@ class DonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function uploadReceipt(Request $request, $id)
     {
-        //
+        $data['user_profile']  = $request->user()->profile;
+        $data['donation'] = Donation::findOrFail($id);
+        return view('member.dashboard', ['menu' => 'negeri', 'section' => 'upload-transfer-receipt'], $data);
+        // return view('member.partials.main-content.upload-transfer-receipt', $data);
     }
 
     /**
@@ -137,9 +151,33 @@ class DonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function saveReceipt(Request $request, $id)
     {
-        //
+        $path = "";
+        $filename = "";
+
+        $donation = Donation::findOrFail($id);
+        $old = $donation->transfer_receipt === null ?? substr($donation->transfer_receipt, 7);
+
+        if($request->hasFile('receipt')) {
+            $filename = md5($id.time()).'.'.$request->receipt->getClientOriginalExtension();
+            $file = $request->file('receipt');
+            $path = $file->storeAs('public/transfer_receipts', $filename);
+        }
+
+        if($path) {
+            $update = $donation->update(['transfer_receipt' => "storage/transfer_receipts/$filename"]);
+            if($update) {
+                if($old !== null){
+                    Storage::delete('public'.$old); 
+                }
+                $return = ['success' => "Bukti transfer brhasil diunggah"];
+            } else {
+                $return = ['error' => "Terjadi kesalahan. Gagal mengunggah bukti transfer"];
+            }
+        }
+
+        return response()->json($return);
     }
 
     /**

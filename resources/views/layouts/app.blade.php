@@ -66,7 +66,7 @@
                                         @csrf
                                     </form>
                                 </div>
-                                <img class="d-flex ml-3 rounded-0 img-fluid" src="{{ asset('storage/'.Auth::user()->profile->profile_picture ?? 'profile_pictures/dummy.svg') }}" alt="Image Icon" style="width: 100px;">
+                                <img class="d-flex ml-3 rounded-0 img-fluid pchange" src="{{ asset('storage/'.Auth::user()->profile->profile_picture ?? 'profile_pictures/dummy.svg') }}" alt="Image Icon" style="width: 100px;">
                             </div>
                         @endguest
                     </div>
@@ -154,7 +154,7 @@
                                 </form> --}}
 
                                 <a class="d-flex flex-row align-items-center decoration-none" id="user-desktop-menu">
-                                    <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar"> 
+                                    <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar pchange"> 
                                 </a>
                                 
                                 <div id="user-desktop-menu-content" class="border-0" style="display:none">
