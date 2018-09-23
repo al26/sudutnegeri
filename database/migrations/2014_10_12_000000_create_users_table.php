@@ -19,7 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->enum('role', ['admin', 'member'])->default('member');            
             $table->rememberToken();
-            $table->boolean('verified')->default(false);
+            $table->boolean('active')->default(false);
+            $table->string('activation_token')->nullable();
             $table->timestamps();
         });
     }

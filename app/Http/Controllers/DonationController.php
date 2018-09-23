@@ -200,7 +200,7 @@ class DonationController extends Controller
         $donation = Donation::where($where)->orderBy('id', 'desc')->first();
         $data['donation'] = $donation;
         $when = now()->addSeconds(10);
-        $request->user()->notify((new DonationInvoice($request->user()))->delay($when));
+        $request->user()->notify((new DonationInvoice($request->user(), $slug))->delay($when));
         // Nexmo::message()->send([
         //     'to'   => '+6285868444101',
         //     'from' => '+6281392531719',

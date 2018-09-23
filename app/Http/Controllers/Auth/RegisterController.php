@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Notifications\ActivationEmail;
 
 class RegisterController extends Controller
 {
@@ -66,6 +68,7 @@ class RegisterController extends Controller
         $user =  User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'activation_token' => str_random(150)
         ]);
 
         $user->profile()->create([
@@ -77,5 +80,17 @@ class RegisterController extends Controller
         ]);
 
         return $user;
+    }
+
+    public function registered(Request $request, $user) 
+    {
+        // dd($user);
+
+        $when = now()->addSeconds(10);
+        $user->notify((new ActivationEmail($user))->delay($when));
+
+        $this->guard()->logout();
+
+        return redirect()->route('login')->withSuccess('Selamat, Anda telah terdaftar sebagai member SudutNegeri. Silahkan lakukan aktivasi akun dengan klik link aktivasi yang kami kirimkan ke email Anda');
     }
 }

@@ -23,8 +23,8 @@ class CreateDonationsTable extends Migration
             $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
             $table->unsignedInteger('amount');
             $table->unsignedSmallInteger('payment_code');
-            $table->enum('anonymouse', ['yes', 'no']);
-            $table->string('status');
+            $table->boolean('anonymouse')->default(false);
+            $table->enum('status', ['unverified', 'being verified', 'verified']);
             $table->string('transfer_receipt')->nullable();
             $table->timestamps();
         });

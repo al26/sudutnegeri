@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Project;
 use Validator;
-use App\Education_sector as Sector;
+use App\Category;
 use App\Province;
 use App\User_profile as Profile;
 use App\User_address as Address;
@@ -36,7 +36,7 @@ class MemberController extends Controller
     {
         $data['user_projects'] = Project::where('user_id', $request->user()->id)->paginate(5);
         $data['user_profile']  = $request->user()->profile;
-        $data['sectors'] = Sector::all();
+        $data['sectors'] = Category::all();
         $data['provinces'] = Province::all();
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();

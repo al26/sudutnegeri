@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEducationSectorsTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateEducationSectorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('education_sectors', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('sector');
+            $table->string('category');
+            $table->string('slug');
         });
     }
 
@@ -26,6 +27,6 @@ class CreateEducationSectorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('education_sectors');
+        Schema::dropIfExists('categories');
     }
 }

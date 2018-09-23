@@ -25,6 +25,7 @@ Route::namespace('Auth')->group(function () {
     Route::get('/logout', 'LoginController@logout')->name('logout');
     Route::get('/auth/{provider}',          'SocialAccountController@redirectToProvider')->name('oauth.login');
     Route::get('/auth/{provider}/callback', 'SocialAccountController@handleProviderCallback');
+    Route::get('/activate-account', 'AccountActivationController@activateAccount')->name('auth.activate');
     Route::put('/password/create', 'SocialAccountController@createPassword')->name('password.create');
     // Route::get('/connect/{provider}',          'SocialAccountController@connect')->name('oauth.connect');
     Route::get('/disconnect/{provider}/{continue}', 'SocialAccountController@disconnect')->name('oauth.disconnect');
