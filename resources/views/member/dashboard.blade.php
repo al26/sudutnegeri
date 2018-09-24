@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- @include('layouts.partials._alert') --}}
 <div class="container">
     <section class="m-topcard mt-3">
         <div class="card border-0">

@@ -29,12 +29,13 @@
                 </button>
                 <a class="navbar-brand p-0" href="{{ url('/') }}">
                     <img class="" src="{{asset('storage/app_logo/logo.png')}}" alt="{{ config('app.name', 'SudutNegeri') }}">
+                    {{ config('app.name', 'SudutNegeri') }}
                 </a>
                 <button class="navbar-toggler p-0 border-0 text-light" type="button" data-toggle="offcanvas">
                     <span class="fas fa-th-list"></span>
                 </button>
 
-                <div class="navbar-collapse search-collapse p-2" id="navbarSearch">
+                <div class="navbar-collapse search-collapse p-2 d-block d-lg-none" id="navbarSearch">
                     <div class="row">
                         <div class="col-12">
                             <input type="text" name="search" placeholder="Cari judul atau lokasi proyek" id="mobile-project-search" onkeyup="javascript:getSearcResult(this, '#mobile-project-search-result');">
@@ -116,7 +117,7 @@
                                     </span>
                                 </div>
                             </form> --}}
-                            <div class="row m-0">
+                            <div class="row mx-auto">
                                 <div class="col-12 p-0">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -132,76 +133,77 @@
                         {{-- </li>
                     </ul> --}}
 
-                    <ul class="navbar-nav ml-auto">
-                        @guest
-                            {{-- <li class="mx-1"><a class="btn btn-md btn-outline-primary" href="{{ route('register') }}"><i class="fas fa-user-plus"></i></a></li> --}}
-                            <li class="mx-1"><a id="main-login-btn" class="btn btn-md" href="{{ route('login') }}">Masuk<i class="fas fw fa-sign-in-alt ml-3"></i></a></li>
-                        @else
-                            <li class="nav-item d-flex flex-row align-items-center">
-                                {{-- <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="btn d-flex flex-row align-items-center" data-toggle="tooltip" data-placement="bottom" title="Dashboard">
-                                    <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar"> 
-                                    <span class="ml-2 text-white">{{Auth::user()->profile->name}}</span>
-                                </a> --}}
+                </div>
+                <ul class="navbar-nav ml-auto">
+                    @guest
+                        <li class="mx-1"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a></li>
+                        <li class="mx-1"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a></li>
+                    @else
+                        <li class="nav-item d-flex flex-row align-items-center">
+                            {{-- <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="btn d-flex flex-row align-items-center" data-toggle="tooltip" data-placement="bottom" title="Dashboard">
+                                <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar"> 
+                                <span class="ml-2 text-white">{{Auth::user()->profile->name}}</span>
+                            </a> --}}
 
-                                {{-- <a class="text-white decoration-none ml-3" data-toggle="tooltip" data-placement="bottom" title="Keluar"
-                                    href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                            document.getElementById('ds-logout-form').submit();"><i class="fas fw fa-sign-out-alt" data-fa-transform ="grow-10"></i>
-                                </a>
+                            {{-- <a class="text-white decoration-none ml-3" data-toggle="tooltip" data-placement="bottom" title="Keluar"
+                                href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                        document.getElementById('ds-logout-form').submit();"><i class="fas fw fa-sign-out-alt" data-fa-transform ="grow-10"></i>
+                            </a>
 
-                                <form id="ds-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form> --}}
+                            <form id="ds-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form> --}}
 
-                                <a class="d-flex flex-row align-items-center decoration-none" id="user-desktop-menu">
-                                    <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar pchange"> 
-                                </a>
-                                
-                                <div id="user-desktop-menu-content" class="border-0" style="display:none">
-                                    <div class="card border-0 p-0">
-                                        <div class="card-body border-bottom px-3 py-2">
-                                            <h4 class="mb-2"><b>{{Auth::user()->profile->name}}</b></h4>
-                                            <p class="m-0">{{Auth::user()->email}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="list-group border-0" style="min-width:200px">
-                                        <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-tachometer-alt mr-2"></i> Dashboard</a>
-
-                                        <a href="{{route('dashboard', ['menu' => 'sudut'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-lightbulb mr-2"></i> Jadi Sudut</a>
-                                        
-                                        <a href="{{route('project.browse', ['category' => 'all'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-heartbeat mr-2"></i>Jadi Negeri</a>
-                                        
-                                        @php
-                                            $prop = Auth::user()->profile->toArray();
-                                            $check = in_array(null, $prop);
-                                        @endphp
-
-                                        @if($check)
-                                            <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-address-card mr-2"></i> Lengkapi Profil</a>
-                                        @endif
-                                        
-                                        @if(empty(Auth::user()->password))
-                                            <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-key mr-2"></i> Buat Password</a>
-                                        @endif
-                                        
-                                        <a class="list-group-item list-group-item-action border-top-0 border-left-0 border-right-0" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                    document.getElementById('ds-logout-form').submit();"><i class="fas fw fa-sign-out-alt mr-2"></i> Keluar 
-                                        </a>
-
-                                        <form id="ds-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                        </form>
+                            <a class="d-flex flex-row align-items-center decoration-none" id="user-desktop-menu">
+                                <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar pchange"> 
+                            </a>
+                            
+                            <div id="user-desktop-menu-content" class="border-0" style="display:none">
+                                <div class="card border-0 p-0">
+                                    <div class="card-body border-bottom px-3 py-2">
+                                        <h4 class="mb-2"><b>{{Auth::user()->profile->name}}</b></h4>
+                                        <p class="m-0">{{Auth::user()->email}}</p>
                                     </div>
                                 </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+                                <div class="list-group border-0" style="min-width:200px">
+                                    <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-tachometer-alt mr-2"></i> Dashboard</a>
+
+                                    <a href="{{route('dashboard', ['menu' => 'sudut'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-lightbulb mr-2"></i> Jadi Sudut</a>
+                                    
+                                    <a href="{{route('project.browse', ['category' => 'all'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-heartbeat mr-2"></i>Jadi Negeri</a>
+                                    
+                                    @php
+                                        $prop = Auth::user()->profile->toArray();
+                                        $check = in_array(null, $prop);
+                                    @endphp
+
+                                    @if($check)
+                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-address-card mr-2"></i> Lengkapi Profil</a>
+                                    @endif
+                                    
+                                    @if(empty(Auth::user()->password))
+                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-key mr-2"></i> Buat Password</a>
+                                    @endif
+                                    
+                                    <a class="list-group-item list-group-item-action border-top-0 border-left-0 border-right-0" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                document.getElementById('ds-logout-form').submit();"><i class="fas fw fa-sign-out-alt mr-2"></i> Keluar 
+                                    </a>
+
+                                    <form id="ds-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
             </div>
         </nav>
 
         <main id="main-content" data-pjax-container>
+            @include('layouts.partials._alert')
             @yield('content')
         </main>
         

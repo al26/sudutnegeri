@@ -258,6 +258,16 @@ a.navbar-brand {
 }
 
 @include media-breakpoint-up(lg) {
+	.main-auth-btn {
+		background: rgba($secondary-light, $alpha: 1) !important;
+		color: $white !important;
+		text-decoration: none !important;
+
+		&:hover {
+			background: $secondary !important;
+		}
+	}
+
 	div#desktopNavbar {
 		.input-group-text {
 			background: $secondary-light;
@@ -269,7 +279,7 @@ a.navbar-brand {
 			border:0;
 			// border-bottom-color: transparent;
 			background: $secondary-light;
-			width: 20rem;
+			width: 30rem;
 			padding: .5rem !important;
 			-webkit-transition: border 0.4s ease-in-out;
 			transition: 0.4s ease all;
@@ -281,22 +291,12 @@ a.navbar-brand {
 
 			&:focus {
 				// border-bottom-color: $body-bg;
-				width: 20rem;
+				width: 30rem;
 				box-shadow: none !important;
 				-moz-box-shadow: none !important;
 				-webkit-box-shadow: none !important;
 				outline-offset: 0px !important;
 				outline: none !important;
-			}
-		}
-
-		#main-login-btn {
-			background: rgba($secondary-light, $alpha: 1);
-			color: $white;
-			text-decoration: none;
-
-			&:hover {
-				background: $secondary;
 			}
 		}
 

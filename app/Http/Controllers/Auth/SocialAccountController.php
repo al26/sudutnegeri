@@ -13,6 +13,8 @@ use Socialite;
 use Auth;
 use Exception;
 use Validator;
+use App\Notifications\ActivationEmail;
+
 
 class SocialAccountController extends Controller
 {
@@ -60,12 +62,29 @@ class SocialAccountController extends Controller
             $user = Socialite::driver($provider)->user();
         } catch (Exception $e) {
             return 'error';
-        }    
+        }
+        
+        if($req->session()->get('action') === 'register') {
+            $reg = $this->register($user, $provider);
+
+            if ($reg) {
+                return redirect()->route('login')->withsuccess("Selamat, Anda telah terdaftar sebagai member SudutNegeri. Silahkan lakukan aktivasi akun dengan klik link aktivasi yang kami kirimkan ke email Anda ($user->email)");
+            } else {
+                return redirect()->route('login')->withdanger("Terjadi kesalahan, silahkan coba lagi. Silahkan hubungi administrator jika tetap gagal setelah beberapa kali percobaan");
+            }
+        }
 
         // if($req->cookie('action') === 'login') {
         if($req->session()->get('action') === 'login') {
-            $authUser = $this->findOrCreate($user, $provider);
-            Auth::login($authUser, true);
+            // $authUser = $this->findOrCreate($user, $provider);
+            $login = $this->login($user, $provider);
+            if ($login !== false) {
+                Auth::login($login, true);
+            } else {
+                return redirect()->route('login')
+                                 ->withdanger('Akun Anda belum terdaftar atau belum aktif. Email aktivasi akan Anda dapatkan sesaat setelah proses pendaftran berhasil. Anda dapat meminta sistem mengirimkan ulang email aktivasi dengan klik pada menu "Kirim saya email aktivasi" pada halaman login');
+            }
+
         }
 
         // if($req->cookie('action') === 'connect'){
@@ -78,6 +97,50 @@ class SocialAccountController extends Controller
         }
 
         return redirect($this->referer);        
+    }
+
+    public function login($providerUser, $provider){
+        $account = SocialAccount::where('provider_name', $provider)
+                   ->where('provider_id', $providerUser->getId())
+                   ->first();
+
+        if ($account) {
+            if ($account->user->active) {
+                return $account->user;
+            }
+        } else {
+            $user = User::where('email', $providerUser->getEmail())->first();
+            if ($user) {
+                return $user;
+            }
+        }
+
+        return false;
+    }
+
+    public function register($providerUser, $provider){
+        $user = User::create([  
+            'email' => $providerUser->getEmail(),
+            'activation_token' => str_random(150)
+        ]);
+
+        $user->profile()->create([
+            'name'  => $providerUser->getName(),
+        ]);
+
+        $user->profile->address()->create([
+            'user_profile_id' => $user->profile->id,
+        ]);
+
+        $user->socialAccounts()->create([
+            'provider_id'   => $providerUser->getId(),
+            'provider_name' => $provider,
+        ]);
+
+        $when = now()->addSeconds(10);
+        $user->notify((new ActivationEmail($user))->delay($when));
+
+        return true;
     }
 
     public function findOrCreate($providerUser, $provider){

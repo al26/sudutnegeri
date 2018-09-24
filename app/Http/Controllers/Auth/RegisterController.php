@@ -43,6 +43,18 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm(Request $request)
+    {
+        $data['continue'] = $request->query('continue') ?? null; 
+        return view('auth.register', $data);
+    }
+
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -91,6 +103,6 @@ class RegisterController extends Controller
 
         $this->guard()->logout();
 
-        return redirect()->route('login')->withSuccess('Selamat, Anda telah terdaftar sebagai member SudutNegeri. Silahkan lakukan aktivasi akun dengan klik link aktivasi yang kami kirimkan ke email Anda');
+        return redirect()->route('login')->withSuccess("Selamat, Anda telah terdaftar sebagai member SudutNegeri. Silahkan lakukan aktivasi akun dengan klik link aktivasi yang kami kirimkan ke email Anda ($user->email)");
     }
 }

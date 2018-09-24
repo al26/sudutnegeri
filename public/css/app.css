@@ -14195,6 +14195,14 @@ a.navbar-brand img {
 }
 
 @media (min-width: 992px) {
+  .main-auth-btn {
+    background: #4587be !important;
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+  .main-auth-btn:hover {
+    background: #0b65b1 !important;
+  }
   div#desktopNavbar .input-group-text {
     background: #4587BE;
     border: 0;
@@ -14203,7 +14211,7 @@ a.navbar-brand img {
   div#desktopNavbar input[type="text"] {
     border: 0;
     background: #4587BE;
-    width: 20rem;
+    width: 30rem;
     padding: .5rem !important;
     -webkit-transition: border 0.4s ease-in-out;
     -webkit-transition: 0.4s ease all;
@@ -14226,20 +14234,12 @@ a.navbar-brand img {
     color: #fff !important;
   }
   div#desktopNavbar input[type="text"]:focus {
-    width: 20rem;
+    width: 30rem;
     box-shadow: none !important;
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     outline-offset: 0px !important;
     outline: none !important;
-  }
-  div#desktopNavbar #main-login-btn {
-    background: #4587be;
-    color: #fff;
-    text-decoration: none;
-  }
-  div#desktopNavbar #main-login-btn:hover {
-    background: #0b65b1;
   }
   div#desktopNavbar #project-search-result {
     position: absolute;

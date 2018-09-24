@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\User;
 
-class ActivationEmail extends Notification
+class ActivationEmail extends Notification implements ShouldQueue
 {
     use Queueable;
 
