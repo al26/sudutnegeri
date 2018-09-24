@@ -155,8 +155,12 @@
                                 @csrf
                             </form> --}}
 
-                            <a class="d-flex flex-row align-items-center decoration-none" id="user-desktop-menu">
-                                <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar pchange"> 
+                            <a class="d-flex flex-row align-items-center text-white decoration-none" id="user-desktop-menu">
+                                <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar pchange mr-3"> 
+                                {{-- @php
+                                    $name = explode(" ", Auth::user()->profile->name);    
+                                @endphp
+                                {{ $name[0] }} --}}
                             </a>
                             
                             <div id="user-desktop-menu-content" class="border-0" style="display:none">

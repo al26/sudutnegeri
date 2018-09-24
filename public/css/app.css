@@ -15291,10 +15291,10 @@ div#myCard {
 }
 
 .m-topcard #p-data {
-  top: 55%;
   color: #ffffff;
-  text-align: center;
+  text-align: left;
   bottom: inherit;
+  right: 10rem;
 }
 
 .m-topcard #p-cover-overlay {
@@ -15313,23 +15313,20 @@ div#myCard {
 }
 
 .m-topcard #p-pic-container {
-  position: absolute;
-  left: 42%;
-  bottom: 10rem;
+  left: 10rem;
   height: 12rem !important;
   width: 12rem !important;
 }
 
 .m-topcard #p-pic-container #p-pic-overlay {
-  position: absolute;
+  position: relative;
   background: rgba(11, 101, 177, 0.8);
-  padding: 1rem .5rem;
+  padding: 1rem 1.5rem;
   z-index: 2;
-  left: 0;
-  bottom: 0;
+  left: -0.5px;
+  bottom: 2.2rem;
   -webkit-transition: all .5s ease-in-out;
   transition: all .5s ease-in-out;
-  width: inherit !important;
   visibility: hidden;
 }
 

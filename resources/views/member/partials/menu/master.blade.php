@@ -1,6 +1,6 @@
 <section class="m-leftcard">
     <div class="card">
-            @yield('menu')
+        @yield('menu')
     </div>
 </section>
 

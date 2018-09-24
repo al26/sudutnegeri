@@ -3,10 +3,11 @@
         max-height: 20rem !important;
     }
     #p-data {
-        top: 55%;
+        // top: 55%;
         color: #ffffff;
-        text-align: center;
+        text-align: left;
         bottom: inherit;
+        right:10rem;
     }
     #p-cover-overlay {
         position: absolute;
@@ -23,22 +24,22 @@
         }
     }
     #p-pic-container {
-        position: absolute;
-        left: 42%;
-        bottom: 10rem;
+        // position: absolute;
+        left: 10rem;
+        // bottom: 10rem;
         height: 12rem !important;
         width: 12rem !important;
         
 
         #p-pic-overlay {
-            position: absolute;
+            position: relative;
             background: rgba($color: $secondary, $alpha: .8);
-            padding: 1rem .5rem;
+            padding: 1rem 1.5rem;
             z-index: 2;
-            left: 0;
-            bottom: 0;
+            left: -0.5px;
+            bottom: 2.2rem;
             transition: all .5s ease-in-out;
-            width: inherit !important;
+            // width: 15rem !important;
             visibility: hidden;
             &:hover{
                 visibility: visible;
