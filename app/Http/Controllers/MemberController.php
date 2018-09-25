@@ -36,7 +36,7 @@ class MemberController extends Controller
     {
         $data['user_projects'] = Project::where('user_id', $request->user()->id)->paginate(5);
         $data['user_profile']  = $request->user()->profile;
-        $data['sectors'] = Category::all();
+        $data['categories'] = Category::all();
         $data['provinces'] = Province::all();
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
@@ -54,7 +54,7 @@ class MemberController extends Controller
             "biography"     => "required",
             "profession"    => "required",
             "institution"   => "required",
-            // "interest"      => "required",
+            "interest"      => "required",
             "skills"        => "required",
             "province_id"   => "required",
             "regency_id"    => "required",
@@ -74,7 +74,7 @@ class MemberController extends Controller
             "biography.required"     => "Tuliskan :attribute Anda",
             "profession.required"    => "Kolom :attribute tidak boleh kosong",
             "institution.required"   => "Mohon isikan :attribute Anda saat ini",
-            // "interest.required"      => "Kolom :attribute tidak boleh kosong",
+            "interest.required"      => "Kolom :attribute tidak boleh kosong",
             "skills.required"        => "Mohon isikan minimal satu :attribute Anda",
             "exact_location.required"=> "Kolom :attribute tidak boleh kosong",
             "zip_code.required"      => "Kolom :attribute tidak boleh kosong",
@@ -88,7 +88,7 @@ class MemberController extends Controller
             "biography"     => "biografi",
             "profession"    => "profesi",
             "institution"   => "institusi",
-            // "interest"      => "minat",
+            "interest"      => "minat",
             "skills"        => "keahlian",
             "province_id"   => "provinsi",
             "regency_id"    => "kabupaten/kota",
@@ -110,7 +110,7 @@ class MemberController extends Controller
                 "gender" => $request->data['gender'],
                 "dob" => $request->data['dob'],
                 "biography" => $request->data['biography'],
-                // "interest" => implode(', ', $request->data['interest']),
+                "interest" => implode(', ', $request->data['interest']),
                 "skills" => $request->data['skills'],
                 "profession" => $request->data['profession'],
                 "institution" => $request->data['institution'],

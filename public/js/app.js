@@ -61784,6 +61784,7 @@ __webpack_require__(38);
 __webpack_require__(44);
 __webpack_require__(45);
 __webpack_require__(46);
+__webpack_require__(73);
 __webpack_require__(47);
 
 window.ClassicEditor = __webpack_require__(48);
@@ -62691,6 +62692,35 @@ $(function () {
     };
 
     $.fn.ajaxSelect2 = function (id, url) {
+        $('#' + id).select2({
+            theme: "bootstrap4",
+            tags: true,
+            // dropdownParent: $('#modal'),
+            ajax: {
+                url: url,
+                type: "POST",
+                dataType: "json",
+                delay: 250,
+                data: function data(params) {
+                    return {
+                        key: params.term,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    };
+                },
+
+                processResults: function processResults(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data.items, function (val, index) {
+                            return { id: val, text: val };
+                        })
+                    };
+                }
+            }
+        });
+    };
+
+    $.fn.ajaxSelect2Modal = function (id, url) {
         $("#modal").on("shown.bs.modal", function (e) {
             $('#' + id).select2({
                 theme: "bootstrap4",
@@ -74489,6 +74519,94 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */
+/***/ (function(module, exports) {
+
+// Create a "close" button and append it to each list item
+// var myNodelist = document.getElementsByTagName("LI");
+// var i;
+// for (i = 0; i < myNodelist.length; i++) {
+//     var span = document.createElement("SPAN");
+//     var txt = document.createTextNode("\u00D7");
+//     span.className = "dynamic-close";
+//     span.appendChild(txt);
+//     myNodelist[i].appendChild(span);
+// }
+
+// Click on a close button to hide the current list item
+// dynamicCloseList = function () {
+//     var close = document.getElementsByClassName("dynamic-close");
+//     var i;
+//     for (i = 0; i < close.length; i++) {
+//         close[i].onclick = function() {
+//             var div = this.parentElement;
+//             div.style.display = "none";
+//         }
+//     }
+// }
+
+// Add a "checked" symbol when clicking on a list item
+// var list = document.querySelector('ul');
+// list.addEventListener('click', function(ev) {
+//     if (ev.target.tagName === 'LI') {
+//         ev.target.classList.toggle('checked');
+//     }
+// }, false);
+
+// Create a new list item when clicking on the "Add" button
+dynamicList = function dynamicList(input, targetList, storeTo) {
+    var targetList = document.getElementById(targetList);
+    var li = document.createElement("li");
+    var inputValue = document.getElementById(input).value;
+    // console.log(targetList + ",," + li + ",," + );
+    var t = document.createTextNode(inputValue);
+    li.appendChild(t);
+    if (inputValue === '') {
+        // alert("You must write something!");
+    } else {
+        targetList.appendChild(li);
+    }
+    document.getElementById(input).value = "";
+
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("\xD7");
+    span.className = "dynamic-close";
+    span.appendChild(txt);
+    li.appendChild(span);
+
+    var existList = targetList.getElementsByTagName("li");
+    var listVal = new Array();
+    for (var i = 0; i < existList.length; i++) {
+        listVal[i] = existList[i].firstChild.nodeValue;
+        existList[i].onclick = function () {
+            var index = listVal.indexOf(this.firstChild.nodeValue);
+            listVal.splice(index, 1);
+            this.parentElement.removeChild(this);
+            document.getElementById(storeTo).value = listVal;
+            console.log(document.getElementById(storeTo).value);
+        };
+    }
+
+    document.getElementById(storeTo).value = listVal;
+    console.log(document.getElementById(storeTo).value);
+};
 
 /***/ })
 /******/ ]);

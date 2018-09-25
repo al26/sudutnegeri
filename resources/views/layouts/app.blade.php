@@ -134,7 +134,7 @@
                     </ul> --}}
 
                 </div>
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto d-none d-lg-block">
                     @guest
                         <li class="mx-1"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a></li>
                         <li class="mx-1"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a></li>
@@ -155,7 +155,7 @@
                                 @csrf
                             </form> --}}
 
-                            <a class="d-flex flex-row align-items-center text-white decoration-none" id="user-desktop-menu">
+                            <a class="d-md-flex flex-row align-items-center text-white decoration-none" id="user-desktop-menu">
                                 <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar pchange mr-3"> 
                                 {{-- @php
                                     $name = explode(" ", Auth::user()->profile->name);    

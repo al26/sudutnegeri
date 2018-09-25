@@ -13,6 +13,7 @@ require('jquery-pjax');
 require('./components/modal');
 require('./ajaxPagination');
 require('./countdown');
+require('./dynamicList');
 require('./main');
 
 window.ClassicEditor = require('@ckeditor/ckeditor5-build-classic'); 

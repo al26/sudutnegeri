@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Project;
 use App\Regency;
 use App\Donation;
+use App\Category;
 use App\Data_historis As History;
 
 class ProjectController extends Controller
@@ -30,10 +31,14 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $data['user_profile']  = $request->user()->profile;
         $data['regencies'] = Regency::all();
-        return view('member.partials.modal.create_project', $data);
+        $data['categories'] = Category::all();
+        // dd($data);
+        // return view('member.partials.modal.create_project', $data);
+        return view('member.dashboard', ['menu' => 'sudut', 'section' => 'project_create'], $data);
     }
 
     /**
@@ -74,7 +79,7 @@ class ProjectController extends Controller
         ];
         $data = $request->data;
         
-        // die(var_dump($data["deadline"]));
+        // dd($data);
 
         $validator = Validator::make($data, $rules, $messages, $attributes);
 

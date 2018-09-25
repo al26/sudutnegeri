@@ -66,9 +66,10 @@ class SocialAccountController extends Controller
         
         if($req->session()->get('action') === 'register') {
             $reg = $this->register($user, $provider);
+            $resend = route('auth.activate.resend');
 
             if ($reg) {
-                return redirect()->route('login')->withsuccess("Selamat, Anda telah terdaftar sebagai member SudutNegeri. Silahkan lakukan aktivasi akun dengan klik link aktivasi yang kami kirimkan ke email Anda ($user->email)");
+                return redirect()->route('login')->withSuccess('Selamat, Anda telah terdaftar sebagai member SudutNegeri. -- <strong>Aktivasi Akun diperlukan</strong>.<br> Anda harus terlebih dahulu melakukan aktivasi akun untuk dapat masuk ke sistem SudutNegeri. Kami telah mengirimkan email aktivasi ke <strong>'.$user->email.'</strong>, mohon untuk memeriksa juga folder spam email Anda. Jika Anda tidak menerima email aktivasi, dapat kami <a class="btn btn-link p-0" href="'.$resend.'">kirim ulang email aktivasi</a>');
             } else {
                 return redirect()->route('login')->withdanger("Terjadi kesalahan, silahkan coba lagi. Silahkan hubungi administrator jika tetap gagal setelah beberapa kali percobaan");
             }
@@ -78,11 +79,13 @@ class SocialAccountController extends Controller
         if($req->session()->get('action') === 'login') {
             // $authUser = $this->findOrCreate($user, $provider);
             $login = $this->login($user, $provider);
+            $resend = route('auth.activate.resend');
+            
             if ($login !== false) {
                 Auth::login($login, true);
             } else {
                 return redirect()->route('login')
-                                 ->withdanger('Akun Anda belum terdaftar atau belum aktif. Email aktivasi akan Anda dapatkan sesaat setelah proses pendaftran berhasil. Anda dapat meminta sistem mengirimkan ulang email aktivasi dengan klik pada menu "Kirim saya email aktivasi" pada halaman login');
+                                 ->withdanger('Akun Anda belum terdaftar atau belum aktif. Email aktivasi akan Anda dapatkan sesaat setelah proses pendaftran berhasil. Mohon periksa folder spam apabila tidak ditemukan email di kotak masuk. Anda dapat meminta sistem mengirimkan ulang email aktivasi dengan klik pada menu <a class="alert-link" href="'.$resend.'">Kirim saya email aktivasi</a> pada halaman login');
             }
 
         }

@@ -267,6 +267,35 @@
     }
 
     $.fn.ajaxSelect2 = function(id, url) {
+        $('#'+id).select2({
+            theme: "bootstrap4",
+            tags: true, 
+            // dropdownParent: $('#modal'),
+            ajax: {
+                url: url,
+                type: "POST",
+                dataType: "json",
+                delay:250,
+                data: function(params) {
+                    return {
+                        key : params.term,
+                        _token : $('meta[name="csrf-token"]').attr('content'),
+                    };
+                },
+
+                processResults: function(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data.items, function(val, index){
+                            return {id:val, text:val};
+                        })
+                    }
+                }, 
+            },
+        });
+    }
+
+    $.fn.ajaxSelect2Modal = function(id, url) {
         $("#modal").on("shown.bs.modal", function(e) {
             $('#'+id).select2({
                 theme: "bootstrap4",

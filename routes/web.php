@@ -40,10 +40,11 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/{menu?}/{section?}', 'MemberController@index')
             ->where(
                 ['menu'     => '(overview|setting|sudut|negeri)', 
-                'section'   => '(profile|account|projects|donations|activity|volunteer|cv)']
+                'section'   => '(profile|account|projects|donations|activity|volunteer|cv|verify)']
             )
             ->name('dashboard');
     Route::get('sudut/projects/manage/{slug}', 'ProjectController@manage')->name('project.manage');
+    Route::get('sudut/projects/create', 'ProjectController@create')->name('project.create');
     Route::put('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
     Route::get('setting/profile/avatar/edit/{id}','MemberController@editProfilePicture')->name('avatar.edit');
     Route::put('setting/profile/avatar/update/{id}','MemberController@updateProfilePicture')->name('avatar.update');
@@ -81,7 +82,7 @@ Route::group(['prefix' => 'project'], function () {
     Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
     Route::put('update/{id}', 'ProjectController@update')->name('project.update');
     Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
-    Route::get('create', 'ProjectController@create')->name('project.create');
+    // Route::get('create', 'ProjectController@create')->name('project.create');
     Route::post('store', 'ProjectController@store')->name('project.store');
 
     Route::resource('history', 'DataHistorisController');

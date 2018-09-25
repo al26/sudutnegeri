@@ -41,13 +41,13 @@
                     <div class="col-12 col-md-9">
                         <select id="interest" name="data[interest][]" multiple="multiple" class="select2 col-12">
                             @php
-                                $minat = array('1','2','4');
+                                $minat = explode(",",Auth::user()->profile->interest);
                             @endphp
-                            @foreach($sectors as $sector)
-                                @if(in_array($sector->id, $minat))
-                                    <option value="{{$sector->id}}" selected="true">{{$sector->sector}}</option>
+                            @foreach($categories as $category)
+                                @if(in_array($category->id, $minat))
+                                    <option value="{{$category->id}}" selected="true">{{$category->category}}</option>
                                 @else
-                                    <option value="{{$sector->id}}">{{$sector->sector}}</option>
+                                    <option value="{{$category->id}}">{{$category->category}}</option>
                                 @endif
                             @endforeach
                         </select>

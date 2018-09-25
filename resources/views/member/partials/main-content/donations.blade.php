@@ -34,11 +34,24 @@
                     </thead>
                     <tbody>
                         @foreach ($investments as $i)
+                            @php
+                                switch ($i->status) {
+                                    case 'being verified':
+                                        $badge = 'warning';
+                                        break;
+                                    case 'verified':
+                                        $badge = 'success';
+                                        break;
+                                    default:
+                                        $badge = 'danger';
+                                        break;
+                                }
+                            @endphp
                             <tr>
                                 <td>{{$i->project->project_name}}</td>
                                 <td>{{Idnme::print_rupiah($i->amount + $i->payment_code)}}</td>
                                 <td>{{Idnme::print_date($i->created_at, true)}}</td>
-                                <td>{{$i->status}}</td>
+                                <td><span class="badge badge-{{$badge}}">{{$i->status}}</span></td>
                                 <td>
                                     @if(empty($i->transfer_receipt))
                                         <a class="btn btn-sm btn-primary" data-toggle="pjax" data-pjax="main-content" href="{{route('donation.upreceipt', ['id' => $i->id])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-cloud-upload-alt"></i> Upload Bukti Transfer</a>

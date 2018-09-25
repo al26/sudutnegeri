@@ -102,7 +102,10 @@ class RegisterController extends Controller
         $user->notify((new ActivationEmail($user))->delay($when));
 
         $this->guard()->logout();
+        
+        $resend = route('auth.activate.resend');
 
-        return redirect()->route('login')->withSuccess("Selamat, Anda telah terdaftar sebagai member SudutNegeri. Silahkan lakukan aktivasi akun dengan klik link aktivasi yang kami kirimkan ke email Anda ($user->email)");
+        return redirect()->route('login')
+                         ->withSuccess('Selamat, Anda telah terdaftar sebagai member SudutNegeri. -- <strong>Aktivasi Akun diperlukan</strong>.<br> Anda harus terlebih dahulu melakukan aktivasi akun untuk dapat masuk ke sistem SudutNegeri. Kami telah mengirimkan email aktivasi ke <strong>'.$user->email.'</strong>, mohon untuk memeriksa juga folder spam email Anda. Jika Anda tidak menerima email aktivasi, dapat kami <a class="alert-link" href="'.$resend.'">kirim ulang email aktivasi</a>');
     }
 }

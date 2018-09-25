@@ -133,6 +133,11 @@
         $('#form-receipt').ajaxCrudNonModal('#mr');
     });
 
+    $(document).on('click', '#create-project', function(e){
+        e.preventDefault();
+        $('#form-create-project').ajaxCrudNonModal('#mr');
+    });
+
     $(document).pjax('a[data-pjax=menu]', '#mc');
     $('#mc').on('pjax:send', function() {
         toggleActiveMenuTab();

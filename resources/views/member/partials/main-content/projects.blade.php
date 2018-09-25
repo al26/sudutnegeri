@@ -9,7 +9,8 @@
         <div class="row section-content">
             <div class="d-campaigns col-12 col-sm-6 col-lg-4 card-deck">
                 <div class="card m-0 mb-3">
-                    <a class="cal" href="{{route('project.create')}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Buat Project Baru","add":"Buat Project","cancel":"Batal","lg":true, "actionUrl":"{{route('project.store')}}"}'>
+                    {{-- <a class="cal" href="{{route('project.create')}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Buat Project Baru","add":"Buat Project","cancel":"Batal","lg":true, "actionUrl":"{{route('project.store')}}"}'> --}}
+                    <a class="cal" href="{{route('project.create')}}" data-toggle="pjax" data-pjax="main-content">
                         <span>
                             <i class="fas fa-plus fa-2x"></i><br>
                             Project <br>Baru
