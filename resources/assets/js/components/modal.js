@@ -113,15 +113,25 @@
                     if(data['pjax-reload']) {
                         $.pjax.reload("#mr");
                     }
+
                     if(data['modal']) {
                         $('#modal').modal('hide');
                     }
+
                     swal({
                         type: 'success',
                         title: response.success,
                         showConfirmButton: false,
                         timer: 1500
                     });
+
+                    if(data['redirectAfter']){
+                        // redireload(data['redirectAfter']);
+                        $.pjax({
+                            url: data['redirectAfter'], 
+                            container: data['pjax-reload']
+                        });
+                    }
 
                     if(data['pchange']) {
                         pchange(data['pchange-url']);
@@ -130,6 +140,12 @@
             },
             error: function(response){
                 console.log(response);
+                swal({
+                    type: 'error',
+                    title: 'Oops, Terjadi kesalahan !',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         });
     }
@@ -326,14 +342,26 @@
         });
     }
 
-    $.fn.ajaxCrudNonModal = function(pjax = null) {
+    $.fn.ajaxCrudNonModal = function(pjax = null, redirectAfter = null) {
         var form = $(this),
             data = {
                 "actionUrl" : form.attr('action'),
                 "pjax-reload" : pjax,
+                "redirectAfter" : redirectAfter
             };
             
         doSubmit(data, form);
+    }
+
+    function redireload(url) {
+        window.history.pushState("", "", url);
+        $.ajax({
+            url : url  
+        }).done(function (data) {
+            $.pjax.reload('#mr');
+        }).fail(function () {
+            alert('An error occured');
+        });
     }
 
 }(jQuery));

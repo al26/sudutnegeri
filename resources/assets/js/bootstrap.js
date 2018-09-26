@@ -15,7 +15,7 @@ try {
     // require('bootstrap-select');
     // require('jquery-bootstrap-scrolling-tabs');
     require('datatables.net-bs4');
-    // require('summernote/dist/summernote-bs4');
+    require('summernote/dist/summernote-bs4');
     require('select2');
     // require('dropzone');
     // require('select2-bootstrap4-theme');

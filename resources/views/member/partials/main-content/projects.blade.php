@@ -10,7 +10,7 @@
             <div class="d-campaigns col-12 col-sm-6 col-lg-4 card-deck">
                 <div class="card m-0 mb-3">
                     {{-- <a class="cal" href="{{route('project.create')}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Buat Project Baru","add":"Buat Project","cancel":"Batal","lg":true, "actionUrl":"{{route('project.store')}}"}'> --}}
-                    <a class="cal" href="{{route('project.create')}}" data-toggle="pjax" data-pjax="main-content">
+                    <a class="cal" href="{{route('project.create')}}" data-toggle="pjax" data-pjax="main-content" onclick="javascript:$(this).setBackUrl();">
                         <span>
                             <i class="fas fa-plus fa-2x"></i><br>
                             Project <br>Baru
@@ -39,7 +39,7 @@
                 @endphp
                 <div class="d-campaigns col-12 col-sm-6 col-lg-4 card-deck">
                     <div class="card m-0 mb-3 border">
-                        <img class="card-img-top rounded-0" src="https://via.placeholder.com/600x400" alt="Card image cap">
+                        <img class="card-img-top rounded-0" src="{{asset($project->project_banner)}}" alt="Project Image">
                         <div class="card-body py-0 px-3 pt-3" style="top:0">
                             <h5 class="card-title text-danger">{{$project->project_name}}</h5>
                             <p class="card-text">{!!$project->project_description!!}</p>

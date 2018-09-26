@@ -3,7 +3,7 @@
 @section('content')
 {{-- @include('layouts.partials._alert') --}}
 <div class="container">
-    <section class="m-topcard mt-3">
+    <section class="m-topcard mt-3 d-none d-lg-block">
         <div class="card border-0">
             <img id="p-cover" class="card-img-top" src="{{asset('storage/profile_pictures/cover_default.jpg')}}" alt="Cover Photo">
             {{-- <div id="p-cover-overlay">
@@ -29,7 +29,7 @@
 
                     <ul class="list-inline">
                         <li class="list-inline-item mr-5">
-                            {{-- <a data-toggle="pjax" data-pjax="main-content" href="{{url('/dashboard/sudut/projects')}}"> --}}
+                            {{-- <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="main-content"> --}}
                                 <span class="--text">Proyek</span>
                                 <span class="--text _head">1000</span>
                             {{-- </a> --}}
@@ -75,14 +75,14 @@
 @section('script')
 {{-- <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script> --}}
 <script>
-        ClassicEditor
-        .create( document.querySelector('.editor') )
-        .then( editor => {
-            console.log( editor );
-        } )
-        .catch( error => {
-            console.error( error );
-        } );
+        // ClassicEditor
+        // .create( document.querySelector('.editor') )
+        // .then( editor => {
+        //     console.log( editor );
+        // } )
+        // .catch( error => {
+        //     console.error( error );
+        // } );
 </script>
 <script>
     $(document).ready(function() {
@@ -112,7 +112,9 @@
         $(document).loadModal();
         $(document).ajaxPagination();
         $(document).activateCKEditor();
-        // $('.the-summernote').summernote();
+        $('.the-summernote').summernote({
+            height:150
+        });
         activateOptGenerator();
         $('.select2').select2({theme: "bootstrap4",tags: true,});
         $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
@@ -135,7 +137,7 @@
 
     $(document).on('click', '#create-project', function(e){
         e.preventDefault();
-        $('#form-create-project').ajaxCrudNonModal('#mr');
+        $('#form-create-project').ajaxCrudNonModal('#mr', "{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}");
     });
 
     $(document).pjax('a[data-pjax=menu]', '#mc');

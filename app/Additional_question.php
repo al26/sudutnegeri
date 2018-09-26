@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Additional_question extends Model
 {
     protected $fillable = ['project_id', 'question'];
+    public $timestamps = false;
 
     public function project() 
     {

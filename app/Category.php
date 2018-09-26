@@ -10,6 +10,6 @@ class Category extends Model
 
     public function project()
     {
-        return $this->belongsTo('App\Project');
+        return $this->hasMany('App\Project');
     }
 }

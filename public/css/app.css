@@ -14409,6 +14409,13 @@ div.popover-body .list-group-item-action:hover {
   height: 50px;
 }
 
+.card-outline {
+  border-width: 3px !important;
+  border-style: dashed !important;
+  border-color: #0b65b1 !important;
+  background: transparent !important;
+}
+
 /* FLIP */
 /* FONT FACE */
 /* OPACITY */
@@ -14664,7 +14671,6 @@ section#banner div#caption-banner #right-board {
 .card-shadow {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  background: rgba(245, 248, 250, 0.7);
 }
 
 .info-box {
@@ -15344,9 +15350,16 @@ div#myCard {
 }
 
 .m-leftcard {
+  display: none;
   width: 23.5%;
   float: left;
   margin-right: 1.5%;
+}
+
+@media (min-width: 992px) {
+  .m-leftcard {
+    display: block;
+  }
 }
 
 .m-leftcard .card {
@@ -15355,7 +15368,13 @@ div#myCard {
 
 .m-rightcard {
   float: left;
-  width: 75%;
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .m-rightcard {
+    width: 75%;
+  }
 }
 
 .m-rightcard .card {

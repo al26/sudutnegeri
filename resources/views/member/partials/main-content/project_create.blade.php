@@ -11,16 +11,17 @@
                 </div>
                 <div class="form-group row mx-0">
                     <div class="col-12 p-0 d-md-flex justify-content-between">
-                        <div class="col-12 col-md-6 pl-md-0">
-                            <label for="category">Kategori Proyek</label>
-                            <select id="category" name="data[category]" class="select2 col-12">
+                        <div class="col-12 col-md-6 p-0 pr-md-3">
+                            <label for="category_id">Kategori Proyek</label>
+                            <select id="category_id" name="data[category_id]" class="select2 col-12">
                                 <option selected disabled>--Pilih Kategori--</option>
                                 @foreach($categories as $category)
                                     <option value="{{$category->id}}">{{$category->category}}</option>
                                 @endforeach
                             </select>
+                            <small class="form-text text-muted">Pilih kategori yang paling sesuai</small>
                         </div>
-                        <div class="col-12 col-md-6 pr-md-0">
+                        <div class="col-12 col-md-6 p-0">
                             <label for="project_location">Lokasi Pelaksanaan Proyek</label>
                             <select id="project_location" name="data[project_location]" class="select2 col-12">
                                 <option selected disabled>--Pilih Lokasi--</option>
@@ -34,6 +35,7 @@
                 <div class="form-group">
                     <label for="project_description">Detail Proyek</label>
                     <textarea class="form-control the-summernote" id="project_description" rows="3" name="data[project_description]"></textarea>
+                    <small class="form-text text-muted">Jelaskan proyek Anda secara lengkap. Jabarkan pula detil pelaksanaan proyek seperti jam pelaksanaan, jam kerja bagi relawan, dll. Foto/video pendukung dapat ditambahkan jika diperlukan</small>
                 </div>
                 <div class="form-group">
                     <label for="project_banner">Baner Proyek</label>
@@ -48,6 +50,7 @@
                         <input type="file" class="custom-file-input" id="project_banner" name="data[project_banner]" onchange="javascript:previewImgUpload(this);">
                         <label class="custom-file-label" for="project_banner">Pilih File</label>
                     </div>
+                    <small class="form-text text-muted">Lampirkan sebuah foto dengan format .jpg, .png, atau .svg</small>
                 </div>
                 {{-- <div class="form-group">
                     <label for="project_location">Lokasi</label>
@@ -77,7 +80,7 @@
             </div>
             <div class="form-group row mx-0">
                 <div class="col-12 p-0 d-md-flex justify-content-between">
-                    <div class="col-12 col-md-6 pl-md-0">
+                    <div class="col-12 col-md-6 px-0 pr-md-3">
                         <div class="form-section">
                             <div class="fs-head"><span class="fs-head-text">Target Proyek</span></div>
                             <div class="form-group">
@@ -95,16 +98,16 @@
                             </div>          
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 pr-md-0">
+                    <div class="col-12 col-md-6 px-0">
                         <div class="form-section">
                             <div class="fs-head"><span class="fs-head-text">Tenggat Waktu</span></div>
                             <div class="form-group">
                                 <label for="close_donation">Batas Waktu Donasi</label>
-                                <input type="date" class="form-control" id="close_donation" placeholder="Tenggat Waktu" name="data[close_donation]">
+                                <input type="date" class="form-control" id="close_donation" placeholder="batas waktu donasi" name="data[close_donation]">
                             </div>
                             <div class="form-group">
                                 <label for="close_reg">Batas Pendaftaran Relawan</label>
-                                <input type="date" class="form-control" id="close_reg" placeholder="Tenggat Waktu" name="data[close_reg]">
+                                <input type="date" class="form-control" id="close_reg" placeholder="batas waktu pendaftaran relawan" name="data[close_reg]">
                             </div>
                         </div>
                     </div>
@@ -113,10 +116,13 @@
             <div class="form-section">
                 <div class="fs-head"><span class="fs-head-text">Penerimaan Relawan</span></div>
                 <div class="form-group">
-                    <label for="question">Ajukan Pertanyaan Tambahan untuk Calon Relawan</label>
+                    <div class="alert alert-info text-justify"><small>Beberapa pertanyaan akan diajukan kepada calon relawan. Pertanyaan mengenai motivasi pendaftar dan mengapa pendaftar layak untuk diterima sebagai relawan akan diajukan sebagai pertanyaan bawaan (default). Anda dapat mengajukan pertanyaan tambahan untuk proyek yang Anda buat. <br>
+                    Masukkan pertanyaan yang ingin anda ajukan pada kolom yang disediakan kemudian tekan tombol <b>Tambahkan</b>. Daftar pertanyaan yang Anda ajukan akan tampil di bawah kolom tersebut. Tekan pada simbol <b>x</b> untuk menghapus pertanyaan.
+                    </small> </div>
+                    <label for="question">Ajukan Pertanyaan Tambahan untuk Calon Relawan (opsional)</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="question" placeholder="Pertanyaan yang ingin diajukan">
-                        <input type="hidden" name="data[question][]" id="question-val">
+                        <input type="hidden" name="questions" id="question-val">
                         <div class="input-group-append">
                             <span class="btn btn-light" onclick="javascript:dynamicList('question', 'question-list', 'question-val');">Tambahkan</span>
                         </div>
@@ -124,7 +130,8 @@
                     <ul class="dynamic-list" id="question-list"></ul>
                 </div>
             </div>
-            <button type="submit" id="create-project" class="btn btn-primary float-right">Buat Proyek</button>
+            <button type="submit" id="create-project" class="btn btn-md btn-primary">Buat Proyek</button>
+            <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-md btn-danger" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"> Batalkan</a>
         </form>
     </div>
 </div>

@@ -53,49 +53,88 @@ class ProjectController extends Controller
             "project_name"          => 'required|min:10',
             "project_description"   => 'required',
             "project_location"      => 'required',
-            "project_deadline"      => 'required|after_or_equal:today',
             "funding_target"        => 'required|numeric',
-            "volunteer_quota"       => 'required|numeric'
+            "volunteer_quota"       => 'required|numeric',
+            "category_id"           => 'required',
+            "close_donation"        => 'required|after_or_equal:today',
+            "close_reg"             => 'required|after_or_equal:today',
+            "project_banner"        => 'required|image|mimes:jpg,jpeg,png,svg'
         ];
         $messages = [
             "project_name.required"             => ":attribute tidak boleh kosong",
             "project_name.min"                  => "Mohon isi judul proyek setidaknya :min karakter",
             "project_description.required"      => "Mohon isi :attribute untuk menjelaskan detai proyek Anda",
             "project_location.required"         => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
-            "project_deadline.required"         => "Mohon untuk mengisi :attribute proyek Anda",
-            "project_deadline.after_or_equal"   => "Mohon isikan :attribute setidaknya tanggal hari ini",
+            "close_donation.required"           => "Mohon untuk mengisi :attribute untuk proyek Anda",
+            "close_donation.after_or_equal"     => "Mohon isikan :attribute setidaknya tanggal hari ini",
+            "close_reg.required"                => "Mohon untuk mengisi :attribute untuk proyek Anda",
+            "close_reg.after_or_equal"          => "Mohon isikan :attribute setidaknya tanggal hari ini",
             "funding_target.required"           => "Mohon isikan :attribute",
             "funding_target.numeric"            => "Harap isikan dengan angka",
             "volunteer_quota.required"          => "Mohon isikan :attribute",
             "volunteer_quota.numeric"           => "Harap isikan dengan angka",
+            "category_id.required"              => "Mohon pilih :attribute yang sesuai atau paling mendekati",
+            "project_banner.required"           => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
+            "project_banner.image"              => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
+            "project_banner.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
         ];
         $attributes = [
             "project_name"          => 'Judul Proyek',
             "project_description"   => 'deskripsi proyek',
             "project_location"      => 'lokasi',
-            "project_deadline"      => 'tenggat waktu',
+            "close_donation"        => 'batas waktu donasi',
+            "close_reg"             => 'batas waktu registrasi',
             "funding_target"        => 'nominal target dana',
-            "volunteer_quota"       => 'jumlah target relawan'
+            "volunteer_quota"       => 'jumlah target relawan',
+            "category_id"           => 'kategori',
+            "project_banner"        => 'spanduk'
         ];
+                
+        // dd($request->all());
+
+        // $validator = Validator::make($request-all(), $rules, $messages, $attributes);
+
+        // if ($validator->fails()) {
+        //     $return = ["errors" => $validator->messages()];
+        // }
+
+      
+        // dd($request->data);
+
         $data = $request->data;
+        $data["project_slug"] = md5($request->data['project_name']);
+        // date_default_timezone_set('Asia/Jakarta');
+        $data["close_donation"] = date_create_from_format('Y-m-d', $request->data['close_donation'])->format('Y-m-d H:i:s');
+        $data["close_reg"] = date_create_from_format('Y-m-d', $request->data['close_reg'])->format('Y-m-d H:i:s');
         
-        // dd($data);
+        $path = "";
+        $filename = "";
 
-        $validator = Validator::make($data, $rules, $messages, $attributes);
+        if($request->hasFile('data.project_banner')) {
+            $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
+            $file = $request->file('data.project_banner');
+            $path = $file->storeAs('public/project_banner', $filename);
+        }
 
-        if ($validator->fails()) {
-            $return = ["errors" => $validator->messages()];
-        } else {
-            $data["project_slug"] = md5($request->data['project_name']);
-            // date_default_timezone_set('Asia/Jakarta');
-            $data["project_deadline"] = date_create_from_format('Y-m-d', $request->data['project_deadline'])->format('Y-m-d H:i:s');
-            
-            $store = Project::create($data);
-            if($store) {
-                $return = ["success" => "Proyek baru berhasil dibuat"];
-            } else {
-                $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
+        if($path) {
+            $data['project_banner'] = "storage/project_banner/".$filename;
+        }
+
+        $project = Project::create($data);
+        if(!empty($request->questions)){
+            $questions = explode(",",$request->questions);
+            $qt = array();
+            foreach ($questions as $key => $q) {
+                $qt[$key]['question'] = $q;
             }
+            $project->questions()->createMany($qt);
+        }
+
+
+        if($project) {
+            $return = ["success" => "Proyek baru berhasil dibuat"];
+        } else {
+            $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
         }
         
         return response()->json($return);

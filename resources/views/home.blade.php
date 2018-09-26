@@ -125,19 +125,25 @@
                         <h3 class="section-subtitle text-center">Bantu kami dan lebih dari 3000 orang lain untuk majukan pendidikan di Indonesia</h3> --}}
                     </div>
                     <div class="card-deck">
-                        <div class="card border-0 card-shadow zoom bg-light">
+                        <div class="card border-0 zoom">
                             <a href="{{route('dashboard', ['menu' => 'sudut'])}}" class="decoration-none text-secondary-black">
                                 <div class="card-body">
-                                    <h3 class="text-center">Jadi Sudut</h3>
-                                    <p class="text-justify">Ceritakan masalah pendidikan di sekitarmu. Beri tahu kebutuhan masalah tersebut. Bergembiralah karena permasalahan itu akan terselesaikan dengan dukungan materi dan tenaga dari Si Negeri.</p>
+                                    <div class="mb-3 text-center">
+                                        <i class="fas fw fa-lightbulb fa-7x"></i>
+                                    </div>
+                                    <h3 class="text-center font-weight-bold">Jadi Sudut</h3>
+                                    <p class="text-center">Publikasikan proyek pendidikanmu dan dapatkan dukungan dari investor dan relawan.</p>
                                 </div>
                             </a>
                         </div>
-                        <div class="card border-0 card-shadow zoom bg-light">
+                        <div class="card border-0 zoom">
                             <a href="{{route('dashboard', ['menu' => 'negeri'])}}" class="decoration-none text-secondary-black">
                                 <div class="card-body">
-                                    <h3 class="text-center">Jadi Negeri</h3>
-                                    <p class="text-justify">Bantu Si Sudut menyelesaikan masalah pendidikannya dengan memberikan bantuan materi maupun tenaga.</p>
+                                    <div class="mb-3 text-center">
+                                        <i class="fas fw fa-heartbeat fa-7x"></i>
+                                    </div>
+                                    <h3 class="text-center font-weight-bold">Jadi Negeri</h3>
+                                    <p class="text-center">Dukung proyek pendidikan Si Sudut dengan jadi investor atau relawan.</p>
                                 </div>
                             </a>
                         </div>
@@ -212,17 +218,69 @@
             </div> --}}
 
             <div class="row">
-                <div class="col-12 col-md-4 text-center">
-                    <h2 class="text-white">1224</h2>
-                    <p class="text-white m-0">Si Negeri Peduli</p>
+                <div class="col-12 col-md-4 text-center text-white">
+                    {{-- <div class="d-flex justify-content-beetwen align-items-center text-white">
+                        <div class="text-center mr-4">
+                            <i class="fas fa-users fa-5x fw"></i>
+                        </div>
+                        <div class="text-left">
+                            <h2 >1224</h2>
+                            <p class="m-0">Si Negeri Peduli</p>
+                        </div>
+                    </div> --}}
+                    {{-- <div class="media text-white">
+                        <img class="img-fluid mr-3" src="https://via.placeholder.com/100x100" alt="Generic placeholder image" width="64" height="64">
+                        <i class="fas fa-users fa-5x fw mr-4"></i>
+                        <div class="media-body">
+                            <h2 >1224</h2>
+                            <p class="m-0">Si Negeri Peduli</p>
+                        </div>
+                    </div> --}}
+                    <h2>1224</h2>
+                    <p class="m-0">Si Negeri Peduli</p>
                 </div>
-                <div class="col-12 col-md-4 text-center">
-                    <h2 class="text-white">1224</h2>
-                    <p class="text-white m-0">Proyek Terlaksana</p>
+                <div class="col-12 col-md-4 text-center text-white">
+                    {{-- <div class="d-flex justify-content-beetwen align-items-center text-white">
+                        <div class="text-center mr-4">
+                            <i class="fas fa-calendar-check fa-5x fw"></i>
+                        </div>
+                        <div class="text-left">
+                            <h2 >1224</h2>
+                            <p class="m-0">Proyek Terlaksana</p>
+                        </div>
+                    </div> --}}
+                    {{-- <div class="media text-white">
+                        <img class="img-fluid mr-3" src="https://via.placeholder.com/100x100" alt="Generic placeholder image" width="64" height="64">
+                        <i class="fas fa-calendar-check fa-5x fw mr-4"></i>
+                        <div class="media-body">
+                            <h2 >1224</h2>
+                            <p class="m-0">Proyek Terlaksana</p>
+                        </div>
+                    </div> --}}
+                    <h2 >1224</h2>
+                    <p class="m-0">Proyek Terlaksana</p>
                 </div>
-                <div class="col-12 col-md-4 text-center">
-                    <h2 class="text-white">1224</h2>
-                    <p class="text-white m-0">Investasi Berdampak</p>
+                <div class="col-12 col-md-4 text-center text-white">
+                    {{-- <div class="d-flex justify-content-beetwen align-items-center text-white">
+                        <div class="text-center mr-4">
+                            <i class="fas fa-angle-double-up fa-5x fw"></i>
+                        </div>
+                        <div class="text-left">
+                            <h2 >1224</h2>
+                            <p class="m-0">Investasi Berdampak</p>
+                        </div>
+                    </div> --}}
+
+                    {{-- <div class="media text-white">
+                        <img class="img-fluid mr-3" src="https://via.placeholder.com/100x100" alt="Generic placeholder image" width="64" height="64">
+                        <i class="fas fa-angle-double-up fw" data-fa-transform="grow-100 down-25"></i>
+                        <div class="media-body">
+                            <h2 >1224</h2>
+                            <p class="m-0">Investasi Berdampak</p>
+                        </div>
+                    </div> --}}
+                    <h2 >1224</h2>
+                    <p class="m-0">Investasi Berdampak</p>
                 </div>
             </div>
         </div>
@@ -254,8 +312,8 @@
                                 $remainingDays = "Proyek berakhir";
                             }
                         @endphp
-                        <div class="card m-0 border-0">
-                            <img class="card-img-top" src="http://via.placeholder.com/600x400" alt="Card image cap">
+                        <div class="card card-shadow m-0 border-0">
+                            <img class="card-img-top" src="{{asset($project->project_banner)}}" alt="Card image cap">
                             <div class="media campaigner">
                                 <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
                                 <div class="media-body">
@@ -263,7 +321,7 @@
                                 </div>
                             </div>
                             <div class="category-flag">
-                                <p>Pendidikan</p>
+                                <p>{{$project->category->category}}</p>
                             </div>
                             <div class="card-body py-0 px-3">
                                 <a href="" class="card-link text-secondary-black"><h5 class="card-title m-0">{{$project->project_name}}</h5></a>

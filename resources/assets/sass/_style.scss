@@ -472,3 +472,10 @@ div.popover-body {
 
 	height: 50px;
 }
+
+.card-outline {
+	border-width: 3px !important;
+	border-style: dashed !important;
+	border-color: $secondary !important;
+	background: transparent !important;
+}

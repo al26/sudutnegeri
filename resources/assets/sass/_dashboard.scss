@@ -59,9 +59,15 @@
 }
 
 .m-leftcard {
+    display: none;
     width: 23.5%;
     float: left;
     margin-right: 1.5%;
+
+    @include media-breakpoint-up(lg) {
+        display: block;
+    }
+
     .card {
         border: none;
     }
@@ -69,7 +75,12 @@
 
 .m-rightcard {
     float: left;
-    width: 75%;
+    width: 100%;
+
+    @include media-breakpoint-up(lg) {
+        width: 75%;
+    }
+
     .card {
         border: none;
     }

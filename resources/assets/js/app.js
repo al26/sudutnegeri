@@ -16,7 +16,7 @@ require('./countdown');
 require('./dynamicList');
 require('./main');
 
-window.ClassicEditor = require('@ckeditor/ckeditor5-build-classic'); 
+// window.ClassicEditor = require('@ckeditor/ckeditor5-build-classic'); 
 window.swal = require('sweetalert2');
 window.Vue = require('vue');
 

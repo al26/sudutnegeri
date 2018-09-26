@@ -33,23 +33,42 @@
                             <span class="--text text-capitalize">target {{$project->funding_target}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
+                            @auth
+                                @if ($project->user_id === Auth::user()->id)
+                                    <span class="btn btn-small btn-secondary text-capitalize w-100 disabled">Mulai Investasi</span>
+                                @else
+                                    <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
+                                @endif
+                            @else
+                                <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
+                            @endauth
+
                         </div>
                     </section>
                     <section class="card --content mb-lg-3 info-relawan">
                         <div class="card-body">
-                            <span class="--text text-capitalize">{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}} relawan</span>
-                            <div id="volunteer-carousel" class="owl-carousel owl-theme my-2">
-                                @for ($i = 1; $i < 9; $i++)
-                                    <div class="item">                                            
-                                        <img class="" src="{{ asset('storage/profile_pictures/'.$i.'.jpg') }}" alt="Generic placeholder image">
-                                    </div>
-                                @endfor
-                            </div>
-                            <span class="--text text-capitalize">target {{$project->volunteer_quota}}</span>                            
+                            <span class="--text text-capitalize">{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}} calon relawan</span>
+                            @if ($project->volunteers->count() > 0)
+                                <div id="volunteer-carousel" class="owl-carousel owl-theme my-2">
+                                    @for ($i = 1; $i < 9; $i++)
+                                        <div class="item">                                            
+                                            <img class="" src="{{ asset('storage/profile_pictures/'.$i.'.jpg') }}" alt="Generic placeholder image">
+                                        </div>
+                                    @endfor
+                                </div>
+                            @endif
+                            <span class="--text text-capitalize">target {{$project->volunteer_quota}} relawan</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
+                            @auth
+                                @if ($project->user_id === Auth::user()->id)
+                                    <span class="btn btn-small btn-danger text-capitalize w-100 disabled">Jadi Relawan</span>
+                                @else
+                                    <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
+                                @endif
+                            @else
+                                <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
+                            @endauth
                         </div>
                     </section>
                 </div>
@@ -57,7 +76,7 @@
             <div class="col-12 col-lg-8 featured --container --right order-1 order-lg-2">
                 <section class="card --content mb-lg-3">
                     <div class="--img">
-                        <img src="http://via.placeholder.com/800x500" alt="Project Image" class="img-thumbnail img-fluid">
+                        <img src="{{asset($project->project_banner)}}" alt="Project Image" class="img-thumbnail img-fluid">
                     </div>
                     <div class="--headline">
                         <span class="--text _head">{{$project->project_name}}</span>
@@ -81,13 +100,15 @@
                         <a id="hpn-detail" class="nav-item nav-link p-3 active" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'detail'])}}">Detail</a>
                         <a id="hpn-history" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'history'])}}">Data Historis</a>
                         <a id="hpn-sinegeri" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'sinegeri'])}}">Si Negeri Peduli</a>
-                        <a id="hpn-faq" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'faq'])}}">FAQ</a>
+                        {{-- <a id="hpn-faq" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'faq'])}}">FAQ</a> --}}
                     </div>
                 </section>
-                <section class="card --content" id="hpn-content" data-pjax-container>
+                <section class="card --content" id="hpn-content" data-pjax-container style="min-height:15rem">
                     @php
                         if (empty($menu)) $menu = "detail";
                         $data['project'] = $project;
+                        $data['donators'] = $project->donations;
+                        $data['volunteers'] = $project->volunteers;
                     @endphp
                     <div class="card-body">
                         @include("guest.partials.project_$menu", $data)
