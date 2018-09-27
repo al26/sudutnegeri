@@ -1,0 +1,150 @@
+.m-topcard {
+    #p-cover {
+        max-height: 20rem !important;
+    }
+    #p-data {
+        // top: 55%;
+        color: #ffffff;
+        text-align: left;
+        bottom: inherit;
+        right:10rem;
+    }
+    #p-cover-overlay {
+        position: absolute;
+        background: rgba($color: $secondary, $alpha: 1);
+        color: #ffffff;
+        opacity: .5;
+        padding: .5rem;
+        right: 1rem;
+        top: 1rem;
+
+        &:hover {
+            opacity: 1;
+            border: 2px solid #ffffff;
+        }
+    }
+    #p-pic-container {
+        // position: absolute;
+        left: 10rem;
+        // bottom: 10rem;
+        height: 12rem !important;
+        width: 12rem !important;
+        
+
+        #p-pic-overlay {
+            position: relative;
+            background: rgba($color: $secondary, $alpha: .8);
+            padding: 1rem 1.5rem;
+            z-index: 2;
+            left: -0.5px;
+            bottom: 2.2rem;
+            transition: all .5s ease-in-out;
+            // width: 15rem !important;
+            visibility: hidden;
+            &:hover{
+                visibility: visible;
+            }
+        }
+
+        #p-pic {
+            width: inherit;
+            height: inherit;
+            &:hover {
+                ~#p-pic-overlay {
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}
+
+.m-leftcard {
+    display: none;
+    width: 23.5%;
+    float: left;
+    margin-right: 1.5%;
+
+    @include media-breakpoint-up(lg) {
+        display: block;
+    }
+
+    .card {
+        border: none;
+    }
+}
+
+.m-rightcard {
+    float: left;
+    width: 100%;
+
+    @include media-breakpoint-up(lg) {
+        width: 75%;
+    }
+
+    .card {
+        border: none;
+    }
+}
+
+#user-connect {
+    li {
+        &.ucl {
+            &:hover {
+                ~.sns-overlay{
+                    visibility: visible;
+                }
+            }
+        }
+        .sns-overlay {
+            position: absolute;
+            background: rgba($color: $secondary, $alpha: .8);
+            left: 1em;
+            bottom: .3em;
+            visibility: hidden;
+            &:hover {
+                visibility: visible;
+            }
+        }
+    }
+
+}
+
+ul.dynamic-list {
+    margin: 0;
+    padding: 0;
+
+    li {
+        cursor: pointer;
+        position: relative;
+        padding: .5rem 1rem;
+        list-style-type: none;
+        background: #eee;
+        // font-size: 18px;
+        transition: 0.2s;
+        /* make the list items unselectable */
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        &:nth-child(odd) {
+            background: #f9f9f9;
+        }
+
+        &:hover {
+            background: #ddd;
+        }
+    }
+}
+
+span.dynamic-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: .5rem 1rem;
+
+    &:hover {
+        background-color: #f44336;
+        color: white;
+    }
+}

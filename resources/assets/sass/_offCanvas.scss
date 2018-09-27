@@ -7,7 +7,7 @@ body {
 .offcanvas-collapse {
 	position: fixed;
 	z-index: 1030 !important;
-	top: 2.78rem; /* Height of navbar */
+	top: 3rem; /* Height of navbar */
 	left: 0;
 	bottom: 0;
 	width: 100%;
@@ -16,8 +16,8 @@ body {
 	transition: -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out;
 	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
-	-webkit-transform: translateX(-100%);
-	transform: translateX(-100%);
+	-webkit-transform: translateX(100%);
+	transform: translateX(100%);
 
 	&.open {
 		-webkit-transform: translateX(0);
@@ -27,6 +27,10 @@ body {
 	li.nav-item {
 		&.active {
 			border-left: 3px solid $secondary-color !important;
+
+			a.nav-link {
+				font-weight: bold;
+			}
 		}
 
 		a.nav-link > .svg-inline--fa {
@@ -40,7 +44,7 @@ body {
 .search-collapse {
 	position: fixed;
 	z-index: 1030 !important;
-	top: 2.78rem; /* Height of navbar */
+	top: 3rem; /* Height of navbar */
 	left: 0;
 	bottom: 0;
 	width: 100%;
@@ -49,8 +53,8 @@ body {
 	transition: -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out;
 	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
-	-webkit-transform: translateX(100%);
-	transform: translateX(100%);
+	-webkit-transform: translateX(-100%);
+	transform: translateX(-100%);
 
 	&.open {
 		-webkit-transform: translateX(0);

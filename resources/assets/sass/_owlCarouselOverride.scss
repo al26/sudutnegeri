@@ -1,0 +1,43 @@
+div.owl-dots {
+	padding: 1rem auto;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	.owl-dot {
+		width: 30px;
+		height: 10px;
+		margin: 0 3px;
+		background: lighten($secondary, 20%);
+
+		&.active {
+			background: $secondary;
+		}
+	}
+	
+	@include media-breakpoint-up(lg) {
+		padding: 1rem 0 0 0 !important;	
+	}
+}
+
+.customNavigation{
+	text-align: center;
+	//use styles below to disable ugly selection
+	a{
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	}
+
+	.oc-next, .oc-prev {
+		&.disabled {
+			opacity: .6 !important;
+		}
+	}
+}
+  

@@ -1,0 +1,35 @@
+table {
+    &.dataTable {
+        border-collapse: collapse !important;
+        thead {
+            th[rowspan="2"] {
+                &.sorting:before, 
+                &.sorting:after,
+                &.sorting_asc:before,
+                &.sorting_asc:after,
+                &.sorting_desc:before,
+                &.sorting_desc:after,
+                &.sorting_asc_disabled:before,
+                &.sorting_asc_disabled:after,
+                &.sorting_desc_disabled:before,
+                &.sorting_desc_disabled:after {
+                    bottom: 40% !important;               
+                }
+            }
+            th {
+                &.sorting:before, 
+                &.sorting:after,
+                &.sorting_asc:before,
+                &.sorting_asc:after,
+                &.sorting_desc:before,
+                &.sorting_desc:after,
+                &.sorting_asc_disabled:before,
+                &.sorting_asc_disabled:after,
+                &.sorting_desc_disabled:before,
+                &.sorting_desc_disabled:after {
+                    bottom: .7em !important;               
+                }
+            }
+        }
+    }
+}

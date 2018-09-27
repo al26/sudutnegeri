@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Notifications\ActivationEmail;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -39,6 +41,18 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm(Request $request)
+    {
+        $data['continue'] = $request->query('continue') ?? null; 
+        return view('auth.register', $data);
+    }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -63,10 +77,35 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user =  User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'activation_token' => str_random(150)
         ]);
+
+        $user->profile()->create([
+            'name' => $data['name'],            
+        ]);
+
+        $user->profile->address()->create([
+            'user_profile_id' => $user->profile->id,
+        ]);
+
+        return $user;
+    }
+
+    public function registered(Request $request, $user) 
+    {
+        // dd($user);
+
+        $when = now()->addSeconds(10);
+        $user->notify((new ActivationEmail($user))->delay($when));
+
+        $this->guard()->logout();
+        
+        $resend = route('auth.activate.resend');
+
+        return redirect()->route('login')
+                         ->withSuccess('Selamat, Anda telah terdaftar sebagai member SudutNegeri. -- <strong>Aktivasi Akun diperlukan</strong>.<br> Anda harus terlebih dahulu melakukan aktivasi akun untuk dapat masuk ke sistem SudutNegeri. Kami telah mengirimkan email aktivasi ke <strong>'.$user->email.'</strong>, mohon untuk memeriksa juga folder spam email Anda. Jika Anda tidak menerima email aktivasi, dapat kami <a class="alert-link" href="'.$resend.'">kirim ulang email aktivasi</a>');
     }
 }

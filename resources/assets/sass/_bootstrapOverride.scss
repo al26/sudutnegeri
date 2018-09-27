@@ -1,0 +1,126 @@
+body {
+    color: $body-color;
+}
+.carousel.carousel-fade {
+    .carousel-item {
+        -webkit-transition: opacity .8s ease-in-out;
+        -moz-transition: opacity .8s ease-in-out;
+        -ms-transition: opacity .8s ease-in-out;
+        -o-transition: opacity .8s ease-in-out;
+        transition: opacity .8s ease-in-out;
+    }
+
+    .active.left, .active.right {
+        left: 0;
+        z-index: 2;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .next, .prev {
+        left: 0;
+        z-index: 1;
+    }
+    
+    .carousel-control {
+        z-index: 3;
+    }
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.5em 0.7em;
+    font-size: 70%;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.text-default {
+    color: $body-color !important;
+}
+
+.decoration-none {
+    text-decoration: none;
+    &:hover, &:focus {
+        text-decoration: none;
+    }
+}
+
+.card-deck {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.btn-outline-default {
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0;
+}
+
+@mixin custom-tab {
+    .nav-tabs {
+        border-bottom: 1px solid $gray-300;
+        .nav-link {
+            color: $body-color;
+            border: none;
+            // border-bottom: 1px solid $gray-300;
+            transition: border-width .25s ease;
+
+            &.active {
+                border: none;
+                background: inherit;
+                border-bottom: 2px solid $secondary;
+                color: $secondary;
+                font-weight: bolder;
+                &:hover {                    
+                    border-bottom: 2px solid $secondary;
+                }
+            }
+
+            &:hover {
+                border: none;
+                background: inherit;
+                border-bottom: none;
+                color: $secondary;
+                font-weight: bolder;
+            }
+        }
+    }
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__rendered {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    line-height: 1;
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0.125rem 0.375rem 0.375rem 0.375rem !important;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+    color: #fff !important;
+    background: $primary !important;
+    border: none !important;
+    cursor: default;
+    float: left;
+    margin: 0.25rem 0 0 0.1875rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 0.8rem !important;
+}

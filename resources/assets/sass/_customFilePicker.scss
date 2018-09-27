@@ -1,0 +1,43 @@
+.cfp {
+    display: flex;
+    align-items: center;
+    
+    .cfp-input {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        min-height: 10rem;
+        margin: 0;
+        opacity: 0;
+    }
+    
+    .cfp-label {
+        position: absolute;
+        top: initial;
+        right: 0;
+        left: 0;
+        z-index: 1;
+        min-height: 10rem;
+        padding: .375rem .75rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    
+        // &::after {
+        //     content : "Pilih File";
+        // }
+    }
+}
+
+
+.custom-file-picker {
+    background: transparent !important;
+    border-style: dashed;
+    border-color: $secondary;
+    border-width: 3px;
+    width: 100%;
+    min-height: 10rem;
+    opacity: 0 !important;
+}
