@@ -41,4 +41,9 @@ class Project extends Model
     {
         return $this->belongsTo('App\Category');
     }
+
+    public function location()
+    {
+        return $this->belongsTo('App\Regency', 'project_location');
+    }
 }

@@ -22,7 +22,7 @@ class CreateProjectsTable extends Migration
             $table->string('project_name');
             $table->string('project_slug');
             $table->text('project_description');
-            $table->string('project_location');
+            $table->unsignedInteger('project_location');
             $table->unsignedInteger('funding_target');
             $table->unsignedInteger('funding_progress')->nullable();
             $table->unsignedInteger('volunteer_quota');

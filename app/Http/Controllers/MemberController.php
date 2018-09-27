@@ -12,6 +12,7 @@ use App\User_profile as Profile;
 use App\User_address as Address;
 use App\Donation;
 use App\Volunteer;
+use App\Regency;
 use Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -41,10 +42,15 @@ class MemberController extends Controller
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
         $data['volunteers'] = Volunteer::whereIn('project_id', $projects_id)->get();
-        // $project_province = Project::where('user_id', '!=', $request->user()->id)->pluck('project_location')
-        // $data['featured'] = Project::whereIn('category_id', explode(",",$request->user()->profile->interest))
-        //                             ->orWhere('project_location', $request->user()->)
-        
+        $user_around = Regency::where('province_id', $request->user()->profile->address->province_id)->pluck('id')->toArray();
+        $data['featured'] = Project::where('user_id', '!=', $request->user()->id)
+                                    ->where(function ($query) use ($request, $user_around) {
+                                        $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
+                                              ->orWhereIn('project_location', $user_around);
+                                    })->get();
+
+        // dd($data['featured']);
+
         return view('member.dashboard', ['menu' => $menu, 'section' => $section], $data);
     }
 

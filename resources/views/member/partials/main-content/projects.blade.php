@@ -1,11 +1,13 @@
 <div class="card">
+    <div class="card-header text-white text-center bg-secondary">
+        <h4 class="m-0">Proyek Saya</h4>
+    </div>
     <div class="card-body">
-        <div class="form-section">
+        {{-- <div class="form-section">
             <div class="fs-head">
                 <span class="fs-head-text">Proyek Saya</span>
-                {{-- <a href="#" class="btn btn-sm btn-primary float-right" onclick="history.back();return false;"><i class="fas fw fa-arrow-left"></i> Kembali</a> --}}
             </div>
-        </div>
+        </div> --}}
         <div class="row section-content">
             <div class="d-campaigns col-12 col-sm-6 col-lg-4 card-deck">
                 <div class="card m-0 mb-3">

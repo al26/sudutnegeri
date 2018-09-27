@@ -1,4 +1,7 @@
 <div class="card">
+    <div class="card-header text-white text-center bg-secondary">
+        <h4 class="m-0">Pengaturan Akun</h4>
+    </div>
     <div class="card-body">
             <div class="form-section">
                 <div class="fs-head"><span class="fs-head-text">Email</span></div>

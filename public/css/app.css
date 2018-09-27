@@ -15441,6 +15441,21 @@ span.dynamic-close:hover {
   color: white;
 }
 
+.dh-menu.active {
+  background: inherit !important;
+  border-bottom: 2px solid #0b65b1 !important;
+  color: #0b65b1 !important;
+  font-weight: bolder !important;
+}
+
+.dv-menu.active {
+  background: inherit !important;
+  border: 0 !important;
+  border-left: 4px solid #0b65b1 !important;
+  color: #0b65b1 !important;
+  font-weight: bolder !important;
+}
+
 .cfp {
   display: -webkit-box;
   display: -ms-flexbox;

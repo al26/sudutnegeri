@@ -5,10 +5,10 @@
     </div> --}}
     <div class="card-body p-0">
         <div class="nav nav-pills nav-fill w-100" id="h-menu">
-            <a id="m-overview" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/overview')}}">Overview</a>
-            <a id="m-setting" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/setting')}}">Pengaturan</a>
-            <a id="m-sudut" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/sudut')}}">Jadi Sudut</a>
-            <a id="m-negeri" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/negeri')}}">Jadi Negeri</a>
+            <a id="m-overview" class="nav-item nav-link p-3 dh-menu" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/overview')}}">Overview</a>
+            <a id="m-setting" class="nav-item nav-link p-3 dh-menu" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/setting')}}">Pengaturan</a>
+            <a id="m-sudut" class="nav-item nav-link p-3 dh-menu" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/sudut')}}">Jadi Sudut</a>
+            <a id="m-negeri" class="nav-item nav-link p-3 dh-menu" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/negeri')}}">Jadi Negeri</a>
         </div>
     </div>
     <div class="card-img-overlay d-flex justify-content-center p-0" style="bottom:4rem">

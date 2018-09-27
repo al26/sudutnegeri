@@ -3,6 +3,9 @@
     $total += $investments->sum('payment_code');
 @endphp
 <div class="card">
+    <div class="card-header text-white text-center bg-secondary">
+        <h4 class="m-0">Investasi Saya</h4>
+    </div>
     <div class="card-body">
         <div class="row section-content">
             <div class="col-12 px-2 info-box-parent">

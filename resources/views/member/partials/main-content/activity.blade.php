@@ -2,6 +2,9 @@
     $total = $investments->sum('amount');
 @endphp
 <div class="card">
+    <div class="card-header text-white text-center bg-secondary">
+        <h4 class="m-0">Aktivitas Saya</h4>
+    </div>
     <div class="card-body">
         <div class="row section-content">
             <div class="col-4 px-2 info-box-parent">

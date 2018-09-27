@@ -10,8 +10,8 @@
                 </div>
                 <div class="row mb-3 text-center">
                     <div class="col-12">
-                        <img id="pp-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/profile_pictures/no_image_placeholder.png')}}">
-                        <img id="pp-preview" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/profile_pictures/no_image_placeholder.png')}}" style="display:none;">
+                        <img id="pp-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
+                        <img id="pp-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
                         <img id="pp-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
                         {{-- <br><label for="upload-progress" id="up-label"></label>
                         <div class="progress" style="height:50px; display:none;" id="upload-progress">

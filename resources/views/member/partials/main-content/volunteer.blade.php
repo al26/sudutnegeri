@@ -1,10 +1,13 @@
 <div class="card">
+    <div class="card-header text-white text-center bg-secondary">
+        <h4 class="m-0">Data Calon Relawan</h4>
+    </div>
     <div class="card-body">
-        <div class="form-section mt-3 clearfix">
+        {{-- <div class="form-section mt-3 clearfix">
             <div class="fs-head">
                 <span class="fs-head-text">Daftar Calon Relawan</span>
             </div>      
-        </div>
+        </div> --}}
         <div class="row section-content">
             <div class="col-12">
                 <table id="example" class="table table-striped table-bordered">
