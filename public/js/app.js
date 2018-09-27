@@ -61785,6 +61785,7 @@ __webpack_require__(44);
 __webpack_require__(45);
 __webpack_require__(46);
 __webpack_require__(47);
+__webpack_require__(77);
 __webpack_require__(48);
 
 // window.ClassicEditor = require('@ckeditor/ckeditor5-build-classic'); 
@@ -62541,7 +62542,10 @@ $(function () {
 
                 if (response.success) {
                     if (data['pjax-reload']) {
-                        $.pjax.reload("#mr");
+                        // if(data['pjax-reload'].len)
+                        $.each(data['pjax-reload'], function (index, val) {
+                            $.pjax.reload(val);
+                        });
                     }
 
                     if (data['modal']) {
@@ -63090,6 +63094,35 @@ $(document).ready(function () {
             reader.readAsDataURL(input.files[0]);
         }
     };
+
+    toggleMoreLess = function toggleMoreLess(btn, less, more, textless, textmore) {
+        var action = $(btn).attr('data-action');
+
+        if (action == 'more') {
+            $(less).addClass('hidden');
+            $(more).removeClass('hidden');
+            $(btn).attr('data-action', 'less');
+            $(btn).text(textless);
+        } else {
+            $(more).addClass('hidden');
+            $(less).removeClass('hidden');
+            $(btn).attr('data-action', 'more');
+            $(btn).text(textmore);
+        }
+    };
+    // cutContent = function(container, showchar) {
+    //     var content = $(container).html();
+
+    //     if (content.length > showchar) {
+    //         content.substr(0, showchar);
+    //     } 
+
+    //     $(container).html(content);
+    // }
+
+    // showMoreLess = function(container, lesstext, moretext) {
+    //     console.log($(this));
+    // }
 
     // yesnoSubmit = function(link, redirect = nul, pjax = null){
     //     var csrf_token = $('meta[name="csrf-token"]').attr('content');
@@ -91666,6 +91699,47 @@ $$1.summernote = $$1.extend($$1.summernote, {
 module.exports = __webpack_amd_options__;
 
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports) {
+
+// showMoreLess = function(showChar, moretext, lesstext, container) {
+//     // Configure/customize these variables.
+//     // var showChar = 100;  // How many characters are shown by default
+//     var ellipsestext = "...";
+//     // var moretext = "Show more >";
+//     // var lesstext = "Show less";
+
+
+//     $(container).each(function() {
+//         var content = $(this).html();
+
+//         if(content.length > showChar) {
+
+//             var c = content.substr(0, showChar);
+//             var h = content.substr(showChar, content.length - showChar);
+
+//             var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink decoration-none text-secondary">' + moretext + '</a></span>';
+
+//             $(this).html(html);
+//         }
+
+//     });
+
+//     $(".morelink").click(function(){
+//         if($(this).hasClass("less")) {
+//             $(this).removeClass("less");
+//             $(this).html(moretext);
+//         } else {
+//             $(this).addClass("less");
+//             $(this).html(lesstext);
+//         }
+//         $(this).parent().prev().toggle();
+//         $(this).prev().toggle();
+//         return false;
+//     });
+// }
 
 /***/ })
 /******/ ]);

@@ -14,6 +14,7 @@ require('./components/modal');
 require('./ajaxPagination');
 require('./countdown');
 require('./dynamicList');
+require('./showMoreLess');
 require('./main');
 
 // window.ClassicEditor = require('@ckeditor/ckeditor5-build-classic'); 

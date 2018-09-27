@@ -18,6 +18,7 @@
                     $section = "donations";
                     break;
                 default:
+                    $section = "overview";
                     break;
             }
         } 

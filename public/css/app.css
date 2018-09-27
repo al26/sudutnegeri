@@ -14416,6 +14416,10 @@ div.popover-body .list-group-item-action:hover {
   background: transparent !important;
 }
 
+.hidden {
+  display: none !important;
+}
+
 /* FLIP */
 /* FONT FACE */
 /* OPACITY */

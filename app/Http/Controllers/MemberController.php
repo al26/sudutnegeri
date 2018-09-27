@@ -41,6 +41,9 @@ class MemberController extends Controller
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
         $data['volunteers'] = Volunteer::whereIn('project_id', $projects_id)->get();
+        // $project_province = Project::where('user_id', '!=', $request->user()->id)->pluck('project_location')
+        // $data['featured'] = Project::whereIn('category_id', explode(",",$request->user()->profile->interest))
+        //                             ->orWhere('project_location', $request->user()->)
         
         return view('member.dashboard', ['menu' => $menu, 'section' => $section], $data);
     }

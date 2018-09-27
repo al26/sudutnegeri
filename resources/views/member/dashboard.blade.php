@@ -3,60 +3,8 @@
 @section('content')
 {{-- @include('layouts.partials._alert') --}}
 <div class="container">
-    <section class="m-topcard mt-3 d-none d-lg-block">
-        <div class="card border-0">
-            <img id="p-cover" class="card-img-top" src="{{asset('storage/profile_pictures/cover_default.jpg')}}" alt="Cover Photo">
-            {{-- <div id="p-cover-overlay">
-                <i class="fas fw fa-camera-retro"></i> Perbarui Foto Sampul</a>
-            </div> --}}
-            <div class="card-body p-0">
-                <div class="nav nav-pills nav-fill w-100" id="h-menu">
-                    <a id="m-overview" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/overview')}}">Overview</a>
-                    <a id="m-setting" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/setting')}}">Pengaturan</a>
-                    <a id="m-sudut" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/sudut')}}">Jadi Sudut</a>
-                    <a id="m-negeri" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="menu" href="{{url('/dashboard/negeri')}}">Jadi Negeri</a>
-                </div>
-            </div>
-            <div class="card-img-overlay d-flex justify-content-center p-0" style="bottom:4rem">
-                <div id="p-pic-container" class="text-center mr-5 mt-5">
-                    <img id="p-pic" class="img-thumbnail pchange" src="{{asset($user_profile->profile_picture)}}" alt="Profile Picture">
-                    <a id="p-pic-overlay" class="text-white decoration-none" href="{{route('avatar.edit', ['id' => $user_profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => $user_profile->id])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => $user_profile->id])}}"}'><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
-                </div>
-                <div id="p-data" class="mt-5">
-                    <div class="d-flex justify-content-between">
-                        <span class="--text _head">{{$user_profile->name}}</span>
-                    </div>
-
-                    <ul class="list-inline">
-                        <li class="list-inline-item mr-5">
-                            {{-- <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="main-content"> --}}
-                                <span class="--text">Proyek</span>
-                                <span class="--text _head">1000</span>
-                            {{-- </a> --}}
-                        </li>
-                        <li class="list-inline-item mr-5">
-                            {{-- <a data-toggle="pjax" data-pjax="main-content" href="{{url('/dashboard/negeri/activity')}}"> --}}
-                                <span class="--text">Aktifitas</span>
-                                <span class="--text _head">10</span>
-                            {{-- </a> --}}
-                        </li>
-                        <li class="list-inline-item">
-                            {{-- <a data-toggle="pjax" data-pjax="main-content" href="{{url('/dashboard/negeri/donations')}}"> --}}
-                                <span class="--text">Investasi</span>
-                                <span class="--text _head">20</span>
-                            {{-- </a> --}}
-                        </li>
-                    </ul>
-
-                    <span class="--text">
-                        @if(!empty(Auth::user()->verify->id))
-                            <span class="badge badge-info align-self-center"><i class="mr-1 far fw fa-check-square" data-fa-transform="grow-3"></i>Pengguna terverifikasi</span><br>
-                        @endif
-                        <span class="--text _sub mt-1">Tergabung sejak : {{Idnme::print_date(Auth::user()->created_at, false)}}</span>
-                    </span>
-                </div>
-            </div>
-        </div>
+    <section class="m-topcard mt-3 d-none d-lg-block" id="mt" data-pjax-container>
+        @include('member.partials.topcard')        
     </section>
     <section class="m-content my-3 clearfix" id="mc" data-pjax-container>
         {{-- <div class="loader-overlay">
@@ -118,6 +66,7 @@
         activateOptGenerator();
         $('.select2').select2({theme: "bootstrap4",tags: true,});
         $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
+        // showMoreLess(100, 'Selengkapnya', 'Sebagian', '.update-list-item');
     });
 
     $(document).on('click', '#password-create', function(e){
@@ -127,7 +76,7 @@
 
     $(document).on('click', '#profile-edit', function(e){
         e.preventDefault();
-        $('#form-profile').ajaxCrudNonModal('#mr');
+        $('#form-profile').ajaxCrudNonModal(['#mr', '#mt']);
     });
 
     $(document).on('click', '#upload-receipt', function(e){
@@ -141,13 +90,13 @@
     });
 
     $(document).pjax('a[data-pjax=menu]', '#mc');
-    $('#mc').on('pjax:send', function() {
+    $('#mc').on('pjax:complete', function() {
         toggleActiveMenuTab();
         toggleActiveContentTab();
     });
 
     $(document).pjax('a[data-pjax=main-content]', '#mr');
-    $('#mr').on('pjax:send', function() {
+    $('#mr').on('pjax:complete', function() {
         toggleActiveContentTab();
     });
 

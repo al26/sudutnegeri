@@ -111,7 +111,10 @@
 
                 if(response.success) {
                     if(data['pjax-reload']) {
-                        $.pjax.reload("#mr");
+                        // if(data['pjax-reload'].len)
+                        $.each(data['pjax-reload'], function(index, val){
+                            $.pjax.reload(val);
+                        })
                     }
 
                     if(data['modal']) {

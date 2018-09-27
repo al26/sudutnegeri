@@ -139,6 +139,35 @@ $(document).ready(function(){
         }
     }
 
+    toggleMoreLess = function (btn, less, more, textless, textmore){
+        var action = $(btn).attr('data-action');
+        
+        if(action == 'more') {
+            $(less).addClass('hidden');
+            $(more).removeClass('hidden');
+            $(btn).attr('data-action', 'less');
+            $(btn).text(textless);
+        } else {
+            $(more).addClass('hidden');
+            $(less).removeClass('hidden');
+            $(btn).attr('data-action', 'more');
+            $(btn).text(textmore);
+        }
+    }
+    // cutContent = function(container, showchar) {
+    //     var content = $(container).html();
+
+    //     if (content.length > showchar) {
+    //         content.substr(0, showchar);
+    //     } 
+
+    //     $(container).html(content);
+    // }
+
+    // showMoreLess = function(container, lesstext, moretext) {
+    //     console.log($(this));
+    // }
+
     // yesnoSubmit = function(link, redirect = nul, pjax = null){
     //     var csrf_token = $('meta[name="csrf-token"]').attr('content');
             
