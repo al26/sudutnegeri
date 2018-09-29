@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header text-white text-center bg-secondary">
+    <div class="card-header text-left border-bottom bg-lighten">
         <h4 class="m-0">Edit Profil</h4>
     </div>
     <div class="card-body">
@@ -12,10 +12,10 @@
                     <label class="fs-label col-12 col-md-3" for="gender">Kartu Identitas</label>
                     <div class="col-12 col-md-9">
                         <select id="identity_card" name="data[identity_card]" class="custom-select form-control">
-                            <option {{empty(Auth::user()->profile->gender) ? 'selected' : ''}} disabled >-- Pilih kartu identitas --</option>
-                            <option value="KTP" {{Auth::user()->profile->gender == 'KTP' ? 'selected' : ''}}>KTP</option>
-                            <option value="SIM" {{Auth::user()->profile->gender == 'SIM' ? 'selected' : ''}}>SIM</option>
-                            <option value="Pasrpor" {{Auth::user()->profile->gender == 'Paspor' ? 'selected' : ''}}>Paspor</option>
+                            <option {{empty(Auth::user()->profile->identity_card) ? 'selected' : ''}} disabled >-- Pilih kartu identitas --</option>
+                            <option value="KTP" {{Auth::user()->profile->identity_card == 'KTP' ? 'selected' : ''}}>KTP</option>
+                            <option value="SIM" {{Auth::user()->profile->identity_card == 'SIM' ? 'selected' : ''}}>SIM</option>
+                            <option value="Paspor" {{Auth::user()->profile->identity_card == 'Paspor' ? 'selected' : ''}}>Paspor</option>
                         </select>
                         <small class="form-text text-muted">Pilih kartu identitas yang akan Anda gunakan sebagai acuan data profil</small>
                     </div>
@@ -23,7 +23,7 @@
                 <div class="form-group row mx-0">
                     <label class="fs-label col-12 col-md-3" for="identity_number">Nomor Identitas</label>
                     <div class="col-12 col-md-9">
-                        <input type="text" class="form-control" id="identity_number" name="data[identity_number]" placeholder="Nomor identitas" value="{{Auth::user()->profile->name}}">
+                        <input type="text" class="form-control" id="identity_number" name="data[identity_number]" placeholder="Nomor identitas" value="{{Auth::user()->profile->identity_number}}" onkeypress="javascript:return isNumberKey(event);">
                         <small class="form-text text-muted">Masukkan nomor KTP / SIM / Paspor sesuai kartu identitas yang dipilih</small>
                     </div>
                 </div>

@@ -68,7 +68,7 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::group(['prefix' => 'project'], function () {
-    Route::get('browse/{category}', 'ProjectController@index')->name('project.browse');
+    Route::get('browse', 'ProjectController@index')->name('project.browse');
     Route::get('details/{slug}/{menu?}', 'ProjectController@show')
             ->where(
                 ['menu'     => '(detail|history|sinegeri|faq)']

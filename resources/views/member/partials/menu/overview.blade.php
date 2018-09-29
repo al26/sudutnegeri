@@ -5,7 +5,7 @@
 @endphp
 @section('menu')
     <div class="card">
-        <div class="card-header font-weight-bold bg-secondary text-white text-center">
+        <div class="card-header text-left border-bottom bg-lighten">
             <h4 class="m-0">Informasi Personal</h4>
         </div>
         @if ($check)

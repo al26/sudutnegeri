@@ -112,7 +112,112 @@
                     }
                 @endphp
                 <div class="d-campaigns col-12 col-sm-6 col-lg-4 col-xl-3 card-deck px-1">
-                    <div class="card m-0 mb-3">
+                    <div class="card card-shadow m-0 border-0 mb-3" style="min-height:485px">
+                        <div class="category-flag">
+                            <p>{{$project->category->category}}</p>
+                        </div>
+                        <img class="card-img-top" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                        <div class="media campaigner">
+                            <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
+                            <div class="media-body">
+                                {{$project->user->profile->name}}
+                            </div>
+                        </div>
+                        <div class="card-header bg-white font-weight-bold">
+                            <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="card-link"><h5 class="card-title m-0">{{$project->project_name}}</h5></a>
+                        </div>
+                        <div class="card-body pb-0 pt-4 _project-info" id="info-{{$project->project_slug}}">
+                            <div class="row m-0">
+                                <span class="col-12 --text p-0">Lokasi</span>
+                                <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->project_location}}</span>
+                                
+                                <span class="col-12 --text p-0">Batas Pendaftaran Relawan</span>
+                                <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->close_reg}}</span>
+                                
+                                <span class="col-12 --text p-0">Batas Penerimaan Investasi</span>
+                                <span class="col-12 --text p-0 m-0 font-weight-bold">{{$project->close_donation}}</span>
+                            </div>
+                        </div>
+                        <div class="card-body pb-0 pt-4 _project-progress hidden" id="progress-{{$project->project_slug}}">
+                            <div class="info-donasi">
+                                <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
+                                <span class="--text font-weight-bold text-capitalize">{{empty($project->funding_progress) ? Idnme::print_rupiah('0') : Idnme::print_rupiah($project->funding_progress)}}</span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: {{$progressDana}}%"></div>
+                                </div>
+                                <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target)}}</span>
+                            </div>
+                            <hr class="mt-1 mb-2">
+                            <div class="info-relawan">
+                                <span class="--text "><b>{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}}</b> relawan tergabung dari target <b>{{$project->volunteer_quota}}</b> relawan</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-lighten">
+                            <button class="btn btn-link text-secondary-black decoration-none w-100 p-0" onclick="javascript:showAndHide(this, '#info-{{$project->project_slug}}', '#progress-{{$project->project_slug}}', 'Lihat Detail Proyek', 'Lihat Progress');" data-action="hide">Lihat Progresss</button>
+                        </div>
+                        {{-- <div class="card-body">
+                            <ul class="nav nav-pills" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                            </div>
+                        </div> --}}
+                        
+                        {{-- <div class="project-needs">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p class="mb-0"><i class="fas fw fa-map-marker-alt mr-2"></i><small>{{$project->project_location}}</small></p>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Dana
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: {{$progressDana}}%;" aria-valuenow="{{$progressDana}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="progress-capt">{{$progressDana}} %</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Relawan
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: {{$progressRelawan}}%;" aria-valuenow="{{$progressRelawan}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <small class="progress-capt">{{$progressRelawan}}%</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <p class="mb-0"><i class="fas fw fa-calendar-times mr-1"></i> <small>{{$remainingDays}} lagi</small></p>
+                                </li>
+                            </ul>
+                        </div> --}}
+                        {{-- <div class="card-footer px-3">
+                            <div class="row">
+                                <div class="col-6 text-left">
+                                    <p class="mb-0"><small>Lokasi</small></p>
+                                    <p class="mb-0">{{$project->project_location}}</p>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <p class="mb-0"><small>Sisa Waktu</small></p>
+                                    <p class="mb-0" id="remainingTime">{{$remainingDays}}</p>
+                                </div>
+                            </div>				      	
+                        </div> --}}
+                        {{-- <a class="cml text-white" href="{{route('project.show', ['slug' => $project->project_slug])}}">
+                            <span>
+                                <i class="fas fa-external-link-alt fa-2x"></i><br>
+                                Lihat <br>Project
+                            </span>
+                        </a> --}}
+                    </div>
+                    {{-- <div class="card m-0 mb-3">
                         <img class="card-img-top rounded-0" src="http://via.placeholder.com/600x400" alt="Card image cap">
                         <div class="media campaigner">
                             <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Generic placeholder image">
@@ -125,7 +230,6 @@
                         </div>
                         <div class="card-body py-0 px-3">
                             <a href="" class="card-link text-secondary-black"><h5 class="card-title">{{$project->project_name}}</h5></a>
-                            {{-- <p class="card-text">{!! $project->description !!}</p> --}}
                         </div>
                         <div class="project-needs">
                             <ul class="list-group">
@@ -151,7 +255,7 @@
                                 </li>
                             </ul>
                         </div>
-                        {{-- <div class="card-footer px-3">
+                        <div class="card-footer px-3">
                             <div class="row">
                                 <div class="col-6 text-left">
                                     <p class="mb-0"><small>Lokasi</small></p>
@@ -162,14 +266,14 @@
                                     <p class="mb-0">{{$remainingDays}}</p>
                                 </div>
                             </div>				      	
-                        </div> --}}
+                        </div>
                         <a class="cml text-white" href="{{route('project.show', ['slug' => $project->project_slug])}}">
                             <span>
                                 <i class="fas fa-external-link-alt fa-2x"></i><br>
                                 Lihat <br>Project
                             </span>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             @endforeach
         </div>

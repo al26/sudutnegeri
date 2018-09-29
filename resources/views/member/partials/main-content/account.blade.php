@@ -1,27 +1,27 @@
 <div class="card">
-    <div class="card-header text-white text-center bg-secondary">
+    <div class="card-header text-left border-bottom bg-lighten">
         <h4 class="m-0">Pengaturan Akun</h4>
     </div>
     <div class="card-body">
             <div class="form-section">
-                <div class="fs-head"><span class="fs-head-text">Email</span></div>
                 <div class="form-group row mx-0">
-                    <input type="text" readonly class="form-control-plaintext col-12" id="email" placeholder="Email" value="{{Auth::user()->email}}" name="data[email]">
-                </div>    
+                    <label class="fs-label col-12 col-md-3 p-0 m-0" for="email">Email Anda</label>
+                    <input type="text" readonly class="form-control-plaintext col-12 col-md-9 p-0" id="email" placeholder="Email" value="{{Auth::user()->email}}" name="data[email]">
+                </div>
             </div>
             @if (!empty(Auth::user()->password))
             <div class="form-section">
                 <div class="fs-head"><span class="fs-head-text">Ubah Password</span></div>
                 <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3" for="old_pass">Password Lama</label>
+                    <label class="fs-label col-12 col-md-3 p-0" for="old_pass">Password Lama</label>
                     <input type="text" class="form-control col-12 col-md-9" id="old_pass" placeholder="Password lama">
                 </div>
                 <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3" for="new_pass">Password Baru</label>
+                    <label class="fs-label col-12 col-md-3 p-0" for="new_pass">Password Baru</label>
                     <input type="text" class="form-control col-12 col-md-9" id="new_pass" placeholder="Password baru">
                 </div>
                 <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3" for="confirm_pass">Konfirmasi Password</label>
+                    <label class="fs-label col-12 col-md-3 p-0" for="confirm_pass">Konfirmasi Password</label>
                     <input type="text" class="form-control col-12 col-md-9" id="confirm_pass" placeholder="Ketik ulang password baru">
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>    
@@ -34,11 +34,11 @@
                 <div class="form-section">
                     <div class="fs-head"><span class="fs-head-text">Buat Password</span></div>
                     <div class="form-group row mx-0">
-                        <label class="fs-label col-12 col-md-3" for="new_pass">Password Baru</label>
+                        <label class="fs-label col-12 col-md-3 p-0" for="new_pass">Password Baru</label>
                         <input type="password" class="form-control col-12 col-md-9" id="new_pass" placeholder="Password baru" name="data[new_pass]">
                     </div>
                     <div class="form-group row mx-0">
-                        <label class="fs-label col-12 col-md-3" for="new_pass_confirmation">Konfirmasi Password</label>
+                        <label class="fs-label col-12 col-md-3 p-0" for="new_pass_confirmation">Konfirmasi Password</label>
                         <input type="password" class="form-control col-12 col-md-9" id="new_pass_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_confirmation]">
                     </div>
                     <button type="submit" id="password-create" class="btn btn-primary">Buat Password</button>

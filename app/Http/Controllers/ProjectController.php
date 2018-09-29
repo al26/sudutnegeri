@@ -20,9 +20,15 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['projects'] = Project::paginate(6); 
+        if ($request->category && strtolower($request->category) !== 'all') {
+            $category = Category::where('slug', $request->category)->pluck('id')->toArray();
+            $data['projects'] = Project::whereIn('category_id', $category)->paginate(6);
+        } else {
+            $data['projects'] = Project::paginate(6); 
+        }
+
         return view('explore', $data);
     }
 

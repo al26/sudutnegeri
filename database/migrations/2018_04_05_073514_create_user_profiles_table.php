@@ -17,6 +17,8 @@ class CreateUserProfilesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');  
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
+            $table->enum('identity_card', ['KTP', 'SIM', 'Paspor'])->nullable();
+            $table->string('identity_number')->nullable();
             $table->string('name');
             $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
             $table->date('dob')->nullable();

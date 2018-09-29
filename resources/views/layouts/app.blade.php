@@ -136,8 +136,14 @@
                 </div>
                 <ul class="navbar-nav ml-auto d-none d-lg-block">
                     @guest
-                        <li class="mx-1"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a></li>
-                        <li class="mx-1"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a></li>
+                        <li class="nav-item">
+                            <div class="d-flex justify-content between align-items-center">
+                                <a class="btn btn-md main-auth-btn text-capitalize mr-2" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a>
+                                <a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a>
+                            </div>
+                        </li>
+                        {{-- <li class="nav-item"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a></li>
+                        <li class="nav-item"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a></li> --}}
                     @else
                         <li class="nav-item d-flex flex-row align-items-center">
                             {{-- <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="btn d-flex flex-row align-items-center" data-toggle="tooltip" data-placement="bottom" title="Dashboard">

@@ -14,6 +14,7 @@ use App\Donation;
 use App\Volunteer;
 use App\Regency;
 use Hash;
+use App\Data_historis as History;
 use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
@@ -48,8 +49,26 @@ class MemberController extends Controller
                                         $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
                                               ->orWhereIn('project_location', $user_around);
                                     })->get();
+        // $data['updates'] = History::whereIn('project_id', 
+        //                                 Donation::where('user_id', $request->user()->id)
+        //                                         ->where('status', 'verified')
+        //                                         ->pluck('project_id')->toArray()
+        //                             )
+        //                             ->orWhereIn('project_id', 
+        //                                 Volunteer::where('user_id', $request->user()->id)
+        //                                         ->where('status', 'accepted')
+        //                                         ->latest()
+        //                                         ->pluck('project_id')
+        //                                         ->first()
+        //                                         ->toArray()
+        //                             )
+        //                             ->orWhereIn('project_id',
+        //                                 Project::where('user_id', $request->user()->id)
+        //                                         ->pluck('project_id')
+        //                                         ->toArray()
+        //                             )->get();
 
-        // dd($data['featured']);
+        // dd($data['update']);
 
         return view('member.dashboard', ['menu' => $menu, 'section' => $section], $data);
     }
@@ -59,7 +78,7 @@ class MemberController extends Controller
             "name"          => "required",
             "gender"        => "required",
             "dob"           => "required|date",
-            "phone_number"  => "required",
+            "phone_number"  => "required|numeric",
             "biography"     => "required",
             "profession"    => "required",
             "institution"   => "required",
@@ -70,6 +89,8 @@ class MemberController extends Controller
             "district_id"   => "required",
             "exact_location"=> "required",
             "zip_code"      => "required",
+            "identity_card" => "required",
+            "identity_number" => "required|numeric", 
         ];
 
         $messages = [
@@ -80,6 +101,7 @@ class MemberController extends Controller
             "regency_id.required"    => "Kolom :attribute tidak boleh kosong",
             "district_id.required"   => "Kolom :attribute tidak boleh kosong",
             "phone_number.required"  => "Isikan :attribute Anda yang dapat dihubungi",
+            "phone_number.numeric"    => ":attribute harus berupa angka",
             "biography.required"     => "Tuliskan :attribute Anda",
             "profession.required"    => "Kolom :attribute tidak boleh kosong",
             "institution.required"   => "Mohon isikan :attribute Anda saat ini",
@@ -87,6 +109,9 @@ class MemberController extends Controller
             "skills.required"        => "Mohon isikan minimal satu :attribute Anda",
             "exact_location.required"=> "Kolom :attribute tidak boleh kosong",
             "zip_code.required"      => "Kolom :attribute tidak boleh kosong",
+            "identity_card.required"        => "Kolom :attribute tidak boleh kosong",
+            "identity_number.required"      => "Kolom :attribute tidak boleh kosong",
+            "identity_number.numeric"    => ":attribute harus berupa angka",
         ];
 
         $attributes = [
@@ -104,6 +129,8 @@ class MemberController extends Controller
             "district_id"   => "kecamatan",
             "exact_location"=> "alamat lengkap",
             "zip_code"      => "kode pos",
+            "identity_card" => "kartu identitas",
+            "identity_number" => "nomor identitas"
         ];
 
         $data = $request->data;
@@ -124,6 +151,8 @@ class MemberController extends Controller
                 "profession" => $request->data['profession'],
                 "institution" => $request->data['institution'],
                 "phone_number" => $request->data['phone_number'],
+                "identity_card" => $request->data['identity_card'],
+                "identity_number" => $request->data['identity_number'],
             ];
 
             $address = [

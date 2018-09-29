@@ -14,6 +14,7 @@ class CreateProjectsTable extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedInteger('user_id');  
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
@@ -22,7 +23,8 @@ class CreateProjectsTable extends Migration
             $table->string('project_name');
             $table->string('project_slug');
             $table->text('project_description');
-            $table->unsignedInteger('project_location');
+            $table->string('regency_id')->nullable();
+            $table->foreign('regency_id')->references('id')->on('regencies')->onDelete('set null');            
             $table->unsignedInteger('funding_target');
             $table->unsignedInteger('funding_progress')->nullable();
             $table->unsignedInteger('volunteer_quota');
@@ -33,6 +35,12 @@ class CreateProjectsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        // Schema::table('projects', function($table) {
+        //     $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
+        //     $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+        //     // $table->foreign('regency_id')->references('id')->on('regencies')->onDelete('set null');            
+        // });
     }
 
     /**

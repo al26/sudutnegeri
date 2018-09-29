@@ -23,6 +23,6 @@ class Regency extends Model
 
     public function projects()
     {
-        return $this->hasMany('App\Project', 'project_location', 'id');
+        return $this->hasMany('App\Project');
     }
 }

@@ -154,6 +154,22 @@ $(document).ready(function(){
             $(btn).text(textmore);
         }
     }
+
+    showAndHide = function(btn, showed, hidden, textshow, texthide) {
+        var action = $(btn).attr('data-action');
+        
+        if(action == 'show') {
+            $(hidden).addClass('hidden');
+            $(showed).removeClass('hidden');
+            $(btn).attr('data-action', 'hide');
+            $(btn).text(texthide);
+        } else {
+            $(showed).addClass('hidden');
+            $(hidden).removeClass('hidden');
+            $(btn).attr('data-action', 'show');
+            $(btn).text(textshow);
+        }
+    }
     // cutContent = function(container, showchar) {
     //     var content = $(container).html();
 

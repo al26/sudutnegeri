@@ -2,7 +2,7 @@
 
 @section('menu')
     <div class="card">
-        <div class="card-header text-center text-white bg-secondary">
+        <div class="card-header text-left border-bottom bg-lighten">
             <h4 class="m-0">Menu Si Negeri</h4>
         </div>
         <div class="list-group" id="negeri-menu">
