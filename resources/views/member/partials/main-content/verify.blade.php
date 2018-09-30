@@ -1,56 +1,59 @@
+@php
+    $prop = Auth::user()->profile->toArray();
+    $check = in_array(null, $prop);
+@endphp
 <div class="card">
     <div class="card-header text-left border-bottom bg-lighten">
         <h4 class="m-0">Verifikasi Akun</h4>
     </div>
-    <div class="card-body">
-        <form action="" method="POST" enctype="multipart/form-data" id="form-receipt">
-            @csrf
-            @method('PUT')
-            {{-- <div class="form-section">
-                <div class="fs-head">
-                    <span class="fs-head-text">Verifikasi Akun</span>
+    @if ($check)
+        <div class="card-body">
+            <div class="text-center">
+                <div class="my-3">
+                    <i class="fas fa-exclamation-triangle fa-10x text-danger"></i>
                 </div>
-            </div> --}}
-            <div class="form-group">
-                <label for="receipt">Unggah scan kartu identitas</label>
-                <div class="row mb-3 text-center">
-                    <div class="col-12">
-                        <img id="pp-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
-                        <img id="pp-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
-                        <img id="pp-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
-                        {{-- <br><label for="upload-progress" id="up-label"></label>
-                        <div class="progress" style="height:50px; display:none;" id="upload-progress">
-                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%"></div>
-                        </div> --}}
+                <span class="font-weight-bold">Anda belum melengkapi data profil !</span><br>
+                <span class="">Mohon <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" data-toggle="pjax" data-pjax="menu">lengkapi profil</a> Anda untuk dapat melanjutkan verifikasi.</span>
+            </div>
+        </div>
+    @else
+        <div class="card-body">
+            <form action="{{route('account.verify')}}" method="POST" enctype="multipart/form-data" id="form-verification">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label for="receipt">Unggah foto/scan {{Auth::user()->profile->identity_card}} Anda</label>
+                    <div class="row mb-3 text-center">
+                        <div class="col-12">
+                            <img id="sic-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
+                            <img id="sic-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
+                            <img id="sic-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+                        </div>
+                    </div>
+                    
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="sic" name="sic" onchange="javascript:previewImgUpload(this, '#sic-preview-default','#sic-loader','#sic-preview', '#sic-label');">
+                        <label class="custom-file-label" id="sic-label" for="sic">Pilih foto atau scan {{Auth::user()->profile->identity_card}}</label>
                     </div>
                 </div>
-                
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="receipt" name="receipt" onchange="javascript:previewImgUpload(this);">
-                    <label class="custom-file-label" for="receipt">Pilih File</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="receipt">Unggah foto selfi dengan kartu identitas</label>
-                <div class="row mb-3 text-center">
-                    <div class="col-12">
-                        <img id="pp-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
-                        <img id="pp-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
-                        <img id="pp-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
-                        {{-- <br><label for="upload-progress" id="up-label"></label>
-                        <div class="progress" style="height:50px; display:none;" id="upload-progress">
-                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%"></div>
-                        </div> --}}
+                <div class="form-group">
+                    <label for="receipt">Unggah foto selfi dengan {{Auth::user()->profile->identity_card}} Anda</label>
+                    <div class="row mb-3 text-center">
+                        <div class="col-12">
+                            <img id="vp-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
+                            <img id="vp-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
+                            <img id="vp-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+                        </div>
+                    </div>
+                    
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="vp" name="vp" onchange="javascript:previewImgUpload(this, '#vp-preview-default','#vp-loader','#vp-preview', '#vp-label');">
+                        <label class="custom-file-label" id="vp-label" for="vp">Pilih foto verifikasi</label>
                     </div>
                 </div>
-                
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="receipt" name="receipt" onchange="javascript:previewImgUpload(this);">
-                    <label class="custom-file-label" for="receipt">Pilih File</label>
-                </div>
-            </div>
-
-            <button type="submit" id="upload-receipt" class="btn btn-primary float-right">Unggah Bukti Transfer</button>
-        </form>
-    </div>
+    
+                <button type="submit" id="upload-verification" class="btn btn-primary float-right">Verifikasi</button>
+            </form>
+        </div>
+    @endif
 </div>

@@ -10,9 +10,11 @@ use App\Category;
 use App\Province;
 use App\User_profile as Profile;
 use App\User_address as Address;
+use App\User_verification as Verification;
 use App\Donation;
 use App\Volunteer;
 use App\Regency;
+use App\User;
 use Hash;
 use App\Data_historis as History;
 use Illuminate\Support\Facades\Storage;
@@ -47,7 +49,7 @@ class MemberController extends Controller
         $data['featured'] = Project::where('user_id', '!=', $request->user()->id)
                                     ->where(function ($query) use ($request, $user_around) {
                                         $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
-                                              ->orWhereIn('project_location', $user_around);
+                                              ->orWhereIn('regency_id', $user_around);
                                     })->get();
         // $data['updates'] = History::whereIn('project_id', 
         //                                 Donation::where('user_id', $request->user()->id)
@@ -175,7 +177,7 @@ class MemberController extends Controller
                     "address" => $address,
                 ];
             } else {
-                $return = ["errors" => "Terjadi Kesalahan. Gagal edit profil."];
+                $return = ["error" => "Terjadi Kesalahan. Gagal edit profil."];
             }
 
             // $return = ["success" => $request->data];
@@ -213,6 +215,141 @@ class MemberController extends Controller
                 $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
             }
         }
+
+        return response()->json($return);
+    }
+
+    public function changePassword(Request $request) {
+        $rules = [
+            "old_pass" => 'required|string|min:6',
+            "new_pass_change" => 'required|string|min:6|confirmed',
+            "new_pass_change_confirmation" => 'required',
+        ];
+
+        $messages = [
+            "old_pass.required" => "Kolom :attribute tidak boleh kosong",
+            "old_pass.string"   => "Password lama yang Anda masukkan salah",
+            "old_pass.min"      => "Password lama yang Anda masukkan salah",
+            "new_pass_change.required" => "Kolom :attribute tidak boleh kosong",
+            "new_pass_change.string"   => "Isikan kolom :attribute dengan huruf, angka, dan karakter apapun (boleh termasuk spasi)",
+            "new_pass_change.min"      => "Password minimal tidak kurang dari :min karakter",
+            "new_pass_change.confirmed"=> "Password konfirmasi harus sama",
+            "new_pass_change_confirmation.required" => "Kolom :attribute tidak boleh kosong",
+        ];
+
+        $attributes = [
+            "old_pass" => 'password lama',
+            "new_pass_change" => 'password baru',
+            "new_pass_change_confirmation" => 'konfirmasi password',        
+        ];
+
+        $data = $request->data;
+        // die(var_dump($email));
+
+        $validator = Validator::make($data, $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        } else {
+            $hashedPassword = User::where('email', $request->data['email'])->pluck('password')->first();
+            
+            if(Hash::check($request->data['old_pass'], $hashedPassword)) {
+                $password = Hash::make($request->data['new_pass_change']);
+                $email = $request->data['email'];
+    
+                $store = User::where('email', $email)->update(['password' => $password]);
+                if($store) {
+                    $return = ["success" => "Password Anda berhasil diubah"];
+                } else {
+                    $return = ["error" => "Terjadi Kesalahan. Gagal membuat password baru."];
+                }
+            } else {
+                $return = ["error" => "Password lama yang Anda masukkan salah !"];
+            }
+        } 
+
+
+        return response()->json($return);
+    }
+
+    public function verifyAccount(Request $request) {
+        $sicpath = "";
+        $sicname = "";
+        $vppath = "";
+        $vpname = "";
+
+        $rules = [
+            "sic" => "required|image|mimes:jpg,jpeg,png,svg",
+            "vp"  => "required|image|mimes:jpg,jpeg,png,svg"
+        ];
+        
+        $messages = [
+            "sic.required"           => ":attribute tidak boleh kosong",
+            "sic.image"              => ":attribute harus berupa gambar",
+            "sic.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
+            "vp.required"           => ":attribute tidak boleh kosong",
+            "vp.image"              => ":attribute harus berupa gambar",
+            "vp.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
+        ];
+
+        $attributes = [
+            "sic" => "foto/scan kartu identitas",
+            "vp"  => "foto verifikasi"
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        } else {
+            $verify = Verification::where('user_profile_id', $request->user()->profile->id)->firstOrFail();
+            // $old_sic = substr($verify->scan_id_card, 7) ?? null;
+            // $old_vp = substr($verify->verification_picture, 7) ?? null;
+    
+            if($request->hasFile('sic') && $request->hasFile('vp')) {
+                $folder = md5($id.time()*26);
+                
+                $sicfile = $request->file('sic');
+                $sicname = md5($id.time()).'.'.$sicfile->getClientOriginalExtension();
+                $sicpath = $sicfile->storeAs("public/user_verification/$folder", $sicname);
+    
+                $vpfile = $request->file('vp');
+                $vpname = md5($id.time()).'.'.$vpfile->getClientOriginalExtension();
+                $vppath = $vpfile->storeAs("public/user_verification/$folder", $vpname);
+            }
+    
+            if($sicpath !== null) {
+                $data['scan_id_card'] = "storage/user_verification/$folder/$sicname";
+    
+                if ($vppath !== null) {
+                    $data['verification_picture'] = "storage/user_verification/$folder/$vpname";
+    
+                    $update = $verify->update($data);
+    
+                    if($update) {
+                        $return = ['success' => "Foto profil berhasil diubah"];
+                    } else {
+                        if (Storage::exists($sicpath)) {
+                            Storage::delete($sicpath);
+                        }
+    
+                        if (Storage::exists($vppath)) {
+                            Storage::delete($vppath);
+                        }
+    
+                        $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
+                    }
+    
+                } else {
+                    if (Storage::exists($sicpath)) {
+                        Storage::delete($sicpath);
+                    }
+    
+                    $return = ['error' => "Terjadi kesalahan. Silahkan coba lagi"];
+                }
+            }
+        }
+
 
         return response()->json($return);
     }

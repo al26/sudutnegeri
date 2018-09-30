@@ -98,11 +98,11 @@ class ProjectController extends Controller
                 
         // dd($request->all());
 
-        // $validator = Validator::make($request-all(), $rules, $messages, $attributes);
+        $validator = Validator::make($request-all(), $rules, $messages, $attributes);
 
-        // if ($validator->fails()) {
-        //     $return = ["errors" => $validator->messages()];
-        // }
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        }
 
       
         // dd($request->data);

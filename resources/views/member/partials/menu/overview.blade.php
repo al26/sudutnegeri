@@ -10,7 +10,7 @@
         </div>
         @if ($check)
             <div class="card-body">
-                <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="card-link" data-toggle="pjax" data-pjax="menu">lengkapi profil Anda</a>
+                <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="card-link" data-toggle="pjax" data-pjax="menu">Lengkapi profil Anda</a>
             </div>
         @else
             <div class="card-body">

@@ -51,6 +51,8 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('negeri/donations/upload/{id}', 'DonationController@uploadReceipt')->name('donation.upreceipt');
     Route::put('negeri/donations/upload/{id}', 'DonationController@saveReceipt')->name('donation.savereceipt');
     Route::get('negeri/donations/receipt/{id}', 'DonationController@showReceipt')->name('donation.receipt');
+    Route::put('/password/change', 'MemberController@changePassword')->name('password.change');
+    Route::put('/account/verify', 'MemberController@verifyAccount')->name('account.verify');
 });
 
 Route::group(['prefix' => 'admin'], function () {

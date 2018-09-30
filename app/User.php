@@ -36,10 +36,6 @@ class User extends Authenticatable
         return $this->hasOne('App\User_profile');
     }
 
-    public function verify() {
-        return $this->hasOne('App\User_verification');
-    }
-
     public function projects() {
         return $this->hasMany('App\Project');
     }

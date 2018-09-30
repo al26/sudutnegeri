@@ -2,13 +2,13 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\User_address::class, function (Faker $faker) {
-    return [
-        'user_profile_id' => function () {
-            return factory(App\User_profile::class)->create()->id;
-        }
-    ];
-});
+// $factory->define(App\User_address::class, function (Faker $faker) {
+//     return [
+//         'user_profile_id' => function () {
+//             return factory(App\User_profile::class)->create()->id;
+//         }
+//     ];
+// });
 
 $factory->define(App\User_profile::class, function (Faker $faker) {
     return [

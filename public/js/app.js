@@ -79580,9 +79580,17 @@ $(function () {
                     getFeedback(response.errors);
                 }
 
+                if (response.error) {
+                    swal({
+                        type: 'error',
+                        title: response.error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+
                 if (response.success) {
                     if (data['pjax-reload']) {
-                        // if(data['pjax-reload'].len)
                         $.each(data['pjax-reload'], function (index, val) {
                             $.pjax.reload(val);
                         });
@@ -79635,12 +79643,14 @@ $(function () {
     }
 
     function getFeedback(errors) {
-        var inputs = $('input:not([type="submit"]), textarea, select');
+        // var inputs = $('input:not([type="submit"]), textarea, select');
 
         $.each(errors, function (index, value) {
             $('#' + index).parent().append('<div class="invalid-feedback d-block">' + value + '</div>');
             $('#' + index).addClass('is-invalid');
         });
+
+        // console.log(errors);
     }
 
     function resetFeedback() {
@@ -80143,31 +80153,31 @@ $(document).ready(function () {
         }
     };
 
-    previewImgUpload = function previewImgUpload(input) {
+    previewImgUpload = function previewImgUpload(input, def, loader, prev, label) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function () {
-                if ($('#pp-preview-default').is(":visible")) {
-                    $('#pp-preview-default').hide(100);
+                if ($(def).is(":visible")) {
+                    $(def).hide(100);
                 }
-                if ($('#pp-preview').is(":visible")) {
-                    $('#pp-preview').hide(100);
+                if ($(prev).is(":visible")) {
+                    $(prev).hide(100);
                 }
             };
 
             reader.onprogress = function (data) {
-                $('#pp-loader').show(100);
+                $(loader).show(100);
                 var timer = 2;
                 var x = setInterval(function () {
                     timer--;
 
                     if (timer <= 0) {
                         clearInterval(x);
-                        $('#pp-loader').hide(100);
-                        $('#pp-preview').attr('src', reader.result);
-                        $('#pp-preview').show(100);
-                        $('.custom-file-label').text(input.files[0].name);
+                        $(loader).hide(100);
+                        $(prev).attr('src', reader.result);
+                        $(prev).show(100);
+                        $(label).text(input.files[0].name);
                     }
                 }, 1000);
             };

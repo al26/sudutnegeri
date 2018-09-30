@@ -10,22 +10,33 @@
                 </div>
             </div>
             @if (!empty(Auth::user()->password))
-            <div class="form-section">
-                <div class="fs-head"><span class="fs-head-text">Ubah Password</span></div>
-                <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3 p-0" for="old_pass">Password Lama</label>
-                    <input type="text" class="form-control col-12 col-md-9" id="old_pass" placeholder="Password lama">
+            <form method="POST" action="{{route('password.change')}}" id="form-account-change">
+                @method('PUT')
+                @csrf 
+                <input type="hidden" value="{{Auth::user()->email}}" name="data[email]">
+                <div class="form-section">
+                    <div class="fs-head"><span class="fs-head-text">Ubah Password</span></div>
+                    <div class="form-group row mx-0">
+                        <label class="fs-label col-12 col-md-3 p-0" for="old_pass">Password Lama</label>
+                        <div class="col-12 col-md-9">
+                            <input type="password" class="form-control" id="old_pass" name="data[old_pass]" placeholder="Password lama" required>
+                        </div>
+                    </div>
+                    <div class="form-group row mx-0">
+                        <label class="fs-label col-12 col-md-3 p-0" for="new_pass_change">Password Baru</label>
+                        <div class="col-12 col-md-9">
+                            <input type="password" class="form-control" id="new_pass_change" name="data[new_pass_change]" placeholder="Password baru" required>
+                        </div>
+                    </div>
+                    <div class="form-group row mx-0">
+                        <label class="fs-label col-12 col-md-3 p-0" for="new_pass_change_confirmation">Konfirmasi Password</label>
+                        <div class="col-12 col-md-9">
+                            <input type="password" class="form-control" id="new_pass_change_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_change_confirmation]" required>
+                        </div>
+                    </div>
+                    <button type="submit" id="password-change" class="btn btn-primary">Simpan Perubahan</button>    
                 </div>
-                <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3 p-0" for="new_pass">Password Baru</label>
-                    <input type="text" class="form-control col-12 col-md-9" id="new_pass" placeholder="Password baru">
-                </div>
-                <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3 p-0" for="confirm_pass">Konfirmasi Password</label>
-                    <input type="text" class="form-control col-12 col-md-9" id="confirm_pass" placeholder="Ketik ulang password baru">
-                </div>
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>    
-            </div>
+            </form>
             @else
             <form method="POST" action="{{route('password.create')}}" id="form-account">
                 @method('PUT')
@@ -35,11 +46,15 @@
                     <div class="fs-head"><span class="fs-head-text">Buat Password</span></div>
                     <div class="form-group row mx-0">
                         <label class="fs-label col-12 col-md-3 p-0" for="new_pass">Password Baru</label>
-                        <input type="password" class="form-control col-12 col-md-9" id="new_pass" placeholder="Password baru" name="data[new_pass]">
+                        <div class="col-12 col-md-9">
+                            <input type="password" class="form-control" id="new_pass" placeholder="Password baru" name="data[new_pass]">
+                        </div>
                     </div>
                     <div class="form-group row mx-0">
                         <label class="fs-label col-12 col-md-3 p-0" for="new_pass_confirmation">Konfirmasi Password</label>
-                        <input type="password" class="form-control col-12 col-md-9" id="new_pass_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_confirmation]">
+                        <div class="col-12 col-md-9">
+                            <input type="password" class="form-control" id="new_pass_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_confirmation]">
+                        </div>
                     </div>
                     <button type="submit" id="password-create" class="btn btn-primary">Buat Password</button>
                 </div>

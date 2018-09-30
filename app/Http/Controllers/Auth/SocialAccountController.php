@@ -93,6 +93,7 @@ class SocialAccountController extends Controller
         // if($req->cookie('action') === 'connect'){
         if($req->session()->get('action') === 'connect') {
             $this->connect($user->getId(), $provider);
+            return redirect($this->referer)->withSuccess("Selamat ! koneksi ke akun $provider Anda berhasil dilakukan. Kini Anda dapat login dengan menggunakan Akun $provider Anda.");
         }
 
         if ($req->session()->has('action')) {
@@ -233,6 +234,6 @@ class SocialAccountController extends Controller
         $user = auth()->user();
         $user->socialAccounts()->where('provider_name', $provider)->delete();
 
-        return redirect(base64_decode(urldecode($continue)));
+        return redirect(base64_decode(urldecode($continue)))->withSuccess("Pemutusan koneksi ke akun $provider Anda berhasil dilakukan.");
     }
 }

@@ -106,31 +106,31 @@ $(document).ready(function(){
         }
     }
 
-    previewImgUpload = function (input) {
+    previewImgUpload = function (input, def, loader, prev, label) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function() {
-                if($('#pp-preview-default').is(":visible")) {
-                    $('#pp-preview-default').hide(100);
+                if($(def).is(":visible")) {
+                    $(def).hide(100);
                 }
-                if($('#pp-preview').is(":visible")) {
-                    $('#pp-preview').hide(100);
+                if($(prev).is(":visible")) {
+                    $(prev).hide(100);
                 }
             }
 
             reader.onprogress = function(data) {
-                $('#pp-loader').show(100);
+                $(loader).show(100);
                 var timer = 2;
                 var x = setInterval(function(){
                     timer--;
 
                     if(timer <= 0) {
                         clearInterval(x);
-                        $('#pp-loader').hide(100);
-                        $('#pp-preview').attr('src', reader.result);
-                        $('#pp-preview').show(100);
-                        $('.custom-file-label').text(input.files[0].name);
+                        $(loader).hide(100);
+                        $(prev).attr('src', reader.result);
+                        $(prev).show(100);
+                        $(label).text(input.files[0].name);
                     }
                 }, 1000);
             }

@@ -107,11 +107,20 @@
                 if(response.errors) {
                     resetFeedback();
                     getFeedback(response.errors);
+
                 } 
+
+                if(response.error) {
+                    swal({
+                        type: 'error',
+                        title: response.error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
 
                 if(response.success) {
                     if(data['pjax-reload']) {
-                        // if(data['pjax-reload'].len)
                         $.each(data['pjax-reload'], function(index, val){
                             $.pjax.reload(val);
                         })
@@ -164,12 +173,14 @@
     }
 
     function getFeedback(errors) {
-        var inputs = $('input:not([type="submit"]), textarea, select');
+        // var inputs = $('input:not([type="submit"]), textarea, select');
 
         $.each(errors, function(index, value){
             $('#'+index).parent().append('<div class="invalid-feedback d-block">'+value+'</div>');
             $('#'+index).addClass('is-invalid');
         });
+
+        // console.log(errors);
     }
 
     function resetFeedback(){

@@ -71,7 +71,12 @@
 
     $(document).on('click', '#password-create', function(e){
         e.preventDefault();
-        $('#form-account').ajaxCrudNonModal('#mr');
+        $('#form-account').ajaxCrudNonModal(['#mr']);
+    });
+
+    $(document).on('click', '#password-change', function(e){
+        e.preventDefault();
+        $('#form-account-change').ajaxCrudNonModal(['#mr']);
     });
 
     $(document).on('click', '#profile-edit', function(e){
@@ -81,12 +86,17 @@
 
     $(document).on('click', '#upload-receipt', function(e){
         e.preventDefault();
-        $('#form-receipt').ajaxCrudNonModal('#mr');
+        $('#form-receipt').ajaxCrudNonModal(['#mr']);
+    });
+
+    $(document).on('click', '#upload-verification', function(e){
+        e.preventDefault();
+        $('#form-verification').ajaxCrudNonModal(['#mr']);
     });
 
     $(document).on('click', '#create-project', function(e){
         e.preventDefault();
-        $('#form-create-project').ajaxCrudNonModal('#mr', "{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}");
+        $('#form-create-project').ajaxCrudNonModal(['#mr'], "{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}");
     });
 
     $(document).pjax('a[data-pjax=menu]', '#mc');
