@@ -13819,6 +13819,14 @@ body {
   margin-right: 0.8rem !important;
 }
 
+.footer {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: inherit;
+}
+
 html,
 body {
   overflow-x: hidden;
@@ -13865,8 +13873,8 @@ body {
 
 .search-collapse {
   position: fixed;
-  z-index: 1030 !important;
-  top: 3rem;
+  z-index: 1035 !important;
+  top: 0;
   /* Height of navbar */
   left: 0;
   bottom: 0;
@@ -14131,10 +14139,21 @@ table.dataTable thead th.sorting:before, table.dataTable thead th.sorting:after,
   }
 }
 
+main#main-content {
+  min-height: 100vh;
+}
+
 @media (max-width: 991.98px) {
   main#main-content {
     padding-top: 3rem !important;
   }
+}
+
+.btn-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .text-wrap {
@@ -14579,6 +14598,31 @@ div.popover-body .list-group-item-action:hover {
 
 .hidden {
   display: none !important;
+}
+
+.mega-menu {
+  overflow: hidden;
+}
+
+.mega-menu .mega-menu-content {
+  display: none;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .mega-menu .mega-menu-content {
+    width: 90%;
+    left: 5%;
+    right: 5%;
+  }
+}
+
+.mega-menu:hover .mega-menu-content {
+  display: block;
 }
 
 /* FLIP */
@@ -15137,7 +15181,6 @@ div#myCard {
 @media (max-width: 991.98px) {
   #hpn-menu.fixed {
     top: 3rem !important;
-    left: 0 !important;
   }
 }
 
@@ -15619,12 +15662,23 @@ span.dynamic-close:hover {
   font-weight: bolder !important;
 }
 
+.dv-menu i, .dv-menu svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
 .dv-menu.active {
   background: inherit !important;
   border: 0 !important;
   border-left: 4px solid #0b65b1 !important;
   color: #0b65b1 !important;
   font-weight: bolder !important;
+}
+
+@media (max-width: 991.98px) {
+  .m-content, .m-rightcard > .card, .m-leftcard > .card {
+    min-height: 100vh !important;
+  }
 }
 
 .cfp {

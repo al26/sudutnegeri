@@ -120,7 +120,7 @@
             <div class="row">
                 <div class="col-12 col-lg-8 offset-lg-2">
                     <div class="section-headline px-3 mb-5">
-                        <h1 class="section-title text-center text-capitalize font-weight-bold">Bantu kami bersama 3000 member SudutNegeri untuk majukan pendidikan di Indonesia</h1>
+                        <h1 class="section-title text-center text-capitalize font-weight-bold">Bantu kami bersama {{$member->count()}} member SudutNegeri untuk majukan pendidikan di Indonesia</h1>
                         {{-- <h1 class="section-title text-center text-capitalize font-weight-bold">Peduli Pendidikan Bersama SudutNegeri</h1>
                         <h3 class="section-subtitle text-center">Bantu kami dan lebih dari 3000 orang lain untuk majukan pendidikan di Indonesia</h3> --}}
                     </div>
@@ -329,13 +329,13 @@
                             <div class="card-body pb-0 pt-4 _project-info" id="info-{{$project->project_slug}}">
                                 <div class="row m-0">
                                     <span class="col-12 --text p-0">Lokasi</span>
-                                    <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->project_location}}</span>
+                                    <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->location->name}}</span>
                                     
                                     <span class="col-12 --text p-0">Batas Pendaftaran Relawan</span>
-                                    <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->close_reg}}</span>
+                                    <span class="col-12 --text p-0 mb-2 font-weight-bold">{{Idnme::print_date($project->close_reg, true)}}</span>
                                     
                                     <span class="col-12 --text p-0">Batas Penerimaan Investasi</span>
-                                    <span class="col-12 --text p-0 m-0 font-weight-bold">{{$project->close_donation}}</span>
+                                    <span class="col-12 --text p-0 m-0 font-weight-bold">{{Idnme::print_date($project->close_donation, true)}}</span>
                                 </div>
                             </div>
                             <div class="card-body pb-0 pt-4 _project-progress hidden" id="progress-{{$project->project_slug}}">

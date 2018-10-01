@@ -18,19 +18,19 @@
                     <div class="fs-head"><span class="fs-head-text">Ubah Password</span></div>
                     <div class="form-group row mx-0">
                         <label class="fs-label col-12 col-md-3 p-0" for="old_pass">Password Lama</label>
-                        <div class="col-12 col-md-9">
+                        <div class="col-12 col-md-9 p-0">
                             <input type="password" class="form-control" id="old_pass" name="data[old_pass]" placeholder="Password lama" required>
                         </div>
                     </div>
                     <div class="form-group row mx-0">
                         <label class="fs-label col-12 col-md-3 p-0" for="new_pass_change">Password Baru</label>
-                        <div class="col-12 col-md-9">
+                        <div class="col-12 col-md-9 p-0">
                             <input type="password" class="form-control" id="new_pass_change" name="data[new_pass_change]" placeholder="Password baru" required>
                         </div>
                     </div>
                     <div class="form-group row mx-0">
                         <label class="fs-label col-12 col-md-3 p-0" for="new_pass_change_confirmation">Konfirmasi Password</label>
-                        <div class="col-12 col-md-9">
+                        <div class="col-12 col-md-9 p-0">
                             <input type="password" class="form-control" id="new_pass_change_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_change_confirmation]" required>
                         </div>
                     </div>
@@ -46,13 +46,13 @@
                     <div class="fs-head"><span class="fs-head-text">Buat Password</span></div>
                     <div class="form-group row mx-0">
                         <label class="fs-label col-12 col-md-3 p-0" for="new_pass">Password Baru</label>
-                        <div class="col-12 col-md-9">
+                        <div class="col-12 col-md-9 p-0">
                             <input type="password" class="form-control" id="new_pass" placeholder="Password baru" name="data[new_pass]">
                         </div>
                     </div>
                     <div class="form-group row mx-0">
                         <label class="fs-label col-12 col-md-3 p-0" for="new_pass_confirmation">Konfirmasi Password</label>
-                        <div class="col-12 col-md-9">
+                        <div class="col-12 col-md-9 p-0">
                             <input type="password" class="form-control" id="new_pass_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_confirmation]">
                         </div>
                     </div>

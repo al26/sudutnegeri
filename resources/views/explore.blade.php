@@ -1,75 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-     <div class="section-headline text-secondary">
-        {{-- <nav id="filter-nav" class="navbar bg-light navbar-light">
-            <div class="container">
-                <div>
-                    <h5 class="d-none d-md-block">Ada {{count($projects)}} Project Membutuhkan Bantuanmu</h5>
-                    <h5 class="d-block d-md-none">Menampilkan 4220 Project</h5>
-                </div>
-                <button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#n" aria-controls="n" aria-expanded="false" aria-label="Toggle navigation">
-                    Filter <i class="fas fa-filter"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="n">
-                    <div class="mt-2 row">
-                        <div class="col-12 col-md-6">
-                            <select class="selectpicker show-tick" data-live-search="true" multiple data-actions-box="true" data-style="btn-primary" title="Pilih Bidang">
-                                <option value="2" data-tokens="Pengembangan Karakter Anak">Pengembangan Karakter Anak</option>
-                                <option value="3" data-tokens="Kewirausahaan">Kewirausahaan</option>
-                                <option value="4" data-tokens="Kesehatan dan Lingkungan">Kesehatan dan Lingkungan</option>
-                                <option value="5" data-tokens="Keterampilan">Keterampilan</option>
-                                <option value="6" data-tokens="Edukasi Science Dasar">Edukasi Science Dasar</option>
-                                <option value="7" data-tokens="Pendidikan Perempuan">Pendidikan Perempuan</option>
-                                <option value="8" data-tokens="Wawasan Umum">Wawasan Umum</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <select class="selectpicker show-tick" data-live-search="true" multiple data-actions-box="true" data-style="btn-primary" title="Pilih Lokasi">
-                                <option value="2" data-tokens="Jakarta">Jakarta</option>
-                                <option value="3" data-tokens="Palembang">Palembang</option>
-                                <option value="4" data-tokens="Bandung">Bandung</option>
-                                <option value="5" data-tokens="Semarang">Semarang</option>
-                                <option value="6" data-tokens="Surabaya">Surabaya</option>
-                                <option value="7" data-tokens="Bali">Bali</option>
-                                <option value="8" data-tokens="Jayapura">Jayapura</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <select class="selectpicker show-tick" data-live-search="false" multiple data-actions-box="true" data-style="btn-primary" title="Pilih Jenis Project">
-                                <option value="2" data-tokens="Project Dana">Project Dana</option>
-                                <option value="3" data-tokens="Project Pengabdian">Project Pengabdian</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav> --}}
-        <nav class="navbar navbar-expand navbar-light bg-light justify-content-center">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Kategori</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Lokasi</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown08" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                  <div class="dropdown-menu" aria-labelledby="dropdown08">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div>
-                </li>
-            </ul>
-        </nav>
-        {{-- <div class="container my-3">
-            <h3>Ada 1244 Project Membutuhkan Bantuanmu</h3>
-        </div> --}}
-    </div> 
     {{-- <div class="section-deadline">
         <div class="container">
             <div class="row">
@@ -91,6 +22,77 @@
         </div>
     </div> --}}
     <div class="container clearfix">
+        <nav class="navbar navbar-light bg-transparent">
+            <span class="--text d-none d-md-block">Ada {{$projects->count()}} project {{ strtolower(str_replace("-", " ", app('request')->input('category'))) }} membutuhkan bantuanmu</span>
+            <div class="bg-white p-3">
+                <a href="#" class="border-0 collapsed decoration-none" data-toggle="collapse" data-target="#project-filter" aria-controls="project-filter" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-filter fw"></i> Filter
+                </a>
+            </div>
+        
+            <div class="navbar-collapse collapse p-3 bg-white" id="project-filter" style="">
+                <form action="{{route('project.browse')}}" method="GET">
+                    <div class="form-group row mx-0">
+                        <div class="col-12 p-0 d-md-flex justify-content-between">
+                            <div class="col-12 col-md-4 p-0 pr-md-3 mb-2 mb-md-0">
+                                <label for="category">Kategori Proyek</label>
+                                <select id="category" class="select2 col-12" name="category">
+                                    <option selected value="all">Semua Kategori</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->slug}}">{{$category->category}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 p-0 mb-2 mb-md-0">
+                                <label for="location">Lokasi Proyek</label>
+                                <select id="location" class="select2 col-12" name="location">
+                                    <option selected value="all">Semua Lokasi</option>
+                                    {{-- @foreach($regencies as $regency)
+                                        <option value="{{$regency->name}}">{{$regency->name}}</option>
+                                    @endforeach --}}
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 p-0 pl-md-3">
+                                <label for="sort">Urutkan</label>
+                                <select id="sort" class="select2 col-12" name="sort">
+                                    <option value="latest" selected>Terbaru</option>
+                                    <option value="oldest">Terlama</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-secondary" type="submit">Terapkan Filter</button>
+                </form>
+            </div>
+        </nav>
+        <hr class="my-1">
+        {{-- <div class="section-headline text-secondary my-3">
+            <nav class="nav bg-transparent">
+                <span class="--text d-none d-md-block">Ada 1244 project kewirausahaan membutuhkan bantuanmu</span>
+                <div class="bg-secondary text-white mega-menu ml-auto">
+                    <button class="btn btn-sm btn-secondary"><i class="fas fa-filter fw"></i> Filter</button>
+                    <div class="mega-menu-content container">
+                        <div class="header bg-secondary text-white">
+                            <span class="--text _head text-center"><i class="fas fa-filter fw"></i> Filter</span>
+                        </div>
+                        <div class="row bg-white">
+                            <div class="col-12 col-md-6">
+                                <h4 class="text-secondary-black py-3 m-0">Kategori Proyek</h4>
+                                <div class="list-group list-group-flush">
+                                    @foreach ($categories as $category)
+                                        <a href="#" class="list-group-item list-group-item-action px-0">{{$category->category}}</a>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                Urutkan
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div> 
+        <hr> --}}
         <div class="row section-content">
             @foreach ($projects as $key => $project)    
                 @php
@@ -132,10 +134,10 @@
                                 <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->project_location}}</span>
                                 
                                 <span class="col-12 --text p-0">Batas Pendaftaran Relawan</span>
-                                <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->close_reg}}</span>
+                                <span class="col-12 --text p-0 mb-2 font-weight-bold">{{Idnme::print_date($project->close_reg, true)}}</span>
                                 
                                 <span class="col-12 --text p-0">Batas Penerimaan Investasi</span>
-                                <span class="col-12 --text p-0 m-0 font-weight-bold">{{$project->close_donation}}</span>
+                                <span class="col-12 --text p-0 m-0 font-weight-bold">{{Idnme::print_date($project->close_donation, true)}}</span>
                             </div>
                         </div>
                         <div class="card-body pb-0 pt-4 _project-progress hidden" id="progress-{{$project->project_slug}}">
@@ -281,4 +283,13 @@
             {{ $projects->links() }}
         </div>
     </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function(){
+        $('.select2').select2({theme: "bootstrap4",tags: true,});
+        $(document).ajaxSelect2("location", "{{route('get.location')}}");
+    });
+</script>
 @endsection

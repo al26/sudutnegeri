@@ -2,11 +2,11 @@
 
 @section('content')
 {{-- @include('layouts.partials._alert') --}}
-<div class="container">
-    <section class="m-topcard mt-3 d-none d-lg-block" id="mt" data-pjax-container>
-        @include('member.partials.topcard')        
+<div class="container p-0 px-lg-3">
+    <section class="m-topcard mt-lg-3" id="mt" data-pjax-container>
+        @include('member.partials.topcard', ['menu' => $menu, 'section' => $section])        
     </section>
-    <section class="m-content my-3 clearfix" id="mc" data-pjax-container>
+    <section class="m-content my-lg-3 clearfix" id="mc" data-pjax-container>
         {{-- <div class="loader-overlay">
             <div class="loader"></div>
         </div> --}}

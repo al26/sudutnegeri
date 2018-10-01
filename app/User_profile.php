@@ -18,7 +18,7 @@ class User_profile extends Model
         return $this->hasOne('App\User_address');
     }
 
-    public function verifcation() {
+    public function verification() {
         return $this->hasOne('App\User_verification');
     }
 }

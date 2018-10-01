@@ -116,6 +116,20 @@
                 </section>
             </div>
         </div>
+        <div class="row d-flex flex-row justify-content-between align-items-center btn-bottom d-lg-none">
+            @auth
+                @if ($project->user_id === Auth::user()->id)
+                    {{-- <span class="btn btn-small btn-secondary text-capitalize w-50 disabled">Mulai Investasi</span>
+                    <span class="btn btn-small btn-danger text-capitalize w-50 disabled">Jadi Relawan</span> --}}
+                @else
+                    <a id="donation-btn" class="btn btn-md btn-secondary text-capitalize py-3 w-50" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
+                    <a id="volunteer-btn" class="btn btn-md btn-danger text-capitalize py-3 w-50" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
+                @endif
+            @else
+                <a id="donation-btn" class="btn btn-md btn-secondary text-capitalize py-3 w-50" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
+                <a id="volunteer-btn" class="btn btn-md btn-danger text-capitalize py-3 w-50" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
+            @endauth
+        </div>
     </div>
     @include('components.modal')
 @endsection
@@ -168,6 +182,7 @@
                 tab = $('#hpn-menu');
             
             tab.width(tab_content.innerWidth());
+            tab.offset({left : tab_content.offset().left});
         });
 
 
@@ -181,8 +196,9 @@
                 side_info = $('#sticky--'),
                 edge = $('footer').offset().top - side_info.outerHeight(),
                 topPadding = 16;
+                tab.offset({left : tab_content.offset().left});
 
-            if(window.innerWidth >= 768) {
+            if(window.innerWidth >= 768 && window.innerHeight > window.innerWidth) {
                 if ($(this).scrollTop() > sticky_offset) {
                     side_info.stop().animate({
                         marginTop: topPadding + $(this).scrollTop() - sticky_offset
@@ -202,8 +218,12 @@
             if ($(this).scrollTop() >= tab_offset) {
                 tab.addClass('fixed');
                 tab.width(tab_width);
+                console.log("tab" + tab.offset().left);
+                console.log("parent" + tab_content.offset().left);
+                tab.offset({left : tab_content.offset().left});
             } else {
                 tab.removeClass('fixed');
+                tab.offset({left : tab_content.offset().left});
             }
 
             // if (tab.hasClass('fixed')) {

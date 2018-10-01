@@ -136,6 +136,11 @@ class SocialAccountController extends Controller
             'user_profile_id' => $user->profile->id,
         ]);
 
+        $user->profile->verification()->create([
+            'user_profile_id' => $user->profile->id,
+            'status' => 'unverified'
+        ]);
+
         $user->socialAccounts()->create([
             'provider_id'   => $providerUser->getId(),
             'provider_name' => $provider,

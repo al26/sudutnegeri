@@ -11,6 +11,9 @@ use Validator;
 
 class VolunteerController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['auth'])->except(['index']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -80,7 +83,7 @@ class VolunteerController extends Controller
                 "project_id" => $pid,
                 "motivation" => $request->data['motivation'],
                 "eligibility" => $request->data['eligibility'],
-                "status" => "ditinjau",
+                "status" => "pending",
             ];
 
             // dd($ansCreate);

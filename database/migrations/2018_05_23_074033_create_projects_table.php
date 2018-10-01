@@ -23,7 +23,7 @@ class CreateProjectsTable extends Migration
             $table->string('project_name');
             $table->string('project_slug');
             $table->text('project_description');
-            $table->string('regency_id')->nullable();
+            $table->string('regency_id', 4)->nullable();
             $table->foreign('regency_id')->references('id')->on('regencies')->onDelete('set null');            
             $table->unsignedInteger('funding_target');
             $table->unsignedInteger('funding_progress')->nullable();

@@ -10,7 +10,7 @@
         <div class="card-body">
             <div class="text-center">
                 <div class="my-3">
-                    <i class="fas fa-exclamation-triangle fa-10x text-danger"></i>
+                    <i class="fas fa-tasks fa-10x"></i>
                 </div>
                 <span class="font-weight-bold">Anda belum melengkapi data profil !</span><br>
                 <span class="">Mohon <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" data-toggle="pjax" data-pjax="menu">lengkapi profil</a> Anda untuk dapat melanjutkan verifikasi.</span>

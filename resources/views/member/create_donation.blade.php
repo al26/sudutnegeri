@@ -3,11 +3,12 @@
 @section('content')
 <div class="container mt-lg-3">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 p-0 px-md-3">
             <div class="card border-0">
-                <div class="card-body text-center">
-                    <p>Anda akan berinvestasi untuk proyek</p>
-                    <h4>{{$project->project_name}}</h4>
+                <div class="card-body text-center pb-0">
+                    <h4 class="m-0">Hai, {{ucwords(Auth::user()->profile->name)}}</h4>
+                    <p class="m-0">Anda akan berinvestasi untuk proyek</p>
+                    <h5 class="m-0">{{$project->project_name}}</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{route('donation.store')}}">

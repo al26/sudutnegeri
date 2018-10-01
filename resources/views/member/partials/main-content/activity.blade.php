@@ -42,6 +42,9 @@
             </div> --}}
         </div>
         <div class="form-section mt-3">
+            <div class="fs-head"><span class="fs-head-text">Aktivitas Saat Ini</span></div>
+        </div>
+        <div class="form-section mt-3">
             <div class="fs-head"><span class="fs-head-text">Aktivitas Saya</span></div>
         </div>
         <div class="row section-content">

@@ -28,6 +28,8 @@ class ProjectController extends Controller
         } else {
             $data['projects'] = Project::paginate(6); 
         }
+        
+        $data['categories'] = Category::all();
 
         return view('explore', $data);
     }
@@ -159,7 +161,7 @@ class ProjectController extends Controller
         $data['menu'] = $menu;
         $data['project'] = $project;
         $data['donators'] = Donation::where('project_id', $project->id)->get();
-    
+
         return view('details', $data);
     }
 

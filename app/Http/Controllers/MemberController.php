@@ -38,11 +38,14 @@ class MemberController extends Controller
      */
     public function index(Request $request, $menu = null, $section = null)
     {
+        $data['user_projects_all'] = Project::where('user_id', $request->user()->id)->get();
+        $data['user_activity'] = Volunteer::where('user_id', $request->user()->id)->get();
         $data['user_projects'] = Project::where('user_id', $request->user()->id)->paginate(5);
         $data['user_profile']  = $request->user()->profile;
         $data['categories'] = Category::all();
         $data['provinces'] = Province::all();
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
+        $data['verified_investments'] = Donation::where('user_id', $request->user()->id)->where('status', 'verified')->get();
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
         $data['volunteers'] = Volunteer::whereIn('project_id', $projects_id)->get();
         $user_around = Regency::where('province_id', $request->user()->profile->address->province_id)->pluck('id')->toArray();
@@ -50,7 +53,7 @@ class MemberController extends Controller
                                     ->where(function ($query) use ($request, $user_around) {
                                         $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
                                               ->orWhereIn('regency_id', $user_around);
-                                    })->get();
+                                    })->latest()->limit(6)->get();
         // $data['updates'] = History::whereIn('project_id', 
         //                                 Donation::where('user_id', $request->user()->id)
         //                                         ->where('status', 'verified')
@@ -303,18 +306,19 @@ class MemberController extends Controller
             $return = ["errors" => $validator->messages()];
         } else {
             $verify = Verification::where('user_profile_id', $request->user()->profile->id)->firstOrFail();
+            $data['status'] = 'pending';
             // $old_sic = substr($verify->scan_id_card, 7) ?? null;
             // $old_vp = substr($verify->verification_picture, 7) ?? null;
     
             if($request->hasFile('sic') && $request->hasFile('vp')) {
-                $folder = md5($id.time()*26);
+                $folder = md5($verify->id.time()*26);
                 
                 $sicfile = $request->file('sic');
-                $sicname = md5($id.time()).'.'.$sicfile->getClientOriginalExtension();
+                $sicname = md5("sic".$verify->id.time()).'.'.$sicfile->getClientOriginalExtension();
                 $sicpath = $sicfile->storeAs("public/user_verification/$folder", $sicname);
     
                 $vpfile = $request->file('vp');
-                $vpname = md5($id.time()).'.'.$vpfile->getClientOriginalExtension();
+                $vpname = md5("vp_".$verify->id.time()).'.'.$vpfile->getClientOriginalExtension();
                 $vppath = $vpfile->storeAs("public/user_verification/$folder", $vpname);
             }
     
@@ -327,7 +331,7 @@ class MemberController extends Controller
                     $update = $verify->update($data);
     
                     if($update) {
-                        $return = ['success' => "Foto profil berhasil diubah"];
+                        $return = ['success' => "Foto verifikasi akun berhasil diunggah. Permintaan verifikasi akun Anda akan segera diproses oleh Sudut Negeri."];
                     } else {
                         if (Storage::exists($sicpath)) {
                             Storage::delete($sicpath);
