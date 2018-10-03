@@ -29,19 +29,19 @@
                 <li class="list-inline-item mr-5">
                     <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="menu" class="text-white decoration-none">
                         <span class="--text">Proyek</span>
-                        <span class="--text _head">{{$user_projects_all->count()}}</span>
+                        <span class="--text _head">{{Auth::user()->projects->count()}}</span>
                     </a>
                 </li>
                 <li class="list-inline-item mr-5">
                     <a data-toggle="pjax" data-pjax="menu" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" class="text-white decoration-none">
                         <span class="--text">Aktivitas</span>
-                        <span class="--text _head">{{$user_activity->count()}}</span>
+                        <span class="--text _head">{{Auth::user()->volunteers()->where('status', 'accepted')->orWhere('status', 'finished')->count()}}</span>
                     </a>
                 </li>
                 <li class="list-inline-item">
                     <a data-toggle="pjax" data-pjax="menu" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="text-white decoration-none">
                         <span class="--text">Investasi</span>
-                        <span class="--text _head">{{$investments->count()}}</span>
+                        <span class="--text _head">{{Auth::user()->donations()->where('status', 'verified')->count()}}</span>
                     </a>
                 </li>
             </ul>
@@ -62,23 +62,23 @@
 </div>
 <div class="card border-0 d-block d-lg-none">
     <div class="card-body p-0">
-        <div class="nav nav-pills nav-fill w-100" id="h-menu">
+        <div class="nav nav-pills nav-fill w-100" id="mh-menu">
             @switch($menu)
                 @case('sudut')
-                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'projects' ? 'active' : ''}}" id="m-sudut-projects" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}"><small><i class="fas fw fa-project-diagram mr-2"></i>Proyek</small></a>
-                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'volunteer' ? 'active' : ''}}" id="m-sudut-volunteer" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'volunteer'])}}"><small><i class="fas fw fa-people-carry mr-2"></i>Relawan</small></a>
+                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'projects' ? 'active' : ''}}" id="mobile-sudut-projects" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}"><small><i class="fas fw fa-project-diagram mr-2"></i>Proyek</small></a>
+                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'volunteer' ? 'active' : ''}}" id="mobile-sudut-volunteer" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'volunteer'])}}"><small><i class="fas fw fa-people-carry mr-2"></i>Relawan</small></a>
                     @if (Auth::user()->profile->verification->status !== 'verified')
-                        <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'verify' ? 'active' : ''}}" id="m-sudut-verify" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}"><small><i class="fas fw fa-user-check mr-2"></i>Verifikasi Akun</small></a>
+                        <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'verify' ? 'active' : ''}}" id="mobile-sudut-verify" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}"><small><i class="fas fw fa-user-check mr-2"></i>Verifikasi Akun</small></a>
                     @endif   
                     @break
                 @case('negeri')
-                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'donations' ? 'active' : ''}}" id="m-negeri-donations" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}"><small><i class="fas fw fa-coins mr-2"></i>Investasi Saya</small></a>
-                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'activity' ? 'active' : ''}}" id="m-negeri-activity" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}"><small><i class="fas fw fa-hand-holding-heart mr-2"></i>Aktivitas Saya</small></a>
-                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'cv' ? 'active' : ''}}" id="m-negeri-cv" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'cv'])}}"><small><i class="fas fw fa-id-card mr-2"></i>Buat CV Saya</small></a>
+                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'donations' ? 'active' : ''}}" id="mobile-negeri-donations" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}"><small><i class="fas fw fa-coins mr-2"></i>Investasi Saya</small></a>
+                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'activity' ? 'active' : ''}}" id="mobile-negeri-activity" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}"><small><i class="fas fw fa-hand-holding-heart mr-2"></i>Aktivitas Saya</small></a>
+                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'cv' ? 'active' : ''}}" id="mobile-negeri-cv" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'cv'])}}"><small><i class="fas fw fa-id-card mr-2"></i>Buat CV Saya</small></a>
                     @break
                 @case('setting')
-                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'profile' ? 'active' : ''}}" id="m-setting-profile" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}"><small><i class="fas fw fa-user-edit mr-2"></i>Edit Profil</small></a>
-                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'account' ? 'active' : ''}}" id="m-setting-account" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}"><small><i class="fas fw fa-user-shield mr-2"></i>Akun</small></a>
+                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'profile' ? 'active' : ''}}" id="mobile-setting-profile" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}"><small><i class="fas fw fa-user-edit mr-2"></i>Edit Profil</small></a>
+                    <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'account' ? 'active' : ''}}" id="mobile-setting-account" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}"><small><i class="fas fw fa-user-shield mr-2"></i>Akun</small></a>
                     @break
                 @default
                     

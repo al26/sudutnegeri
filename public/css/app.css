@@ -14625,6 +14625,29 @@ div.popover-body .list-group-item-action:hover {
   display: block;
 }
 
+@media (max-width: 767.98px) {
+  .dataTables_wrapper > div:nth-child(3) > div[class*="col-"] {
+    padding: 0;
+  }
+  .dataTables_wrapper > div:nth-child(3) > div[class*="col-"] > .dataTables_paginate {
+    float: left;
+  }
+  .dataTables_wrapper > div:nth-child(3) > div[class*="col-"] > .dataTables_info {
+    float: left;
+    margin-bottom: .5rem;
+  }
+  .dataTables_wrapper > div:nth-child(1) > div[class*="col-"] {
+    padding: 0;
+  }
+  .dataTables_wrapper > div:nth-child(1) > div[class*="col-"] > .dataTables_filter {
+    float: left;
+  }
+  .dataTables_wrapper > div:nth-child(1) > div[class*="col-"] > .dataTables_length {
+    float: left;
+    margin-bottom: .5rem;
+  }
+}
+
 /* FLIP */
 /* FONT FACE */
 /* OPACITY */

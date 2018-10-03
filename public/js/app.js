@@ -79760,7 +79760,7 @@ $(function () {
     $.fn.ajaxSelect2 = function (id, url) {
         $('#' + id).select2({
             theme: "bootstrap4",
-            tags: true,
+            tags: false,
             // dropdownParent: $('#modal'),
             ajax: {
                 url: url,
@@ -79775,7 +79775,7 @@ $(function () {
                 },
 
                 processResults: function processResults(data) {
-                    console.log(data);
+                    // console.log(data);
                     return {
                         results: $.map(data.items, function (val, index) {
                             return { id: val.id, text: val.name };

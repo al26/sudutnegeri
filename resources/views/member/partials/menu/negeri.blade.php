@@ -6,9 +6,9 @@
             <h4 class="m-0">Menu Si Negeri</h4>
         </div>
         <div class="list-group list-group-flush" id="negeri-menu">
-            <a class="list-group-item list-group-item-action dv-menu" id="m-negeri-donations" data-pjax="main-content" href="{{url('/dashboard/negeri/donations')}}"><i class="fas fw fa-coins mr-2"></i>Investasi Saya</a>
-            <a class="list-group-item list-group-item-action dv-menu" id="m-negeri-activity" data-pjax="main-content" href="{{url('/dashboard/negeri/activity')}}"><i class="fas fw fa-hand-holding-heart mr-2"></i>Aktivitas Saya</a>
-            <a class="list-group-item list-group-item-action dv-menu" id="m-negeri-cv" data-pjax="main-content" href="{{url('/dashboard/negeri/cv')}}"><i class="fas fw fa-id-card mr-2"></i>Buat CV Saya</a>
+            <a class="list-group-item list-group-item-action dv-menu" id="m-negeri-donations" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}"><i class="fas fw fa-coins mr-2"></i>Investasi Saya</a>
+            <a class="list-group-item list-group-item-action dv-menu" id="m-negeri-activity" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}"><i class="fas fw fa-hand-holding-heart mr-2"></i>Aktivitas Saya</a>
+            <a class="list-group-item list-group-item-action dv-menu" id="m-negeri-cv" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'cv'])}}"><i class="fas fw fa-id-card mr-2"></i>Buat CV Saya</a>
         </div>
     </div>
 

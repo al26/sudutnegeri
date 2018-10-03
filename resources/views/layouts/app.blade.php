@@ -121,6 +121,8 @@
                                 <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-heartbeat mr-2"></i> Jadi Negeri</a>
                                 
                                 @auth  
+                                    <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-user-cog mr-2"></i> Pengaturan</a>
+                                    
                                     {{-- <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-project-diagram mr-2"></i> Proyek Saya</a>
         
                                     <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-coins mr-2"></i> Investasi Saya</a>
@@ -292,6 +294,7 @@
             @yield('content')
         </main>
         
+        @include('components.modal')
         
         <footer class="footer bg-white">
             <div class="row line-col">
@@ -481,9 +484,9 @@
     });
     </script>
     <script>
-        $(document).ready(function()) {
+        $(document).ready(function() {
             $(document).loadModal();
-        }
+        });
     </script>
     @yield('script')
 </body>

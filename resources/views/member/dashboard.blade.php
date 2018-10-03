@@ -34,6 +34,9 @@
 </script>
 <script>
     $(document).ready(function() {
+        toggleActiveMenuTab();
+        toggleActiveContentTab();
+
         $('#example').DataTable(
             {
                 "language": {
@@ -52,14 +55,18 @@
                         "sNext":     "Lanjut",
                         "sLast":     "Akhir"
                     }
-                }
+                },
+                responsive : true,
+                autoWidth : true,
+                lengthChange : true,
+                stateSave : true,
+                fixedHeader : true
             }
         );
-        toggleActiveMenuTab();
-        toggleActiveContentTab();
+        
         $(document).loadModal();
         $(document).ajaxPagination();
-        $(document).activateCKEditor();
+        // $(document).activateCKEditor();
         $('.the-summernote').summernote({
             height:150
         });
@@ -122,6 +129,7 @@
         var path = document.location.pathname,
             menu = path.split("/");
         $('#h-menu a').each(function() {
+            console.log($(this));
             if($(this).hasClass('active')) {
                 $(this).removeClass('active');
             }
@@ -138,6 +146,13 @@
             }
         });
         $('#m-'+menu[2]+'-'+menu[3]).addClass('active');
+
+        $('#mh-menu a').each(function() {
+            if($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            }
+        });
+        $('#mobile-'+menu[2]+'-'+menu[3]).addClass('active');
     }
 
     function activateOptGenerator(){

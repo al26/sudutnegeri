@@ -1,3 +1,13 @@
+@php
+    $filter_location = '';
+    $location_name = '';
+    if(!empty(app('request')->input('location'))) {
+        $location_name = \App\Regency::where('id', app('request')->input('location'))->first()->name;
+        if(app('request')->input('location') !== 'all') {
+            $filter_location = "di ".ucwords(strtolower($location_name));
+        } 
+    }
+@endphp
 @extends('layouts.app')
 
 @section('content')
@@ -22,7 +32,7 @@
         </div>
     </div> --}}
     <div class="container clearfix">
-        <nav class="navbar navbar-light bg-transparent">
+        {{-- <nav class="navbar navbar-light bg-transparent px-0">
             <span class="--text d-none d-md-block">Ada {{$projects->count()}} project {{ strtolower(str_replace("-", " ", app('request')->input('category'))) }} membutuhkan bantuanmu</span>
             <div class="bg-white p-3">
                 <a href="#" class="border-0 collapsed decoration-none" data-toggle="collapse" data-target="#project-filter" aria-controls="project-filter" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +40,7 @@
                 </a>
             </div>
         
-            <div class="navbar-collapse collapse p-3 bg-white" id="project-filter" style="">
+            <div class="navbar p-3 bg-white" id="project-filter" style="">
                 <form action="{{route('project.browse')}}" method="GET">
                     <div class="form-group row mx-0">
                         <div class="col-12 p-0 d-md-flex justify-content-between">
@@ -47,9 +57,6 @@
                                 <label for="location">Lokasi Proyek</label>
                                 <select id="location" class="select2 col-12" name="location">
                                     <option selected value="all">Semua Lokasi</option>
-                                    {{-- @foreach($regencies as $regency)
-                                        <option value="{{$regency->name}}">{{$regency->name}}</option>
-                                    @endforeach --}}
                                 </select>
                             </div>
                             <div class="col-12 col-md-4 p-0 pl-md-3">
@@ -64,8 +71,49 @@
                     <button class="btn btn-sm btn-secondary" type="submit">Terapkan Filter</button>
                 </form>
             </div>
-        </nav>
-        <hr class="my-1">
+        </nav> --}}
+        <div class="row section-content d-none d-md-block">
+            <div class="col-12 p-0 border-bottom border-secondary-black" id="project-filter" style="">
+                <form action="{{route('project.browse')}}" method="GET">
+                    <div class="form-group row m-0 py-3 w-100 clearfix">
+                        <div class="col-12 col-md-9 d-flex flex-row justify-content-around align-items-center p-0">
+                            <div class="col-12 col-md-4 p-0">
+                                {{-- <label for="category">Kategori Proyek</label> --}}
+                                <select id="category" class="form-control col-12 select2" name="category">
+                                    <option selected value="all">Semua Kategori</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->slug}}" {{app('request')->input('category') === $category->slug ? 'selected' : '' }}>{{$category->category}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 p-0 px-md-3">
+                                {{-- <label for="location">Lokasi Proyek</label> --}}
+                                <select id="location" class="select2 col-12 w-100 form-control" name="location">
+                                    @if(!empty(app('request')->input('location')))
+                                        <option selected value="{{app('request')->input('location')}}">{{$location_name}}</option>
+                                    @else
+                                        <option selected value="all">Semua Lokasi</option>
+                                    @endif
+                                    <option value="all">Semua Lokasi</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 p-0">
+                                {{-- <label for="sort">Urutkan</label> --}}
+                                <select id="sort" class="form-control col-12" name="sort">
+                                    <option value="latest" {{app('request')->input('sort') === 'latest' ? 'selected' : '' }}>Urutkan terbaru</option>
+                                    <option value="oldest" {{app('request')->input('sort') === 'oldest' ? 'selected' : '' }}>Urutkan terlama</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2 mr-4 d-flex flex-row p-0">
+                            <button class="btn btn-md btn-secondary" type="submit">Terapkan Filter</button>
+                            <a href="{{route('project.browse')}}" class="btn btn-md btn-danger" type="reset">Hapus Filter</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <span class="--text d-none d-md-block my-3 px-2">Ada {{$projects->count()}} project {{ app('request')->input('category') !== 'all' ? strtolower(str_replace("-", " ", app('request')->input('category'))) : '' }} {{ $filter_location }} membutuhkan bantuanmu</span>
+        </div>
         {{-- <div class="section-headline text-secondary my-3">
             <nav class="nav bg-transparent">
                 <span class="--text d-none d-md-block">Ada 1244 project kewirausahaan membutuhkan bantuanmu</span>
@@ -288,7 +336,10 @@
 @section('script')
 <script>
     $(document).ready(function(){
-        $('.select2').select2({theme: "bootstrap4",tags: true,});
+        $('.select2').select2({
+            theme: "bootstrap4",
+            tags: false,
+        });
         $(document).ajaxSelect2("location", "{{route('get.location')}}");
     });
 </script>

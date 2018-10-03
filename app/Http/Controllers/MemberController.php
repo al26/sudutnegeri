@@ -40,6 +40,7 @@ class MemberController extends Controller
     {
         $data['user_projects_all'] = Project::where('user_id', $request->user()->id)->get();
         $data['user_activity'] = Volunteer::where('user_id', $request->user()->id)->get();
+        $data['current_activity'] = Volunteer::where('user_id', $request->user()->id)->where('status', '!=' ,'finished')->first();
         $data['user_projects'] = Project::where('user_id', $request->user()->id)->paginate(5);
         $data['user_profile']  = $request->user()->profile;
         $data['categories'] = Category::all();

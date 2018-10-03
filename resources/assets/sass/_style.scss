@@ -519,3 +519,34 @@ div.popover-body {
 		display: block;
 	}	
 }
+
+// custom responsive datatable
+@include media-breakpoint-down(sm) {
+	.dataTables_wrapper {
+		> div:nth-child(3) > div[class*="col-"] {
+			padding: 0;
+
+			> .dataTables_paginate {
+				float: left;
+			}
+			
+			> .dataTables_info {
+				float: left;
+				margin-bottom: .5rem;
+			}
+		}
+
+		> div:nth-child(1) > div[class*="col-"] {
+			padding: 0;
+
+			> .dataTables_filter {
+				float: left;
+			}
+			
+			> .dataTables_length {
+				float: left;
+				margin-bottom: .5rem;
+			}
+		}
+	}
+}
