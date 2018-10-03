@@ -148,3 +148,32 @@ span.dynamic-close {
         color: white;
     }
 }
+
+.dh-menu {
+    &.active {
+        background: inherit !important;
+        border-bottom: 2px solid $secondary !important;
+        color: $secondary !important;
+        font-weight: bolder !important;
+    }
+}
+
+.dv-menu {
+    i, svg {
+        width: 1rem !important;
+        height: 1rem !important;
+    }
+    &.active {
+        background: inherit !important;
+        border: 0 !important;
+        border-left: 4px solid $secondary !important;
+        color: $secondary !important;
+        font-weight: bolder !important;
+    }
+}
+
+.m-content, .m-rightcard > .card, .m-leftcard > .card {
+    @include media-breakpoint-down(md) {
+        min-height: 100vh !important;
+    }
+}

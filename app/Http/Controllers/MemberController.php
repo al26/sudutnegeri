@@ -10,9 +10,13 @@ use App\Category;
 use App\Province;
 use App\User_profile as Profile;
 use App\User_address as Address;
+use App\User_verification as Verification;
 use App\Donation;
 use App\Volunteer;
+use App\Regency;
+use App\User;
 use Hash;
+use App\Data_historis as History;
 use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
@@ -34,17 +38,44 @@ class MemberController extends Controller
      */
     public function index(Request $request, $menu = null, $section = null)
     {
+        $data['user_projects_all'] = Project::where('user_id', $request->user()->id)->get();
+        $data['user_activity'] = Volunteer::where('user_id', $request->user()->id)->get();
+        $data['current_activity'] = Volunteer::where('user_id', $request->user()->id)->where('status', '!=' ,'finished')->first();
         $data['user_projects'] = Project::where('user_id', $request->user()->id)->paginate(5);
         $data['user_profile']  = $request->user()->profile;
         $data['categories'] = Category::all();
         $data['provinces'] = Province::all();
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
+        $data['verified_investments'] = Donation::where('user_id', $request->user()->id)->where('status', 'verified')->get();
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
         $data['volunteers'] = Volunteer::whereIn('project_id', $projects_id)->get();
-        // $project_province = Project::where('user_id', '!=', $request->user()->id)->pluck('project_location')
-        // $data['featured'] = Project::whereIn('category_id', explode(",",$request->user()->profile->interest))
-        //                             ->orWhere('project_location', $request->user()->)
-        
+        $user_around = Regency::where('province_id', $request->user()->profile->address->province_id)->pluck('id')->toArray();
+        $data['featured'] = Project::where('user_id', '!=', $request->user()->id)
+                                    ->where(function ($query) use ($request, $user_around) {
+                                        $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
+                                              ->orWhereIn('regency_id', $user_around);
+                                    })->latest()->limit(6)->get();
+        // $data['updates'] = History::whereIn('project_id', 
+        //                                 Donation::where('user_id', $request->user()->id)
+        //                                         ->where('status', 'verified')
+        //                                         ->pluck('project_id')->toArray()
+        //                             )
+        //                             ->orWhereIn('project_id', 
+        //                                 Volunteer::where('user_id', $request->user()->id)
+        //                                         ->where('status', 'accepted')
+        //                                         ->latest()
+        //                                         ->pluck('project_id')
+        //                                         ->first()
+        //                                         ->toArray()
+        //                             )
+        //                             ->orWhereIn('project_id',
+        //                                 Project::where('user_id', $request->user()->id)
+        //                                         ->pluck('project_id')
+        //                                         ->toArray()
+        //                             )->get();
+
+        // dd($data['update']);
+
         return view('member.dashboard', ['menu' => $menu, 'section' => $section], $data);
     }
 
@@ -53,7 +84,7 @@ class MemberController extends Controller
             "name"          => "required",
             "gender"        => "required",
             "dob"           => "required|date",
-            "phone_number"  => "required",
+            "phone_number"  => "required|numeric",
             "biography"     => "required",
             "profession"    => "required",
             "institution"   => "required",
@@ -64,6 +95,8 @@ class MemberController extends Controller
             "district_id"   => "required",
             "exact_location"=> "required",
             "zip_code"      => "required",
+            "identity_card" => "required",
+            "identity_number" => "required|numeric", 
         ];
 
         $messages = [
@@ -74,6 +107,7 @@ class MemberController extends Controller
             "regency_id.required"    => "Kolom :attribute tidak boleh kosong",
             "district_id.required"   => "Kolom :attribute tidak boleh kosong",
             "phone_number.required"  => "Isikan :attribute Anda yang dapat dihubungi",
+            "phone_number.numeric"    => ":attribute harus berupa angka",
             "biography.required"     => "Tuliskan :attribute Anda",
             "profession.required"    => "Kolom :attribute tidak boleh kosong",
             "institution.required"   => "Mohon isikan :attribute Anda saat ini",
@@ -81,6 +115,9 @@ class MemberController extends Controller
             "skills.required"        => "Mohon isikan minimal satu :attribute Anda",
             "exact_location.required"=> "Kolom :attribute tidak boleh kosong",
             "zip_code.required"      => "Kolom :attribute tidak boleh kosong",
+            "identity_card.required"        => "Kolom :attribute tidak boleh kosong",
+            "identity_number.required"      => "Kolom :attribute tidak boleh kosong",
+            "identity_number.numeric"    => ":attribute harus berupa angka",
         ];
 
         $attributes = [
@@ -98,6 +135,8 @@ class MemberController extends Controller
             "district_id"   => "kecamatan",
             "exact_location"=> "alamat lengkap",
             "zip_code"      => "kode pos",
+            "identity_card" => "kartu identitas",
+            "identity_number" => "nomor identitas"
         ];
 
         $data = $request->data;
@@ -118,6 +157,8 @@ class MemberController extends Controller
                 "profession" => $request->data['profession'],
                 "institution" => $request->data['institution'],
                 "phone_number" => $request->data['phone_number'],
+                "identity_card" => $request->data['identity_card'],
+                "identity_number" => $request->data['identity_number'],
             ];
 
             $address = [
@@ -140,7 +181,7 @@ class MemberController extends Controller
                     "address" => $address,
                 ];
             } else {
-                $return = ["errors" => "Terjadi Kesalahan. Gagal edit profil."];
+                $return = ["error" => "Terjadi Kesalahan. Gagal edit profil."];
             }
 
             // $return = ["success" => $request->data];
@@ -178,6 +219,142 @@ class MemberController extends Controller
                 $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
             }
         }
+
+        return response()->json($return);
+    }
+
+    public function changePassword(Request $request) {
+        $rules = [
+            "old_pass" => 'required|string|min:6',
+            "new_pass_change" => 'required|string|min:6|confirmed',
+            "new_pass_change_confirmation" => 'required',
+        ];
+
+        $messages = [
+            "old_pass.required" => "Kolom :attribute tidak boleh kosong",
+            "old_pass.string"   => "Password lama yang Anda masukkan salah",
+            "old_pass.min"      => "Password lama yang Anda masukkan salah",
+            "new_pass_change.required" => "Kolom :attribute tidak boleh kosong",
+            "new_pass_change.string"   => "Isikan kolom :attribute dengan huruf, angka, dan karakter apapun (boleh termasuk spasi)",
+            "new_pass_change.min"      => "Password minimal tidak kurang dari :min karakter",
+            "new_pass_change.confirmed"=> "Password konfirmasi harus sama",
+            "new_pass_change_confirmation.required" => "Kolom :attribute tidak boleh kosong",
+        ];
+
+        $attributes = [
+            "old_pass" => 'password lama',
+            "new_pass_change" => 'password baru',
+            "new_pass_change_confirmation" => 'konfirmasi password',        
+        ];
+
+        $data = $request->data;
+        // die(var_dump($email));
+
+        $validator = Validator::make($data, $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        } else {
+            $hashedPassword = User::where('email', $request->data['email'])->pluck('password')->first();
+            
+            if(Hash::check($request->data['old_pass'], $hashedPassword)) {
+                $password = Hash::make($request->data['new_pass_change']);
+                $email = $request->data['email'];
+    
+                $store = User::where('email', $email)->update(['password' => $password]);
+                if($store) {
+                    $return = ["success" => "Password Anda berhasil diubah"];
+                } else {
+                    $return = ["error" => "Terjadi Kesalahan. Gagal membuat password baru."];
+                }
+            } else {
+                $return = ["error" => "Password lama yang Anda masukkan salah !"];
+            }
+        } 
+
+
+        return response()->json($return);
+    }
+
+    public function verifyAccount(Request $request) {
+        $sicpath = "";
+        $sicname = "";
+        $vppath = "";
+        $vpname = "";
+
+        $rules = [
+            "sic" => "required|image|mimes:jpg,jpeg,png,svg",
+            "vp"  => "required|image|mimes:jpg,jpeg,png,svg"
+        ];
+        
+        $messages = [
+            "sic.required"           => ":attribute tidak boleh kosong",
+            "sic.image"              => ":attribute harus berupa gambar",
+            "sic.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
+            "vp.required"           => ":attribute tidak boleh kosong",
+            "vp.image"              => ":attribute harus berupa gambar",
+            "vp.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
+        ];
+
+        $attributes = [
+            "sic" => "foto/scan kartu identitas",
+            "vp"  => "foto verifikasi"
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        } else {
+            $verify = Verification::where('user_profile_id', $request->user()->profile->id)->firstOrFail();
+            $data['status'] = 'pending';
+            // $old_sic = substr($verify->scan_id_card, 7) ?? null;
+            // $old_vp = substr($verify->verification_picture, 7) ?? null;
+    
+            if($request->hasFile('sic') && $request->hasFile('vp')) {
+                $folder = md5($verify->id.time()*26);
+                
+                $sicfile = $request->file('sic');
+                $sicname = md5("sic".$verify->id.time()).'.'.$sicfile->getClientOriginalExtension();
+                $sicpath = $sicfile->storeAs("public/user_verification/$folder", $sicname);
+    
+                $vpfile = $request->file('vp');
+                $vpname = md5("vp_".$verify->id.time()).'.'.$vpfile->getClientOriginalExtension();
+                $vppath = $vpfile->storeAs("public/user_verification/$folder", $vpname);
+            }
+    
+            if($sicpath !== null) {
+                $data['scan_id_card'] = "storage/user_verification/$folder/$sicname";
+    
+                if ($vppath !== null) {
+                    $data['verification_picture'] = "storage/user_verification/$folder/$vpname";
+    
+                    $update = $verify->update($data);
+    
+                    if($update) {
+                        $return = ['success' => "Foto verifikasi akun berhasil diunggah. Permintaan verifikasi akun Anda akan segera diproses oleh Sudut Negeri."];
+                    } else {
+                        if (Storage::exists($sicpath)) {
+                            Storage::delete($sicpath);
+                        }
+    
+                        if (Storage::exists($vppath)) {
+                            Storage::delete($vppath);
+                        }
+    
+                        $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
+                    }
+    
+                } else {
+                    if (Storage::exists($sicpath)) {
+                        Storage::delete($sicpath);
+                    }
+    
+                    $return = ['error' => "Terjadi kesalahan. Silahkan coba lagi"];
+                }
+            }
+        }
+
 
         return response()->json($return);
     }

@@ -9,11 +9,11 @@
 @section('content')
 <div class="container mt-lg-3">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 p-0 px-md-3">
             <div class="card border-0">
-                <div class="card-body text-center">
-                    <h4>Hai, {{Auth::user()->profile->name}}</h4>
-                    <p>Mohon lengkapi formulir berikut untuk melanjutkan pendaftaran sebagai relawan</p>
+                <div class="card-body text-center pb-0">
+                    <h4 class="m-0">Hai, {{ucwords(Auth::user()->profile->name)}}</h4>
+                    <p class="m-0">Mohon lengkapi formulir berikut untuk melanjutkan pendaftaran sebagai relawan</p>
                 </div>
                 <div class="card-body">
                     @if(session()->has('success'))
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="motivation">Apa motivasi Anda untuk menjadi relawan untuk proyek ini ?</label>
+                            <label for="motivation">Apa motivasi Anda ingin menjadi relawan untuk proyek ini ?</label>
                             <textarea class="form-control editor {{$errors->first('motivation') ? 'is-invalid' : ''}}" id="motivation" rows="5" name="data[motivation]">{{old('motivation')}}</textarea>
                             <div class="invalid-feedback d-block">
                                 {{$errors->first("motivation")}}

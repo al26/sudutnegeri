@@ -108,7 +108,8 @@ $theme-colors: map-merge((
   "dark":            $dark,
   "white":           $white,
   "black":           $black,
-  "secondary-black": $body-clr
+  "secondary-black": $body-clr,
+  "lighten" :        $gray-100
 ), $theme-colors);
 // stylelint-enable
 

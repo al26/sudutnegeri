@@ -13,7 +13,7 @@
     
     <!-- owl carousel plugin -->
     {{-- <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}"> --}}
-    {{-- <link rel="stylesheet" href="{{ asset('css/animate.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('css/dataTables-bs4.css') }}"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}"> --}}
     <!-- Styles -->
@@ -28,81 +28,158 @@
                     <span class="fas fa-search"></span>
                 </button>
                 <a class="navbar-brand p-0" href="{{ url('/') }}">
-                    <img class="" src="{{asset('storage/app_logo/logo.png')}}" alt="{{ config('app.name', 'SudutNegeri') }}">
+                    {{-- <img class="" src="{{asset('storage/app_logo/logo.png')}}" alt="{{ config('app.name', 'SudutNegeri') }}"> --}}
+                    <i class="fab fw fa-staylinked text-white" data-fa-transform="grow-5"></i>
                     {{ config('app.name', 'SudutNegeri') }}
                 </a>
                 <button class="navbar-toggler p-0 border-0 text-light" type="button" data-toggle="offcanvas">
                     <span class="fas fa-th-list"></span>
                 </button>
 
-                <div class="navbar-collapse search-collapse p-2 d-block d-lg-none" id="navbarSearch">
+                <div class="navbar-collapse search-collapse d-block d-lg-none" id="navbarSearch">
                     <div class="row">
                         <div class="col-12">
-                            <input type="text" name="search" placeholder="Cari judul atau lokasi proyek" id="mobile-project-search" onkeyup="javascript:getSearcResult(this, '#mobile-project-search-result');">
-                            <span id="mobile-project-search-result"></span>
+                            <div class="card">
+                                <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                                    <h4 class="card-title m-0">Cari Proyek</h4> 
+                                    <button class="navbar-toggler p-0 border-0 text-secondary-black" type="button" data-toggle="search">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <input class="form-control" type="text" name="search" placeholder="Cari judul atau lokasi proyek" id="mobile-project-search" onkeyup="javascript:getSearcResult(this, '#mobile-project-search-result');">
+                                <span id="mobile-project-search-result"></span>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
-                <div class="navbar-collapse offcanvas-collapse d-block d-lg-none bg-light" id="navbarMenu">
-                    <div class="card bg-gradient-secondary p-3 border-0 rounded-0">
+                <div class="navbar-collapse offcanvas-collapse d-block d-lg-none bg-white" id="navbarMenu">
+                    <div class="card p-0 border-0 rounded-0">
                         @guest
-                            <p class="card-text text-light">Ayo bantu majukan pendidikan di Indonesia.</p>
-                            <div class="d-flex flex-row justify-content-start">
-                                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light mr-2">Masuk</a>
-                                <a href="{{ route('register') }}" class="btn btn-sm btn-outline-light mr-2">Daftar</a>
+                            <div class="card-body bg-gradient-secondary">
+                                <p class="card-text text-light">Ayo bantu majukan pendidikan di Indonesia.</p>
+                                <div class="d-flex flex-row justify-content-start">
+                                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light mr-2">Masuk</a>
+                                    <a href="{{ route('register') }}" class="btn btn-sm btn-outline-light mr-2">Daftar</a>
+                                </div>
                             </div>
                         @else
-                            <div class="card-body media p-0">
+                            <div class="card-body bg-gradient-secondary media">
                                 <div class="media-body">
-                                  <p class="my-0 text-light lead">{{ Auth::user()->profile->name }}</p>
-                                  <p class="my-0 text-light">{{ Auth::user()->email }}</p>
-                                  <a class="mt-3 btn btn-sm btn-primary" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                    <p class="my-0 text-light lead">{{ Auth::user()->profile->name }}
+                                        <small>
+                                            <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" data-toggle="pjax" data-pjax="menu" class="p-0 text-white"><i class="fas fa-edit"></i></a>
+                                        </small>
+                                    </p>
+                                    <p class="my-0 text-light">{{ Auth::user()->email }}</p>
+                                    <span class="--text text-white">
+                                        @if(!is_null(Auth::user()->profile->verification))
+                                            @if (Auth::user()->profile->verification->status === 'verified')
+                                                <span class="badge badge-info align-self-center">
+                                                    <i class="mr-1 far fw fa-check-square" data-fa-transform="grow-3"></i>
+                                                    Pengguna terverifikasi
+                                                </span><br>
+                                            @endif
+                                        @endif
+                                        <span class="--text _sub mt-1">Tergabung sejak : {{Idnme::print_date(Auth::user()->created_at, false)}}</span>
+                                    </span>
+                                </div>
+                                <a href="{{route('avatar.edit', ['id' => Auth::user()->profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => Auth::user()->profile->id])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => Auth::user()->profile->id])}}"}'>
+                                    <img class="d-flex ml-3 rounded-0 img-fluid img-thumbnail pchange" src="{{ asset(Auth::user()->profile->profile_picture) }}" alt="Image Icon" style="width: 100px;">
+                                </a>
+                            </div>
+                            <ul class="list-inline m-0 py-1 px-3 bg-secondary d-flex flex-row justify-content-around">
+                                <li class="list-inline-item mr-5 text-center">
+                                    <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="menu" class="text-white decoration-none">
+                                        <span class="--text"><i class="fas fw fa-project-diagram mr-2"></i>Proyek</span>
+                                        <span class="--text">{{Auth::user()->projects->count()}}</span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item mr-5 text-center">
+                                    <a data-toggle="pjax" data-pjax="menu" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" class="text-white decoration-none">
+                                        <span class="--text"><i class="fas fw fa-hand-holding-heart mr-2"></i>Aktivitas</span>
+                                        <span class="--text">{{Auth::user()->volunteers()->where('status', 'accepted')->orWhere('status', 'finished')->count()}}</span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item text-center">
+                                    <a data-toggle="pjax" data-pjax="menu" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="text-white decoration-none">
+                                        <span class="--text"><i class="fas fw fa-coins mr-2"></i>Investasi</span>
+                                        <span class="--text">{{Auth::user()->donations()->where('status', 'verified')->count()}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endguest
+                        <div class="card-body p-0">
+                            <div class="list-group list-group-flush">
+                                <a href="{{url('/')}}" class="list-group-item list-group-item-action dv-menu active"><i class="fas fw fa-home mr-2"></i> Beranda</a>
+
+                                <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-lightbulb mr-2"></i> Jadi Sudut</a>
+
+                                <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-heartbeat mr-2"></i> Jadi Negeri</a>
+                                
+                                @auth  
+                                    <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-user-cog mr-2"></i> Pengaturan</a>
+                                    
+                                    {{-- <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-project-diagram mr-2"></i> Proyek Saya</a>
+        
+                                    <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-coins mr-2"></i> Investasi Saya</a>
+        
+                                    <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-hand-holding-heart mr-2"></i> Aktivitas Saya</a> --}}
+        
+                                    {{-- <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'volunteer'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-people-carry mr-2"></i> Daftar Calon Relawan</a> --}}
+        
+                                    @php
+                                        $prop = Auth::user()->profile->toArray();
+                                        $check = in_array(null, $prop);
+                                    @endphp
+        
+                                    @if ($check)
+                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-user-edit mr-2"></i> Lengkapi Profil </a>
+                                    @endif
+
+                                    {{-- <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action dv-menu">{!!$check ? '<i class="fas fw fa-user-edit mr-2"></i> Lengkapi Profil' : '<i class="fas fw fa-user-alt mr-2"></i> Profil Saya'!!}</a> --}}
+        
+                                    {{-- <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'cv'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-id-card mr-2"></i> Buat CV</a>
+        
+                                    @if (Auth::user()->profile->verification->status !== 'verified')
+                                        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" class="list-group-item list-group-item-action dv-menu "><i class="fas fw fa-user-check mr-2"></i> Verifikasi Akun</a>
+                                    @endif --}}
+                                    
+                                    @if(empty(Auth::user()->password))
+                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-user-lock mr-2"></i> Buat Password</a>
+                                    @endif
+                                @endauth
+                                <a href="" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-file-signature mr-2"></i> Syarat dan Ketentuan</a>
+    
+                                <a href="" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-unlock mr-2" data-fa-transform="shrink-10 down-2 right-2" data-fa-mask="fas fa-file"></i> Kebijakan Privasi</a>
+    
+                                <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-question-circle mr-2"></i> Pusat Bantuan</a>
+                                @auth
+                                    <a class="list-group-item list-group-item-action dv-menu" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                    <i class="fas fw fa-sign-out-alt mr-2"></i> {{ __('Keluar') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                </div>
-                                <img class="d-flex ml-3 rounded-0 img-fluid pchange" src="{{ asset('storage/'.Auth::user()->profile->profile_picture ?? 'profile_pictures/dummy.svg') }}" alt="Image Icon" style="width: 100px;">
+                                @endauth
                             </div>
-                        @endguest
-                    </div>
-                    <div class="">
-                        <ul class="navbar-nav mr-auto px-1 py-2 border-bottom border-secondary">
-                          <li class="px-2 nav-item active">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-home w-8"></span> Home</a>
-                          </li>
-                          <li class="px-2 nav-item">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-money-bill-alt w-8"></span> Investasi</a>
-                          </li>
-                          <li class="px-2 nav-item">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-puzzle-piece w-8"></span> Menjadi Negeri</a>
-                          </li>
-                          <li class="px-2 nav-item">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-bullhorn w-8"></span> Menjadi Sudut</a>
-                          </li>
-                          <li class="px-2 nav-item">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-building w-8"></span> For Corporation / CSR</a>
-                          </li>
-                          <li class="px-2 nav-item">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-handshake w-8"></span> For Nonprofit Organization / NGO</a>
-                          </li>
-                        </ul>
-                        <ul class="navbar-nav mr-auto px-1 py-2">
-                          <li class="px-2 nav-item">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-file-alt w-8"></span> Syarat dan Ketentuan</a>
-                          </li>
-                          <li class="px-2 nav-item">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-unlock-alt w-8"></span> Kebijakan Privasi</a>
-                          </li>
-                          <li class="px-2 nav-item">
-                            <a class="nav-link text-secondary" href="#"><span class="fas fa-question-circle w-8"></span> FAQ</a>
-                          </li>
-                        </ul>
+                        </div>
+                        {{-- <hr> --}}
+                        {{-- <div class="card-body p-0">
+                            <div class="list-group">
+                                <a href="" class="list-group-item list-group-item-action border-0 text-secondary"><i class="fas fw fa-lightbulb mr-2"></i> Syarat dan Ketentuan</a>
+    
+                                <a href="" class="list-group-item list-group-item-action border-0 text-secondary"><i class="fas fw fa-heartbeat mr-2"></i>Kebijakan Privasi</a>
+    
+                                <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" class="list-group-item list-group-item-action border-0 text-secondary"><i class="fas fw fa-heartbeat mr-2"></i>Pusat Bantuan</a>
+                            </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -136,8 +213,14 @@
                 </div>
                 <ul class="navbar-nav ml-auto d-none d-lg-block">
                     @guest
-                        <li class="mx-1"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a></li>
-                        <li class="mx-1"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a></li>
+                        <li class="nav-item">
+                            <div class="d-flex justify-content between align-items-center">
+                                <a class="btn btn-md main-auth-btn text-capitalize mr-2" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a>
+                                <a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a>
+                            </div>
+                        </li>
+                        {{-- <li class="nav-item"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a></li>
+                        <li class="nav-item"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a></li> --}}
                     @else
                         <li class="nav-item d-flex flex-row align-items-center">
                             {{-- <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="btn d-flex flex-row align-items-center" data-toggle="tooltip" data-placement="bottom" title="Dashboard">
@@ -211,16 +294,17 @@
             @yield('content')
         </main>
         
-        <div class="row line-col">
-            <div class="col-2 bg-primary"></div>
-            <div class="col-2 bg-dark"></div>
-            <div class="col-2 bg-danger"></div>
-            <div class="col-2 bg-success"></div>
-            <div class="col-2 bg-warning"></div>
-            <div class="col-2 bg-info"></div>
-        </div>
-
-        <footer class="bg-white">
+        @include('components.modal')
+        
+        <footer class="footer bg-white">
+            <div class="row line-col">
+                <div class="col-2 bg-primary"></div>
+                <div class="col-2 bg-dark"></div>
+                <div class="col-2 bg-danger"></div>
+                <div class="col-2 bg-success"></div>
+                <div class="col-2 bg-warning"></div>
+                <div class="col-2 bg-info"></div>
+            </div>
             <div class="container d-none d-lg-block py-3">
                 <div class="row">
                     <div class="col-lg-4 pt-3 text-justify">
@@ -377,9 +461,9 @@
     </div>
 
     <!-- Scripts -->
-    <script>
+    {{-- <script>
         FontAwesomeConfig = { searchPseudoElements: true };
-    </script>
+    </script> --}}
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
@@ -396,8 +480,13 @@
 
         $('#user-desktop-menu').on('shown.bs.popover', function () {
             $('.popover-body').css('padding', 0);
-        })
+        });
     });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).loadModal();
+        });
     </script>
     @yield('script')
 </body>

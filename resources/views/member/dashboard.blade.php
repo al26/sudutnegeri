@@ -2,11 +2,11 @@
 
 @section('content')
 {{-- @include('layouts.partials._alert') --}}
-<div class="container">
-    <section class="m-topcard mt-3 d-none d-lg-block" id="mt" data-pjax-container>
-        @include('member.partials.topcard')        
+<div class="container p-0 px-lg-3">
+    <section class="m-topcard mt-lg-3" id="mt" data-pjax-container>
+        @include('member.partials.topcard', ['menu' => $menu, 'section' => $section])        
     </section>
-    <section class="m-content my-3 clearfix" id="mc" data-pjax-container>
+    <section class="m-content my-lg-3 clearfix" id="mc" data-pjax-container>
         {{-- <div class="loader-overlay">
             <div class="loader"></div>
         </div> --}}
@@ -34,6 +34,9 @@
 </script>
 <script>
     $(document).ready(function() {
+        toggleActiveMenuTab();
+        toggleActiveContentTab();
+
         $('#example').DataTable(
             {
                 "language": {
@@ -52,14 +55,18 @@
                         "sNext":     "Lanjut",
                         "sLast":     "Akhir"
                     }
-                }
+                },
+                responsive : true,
+                autoWidth : true,
+                lengthChange : true,
+                stateSave : true,
+                fixedHeader : true
             }
         );
-        toggleActiveMenuTab();
-        toggleActiveContentTab();
+        
         $(document).loadModal();
         $(document).ajaxPagination();
-        $(document).activateCKEditor();
+        // $(document).activateCKEditor();
         $('.the-summernote').summernote({
             height:150
         });
@@ -71,7 +78,12 @@
 
     $(document).on('click', '#password-create', function(e){
         e.preventDefault();
-        $('#form-account').ajaxCrudNonModal('#mr');
+        $('#form-account').ajaxCrudNonModal(['#mr']);
+    });
+
+    $(document).on('click', '#password-change', function(e){
+        e.preventDefault();
+        $('#form-account-change').ajaxCrudNonModal(['#mr']);
     });
 
     $(document).on('click', '#profile-edit', function(e){
@@ -81,12 +93,17 @@
 
     $(document).on('click', '#upload-receipt', function(e){
         e.preventDefault();
-        $('#form-receipt').ajaxCrudNonModal('#mr');
+        $('#form-receipt').ajaxCrudNonModal(['#mr']);
+    });
+
+    $(document).on('click', '#upload-verification', function(e){
+        e.preventDefault();
+        $('#form-verification').ajaxCrudNonModal(['#mr']);
     });
 
     $(document).on('click', '#create-project', function(e){
         e.preventDefault();
-        $('#form-create-project').ajaxCrudNonModal('#mr', "{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}");
+        $('#form-create-project').ajaxCrudNonModal(['#mr'], "{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}");
     });
 
     $(document).pjax('a[data-pjax=menu]', '#mc');
@@ -112,6 +129,7 @@
         var path = document.location.pathname,
             menu = path.split("/");
         $('#h-menu a').each(function() {
+            console.log($(this));
             if($(this).hasClass('active')) {
                 $(this).removeClass('active');
             }
@@ -128,6 +146,13 @@
             }
         });
         $('#m-'+menu[2]+'-'+menu[3]).addClass('active');
+
+        $('#mh-menu a').each(function() {
+            if($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            }
+        });
+        $('#mobile-'+menu[2]+'-'+menu[3]).addClass('active');
     }
 
     function activateOptGenerator(){

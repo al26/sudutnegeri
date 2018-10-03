@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User_profile extends Model
 {
-    protected $fillable = ['name', 'gender', 'dob', 'address', 'phone_number', 'biography', 'profession', 'institution', 'interest', 'skills', 'profile_picture'];    
+    protected $fillable = ['name', 'gender', 'dob', 'address', 'phone_number', 'biography', 'profession', 'institution', 'interest', 'skills', 'profile_picture', 'identity_card', 'identity_number'];    
 
     public function user()
     {
@@ -16,5 +16,9 @@ class User_profile extends Model
     public function address() 
     {
         return $this->hasOne('App\User_address');
+    }
+
+    public function verification() {
+        return $this->hasOne('App\User_verification');
     }
 }

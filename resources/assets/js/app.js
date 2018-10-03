@@ -6,7 +6,8 @@
  */
 
 require('./bootstrap');
-require('./fontawesome-all');
+// require('./fontawesome-all');
+require('@fortawesome/fontawesome-free/js/all.min')
 require('./owl.carousel.min');
 require('./offCanvas');
 require('jquery-pjax');

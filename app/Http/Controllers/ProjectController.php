@@ -20,9 +20,17 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['projects'] = Project::paginate(6); 
+        if ($request->category && strtolower($request->category) !== 'all') {
+            $category = Category::where('slug', $request->category)->pluck('id')->toArray();
+            $data['projects'] = Project::whereIn('category_id', $category)->paginate(6);
+        } else {
+            $data['projects'] = Project::paginate(6); 
+        }
+        
+        $data['categories'] = Category::all();
+
         return view('explore', $data);
     }
 
@@ -92,11 +100,11 @@ class ProjectController extends Controller
                 
         // dd($request->all());
 
-        // $validator = Validator::make($request-all(), $rules, $messages, $attributes);
+        $validator = Validator::make($request-all(), $rules, $messages, $attributes);
 
-        // if ($validator->fails()) {
-        //     $return = ["errors" => $validator->messages()];
-        // }
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        }
 
       
         // dd($request->data);
@@ -153,7 +161,7 @@ class ProjectController extends Controller
         $data['menu'] = $menu;
         $data['project'] = $project;
         $data['donators'] = Donation::where('project_id', $project->id)->get();
-    
+
         return view('details', $data);
     }
 

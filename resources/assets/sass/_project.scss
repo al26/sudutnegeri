@@ -177,7 +177,7 @@
 
 		@include media-breakpoint-down(md) {
 			top: 3rem !important;
-			left: 0 !important;			
+			// left: 0 !important;			
 		}
 	}
 }
@@ -521,4 +521,16 @@
         }
     }
      
+}
+
+._project-progress {
+	.progress {
+		background: rgba($secondary,0.2);
+		margin: .5rem 0;
+		height: 2px;
+
+		.progress-bar {
+			background: $secondary;
+		}
+	}
 }

@@ -14,6 +14,9 @@ use Storage;
 
 class DonationController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['auth'])->except(['index']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -71,7 +74,7 @@ class DonationController extends Controller
         if ($validator->fails()) {
             $return = redirect()->back()->withErrors($validator)->withInput();
         } else {
-            $anonymouse = !empty($request->data['anonymouse']) ? 'yes' : 'no';
+            $anonymouse = !empty($request->data['anonymouse']) ? true : false;
             $project_id = Project::where('project_slug', $request->data['project_slug'])->pluck('id')[0];
             $create = [
                 "user_id"    => (int)base64_decode(urldecode($request->data['user_id'])),
@@ -80,7 +83,7 @@ class DonationController extends Controller
                 "bank_id"    => $request->data['bank_id'],
                 "anonymouse" => $anonymouse,
                 "payment_code" => rand(10,999),
-                "status"     => "Pending"
+                "status"     => "pending"
             ];
 
             $store = Donation::create($create);

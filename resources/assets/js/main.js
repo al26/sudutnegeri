@@ -77,15 +77,15 @@ $(document).ready(function(){
         $.get(url, function(data){
             $(targetElem).empty();
             if(key.length > 0) {
-                $.each(data, function(index, obj){               
-                    $(targetElem).append('<a href="/project/details/'+obj.project_slug+'"><div class="items"><div class="media"><img class="mr-3" src="http://via.placeholder.com/50x50" alt="Generic placeholder image"><div class="media-body"><h5 class="mt-0">'+obj.project_name+'</h5><i class="fas fa-map-marker-alt"></i> '+obj.project_location+'</div></div></div></a>');
+                $.each(data, function(index, obj){  
+                    $(targetElem).append('<a href="/project/details/'+obj.project_slug+'"><div class="items"><div class="media"><img class="img-fluid mr-3" src="/'+obj.project_banner+'" alt="foto proyek" style="max-width:60px"><div class="media-body"><h5 class="mt-0">'+obj.project_name+'</h5><small><i class="fas fa-map-marker-alt"></i> '+obj.location.name+'</small><br><small><i class="fas fa-user"></i> '+obj.user.profile.name+'</small><br></div></div></div></a>');
                 });
 
                 if(data.length <= 0){
                     $(targetElem).append('<div class="items text-center">Tidak ditemukan proyek dengan kata kunci pencarian <b>'+key+'</b></div>');    
                 }
 
-                $(targetElem).append('<a href="/project/browse/all"><div class="items text-center">Semua Proyek</div></a>');
+                $(targetElem).append('<a href="/project/browse"><div class="items text-center">Semua Proyek</div></a>');
             }
         })
     }
@@ -106,31 +106,31 @@ $(document).ready(function(){
         }
     }
 
-    previewImgUpload = function (input) {
+    previewImgUpload = function (input, def, loader, prev, label) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function() {
-                if($('#pp-preview-default').is(":visible")) {
-                    $('#pp-preview-default').hide(100);
+                if($(def).is(":visible")) {
+                    $(def).hide(100);
                 }
-                if($('#pp-preview').is(":visible")) {
-                    $('#pp-preview').hide(100);
+                if($(prev).is(":visible")) {
+                    $(prev).hide(100);
                 }
             }
 
             reader.onprogress = function(data) {
-                $('#pp-loader').show(100);
+                $(loader).show(100);
                 var timer = 2;
                 var x = setInterval(function(){
                     timer--;
 
                     if(timer <= 0) {
                         clearInterval(x);
-                        $('#pp-loader').hide(100);
-                        $('#pp-preview').attr('src', reader.result);
-                        $('#pp-preview').show(100);
-                        $('.custom-file-label').text(input.files[0].name);
+                        $(loader).hide(100);
+                        $(prev).attr('src', reader.result);
+                        $(prev).show(100);
+                        $(label).text(input.files[0].name);
                     }
                 }, 1000);
             }
@@ -154,6 +154,23 @@ $(document).ready(function(){
             $(btn).text(textmore);
         }
     }
+
+    showAndHide = function(btn, showed, hidden, textshow, texthide) {
+        var action = $(btn).attr('data-action');
+        
+        if(action == 'show') {
+            $(hidden).addClass('hidden');
+            $(showed).removeClass('hidden');
+            $(btn).attr('data-action', 'hide');
+            $(btn).text(texthide);
+        } else {
+            $(showed).addClass('hidden');
+            $(hidden).removeClass('hidden');
+            $(btn).attr('data-action', 'show');
+            $(btn).text(textshow);
+        }
+    }
+    
     // cutContent = function(container, showchar) {
     //     var content = $(container).html();
 

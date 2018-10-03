@@ -24,7 +24,7 @@ class CreateDonationsTable extends Migration
             $table->unsignedInteger('amount');
             $table->unsignedSmallInteger('payment_code');
             $table->boolean('anonymouse')->default(false);
-            $table->enum('status', ['unverified', 'being verified', 'verified']);
+            $table->enum('status', ['unverified', 'pending', 'verified']);
             $table->string('transfer_receipt')->nullable();
             $table->timestamps();
         });

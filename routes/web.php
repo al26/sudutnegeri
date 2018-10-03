@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     $data['projects'] = \App\Project::take(10)->get();
-    // dd($data);
-    // echo $data['projects'];
+    // dd(\App\User::all());
+    $data['member'] = \App\User::where('role', 'member')->where('active', true)->get();
     return view('home', $data);
 });
 
@@ -51,6 +51,8 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('negeri/donations/upload/{id}', 'DonationController@uploadReceipt')->name('donation.upreceipt');
     Route::put('negeri/donations/upload/{id}', 'DonationController@saveReceipt')->name('donation.savereceipt');
     Route::get('negeri/donations/receipt/{id}', 'DonationController@showReceipt')->name('donation.receipt');
+    Route::put('/password/change', 'MemberController@changePassword')->name('password.change');
+    Route::put('/account/verify', 'MemberController@verifyAccount')->name('account.verify');
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -68,7 +70,7 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::group(['prefix' => 'project'], function () {
-    Route::get('browse/{category}', 'ProjectController@index')->name('project.browse');
+    Route::get('browse', 'ProjectController@index')->name('project.browse');
     Route::get('details/{slug}/{menu?}', 'ProjectController@show')
             ->where(
                 ['menu'     => '(detail|history|sinegeri|faq)']
@@ -126,10 +128,10 @@ Route::group(['prefix' => 'json'], function () {
 
         if(!empty($request->key)){
             $key = $request->key;
-            $data = $projects->where(function($query) use ($key) {
-                $query->where('project_name','LIKE','%'.$key.'%')
-                    ->orWhere('project_location','LIKE','%'.$key.'%');
-            })->with('user')->get();
+            $regencies = App\Regency::where('name', 'LIKE', '%'.$key.'%')->pluck('id')->toArray();
+            $data = $projects->where('project_name','LIKE','%'.$key.'%')
+                             ->orWhereIn('regency_id', $regencies)
+                             ->with('user.profile','location')->get();
         }
         
         // dd(json_encode($data));
@@ -147,7 +149,15 @@ Route::group(['prefix' => 'json'], function () {
 Route::post('location', function (\Illuminate\Http\Request $request) {
     $key = $request->key;
 
-    $items = \App\Regency::where("name","like","%$key%")->pluck('name');
+    $items = \App\Regency::where("name","like","%$key%")->select('name', 'id')->get();
 
     return response()->json(["items" => $items]);
 })->name('get.location');
+
+// Route::get('location-id', function (\Illuminate\Http\Request $request) {
+//     $key = $request->key;
+
+//     $items = \App\Regency::where("id","like","%$key%")->select('name', 'id')->get();
+
+//     return response()->json(["items" => $items]);
+// })->name('get.location.id');

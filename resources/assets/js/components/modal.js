@@ -107,11 +107,20 @@
                 if(response.errors) {
                     resetFeedback();
                     getFeedback(response.errors);
+
                 } 
+
+                if(response.error) {
+                    swal({
+                        type: 'error',
+                        title: response.error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
 
                 if(response.success) {
                     if(data['pjax-reload']) {
-                        // if(data['pjax-reload'].len)
                         $.each(data['pjax-reload'], function(index, val){
                             $.pjax.reload(val);
                         })
@@ -164,12 +173,14 @@
     }
 
     function getFeedback(errors) {
-        var inputs = $('input:not([type="submit"]), textarea, select');
+        // var inputs = $('input:not([type="submit"]), textarea, select');
 
         $.each(errors, function(index, value){
             $('#'+index).parent().append('<div class="invalid-feedback d-block">'+value+'</div>');
             $('#'+index).addClass('is-invalid');
         });
+
+        // console.log(errors);
     }
 
     function resetFeedback(){
@@ -285,7 +296,7 @@
         });
     }
 
-    $.fn.ajaxSelect2 = function(id, url) {
+    $.fn.getLocation = function(id, url) {
         $('#'+id).select2({
             theme: "bootstrap4",
             tags: true, 
@@ -307,6 +318,35 @@
                     return {
                         results: $.map(data.items, function(val, index){
                             return {id:val, text:val};
+                        })
+                    }
+                }, 
+            },
+        });
+    }
+
+    $.fn.ajaxSelect2 = function(id, url) {
+        $('#'+id).select2({
+            theme: "bootstrap4",
+            tags: false, 
+            // dropdownParent: $('#modal'),
+            ajax: {
+                url: url,
+                type: "POST",
+                dataType: "json",
+                delay:250,
+                data: function(params) {
+                    return {
+                        key : params.term,
+                        _token : $('meta[name="csrf-token"]').attr('content'),
+                    };
+                },
+
+                processResults: function(data) {
+                    // console.log(data);
+                    return {
+                        results: $.map(data.items, function(val, index){
+                            return {id:val.id, text:val.name};
                         })
                     }
                 }, 

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Regency extends Model
 {
+    protected $fillable = ['id','province_id','name'];
+
     public function province()
     {
         return $this->belongsTo('App\Province');
@@ -19,5 +21,10 @@ class Regency extends Model
     public function address() 
     {
         return $this->hasOne('App\User_address');
+    }
+
+    public function projects()
+    {
+        return $this->hasMany('App\Project');
     }
 }

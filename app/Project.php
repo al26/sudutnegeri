@@ -9,7 +9,7 @@ class Project extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'project_name', 'category_id', 'project_slug', 'project_description', 'funding_target', 'funding_progress', 'volunteer_quota', 'registered_volunteer', 'project_banner', 'project_location', 'close_donation', 'close_reg'];    
+    protected $fillable = ['user_id', 'project_name', 'category_id', 'project_slug', 'project_description', 'funding_target', 'funding_progress', 'volunteer_quota', 'registered_volunteer', 'project_banner', 'regency_id', 'close_donation', 'close_reg'];    
     protected $dates = ['deleted_at'];
     
     public function user()
@@ -40,5 +40,10 @@ class Project extends Model
     public function category()
     {
         return $this->belongsTo('App\Category');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo('App\Regency', 'regency_id');
     }
 }
