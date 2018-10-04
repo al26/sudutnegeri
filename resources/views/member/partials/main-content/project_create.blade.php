@@ -41,14 +41,14 @@
                     <label for="project_banner">Baner Proyek</label>
                     <div class="row mb-3 text-center">
                         <div class="col-12">
-                            <img id="pp-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
-                            <img id="pp-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
-                            <img id="pp-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+                            <img id="pb-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
+                            <img id="pb-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
+                            <img id="pb-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
                         </div>
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="project_banner" name="data[project_banner]" onchange="javascript:previewImgUpload(this);">
-                        <label class="custom-file-label" for="project_banner">Pilih File</label>
+                        <input type="file" class="custom-file-input" id="project_banner" name="data[project_banner]" onchange="javascript:previewImgUpload(this, '#pb-preview-default', '#pb-loader', '#pb-preview', '#pb-label');">
+                        <label class="custom-file-label" for="project_banner" id="pb-label">Pilih File</label>
                     </div>
                     <small class="form-text text-muted">Lampirkan sebuah foto dengan format .jpg, .png, atau .svg</small>
                 </div>

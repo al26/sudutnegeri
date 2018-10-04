@@ -164,8 +164,8 @@
 #hpn-menu{
 	// position: relative !important;
 	// top: -100px;
-	-webkit-transition: all .5s;
-	transition: all .5s;
+	-webkit-transition: top .5s;
+	transition: top .5s;
 	overflow: hidden;
 
 	&.fixed {
@@ -179,6 +179,19 @@
 			top: 3rem !important;
 			// left: 0 !important;			
 		}
+	}
+}
+
+#hpn-menu-hidden {
+	position: fixed;
+	top: -4rem;
+	z-index: 2;
+	background: #fff;
+	width: initial;
+	transition: top 0.3s;
+
+	@include media-breakpoint-down(md) {
+		top: 3rem !important;
 	}
 }
 

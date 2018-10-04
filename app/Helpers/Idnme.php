@@ -32,11 +32,15 @@ class Idnme
         return $date;
     }
     
-    public static function print_rupiah($amount, $decimal = false){	
+    public static function print_rupiah($amount, $decimal = null, $marker = null){	
+        $mark = "";
+        if($marker) {
+            $mark = "Rp ";
+        }
         if($decimal) {
-            $result = "Rp " . number_format($amount,2,',','.');
+            $result = $mark. number_format($amount,2,',','.');
         } else {
-            $result = "Rp " . number_format($amount,0,',','.');
+            $result = $mark. number_format($amount,0,',','.');
         }
         
         return $result;
