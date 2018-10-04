@@ -14648,6 +14648,12 @@ div.popover-body .list-group-item-action:hover {
   }
 }
 
+@media (max-width: 991.98px) {
+  .vh-100 {
+    min-height: 100vh !important;
+  }
+}
+
 /* FLIP */
 /* FONT FACE */
 /* OPACITY */
@@ -15188,8 +15194,8 @@ div#myCard {
 }
 
 #hpn-menu {
-  -webkit-transition: all .5s;
-  transition: all .5s;
+  -webkit-transition: top .5s;
+  transition: top .5s;
   overflow: hidden;
 }
 
@@ -15203,6 +15209,22 @@ div#myCard {
 
 @media (max-width: 991.98px) {
   #hpn-menu.fixed {
+    top: 3rem !important;
+  }
+}
+
+#hpn-menu-hidden {
+  position: fixed;
+  top: -4rem;
+  z-index: 2;
+  background: #fff;
+  width: initial;
+  -webkit-transition: top 0.3s;
+  transition: top 0.3s;
+}
+
+@media (max-width: 991.98px) {
+  #hpn-menu-hidden {
     top: 3rem !important;
   }
 }

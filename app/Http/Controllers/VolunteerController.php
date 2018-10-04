@@ -32,6 +32,7 @@ class VolunteerController extends Controller
     public function create($slug)
     {
         $data['project'] = Project::where('project_slug', $slug)->first();
+        $data['existing_volunteers'] = Volunteer::where('project_id', $data['project']->id)->pluck('user_id')->toArray();
         $data['questions'] = Question::where('project_id', $data['project']->id)->get();        
         return view('member.create_volunteer', $data);
     }

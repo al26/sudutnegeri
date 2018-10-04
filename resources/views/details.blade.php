@@ -23,14 +23,21 @@
         <div class="row">
             <div class="col-12 col-lg-4 sticky-side-info --container --left order-2 order-lg-1">
                 <div id="sticky--">
-                    <section class="card --content mb-lg-3 info-donasi">
+                    <section class="card --content mb-lg-3 info-donasi">                        
                         <div class="card-body">
-                            <span class="--text text-capitalize">terkumpul {{$progressDana}}%</span>
-                            <span class="--text _head text-capitalize">{{$project->funding_progress}}</span>
-                            <div class="progress">
-                                <div class="progress-bar" style="width: {{$progressDana}}%"></div>
+                            <div class="row m-0">
+                                <div class="col-lg-3 d-none px-0 d-lg-flex flex-row">
+                                    <i class="fas fa-coins fa-5x align-self-center"></i>
+                                </div>
+                                <div class="col-12 col-lg-8 offset-lg-1 offset-xl-0 px-0">
+                                    <span class="--text text-capitalize">terkumpul {{$progressDana}}%</span>
+                                    <h4 class="m-0">{{Idnme::print_rupiah($project->funding_progress, false, true) }}</h4>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: {{$progressDana}}%"></div>
+                                    </div>
+                                    <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target, false, true)}}</span>                            
+                                </div>
                             </div>
-                            <span class="--text text-capitalize">target {{$project->funding_target}}</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
                             @auth
@@ -95,6 +102,13 @@
         </div>
         <div class="row">
             <div class="col-12 col-lg-8 ml-auto --container --right details">
+                {{-- <div id="hpn-menu-hidden">
+                    <div class="nav nav-tabs nav-fill w-100">
+                        <a id="hpn-detail" class="nav-item nav-link p-3 active" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'detail'])}}">Detail</a>
+                        <a id="hpn-history" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'history'])}}">Data Historis</a>
+                        <a id="hpn-sinegeri" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'sinegeri'])}}">Si Negeri Peduli</a>
+                    </div>
+                </div> --}}
                 <section class="card --content" id="hpn-menu">
                     <div class="nav nav-tabs nav-fill w-100">
                         <a id="hpn-detail" class="nav-item nav-link p-3 active" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'detail'])}}">Detail</a>
@@ -103,12 +117,12 @@
                         {{-- <a id="hpn-faq" class="nav-item nav-link p-3" data-toggle="pjax" data-pjax="hpn-menu" href="{{route('project.show', ['slug' => $slug, 'menu' => 'faq'])}}">FAQ</a> --}}
                     </div>
                 </section>
-                <section class="card --content" id="hpn-content" data-pjax-container style="min-height:15rem">
+                <section class="card --content" id="hpn-content" data-pjax-container style="min-height:100vh">
                     @php
                         if (empty($menu)) $menu = "detail";
                         $data['project'] = $project;
-                        $data['donators'] = $project->donations;
-                        $data['volunteers'] = $project->volunteers;
+                        $data['donators'] = $project->donations()->where('status', 'verified')->get();
+                        $data['volunteers'] = $project->volunteers()->where('status', 'accepted')->get();
                     @endphp
                     <div class="card-body">
                         @include("guest.partials.project_$menu", $data)
@@ -177,12 +191,15 @@
             }
         });
 
+        // tab.width(tab_content.innerWidth());
+
+
         $(window).on('resize', function(){
             var tab_content = $('#hpn-content'),
                 tab = $('#hpn-menu');
             
             tab.width(tab_content.innerWidth());
-            tab.offset({left : tab_content.offset().left});
+            // tab.offset({left : tab_content.offset().left});
         });
 
 
@@ -196,9 +213,9 @@
                 side_info = $('#sticky--'),
                 edge = $('footer').offset().top - side_info.outerHeight(),
                 topPadding = 16;
-                tab.offset({left : tab_content.offset().left});
+                // tab.offset({left : tab_content.offset().left});
 
-            if(window.innerWidth >= 768 && window.innerHeight > window.innerWidth) {
+            if((window.innerWidth >= 768 && window.innerWidth < window.innerHeight) || (window.innerWidth >= 992 && window.innerWidth > window.innerHeight) ) {
                 if ($(this).scrollTop() > sticky_offset) {
                     side_info.stop().animate({
                         marginTop: topPadding + $(this).scrollTop() - sticky_offset
@@ -209,22 +226,30 @@
                     });
                 }
     
-                if ($(this).scrollTop() > edge) {
-                    side_info.stop();
-                }
             }
 
+            if ($(this).scrollTop() > edge) {
+                side_info.stop();
+            }
 
             if ($(this).scrollTop() >= tab_offset) {
                 tab.addClass('fixed');
                 tab.width(tab_width);
-                console.log("tab" + tab.offset().left);
-                console.log("parent" + tab_content.offset().left);
-                tab.offset({left : tab_content.offset().left});
             } else {
                 tab.removeClass('fixed');
-                tab.offset({left : tab_content.offset().left});
             }
+
+            // if(window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
+            //     if ($(this).scrollTop() >= tab_offset) {
+            //         tab.addClass('fixed');
+            //         tab.width(tab_width);
+            //         // tab.offset({left : tab_content.offset().left});
+            //     } else {
+            //         tab.removeClass('fixed');
+            //         // tab.offset({left : tab_content.offset().left});
+            //     }
+            // }
+            
 
             // if (tab.hasClass('fixed')) {
             //     tab_content.stop().animate({
