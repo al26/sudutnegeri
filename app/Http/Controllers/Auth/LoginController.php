@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\CheckRole;
 use Illuminate\Validation\Rule;
 
 class LoginController extends Controller
@@ -50,7 +51,7 @@ class LoginController extends Controller
     {
         $this->validate($request, [
             $this->username() => [
-                'required', 'string',
+                'required', 'string', new CheckRole('users', 'member'),
                 Rule::exists('users')->where(function($q){
                     $q->where('active', true);
                 })

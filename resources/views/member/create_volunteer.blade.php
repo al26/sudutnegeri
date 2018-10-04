@@ -1,31 +1,30 @@
 @extends('layouts.app')
 
-{{-- @php
-    if($errors->any()) {
-        dd($errors->getMessages());
-    }
-@endphp --}}
 
 @section('content')
-<div class="container mt-lg-3">
+<div class="container my-md-3">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-6 p-0 px-md-3">
-            <div class="card border-0">
-                <div class="card-body text-center pb-0">
-                    <h4 class="m-0">Hai, {{ucwords(Auth::user()->profile->name)}}</h4>
-                    <p class="m-0">Mohon lengkapi formulir berikut untuk melanjutkan pendaftaran sebagai relawan</p>
-                </div>
-                <div class="card-body">
-                    @if(session()->has('success'))
-                        <div class="alert alert-success">
-                            {{ session()->get('success') }}
+        <div class="col-12 col-md-8 p-0 px-md-3">
+            <div class="card border-0 vh-100">
+                @if (in_array(Auth::user()->id, $existing_volunteers))
+                    <div class="card-body text-center">
+                        <div class="my-3">
+                            <i class="fas fa-clipboard-check fa-10x"></i>
                         </div>
-                    @endif
-                    @if(session()->has('error'))
-                        <div class="alert alert-success">
-                            {{ session()->get('error') }}
+                        <span class="font-weight-bold">Anda telah mendaftar ke proyek {{$project->project_name}} !</span><br>
+                        <span class="">Mohon maaf, setiap member hanya diperkenankan mendaftar 1x pada setiap proyek yang sama.</span>
+                        <br>
+                        <div class="d-flex mt-3">
+                            <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="btn btn-secondary w-50 m-0 mr-1">Kembali ke halaman proyek</a>
+                            <a href="{{route('project.browse', ['category' => 'all'])}}" class="btn btn-primary w-50 m-0 ml-1">Cari proyek lain</a>
                         </div>
-                    @endif
+                    </div>
+                @else
+                    <div class="card-body text-center pb-0">
+                        <h4 class="m-0">Hai, {{ucwords(Auth::user()->profile->name)}}</h4>
+                        <p class="m-0">Mohon lengkapi formulir berikut untuk melanjutkan pendaftaran sebagai relawan</p>
+                    </div>
+                    <div class="card-body">
                     <form method="POST" action="{{route('volunteer.store')}}">
                         @csrf
                         <input type="hidden" class="form-control" name="data[user_id]" value="{{Auth::user()->id}}">
@@ -81,6 +80,7 @@
                         </div>
                     </form>
                 </div>
+                @endif
             </div>
         </div>
     </div>

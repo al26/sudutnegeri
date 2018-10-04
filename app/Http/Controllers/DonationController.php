@@ -48,7 +48,7 @@ class DonationController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            "amount"    => "required|min:5",
+            "amount"    => "required|digits_between:5, 10",
             "bank_id"   => "required",
             // "phone_number" => "required"
         ];
@@ -57,8 +57,9 @@ class DonationController extends Controller
             "amount.required"   => "Kolom :attribute tidak boleh kosong",
             // "phone_number.required"   => "Kolom :attribute tidak boleh kosong",
             // "amount.numeric"    => "Mohon isikan dengan jumlah yang valid (berupa angka)",
-            "amount.min"        => "Isikan dengan minimal 10000 dan kelipatan ribuan",
+            // "amount.digits"        => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000",
             "bank_id.required"  => "Mohon pilih salah satu dari :attribute yang tersedia",
+            "digits_between"    => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000 between"
         ];
 
         $attributes = [
@@ -68,7 +69,7 @@ class DonationController extends Controller
         ];
 
         $data = $request->data;
-        
+        // dd($data);
         $validator = Validator::make($data, $rules, $messages, $attributes);
 
         if ($validator->fails()) {
@@ -195,7 +196,7 @@ class DonationController extends Controller
     }
 
     public function invoice(Request $request, $slug) {
-        $project_id = Project::where('project_slug', $slug)->pluck('id')[0];
+        $project_id = Project::where('project_slug', $slug)->firstOrFail()->id;
         $where = [
             "user_id" => $request->user()->id,
             "project_id" => $project_id

@@ -71,7 +71,7 @@
             height:150
         });
         activateOptGenerator();
-        $('.select2').select2({theme: "bootstrap4",tags: true,});
+        $('.select2').select2({theme: "bootstrap4"});
         $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
         // showMoreLess(100, 'Selengkapnya', 'Sebagian', '.update-list-item');
     });
@@ -129,7 +129,6 @@
         var path = document.location.pathname,
             menu = path.split("/");
         $('#h-menu a').each(function() {
-            console.log($(this));
             if($(this).hasClass('active')) {
                 $(this).removeClass('active');
             }

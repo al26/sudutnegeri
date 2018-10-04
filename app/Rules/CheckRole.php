@@ -44,6 +44,6 @@ class CheckRole implements Rule
      */
     public function message()
     {
-        return "Please use account listed as $this->role";
+        return "Mohon gunakan akun yang terdaftar sebagai $this->role";
     }
 }
