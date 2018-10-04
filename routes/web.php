@@ -40,11 +40,12 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/{menu?}/{section?}', 'MemberController@index')
             ->where(
                 ['menu'     => '(overview|setting|sudut|negeri)', 
-                'section'   => '(profile|account|projects|donations|activity|volunteer|cv|verify)']
+                'section'   => '(profile|account|projects|donations|activity|volunteer|cv|verify|withdrawal)']
             )
             ->name('dashboard');
     Route::get('sudut/projects/manage/{slug}', 'ProjectController@manage')->name('project.manage');
     Route::get('sudut/projects/create', 'ProjectController@create')->name('project.create');
+    Route::get('sudut/withdrawal/{slug}', 'WithdrawanController@create')->name('withdrawal.create');
     Route::put('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
     Route::get('setting/profile/avatar/edit/{id}','MemberController@editProfilePicture')->name('avatar.edit');
     Route::put('setting/profile/avatar/update/{id}','MemberController@updateProfilePicture')->name('avatar.update');
