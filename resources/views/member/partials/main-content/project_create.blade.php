@@ -131,12 +131,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="verification_documents">Dokumen Verifikasi</label>
+                <label for="attachments">Dokumen Verifikasi</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="verification_documents" name="data[verification_documents][]" multiple>
-                    <label class="custom-file-label" for="verification_documents">Pilih File</label>
+                    <input type="file" class="custom-file-input" id="attachments" name="data[attachments][]" multiple onchange="javascript:dynamicFileList(this, 'attachments-list', 'attachment-label', 'hidden-attachments')">
+                    <input type="hidden" id="hidden-attachments" name="data[han]">
+                    <label class="custom-file-label" for="attachments" id="attachment-label">Pilih File</label>
                 </div>
                 <small class="form-text text-muted">Lampirkan sebuah foto dengan format .jpg, .png, atau .svg</small>
+                <ul class="dynamic-list" id="attachments-list"></ul>
             </div>
             <button type="submit" id="create-project" class="btn btn-md btn-primary">Buat Proyek</button>
             <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-md btn-danger" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"> Batalkan</a>

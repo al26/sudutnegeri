@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Donation extends Model
 {
-    protected $fillable = ['user_id', 'project_id', 'bank_id', 'amount', 'anonymouse', 'status', 'transfer_receipt', 'payment_code'];
+    protected $fillable = ['user_id', 'project_id', 'bank_code', 'amount', 'anonymouse', 'status', 'transfer_receipt', 'payment_code'];
 
     public function user()
     {
@@ -20,6 +20,6 @@ class Donation extends Model
 
     public function bank()
     {
-        return $this->belongsTo('App\Bank');
+        return $this->belongsTo('App\Bank', 'bank_code');
     }
 }

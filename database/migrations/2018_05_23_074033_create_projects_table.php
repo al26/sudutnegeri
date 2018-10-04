@@ -14,7 +14,6 @@ class CreateProjectsTable extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedInteger('user_id');  
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
@@ -26,12 +25,14 @@ class CreateProjectsTable extends Migration
             $table->string('regency_id', 4)->nullable();
             $table->foreign('regency_id')->references('id')->on('regencies')->onDelete('set null');            
             $table->unsignedInteger('funding_target');
-            $table->unsignedInteger('funding_progress')->nullable();
+            $table->unsignedInteger('collected_funds')->nullable();
             $table->unsignedInteger('volunteer_quota');
             $table->unsignedInteger('registered_volunteer')->nullable();
             $table->dateTime('close_donation');
             $table->dateTime('close_reg');
             $table->string('project_banner')->nullable();
+            $table->string('attachments')->nullable();
+            $table->enum('project_status', ['submitted', 'published', 'finished'])->default('submitted');
             $table->timestamps();
             $table->softDeletes();
         });

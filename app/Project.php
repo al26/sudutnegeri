@@ -46,4 +46,9 @@ class Project extends Model
     {
         return $this->belongsTo('App\Regency', 'regency_id');
     }
+
+    public function withdrawal()
+    {
+        return $this->hasMany('App\Withdrawal');
+    }
 }

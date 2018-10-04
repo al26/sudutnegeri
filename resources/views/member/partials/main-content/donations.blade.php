@@ -122,7 +122,7 @@
                 <div class="fs-head"><span class="fs-head-text">Investasi Saya</span></div>
             </div>
             <div class="row section-content">
-                <div class="col-12">
+                <div class="col-12 table-responsive">
                     <table id="example" class="table table-striped table-bordered">
                         <thead>
                             <tr>

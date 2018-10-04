@@ -98,54 +98,63 @@ class ProjectController extends Controller
             "project_banner"        => 'spanduk'
         ];
                 
-        // dd($request->all());
+        // dd($request->data);
 
-        $validator = Validator::make($request-all(), $rules, $messages, $attributes);
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             $return = ["errors" => $validator->messages()];
         }
 
+
+
       
         // dd($request->data);
 
-        $data = $request->data;
-        $data["project_slug"] = md5($request->data['project_name']);
+        // $data = $request->data;
+        // $data["project_slug"] = md5($request->data['project_name']);
         // date_default_timezone_set('Asia/Jakarta');
-        $data["close_donation"] = date_create_from_format('Y-m-d', $request->data['close_donation'])->format('Y-m-d H:i:s');
-        $data["close_reg"] = date_create_from_format('Y-m-d', $request->data['close_reg'])->format('Y-m-d H:i:s');
+        // $data["close_donation"] = date_create_from_format('Y-m-d', $request->data['close_donation'])->format('Y-m-d H:i:s');
+        // $data["close_reg"] = date_create_from_format('Y-m-d', $request->data['close_reg'])->format('Y-m-d H:i:s');
         
-        $path = "";
-        $filename = "";
+        // $path = "";
+        // $filename = "";
 
-        if($request->hasFile('data.project_banner')) {
-            $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
-            $file = $request->file('data.project_banner');
-            $path = $file->storeAs('public/project_banner', $filename);
+        // if($request->hasFile('data.project_banner')) {
+        //     $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
+        //     $file = $request->file('data.project_banner');
+        //     $path = $file->storeAs('public/project_banner', $filename);
+        // }
+
+        // if($path) {
+        //     $data['project_banner'] = "storage/project_banner/".$filename;
+        // }
+
+        if($request->hasFile('data.attachments')){
+            $actual_upload = explode(",", $request->data['han']);
+            $actual_upload = array_filter($actual_upload);
+
+            return $actual_upload;
         }
 
-        if($path) {
-            $data['project_banner'] = "storage/project_banner/".$filename;
-        }
-
-        $project = Project::create($data);
-        if(!empty($request->questions)){
-            $questions = explode(",",$request->questions);
-            $qt = array();
-            foreach ($questions as $key => $q) {
-                $qt[$key]['question'] = $q;
-            }
-            $project->questions()->createMany($qt);
-        }
+        // $project = Project::create($data);
+        // if(!empty($request->questions)){
+        //     $questions = explode(",",$request->questions);
+        //     $qt = array();
+        //     foreach ($questions as $key => $q) {
+        //         $qt[$key]['question'] = $q;
+        //     }
+        //     $project->questions()->createMany($qt);
+        // }
 
 
-        if($project) {
-            $return = ["success" => "Proyek baru berhasil dibuat"];
-        } else {
-            $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
-        }
+        // if($project) {
+        //     $return = ["success" => "Proyek baru berhasil dibuat"];
+        // } else {
+        //     $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
+        // }
         
-        return response()->json($return);
+        // return response()->json($return);
     }
 
     /**
