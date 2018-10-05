@@ -13,7 +13,7 @@
         <div class="card-body">    
             <div class="text-center">
                 <div class="my-3">
-                    <i class="fas fa-heart fa-10x" data-fa-transform="shrink-6 up-1" data-fa-mask="fas fa-donate"></i>
+                    <i class="fas fa-coins fa-10x"></i>
                 </div>
                 <span class="font-weight-bold">Anda belum berinvestasi ke proyek manapun!!</span><br>
                 
@@ -98,23 +98,23 @@
                 <div class="col-12 col-lg-6 px-2 info-box-parent">
                     <div class="info-box">
                         <div class="info-box-inner">
-                            <h3 class="text-secondary">{{Idnme::print_rupiah($total)}}</h3>
+                            <h3 class="text-secondary">{{Idnme::print_rupiah($total, false, true)}}</h3>
                             <p class="text-secondary">Total Investasi : <b>{{$investments->count()}}</b></p>
                         </div>
-                        <div class="info-box-icon">
+                        {{-- <div class="info-box-icon">
                             <i class="fas fa-hands"></i>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 px-2 info-box-parent">
                     <div class="info-box">
                         <div class="info-box-inner">
-                            <h3 class="text-secondary">{{Idnme::print_rupiah($verified_total)}}</h3>
+                            <h3 class="text-secondary">{{Idnme::print_rupiah($verified_total, false, true)}}</h3>
                             <p class="text-secondary">Investasi Terverifikasi : <b>{{$verified_investments->count()}}</b></p>
                         </div>
-                        <div class="info-box-icon">
+                        {{-- <div class="info-box-icon">
                             <i class="fas fa-hands"></i>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -137,27 +137,33 @@
                             @foreach ($investments as $i)
                                 @php
                                     switch ($i->status) {
-                                        case 'being verified':
+                                        case 'pending':
+                                            $status = "perlu verifikasi";
                                             $badge = 'warning';
                                             break;
                                         case 'verified':
+                                            $status = "terverifikasi";
                                             $badge = 'success';
                                             break;
                                         default:
+                                            $status = "tidak terverifikasi";
                                             $badge = 'danger';
                                             break;
                                     }
                                 @endphp
                                 <tr>
                                     <td>{{$i->project->project_name}}</td>
-                                    <td>{{Idnme::print_rupiah($i->amount + $i->payment_code)}}</td>
+                                    <td>{{Idnme::print_rupiah($i->amount + $i->payment_code, false, true)}}</td>
                                     <td>{{Idnme::print_date($i->created_at, true)}}</td>
-                                    <td><span class="badge badge-{{$badge}}">{{$i->status}}</span></td>
+                                    <td><span class="badge badge-{{$badge}} text-white">{{$status}}</span></td>
                                     <td>
                                         @if(empty($i->transfer_receipt))
-                                            <a class="btn btn-sm btn-primary" data-toggle="pjax" data-pjax="main-content" href="{{route('donation.upreceipt', ['id' => $i->id])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-cloud-upload-alt"></i> Upload Bukti Transfer</a>
+                                            <a class="btn btn-sm btn-primary" data-toggle="pjax" data-pjax="main-content" href="{{route('donation.upreceipt', ['id' => encrypt($i->id)])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-cloud-upload-alt"></i> Upload Bukti Transfer</a>
                                         @else
-                                            <a href="{{URL::to('/').'/'.$i->transfer_receipt}}" class="btn btn-sm btn-link" target="_blank"> Lihat Bukti Transfer</a>
+                                            <div class="d-flex flex-row justify-content-around align-items-center">
+                                                <a href="{{route('file.view', ['path' => $i->transfer_receipt])}}" class="btn btn-sm btn-success mr-1" target="_blank"><i class="far fa-eye"></i> Lihat</a>
+                                                <a class="btn btn-sm btn-secondary" data-toggle="pjax" data-pjax="main-content" href="{{route('donation.upreceipt', ['id' => encrypt($i->id)])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-redo-alt"></i> Upload Ulang</a>
+                                            </div>
                                         @endif
                                     </td>
                                 </tr>

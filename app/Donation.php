@@ -20,6 +20,6 @@ class Donation extends Model
 
     public function bank()
     {
-        return $this->belongsTo('App\Bank', 'bank_code');
+        return $this->belongsTo('App\Bank', 'bank_code', 'bank_code');
     }
 }

@@ -88,11 +88,14 @@
                     <div class="--headline">
                         <span class="--text _head">{{$project->project_name}}</span>
                     </div>
+                    <div class="px-3 py-1">
+                        <span class="--text _sub"><i class="fas fa-tag fw mr-2"></i> {{$project->category->category}} <span class="mx-1">|</span> <i class="fas fa-map-marker-alt fw mr-2"></i> {{ucwords(strtolower($project->location->name))}}</span>
+                    </div>
                     <div class="--author">
                         <div class="media">
                             <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
                             <div class="media-body">
-                                <p class="mb-2">Campaigner</p>
+                                <p class="mb-2">Si Sudut</p>
                                 <h5 class="mb-0">{{$project->user->profile->name}}</h5>
                             </div>
                         </div>

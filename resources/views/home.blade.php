@@ -295,22 +295,22 @@
                 <div class="owl-carousel">
                     @foreach ($projects as $project)    
                         @php
-                            $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
+                            $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
                             $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
 
-                            date_default_timezone_set('Asia/Jakarta');
+                            // date_default_timezone_set('Asia/Jakarta');
 
-                            $today = new DateTime('now');
-                            $deadline = new DateTime($project->project_deadline);
-                            $remainingDays = $today->diff($deadline)->format('%d hari'); 
-                            $remainingHours = $today->diff($deadline)->format('%h jam'); 
+                            // $today = new DateTime('now');
+                            // $deadline = new DateTime($project->project_deadline);
+                            // $remainingDays = $today->diff($deadline)->format('%d hari'); 
+                            // $remainingHours = $today->diff($deadline)->format('%h jam'); 
 
-                            if($remainingDays <= 0) {
-                                $remainingDays = $remainingHours;
-                            }
-                            if($remainingDays <= 0 && $remainingHours < 0) {
-                                $remainingDays = "Proyek berakhir";
-                            }
+                            // if($remainingDays <= 0) {
+                            //     $remainingDays = $remainingHours;
+                            // }
+                            // if($remainingDays <= 0 && $remainingHours < 0) {
+                            //     $remainingDays = "Proyek berakhir";
+                            // }
                         @endphp
                         <div class="card card-shadow m-0 border-0" style="min-height:485px">
                             <div class="category-flag">
@@ -329,7 +329,7 @@
                             <div class="card-body pb-0 pt-4 _project-info" id="info-{{$project->project_slug}}">
                                 <div class="row m-0">
                                     <span class="col-12 --text p-0">Lokasi</span>
-                                    <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->location->name}}</span>
+                                    <span class="col-12 --text p-0 mb-2 font-weight-bold">{{ucwords(strtolower($project->location->name))}}</span>
                                     
                                     <span class="col-12 --text p-0">Batas Pendaftaran Relawan</span>
                                     <span class="col-12 --text p-0 mb-2 font-weight-bold">{{Idnme::print_date($project->close_reg, true)}}</span>
@@ -341,7 +341,7 @@
                             <div class="card-body pb-0 pt-4 _project-progress hidden" id="progress-{{$project->project_slug}}">
                                 <div class="info-donasi">
                                     <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
-                                    <span class="--text font-weight-bold text-capitalize">{{empty($project->funding_progress) ? Idnme::print_rupiah('0') : Idnme::print_rupiah($project->funding_progress)}}</span>
+                                    <span class="--text font-weight-bold text-capitalize">{{Idnme::print_rupiah($project->collected_funds, false, true)}}</span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{$progressDana}}%"></div>
                                     </div>

@@ -162,3 +162,7 @@ Route::post('location', function (\Illuminate\Http\Request $request) {
 
 //     return response()->json(["items" => $items]);
 // })->name('get.location.id');
+
+Route::get('{path}', function(\Illuminate\Http\Request $request) {
+    return;
+})->middleware('auth')->name('file.view');

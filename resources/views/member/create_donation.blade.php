@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                             <small id="amountHelpBlock" class="form-text text-muted">
-                                Masukkan nominal donasi minimal Rp 10.000 dengan kelipatan ribuan (contoh: 20.000, 50.000, 100.000)
+                                Masukkan nominal donasi minimal Rp 10.000 dengan kelipatan ribuan (contoh: 20.000, 50.000, 100.000). Maksimal 4.000.000.000
                             </small>
                         </div>
                         <div class="custom-control custom-checkbox">
@@ -36,22 +36,22 @@
                         </div>
                         <div class="form-group mt-2">
                             {{-- {{old('bank_id') ? dd(old('bank_id')) : ''}} --}}
-                            <label for="bank_id">Metode Pembayaran</label>
-                            <select id="bank_id" name="data[bank_id]" class="select2 form-control {{$errors->first('bank_id') ? 'is-invalid' : ''}}">
-                                @if (!empty(old('data.bank_id')))
-                                    <option value="{{old('data.bank_id')}}" selected>{{"Transfer Bank ".$banks->where('id', old('data.bank_id'))->pluck('bank_name')[0]}}</option>
-                                    @foreach($banks->where('id', '!=' ,old('data.bank_id')) as $key => $bank)
-                                        <option value="{{$bank->id}}">{{"Transfer Bank $bank->bank_name"}}</option>
+                            <label for="bank_code">Metode Pembayaran</label>
+                            <select id="bank_code" name="data[bank_code]" class="select2 form-control {{$errors->first('bank_code') ? 'is-invalid' : ''}}">
+                                @if (!empty(old('data.bank_code')))
+                                    <option value="{{old('data.bank_code')}}" selected>{{"Transfer Bank ".$banks->where('id', old('data.bank_code'))->pluck('bank_name')[0]}}</option>
+                                    @foreach($banks->where('id', '!=' ,old('data.bank_code')) as $key => $bank)
+                                        <option value="{{$bank->bank_code}}">{{"Transfer Bank $bank->bank_name"}}</option>
                                     @endforeach
                                 @else
                                     <option selected disabled>--Pilih Metode Pembayaran--</option>
                                     @foreach($banks as $key => $bank)
-                                        <option value="{{$bank->id}}">{{"Transfer Bank $bank->bank_name"}}</option>
+                                        <option value="{{$bank->bank_code}}">{{"Transfer Bank $bank->bank_name"}}</option>
                                     @endforeach
                                 @endif
                             </select>
                             <div class="invalid-feedback d-block">
-                                {{$errors->first("bank_id")}}
+                                {{$errors->first("bank_code")}}
                             </div>
                         </div>
                         {{-- <div class="form-group">

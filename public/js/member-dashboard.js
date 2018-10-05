@@ -113,7 +113,7 @@ $(document).ready(function () {
     });
     activateOptGenerator();
     $('.select2').select2({ theme: "bootstrap4" });
-    $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
+    $(document).ajaxSelect2("project_location", "/location");
     // showMoreLess(100, 'Selengkapnya', 'Sebagian', '.update-list-item');
 });
 
@@ -163,7 +163,7 @@ $('#mc, #mr').on('pjax:complete', function () {
     $('#example').DataTable();
     activateOptGenerator();
     // $(document).activateSummernote();
-    $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
+    $(document).ajaxSelect2("project_location", "/location");
 });
 
 function toggleActiveMenuTab() {

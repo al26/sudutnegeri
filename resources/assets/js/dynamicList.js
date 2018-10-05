@@ -39,7 +39,7 @@ dynamicList = function (input, targetList, storeTo) {
             var index = listVal.indexOf(this.firstChild.nodeValue);
             listVal.splice(index, 1);
             this.parentElement.removeChild(this);
-            document.getElementById(storeTo).value = listVal;
+            document.getElementById(storeTo).value = JSON.stringify(listVal);
             var error = document.getElementById('error-dynamic-list');
             if(error !== null) {
                 inputElement.classList.remove("is-invalid");
@@ -49,62 +49,56 @@ dynamicList = function (input, targetList, storeTo) {
         }
     }
 
-    document.getElementById(storeTo).value = listVal;
+    document.getElementById(storeTo).value = JSON.stringify(listVal);
     // console.log(document.getElementById(storeTo).value);
 
 }
 
-dynamicFileList = function (input, targetList, label, storeTo) {
+dynamicFileList = function (input, targetList, label) {
     var targetList = document.getElementById(targetList);
     while (targetList.firstChild) {
         targetList.removeChild(targetList.firstChild);
     }
 
     if (input.files) {
-        var hidden = [];
+        // var hidden = [];
         var filename = new Array();
         var fileArray = new Array();
         for (let index = 0; index < input.files.length; index++) {
             var li = document.createElement("li");
-            var span = document.createElement("SPAN");
-            var txt = document.createTextNode("\u00D7");
-            span.className = "dynamic-close";
-            span.appendChild(txt);
-            li.appendChild(span);
+            // var span = document.createElement("SPAN");
+            // var txt = document.createTextNode("\u00D7");
+            // span.className = "dynamic-close";
+            // span.appendChild(txt);
+            // li.appendChild(span);
 
-            hidden[index] = input.files[index].name;
-            filename["fn"+index] = document.createTextNode(input.files[index].name + ' ('+formatBytes(input.files[index].size)+')');
+            // hidden[index] = input.files[index].name;
+            filename[index] = document.createTextNode(input.files[index].name + ' ('+formatBytes(input.files[index].size)+')');
             targetList.appendChild(li);
 
             var fileReader = new FileReader(); 
             fileReader.readAsDataURL(input.files[index]);
-            fileArray["fa"+index] = fileReader;
-        }
-        
-        console.log(hidden);
-        console.log(fileArray);
-                console.log(filename);
-        var existList = targetList.getElementsByTagName("li");
-        for (let i = 0; i < existList.length; i++) {
-            existList[i].appendChild(filename["fn"+i]);
-            existList[i].onclick = function(e) {
-                // fileArray.splice("fa"+i, 1);
-                delete fileArray["fa"+i];
-                input.innerHTML = fileArray;
-                // filename.splice("fn"+i, 1);
-                delete filename["fn"+i];
-                // hidden.splice("h"+i, 1);
-                delete hidden[i];
-                document.getElementById(storeTo).value = hidden;
-                document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
-                this.parentElement.removeChild(this);
-                console.log(hidden);
-                console.log(fileArray);
-                console.log(filename);
-            }
+            fileArray[index] = fileReader;
         }
 
-        document.getElementById(storeTo).value = hidden;
+        var existList = targetList.getElementsByTagName("li");
+        for (let i = 0; i < existList.length; i++) {
+            existList[i].appendChild(filename[i]);
+            // existList[i].onclick = function(e) {
+                // fileArray.splice("fa"+i, 1);
+                // delete fileArray["fa"+i];
+                // input.innerHTML = fileArray;
+                // filename.splice("fn"+i, 1);
+                // delete filename["fn"+i];
+                // hidden.splice("h"+i, 1);
+                // delete hidden[i];
+                // document.getElementById(storeTo).value = hidden;
+                // document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
+                // this.parentElement.removeChild(this);
+            // }
+        }
+
+        // document.getElementById(storeTo).value = hidden;
         document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
     }
 }

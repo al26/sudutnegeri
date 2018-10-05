@@ -66,7 +66,8 @@ class ProjectController extends Controller
             "category_id"           => 'required',
             "close_donation"        => 'required|after_or_equal:today',
             "close_reg"             => 'required|after_or_equal:today',
-            "project_banner"        => 'required|image|mimes:jpg,jpeg,png,svg'
+            "project_banner"        => 'required|image|mimes:jpg,jpeg,png,svg',
+            "attachments"           => 'image|mimes:jpg,jpeg,png,svg'
         ];
         $messages = [
             "project_name.required"             => ":attribute tidak boleh kosong",
@@ -84,7 +85,9 @@ class ProjectController extends Controller
             "category_id.required"              => "Mohon pilih :attribute yang sesuai atau paling mendekati",
             "project_banner.required"           => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
             "project_banner.image"              => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
-            "project_banner.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
+            "project_banner.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
+            "attachments.image"                 => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
+            "attachments.mimes"                 => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
         ];
         $attributes = [
             "project_name"          => 'Judul Proyek',
@@ -95,10 +98,11 @@ class ProjectController extends Controller
             "funding_target"        => 'nominal target dana',
             "volunteer_quota"       => 'jumlah target relawan',
             "category_id"           => 'kategori',
-            "project_banner"        => 'spanduk'
+            "project_banner"        => 'spanduk',
+            "attachments"           => 'dokumen verifikasi'
         ];
                 
-        // dd($request->data);
+        // dd($request->data['attachments']);
 
         $validator = Validator::make($request->all(), $rules, $messages, $attributes);
 
@@ -106,55 +110,63 @@ class ProjectController extends Controller
             $return = ["errors" => $validator->messages()];
         }
 
-
-
-      
-        // dd($request->data);
-
-        // $data = $request->data;
-        // $data["project_slug"] = md5($request->data['project_name']);
-        // date_default_timezone_set('Asia/Jakarta');
-        // $data["close_donation"] = date_create_from_format('Y-m-d', $request->data['close_donation'])->format('Y-m-d H:i:s');
-        // $data["close_reg"] = date_create_from_format('Y-m-d', $request->data['close_reg'])->format('Y-m-d H:i:s');
+        $data = $request->data;
+        $data["project_slug"] = md5($request->data['project_name']);
+        $data["close_donation"] = date_create_from_format('Y-m-d', $request->data['close_donation'])->format('Y-m-d H:i:s');
+        $data["close_reg"] = date_create_from_format('Y-m-d', $request->data['close_reg'])->format('Y-m-d H:i:s');
         
-        // $path = "";
-        // $filename = "";
+        $path = "";
+        $filename = "";
 
-        // if($request->hasFile('data.project_banner')) {
-        //     $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
-        //     $file = $request->file('data.project_banner');
-        //     $path = $file->storeAs('public/project_banner', $filename);
-        // }
-
-        // if($path) {
-        //     $data['project_banner'] = "storage/project_banner/".$filename;
-        // }
-
-        if($request->hasFile('data.attachments')){
-            $actual_upload = explode(",", $request->data['han']);
-            $actual_upload = array_filter($actual_upload);
-
-            return $actual_upload;
+        if($request->hasFile('data.project_banner')) {
+            $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
+            $file = $request->file('data.project_banner');
+            $path = $file->storeAs('public/project_banner', $filename);
         }
 
-        // $project = Project::create($data);
-        // if(!empty($request->questions)){
-        //     $questions = explode(",",$request->questions);
-        //     $qt = array();
-        //     foreach ($questions as $key => $q) {
-        //         $qt[$key]['question'] = $q;
-        //     }
-        //     $project->questions()->createMany($qt);
-        // }
-
-
-        // if($project) {
-        //     $return = ["success" => "Proyek baru berhasil dibuat"];
-        // } else {
-        //     $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
-        // }
+        if($path) {
+            $data['project_banner'] = "storage/project_banner/".$filename;
+        }
         
-        // return response()->json($return);
+        $attachment_name = [];
+        $attachment_path = [];
+        $attachment_link = [];
+        if($request->hasFile('data.attachments')){
+            $attachments = $request->data['attachments'];
+            $attachment_folder = $data['project_slug'].time();
+            if(count($attachments) > 1) {
+                foreach ($attachments as $key => $a) {
+                    $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
+                    $attachment_path[$key] = $a->storeAs("public/project_verification/$attachment_folder", $attachment_name[$key]);
+                    $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
+                }
+            }
+        }
+
+        if(!empty($attachment_path)){
+            $data['attachments'] = json_encode($attachment_link);
+        }
+
+        // dd($data);
+
+        $project = Project::create($data);
+        if(!empty($request->questions)){
+            $questions = json_decode($request->questions);
+            $qt = array();
+            foreach ($questions as $key => $q) {
+                $qt[$key]['question'] = $q;
+            }
+            $project->questions()->createMany($qt);
+        }
+
+
+        if($project) {
+            $return = ["success" => "Proyek baru berhasil dibuat"];
+        } else {
+            $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
+        }
+        
+        return response()->json($return);
     }
 
     /**
