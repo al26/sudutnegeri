@@ -72,18 +72,17 @@
                     </div>
                 </div> --}}
             {{-- </div> --}}
-            @if (!empty($current_activity))
-                <div class="form-section mt-3">
+            @if (!empty($current_activity) && $current_activity->status !== 'finished')
+                <div class="form-section">
                     <div class="fs-head">
                         <span class="fs-head-text">Aktivitas Saat Ini</span>
-                        <a href="{{route('project.manage', ['slug' => $current_activity->project->project_slug])}}" class="btn btn-sm btn-secondary float-right">Kelola Data Historis</a>
                     </div>
                 </div>
-                <div class="row section-content">
+                <div class="row section-content mb-5">
                     <div class="card col">
                         <div class="row">
                             <div class="col-12 col-md-5">
-                                <img src="{{asset($current_activity->project->project_banner)}}" class="img-fluid mb-3 mb-md-0" alt="Project Banner">
+                                <img src="{{asset($current_activity->project->project_banner)}}" class="img-fluid mb-3 mb-md-0 img-thumbnail" alt="Project Banner">
                             </div>
                             <div class="col-12 col-md-7">
                                 <div class="card-block px-2">
@@ -92,7 +91,14 @@
                                         <li class="list-group-item dv-menu py-2"><i class="fas fw fa-tag mr-2"></i> {{$current_activity->project->category->category}}</li>
                                         <li class="list-group-item dv-menu py-2"><i class="fas fw fa-user mr-2"></i> {{$current_activity->project->user->profile->name}}</li>
                                         <li class="list-group-item dv-menu py-2"><i class="fas fw fa-map-marker-alt mr-2"></i> {{$current_activity->project->location->name}}</li>
-                                        <li class="list-group-item dv-menu py-2">Status <span class="badge badge-{{getStatus($current_activity->status)[0]}}">{{getStatus($current_activity->status)[1]}}</span></li>
+                                        <li class="list-group-item dv-menu py-2">
+                                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                                <p class="m-0">Status <span class="badge badge-{{getStatus($current_activity->status)[0]}}">{{getStatus($current_activity->status)[1]}}</span></p>
+                                                @if ($current_activity->status === 'accepted')
+                                                    <a href="{{route('history.manage', ['slug' => $current_activity->project->project_slug])}}" class="btn btn-sm btn-secondary float-right" data-toggle="pjax" data-pjax="main-content">Kelola Data Historis</a>
+                                                @endif
+                                            </div>    
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -100,7 +106,7 @@
                     </div>
                 </div>
             @endif
-            <div class="form-section mt-3">
+            <div class="form-section">
                 <div class="fs-head"><span class="fs-head-text">Semua Aktivitas</span></div>
             </div>
             <div class="row section-content">
@@ -119,11 +125,15 @@
                         <tbody>
                             @foreach ($user_activity as $i)
                                 <tr>
-                                    <td>{{$i->project->project_name}}</td>
+                                    <td><a href="{{route('project.show', ['slug' => $i->project->project_slug])}}" class="decoration-none">{{$i->project->project_name}}</a></td>
                                     {{-- <td>xx</td> --}}
-                                    <td>{{getStatus($i->status)[1]}}</td>
+                                    <td><span class="badge badge-{{getStatus($i->status)[0]}}">{{getStatus($i->status)[1]}}</span></td>
                                     <td>
-                                        <a href="{{route('project.manage', ['slug' => $i->project->project_slug])}}" class="btn btn-sm btn-secondary"> Kelola Data Historis</a>
+                                        @if ($i->status === 'accepted' || $i->status === 'finished')
+                                            <a href="{{route('history.manage', ['slug' => $i->project->project_slug])}}" class="btn btn-sm btn-secondary" data-toggle="pjax" data-pjax="main-content"> Kelola Data Historis</a>
+                                        @else
+                                            <span class="btn btn-sm btn-secondary disabled"> Kelola Data Historis</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

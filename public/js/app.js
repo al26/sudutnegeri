@@ -83113,7 +83113,7 @@ $(function () {
                     });
 
                     if (data['redirectAfter']) {
-                        // redireload(data['redirectAfter']);
+                        redireload(data['redirectAfter'], data['pjax-reload']);
                         $.pjax({
                             url: data['redirectAfter'],
                             container: data['pjax-reload']
@@ -83369,12 +83369,12 @@ $(function () {
         doSubmit(data, form);
     };
 
-    function redireload(url) {
+    function redireload(url, container) {
         window.history.pushState("", "", url);
         $.ajax({
             url: url
         }).done(function (data) {
-            $.pjax.reload('#mr');
+            $.pjax.reload(container);
         }).fail(function () {
             alert('An error occured');
         });
@@ -83696,7 +83696,7 @@ $(document).ready(function () {
 
     getSearcResult = function getSearcResult(input, targetElem) {
         var key = input.value,
-            url = '/json/projects/?key=' + key;
+            url = '/json/projects?key=' + key;
 
         $.get(url, function (data) {
             $(targetElem).empty();

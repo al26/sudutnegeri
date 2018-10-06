@@ -71,7 +71,7 @@ $(document).ready(function(){
 
     getSearcResult = function(input, targetElem) {
         var key = input.value,
-            url = '/json/projects/?key=' + key;
+            url = '/json/projects?key=' + key;
 
         $.get(url, function(data){
             $(targetElem).empty();

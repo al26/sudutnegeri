@@ -23,6 +23,7 @@ class CreateVolunteersTable extends Migration
             $table->text('eligibility');
             $table->enum('status', ['pending', 'accepted', 'rejected', 'finished'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

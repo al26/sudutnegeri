@@ -54,14 +54,17 @@
                     </section>
                     <section class="card --content mb-lg-3 info-relawan">
                         <div class="card-body">
-                            <span class="--text text-capitalize">{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}} calon relawan</span>
-                            @if ($project->volunteers->count() > 0)
+                            <span class="--text text-capitalize">{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}} relawan</span>
+                            @if ($project->registered_volunteer > 0)
+                                @php
+                                    $registered_volunteer = $project->volunteers()->where('status', 'accepted')->get();
+                                @endphp
                                 <div id="volunteer-carousel" class="owl-carousel owl-theme my-2">
-                                    @for ($i = 1; $i < 9; $i++)
-                                        <div class="item">                                            
-                                            <img class="" src="{{ asset('storage/profile_pictures/'.$i.'.jpg') }}" alt="Generic placeholder image">
+                                    @foreach ($registered_volunteer as $volunteer)
+                                        <div class="item">                                   
+                                            <img class="" src="{{ asset($volunteer->user->profile->profile_picture) }}" alt="Foto Profil Relawan" title="{{$volunteer->user->profile->name}}" data-toggle="tooltip" data-placement="top">
                                         </div>
-                                    @endfor
+                                    @endforeach
                                 </div>
                             @endif
                             <span class="--text text-capitalize">target {{$project->volunteer_quota}} relawan</span>                            

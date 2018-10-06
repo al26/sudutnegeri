@@ -191,11 +191,12 @@ class MemberController extends Controller
     }
 
     public function editProfilePicture($id) {
-        $data['id'] = $id;
+        $data['id'] = decrypt($id);
         return view('member.partials.modal.edit_profile_pic', $data);
     }
 
     public function updateProfilePicture(Request $request, $id) {
+        $id = decrypt($id);
         $path = "";
         $filename = "";
 

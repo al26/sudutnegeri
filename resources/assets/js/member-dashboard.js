@@ -66,10 +66,60 @@ $(document).on('click', '#upload-verification', function(e){
     $('#form-verification').ajaxCrudNonModal(['#mr']);
 });
 
-// $(document).on('click', '#create-project', function(e){
+// $(document).on('click', '#activity-create-history', function(e) {
 //     e.preventDefault();
-//     $('#form-create-project').ajaxCrudNonModal(['#mr'], "{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}");
+//     var redirectTo = $(this).attr('data-redirectAfter');
+//     $('#form-activity-create-history').ajaxCrudNonModal(['#mr'], redirectTo);
 // });
+
+// $(document).on('click', '#activity-update-history', function(e) {
+//     e.preventDefault();
+//     var redirectTo = $(this).attr('data-redirectAfter');
+//     $('#form-activity-update-history').ajaxCrudNonModal(['#mr'], redirectTo);
+// });
+
+$(document).on('click', '#create-history', function(e) {
+    e.preventDefault();
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-create-history').ajaxCrudNonModal(['#mr'], redirectTo);
+});
+
+$(document).on('click', '#update-history', function(e) {
+    e.preventDefault();
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-update-history').ajaxCrudNonModal(['#mr'], redirectTo);
+});
+
+$(document).on('click', '#create-project', function(e){
+    e.preventDefault();
+    $('#form-create-project').ajaxCrudNonModal(['#mr'], "/dashboard/sudut/projects");
+});
+
+$(document).on('click', '#edit-project', function(e){
+    e.preventDefault();
+    $('#form-edit-project').ajaxCrudNonModal(['#mr'], "/dashboard/sudut/projects");
+});
+
+$(document).on('click', '#create-withdrawal', function(e) {
+    e.preventDefault();
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-create-withdrawal').ajaxCrudNonModal(['#mr'], redirectTo);
+});
+
+var projecToCredit = $('#form-create-withdrawal').find('#project_id');
+$(document).on('change', projecToCredit, function(e){
+    // var project = encodeURIComponent(window.btoa(projecToCredit.val)),
+    var url = projecToCredit.attr('data-saldo') +"?project="+ projecToCredit.val();
+    console.log(url);
+    $.get(url, function(data) {
+        var	reverse = data.saldo.toString().split('').reverse().join(''),
+            ribuan 	= reverse.match(/\d{1,3}/g);
+            ribuan	= ribuan.join('.').split('').reverse().join('');
+        var info = $('#form-create-withdrawal').find('#info-saldo');
+        info.toggleClass('hidden');
+        info.text('Saldo proyek '+data.name+' saat ini : Rp '+ribuan);
+    });
+});
 
 $(document).pjax('a[data-pjax=menu]', '#mc');
 $('#mc').on('pjax:complete', function() {
@@ -86,7 +136,9 @@ $('#mc, #mr').on('pjax:complete', function() {
     $('.select2').select2({theme: "bootstrap4",tags: true,});
     $('#example').DataTable();
     activateOptGenerator();
-    // $(document).activateSummernote();
+    $('.the-summernote').summernote({
+        height:150
+    });
     $(document).ajaxSelect2("project_location", "/location");
 });
 

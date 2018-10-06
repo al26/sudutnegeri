@@ -87,7 +87,7 @@
                                         <span class="--text _sub mt-1">Tergabung sejak : {{Idnme::print_date(Auth::user()->created_at, false)}}</span>
                                     </span>
                                 </div>
-                                <a href="{{route('avatar.edit', ['id' => Auth::user()->profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => Auth::user()->profile->id])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => Auth::user()->profile->id])}}"}'>
+                                <a href="{{route('avatar.edit', ['id' => encrypt(Auth::user()->profile->id)])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => Auth::user()->profile->id])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => Auth::user()->profile->id])}}"}'>
                                     <img class="d-flex ml-3 rounded-0 img-fluid img-thumbnail pchange" src="{{ asset(Auth::user()->profile->profile_picture) }}" alt="Image Icon" style="width: 100px;">
                                 </a>
                             </div>

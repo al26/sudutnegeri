@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Volunteer extends Model
 {
+    // use SoftDeletes;
+    
     protected $fillable = ['user_id', 'project_id', 'motivation', 'eligibility', 'status'];
+    // protected $dates = ['deleted_at'];
 
     public function user() 
     {

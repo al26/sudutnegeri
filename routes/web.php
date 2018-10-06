@@ -44,14 +44,20 @@ Route::group(['prefix' => 'dashboard'], function () {
             )
             ->name('dashboard');
     Route::get('sudut/projects/manage/{slug}', 'ProjectController@manage')->name('project.manage');
+    Route::get('sudut/projects/manage/{slug}/history/create', 'DataHistorisController@create')->name('history.create');
+    Route::get('sudut/projects/manage/{slug}/history/edit/{id}', 'DataHistorisController@edit')->name('history.edit');
     Route::get('sudut/projects/create', 'ProjectController@create')->name('project.create');
-    Route::get('sudut/withdrawal/{slug}', 'WithdrawanController@create')->name('withdrawal.create');
+    Route::get('sudut/projects/edit/{id}', 'ProjectController@edit')->name('project.edit');
+    Route::get('sudut/withdrawal/create', 'WithdrawalController@create')->name('withdrawal.create');
     Route::put('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
     Route::get('setting/profile/avatar/edit/{id}','MemberController@editProfilePicture')->name('avatar.edit');
     Route::put('setting/profile/avatar/update/{id}','MemberController@updateProfilePicture')->name('avatar.update');
     Route::get('negeri/donations/upload/{id}', 'DonationController@uploadReceipt')->name('donation.upreceipt');
     Route::put('negeri/donations/upload/{id}', 'DonationController@saveReceipt')->name('donation.savereceipt');
     Route::get('negeri/donations/receipt/{id}', 'DonationController@showReceipt')->name('donation.receipt');
+    Route::get('negeri/activity/manage/{slug}', 'DataHistorisController@manage')->name('history.manage');
+    Route::get('negeri/activity/manage/{slug}/history/create', 'DataHistorisController@createFromVolunteer')->name('activity.history.create');
+    Route::get('negeri/activity/manage/{slug}/history/edit/{id}', 'DataHistorisController@editFromVolunteer')->name('activity.history.edit');
     Route::put('/password/change', 'MemberController@changePassword')->name('password.change');
     Route::put('/account/verify', 'MemberController@verifyAccount')->name('account.verify');
 });
@@ -82,14 +88,14 @@ Route::group(['prefix' => 'project'], function () {
     Route::get('details/{slug}/volunteer-reg', 'VolunteerController@create')->name('volunteer.create');
     Route::get('details/{slug}/volunteer-reg/post-msg', 'VolunteerController@postmsg')->name('volunteer.postmsg');
 
-    Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
-    Route::put('update/{id}', 'ProjectController@update')->name('project.update');
-    Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
+    Route::resource('project', 'ProjectController')->only(['store', 'update', 'destroy']);
+    // Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
+    // Route::put('update/{id}', 'ProjectController@update')->name('project.update');
+    // Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
     // Route::get('create', 'ProjectController@create')->name('project.create');
     Route::post('store', 'ProjectController@store')->name('project.store');
-
-    Route::resource('history', 'DataHistorisController');
-    Route::get('history/create/{projectId?}', 'DataHistorisController@create')->name('history.create');
+    Route::resource('withdrawal', 'WithdrawalController')->only(['store', 'update', 'destroy']);
+    Route::resource('history', 'DataHistorisController')->only(['store', 'update', 'destroy']);
 });
 
 Route::group(['prefix' => 'donation', 'middleware' => 'web'], function () {
@@ -110,6 +116,19 @@ Route::group(['prefix' => 'component'], function () {
 });
 
 Route::group(['prefix' => 'json'], function () {
+    Route::get('saldo', function(\Illuminate\Http\Request $request) {
+        // $id = base64_decode(urldecode($request->project));
+        $id = decrypt($request->project);
+        $project = \App\Project::findOrFail($id)->select('project_name','collected_funds')->get()[0];
+        $credited = \App\Withdrawal::where('project_id', $id)
+                                    ->where('status', 'processed')
+                                    ->sum('amount');
+        $data['saldo'] = $project->collected_funds - $credited;
+        $data['name'] = $project->project_name;
+
+        return response()->json($data, 200);
+    })->name('get.saldo');
+
     Route::get('option/{table}', function (\Illuminate\Http\Request $request, $table) {
         $id = $request->id;
         if($table == 'regencies'){
@@ -140,7 +159,7 @@ Route::group(['prefix' => 'json'], function () {
     });
 
     Route::get('avatar', function (\Illuminate\Http\Request $request) {
-        $res = \App\User_profile::where("id", $request->id)->pluck('profile_picture');
+        $res = \App\User_profile::where("id", decrypt($request->id))->pluck('profile_picture');
         return response()->json($res, 200);
     })->name('pchange');
     
@@ -162,7 +181,3 @@ Route::post('location', function (\Illuminate\Http\Request $request) {
 
 //     return response()->json(["items" => $items]);
 // })->name('get.location.id');
-
-Route::get('{path}', function(\Illuminate\Http\Request $request) {
-    return;
-})->middleware('auth')->name('file.view');

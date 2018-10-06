@@ -138,7 +138,7 @@
                     });
 
                     if(data['redirectAfter']){
-                        // redireload(data['redirectAfter']);
+                        redireload(data['redirectAfter'], data['pjax-reload']);
                         $.pjax({
                             url: data['redirectAfter'], 
                             container: data['pjax-reload']
@@ -396,12 +396,12 @@
         doSubmit(data, form);
     }
 
-    function redireload(url) {
+    function redireload(url, container) {
         window.history.pushState("", "", url);
         $.ajax({
             url : url  
         }).done(function (data) {
-            $.pjax.reload('#mr');
+            $.pjax.reload(container);
         }).fail(function () {
             alert('An error occured');
         });

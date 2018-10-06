@@ -187,11 +187,9 @@ class ProjectController extends Controller
     }
 
     public function manage(Request $request, $slug) {
-        $data['user_profile']  = $request->user()->profile;
-        $data['data'] = Project::where("project_slug",$slug)->first();
-        $project_id = $data['data']['id'];
-        $data['historis'] = History::where('project_id', $project_id)->get(); 
-        // dd($data);
+        $data['project'] = Project::where("project_slug", $slug)->first();
+        $data['historis'] = History::where('project_id', $data['project']->id)->get(); 
+        // dd($data['project']->);
         return view('member.dashboard', ['menu' => 'sudut', 'section' => 'manage-project'], $data);
     }
 
@@ -203,10 +201,10 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        $data = Project::where('id', $id)->first();
-        // die(var_dump($data));
+        $data['project'] = Project::where('id', decrypt($id))->firstOrFail();
+        $data['categories'] = Category::all();
         // dd($data['deadline']);
-        return view('member.partials.modal.edit_project', $data);
+        return view('member.dashboard', ['menu' => 'sudut', 'section' => 'project_edit'], $data);
     }
 
     /**
@@ -222,46 +220,109 @@ class ProjectController extends Controller
             "project_name"          => 'required|min:10',
             "project_description"   => 'required',
             "project_location"      => 'required',
-            "project_deadline"      => 'required|after_or_equal:today',
             "funding_target"        => 'required|numeric',
-            "volunteer_quota"       => 'required|numeric'
+            "volunteer_quota"       => 'required|numeric',
+            "category_id"           => 'required',
+            "close_donation"        => 'required|after_or_equal:today',
+            "close_reg"             => 'required|after_or_equal:today',
+            "project_banner"        => 'required|image|mimes:jpg,jpeg,png,svg',
+            // "attachments"           => 'image|mimes:jpg,jpeg,png,svg'
         ];
         $messages = [
             "project_name.required"             => ":attribute tidak boleh kosong",
             "project_name.min"                  => "Mohon isi judul proyek setidaknya :min karakter",
             "project_description.required"      => "Mohon isi :attribute untuk menjelaskan detai proyek Anda",
             "project_location.required"         => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
-            "project_deadline.required"         => "Mohon untuk mengisi :attribute proyek Anda",
-            "project_deadline.after_or_equal"   => "Mohon isikan :attribute setidaknya tanggal hari ini",
+            "close_donation.required"           => "Mohon untuk mengisi :attribute untuk proyek Anda",
+            "close_donation.after_or_equal"     => "Mohon isikan :attribute setidaknya tanggal hari ini",
+            "close_reg.required"                => "Mohon untuk mengisi :attribute untuk proyek Anda",
+            "close_reg.after_or_equal"          => "Mohon isikan :attribute setidaknya tanggal hari ini",
             "funding_target.required"           => "Mohon isikan :attribute",
             "funding_target.numeric"            => "Harap isikan dengan angka",
             "volunteer_quota.required"          => "Mohon isikan :attribute",
             "volunteer_quota.numeric"           => "Harap isikan dengan angka",
+            "category_id.required"              => "Mohon pilih :attribute yang sesuai atau paling mendekati",
+            "project_banner.required"           => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
+            "project_banner.image"              => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
+            "project_banner.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
+            // "attachments.image"                 => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
+            // "attachments.mimes"                 => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
         ];
         $attributes = [
             "project_name"          => 'Judul Proyek',
             "project_description"   => 'deskripsi proyek',
             "project_location"      => 'lokasi',
-            "project_deadline"      => 'tenggat waktu',
+            "close_donation"        => 'batas waktu donasi',
+            "close_reg"             => 'batas waktu registrasi',
             "funding_target"        => 'nominal target dana',
-            "volunteer_quota"       => 'jumlah target relawan'
+            "volunteer_quota"       => 'jumlah target relawan',
+            "category_id"           => 'kategori',
+            "project_banner"        => 'spanduk',
+            // "attachments"           => 'dokumen verifikasi'
         ];
-        $data = $request->data;
+                
+        // dd($request->data['attachments']);
 
-        $validator = Validator::make($data, $rules, $messages, $attributes);
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             $return = ["errors" => $validator->messages()];
+        }
+
+        $data = $request->data;
+        $data["project_slug"] = md5($request->data['project_name']);
+        $data["close_donation"] = date_create_from_format('Y-m-d', $request->data['close_donation'])->format('Y-m-d H:i:s');
+        $data["close_reg"] = date_create_from_format('Y-m-d', $request->data['close_reg'])->format('Y-m-d H:i:s');
+        
+        $path = "";
+        $filename = "";
+
+        if($request->hasFile('data.project_banner')) {
+            $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
+            $file = $request->file('data.project_banner');
+            $path = $file->storeAs('public/project_banner', $filename);
+        }
+
+        if($path) {
+            $data['project_banner'] = "storage/project_banner/".$filename;
+        }
+        
+        // $attachment_name = [];
+        // $attachment_path = [];
+        // $attachment_link = [];
+        // if($request->hasFile('data.attachments')){
+        //     $attachments = $request->data['attachments'];
+        //     $attachment_folder = $data['project_slug'].time();
+        //     if(count($attachments) > 1) {
+        //         foreach ($attachments as $key => $a) {
+        //             $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
+        //             $attachment_path[$key] = $a->storeAs("public/project_verification/$attachment_folder", $attachment_name[$key]);
+        //             $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
+        //         }
+        //     }
+        // }
+
+        // if(!empty($attachment_path)){
+        //     $data['attachments'] = json_encode($attachment_link);
+        // }
+
+        // dd($data);
+
+        $project = Project::where('id', decrypt($id))->update($data);
+        // if(!empty($request->questions)){
+        //     $questions = json_decode($request->questions);
+        //     $qt = array();
+        //     foreach ($questions as $key => $q) {
+        //         $qt[$key]['question'] = $q;
+        //     }
+        //     $project->questions()->createMany($qt);
+        // }
+
+
+        if($project) {
+            $return = ["success" => "Proyek berhasil diubah"];
         } else {
-            date_default_timezone_set('Asia/Jakarta');
-            $data["project_deadline"] = date_create_from_format('Y-m-d', $request->data['project_deadline'])->format('Y-m-d H:i:s');
-            
-            $store = Project::where('id', $id)->update($data);
-            if($store) {
-                $return = ["success" => "Data proyek berhasil diubah"];
-            } else {
-                $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
-            }
+            $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
         }
         
         return response()->json($return);
@@ -275,7 +336,7 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        $delete = Project::find($id)->delete();
+        $delete = Project::find(decrypt($id))->delete();
         if($delete) {
             $return = ["success" => "Proyek berhasil dihapus"];
         } else {
