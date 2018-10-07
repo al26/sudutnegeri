@@ -1,26 +1,31 @@
+@php
+    function chop_string($string,$x=200) {
+        // $string = strip_tags(stripslashes($string)); // convert to plaintext
+        return substr($string, 0, strpos(wordwrap($string, $x), "."));
+    }
+@endphp
 <div class="card">
     <div class="card-header text-left border-bottom bg-lighten">
         <h4 class="m-0">Informasi terkini</h4>
     </div>
-    <div class="card-body">
-        {{-- <div class="form-section">
-            <div class="fs-head">
-                <span class="fs-head-text">Informasi terkini</span>
-            </div>
-        </div> --}}
-        <div class="update-list">
-            <h3><a href="" class="decoration-none text-secondary">Judul Update</a></h3>
-            <div class="update-list-item _less mb-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti sed repudiandae suscipit, nobis sapiente, culpa ipsa corrupti nam commodi tenetur iure, nemo quaerat quae. Ratione inventore sapiente suscipit repellat alias! 
-            </div>
-            <div class="update-list-item _complete hidden mb-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti sed repudiandae suscipit, nobis sapiente, culpa ipsa corrupti nam commodi tenetur iure, nemo quaerat quae. Ratione inventore sapiente suscipit repellat alias! <br>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo adipisci, ea error culpa consequuntur omnis sequi, recusandae consectetur sit eos tempore ducimus mollitia at, itaque explicabo. Corrupti voluptatem placeat animi! <br>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta facilis nostrum, perspiciatis distinctio vitae, laborum dicta dolorum saepe nemo deserunt maxime adipisci porro fugiat, eaque dolor accusamus earum voluptatem non?
-            </div>
-            <button class="update-list-btn btn btn-secondary btn-sm" onclick="javascript:toggleMoreLess(this, '._less', '._complete', 'Tampilkan Sebagian', 'Selengkapnya');" data-action="more">Selengkapnya</button>
+    @if (!empty($updates))
+        <div class="card-body">
+            @foreach ($updates as $key => $item)
+                <div class="update-list">
+                    <h3><a href="{{route('project.show', ['slug' => $item->project->project_slug, 'menu' => 'history'])}}" class="decoration-none text-secondary">{{$item->title}}</a></h3>
+                    <span class="--text _sub">ditulis oleh : {{$item->user->profile->name}} | {{Idnme::print_date($item->created_at)}}</span>
+                    <div class="update-list-item _less my-2" id="upless-{{$key}}">
+                        {!!chop_string($item->body)!!}... 
+                    </div>
+                    <div class="update-list-item _complete hidden mb-2" id="upmore-{{$key}}">
+                        {!!$item->body!!}
+                    </div>
+                    <button class="update-list-btn btn btn-secondary btn-sm" onclick='javascript:toggleMoreLess(this, "#upless-{{$key}}", "#upmore-{{$key}}", "Tampilkan Sebagian", "Selengkapnya");' data-action="more">Selengkapnya</button>
+                </div>
+                <hr>
+            @endforeach
         </div>
-    </div>
+    @endif
 </div>
 @if ($featured->count() > 0)
     <div class="card mt-3">

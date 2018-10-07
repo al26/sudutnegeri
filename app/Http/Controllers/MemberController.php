@@ -55,24 +55,23 @@ class MemberController extends Controller
                                         $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
                                               ->orWhereIn('regency_id', $user_around);
                                     })->latest()->limit(6)->get();
-        // $data['updates'] = History::whereIn('project_id', 
-        //                                 Donation::where('user_id', $request->user()->id)
-        //                                         ->where('status', 'verified')
-        //                                         ->pluck('project_id')->toArray()
-        //                             )
-        //                             ->orWhereIn('project_id', 
-        //                                 Volunteer::where('user_id', $request->user()->id)
-        //                                         ->where('status', 'accepted')
-        //                                         ->latest()
-        //                                         ->pluck('project_id')
-        //                                         ->first()
-        //                                         ->toArray()
-        //                             )
-        //                             ->orWhereIn('project_id',
-        //                                 Project::where('user_id', $request->user()->id)
-        //                                         ->pluck('project_id')
-        //                                         ->toArray()
-        //                             )->get();
+        $data['updates'] = History::whereIn('project_id', 
+                                        Donation::where('user_id', $request->user()->id)
+                                                ->where('status', 'verified')
+                                                ->pluck('project_id')->toArray()
+                                    )
+                                    ->orWhereIn('project_id', 
+                                        Volunteer::where('user_id', $request->user()->id)
+                                                ->where('status', 'accepted')
+                                                ->latest()
+                                                ->pluck('project_id')
+                                                ->toArray()
+                                    )
+                                    ->orWhereIn('project_id',
+                                        Project::where('user_id', $request->user()->id)
+                                                ->pluck('id')
+                                                ->toArray()
+                                    )->orderBy('created_at', 'desc')->take(3)->get();
 
         // dd($data['update']);
 

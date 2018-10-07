@@ -18,11 +18,12 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}"> --}}
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('style')
 </head>
 <body>
         {{-- @yield('bg-nav', 'bg-gradient-secondary') --}}
     <div id="app">
-        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark @yield('bg-nav', 'bg-gradient-secondary')">
+        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark @yield('bg-nav', 'bg-gradient-secondary')" style="height:3rem">
             <div class="container">
                 <button class="navbar-toggler p-0 border-0 text-light" type="button" data-toggle="search">
                     <span class="fas fa-search"></span>

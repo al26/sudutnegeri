@@ -144,10 +144,10 @@ class ProjectController extends Controller
         }
 
         if(!empty($attachment_path)){
-            $data['attachments'] = json_encode($attachment_link);
+            $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
         }
 
-        // dd($data);
+        // dd($data['attachments']);
 
         $project = Project::create($data);
         if(!empty($request->questions)){

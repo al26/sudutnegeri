@@ -113,7 +113,7 @@ $(document).ready(function () {
     });
     activateOptGenerator();
     $('.select2').select2({ theme: "bootstrap4" });
-    $(document).ajaxSelect2("project_location", "/location");
+    $(document).ajaxSelect2("regency_id", "/location");
     // showMoreLess(100, 'Selengkapnya', 'Sebagian', '.update-list-item');
 });
 
@@ -182,17 +182,19 @@ $(document).on('click', '#create-withdrawal', function (e) {
     $('#form-create-withdrawal').ajaxCrudNonModal(['#mr'], redirectTo);
 });
 
-var projecToCredit = $('#form-create-withdrawal').find('#project_id');
+projecToCredit = $('#form-create-withdrawal').find('#project_id');
 $(document).on('change', projecToCredit, function (e) {
     // var project = encodeURIComponent(window.btoa(projecToCredit.val)),
     var url = projecToCredit.attr('data-saldo') + "?project=" + projecToCredit.val();
-    console.log(url);
     $.get(url, function (data) {
         var reverse = data.saldo.toString().split('').reverse().join(''),
             ribuan = reverse.match(/\d{1,3}/g);
         ribuan = ribuan.join('.').split('').reverse().join('');
         var info = $('#form-create-withdrawal').find('#info-saldo');
-        info.toggleClass('hidden');
+
+        if (info.hasClass('hidden')) {
+            info.removeClass('hidden');
+        }
         info.text('Saldo proyek ' + data.name + ' saat ini : Rp ' + ribuan);
     });
 });
@@ -216,6 +218,7 @@ $('#mc, #mr').on('pjax:complete', function () {
         height: 150
     });
     $(document).ajaxSelect2("project_location", "/location");
+    projecToCredit = $('#form-create-withdrawal').find('#project_id');
 });
 
 function toggleActiveMenuTab() {

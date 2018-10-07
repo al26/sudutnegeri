@@ -3,22 +3,22 @@
 @section('content')
     <div class="container my-lg-3">
         @php
-            $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
+            $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
             $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
 
-            date_default_timezone_set('Asia/Jakarta');
+            // date_default_timezone_set('Asia/Jakarta');
 
-            $today = new DateTime('now');
-            $deadline = new DateTime($project->project_deadline);
-            $remainingDays = $today->diff($deadline)->format('%d hari'); 
-            $remainingHours = $today->diff($deadline)->format('%h jam'); 
+            // $today = new DateTime('now');
+            // $deadline = new DateTime($project->project_deadline);
+            // $remainingDays = $today->diff($deadline)->format('%d hari'); 
+            // $remainingHours = $today->diff($deadline)->format('%h jam'); 
 
-            if($remainingDays <= 0) {
-                $remainingDays = $remainingHours;
-            }
-            if($remainingDays <= 0 && $remainingHours < 0) {
-                $remainingDays = "Proyek berakhir";
-            }
+            // if($remainingDays <= 0) {
+            //     $remainingDays = $remainingHours;
+            // }
+            // if($remainingDays <= 0 && $remainingHours < 0) {
+            //     $remainingDays = "Proyek berakhir";
+            // }
         @endphp
         <div class="row">
             <div class="col-12 col-lg-4 sticky-side-info --container --left order-2 order-lg-1">
@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-12 col-lg-8 offset-lg-1 offset-xl-0 px-0">
                                     <span class="--text text-capitalize">terkumpul {{$progressDana}}%</span>
-                                    <h4 class="m-0">{{Idnme::print_rupiah($project->funding_progress, false, true) }}</h4>
+                                    <h4 class="m-0">{{Idnme::print_rupiah($project->collected_funds, false, true) }}</h4>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{$progressDana}}%"></div>
                                     </div>
@@ -81,6 +81,16 @@
                             @endauth
                         </div>
                     </section>
+                    {{-- <section class="card --content">
+                        <div class="card-body">
+                            <span>Proyek ini mencurigrakan ? <a href="" class="card-link"> Laporkan</a></span>
+                        </div>
+                    </section> --}}
+                    {{-- <section class="card --content">
+                        <div class="card-body">
+                            <div class="fb-share-button" data-href="{{URL::current()}}" data-layout="button_count"></div>
+                        </div>
+                    </section> --}}
                 </div>
             </div>
             <div class="col-12 col-lg-8 featured --container --right order-1 order-lg-2">
@@ -155,6 +165,15 @@
 @endsection
 
 @section('script')
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=241110544128";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 <script>
     $(document).ready(function(){
         toggleActiveMenuTab();

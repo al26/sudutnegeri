@@ -8,8 +8,8 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 p-0 px-md-3">
             <div class="card border-0 vh-100">
-                @if (empty($current_activity))
-                    @if (in_array(Auth::user()->id, $existing_volunteers))
+                @if ($current_activity->count() <= 0)
+                    @if (!empty($existing_volunteers) && in_array(Auth::user()->id, $existing_volunteers))
                         <div class="card-body text-center">
                             <div class="my-3">
                                 <i class="fas fa-clipboard-check fa-10x"></i>
@@ -89,7 +89,7 @@
                         <div class="my-3">
                             <i class="fas fa-clipboard-check fa-10x"></i>
                         </div>
-                        <span class="font-weight-bold">Anda masih terdaftar sebagai (calon) relawan di proyek <a href="{{route('project.show', ['slug' => $current_activity[0]->project->project_slug])}}" class="card-link">{{$current_activity[0]->project->project_name}}</a> !</span><br>
+                        <span class="font-weight-bold">Anda masih terdaftar sebagai (calon) relawan di proyek <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="card-link">{{$project->project_name}}</a> !</span><br>
                         <span class="">Mohon maaf, setiap member hanya dapat terlibat aktif sebagai relawan dalam 1 proyek. Tidak dapat merangkap ke proyek lain atau aktif dalam 2 atau lebih proyek dalam 1 waktu.</span>
                         <br>
                         <div class="d-flex mt-3">

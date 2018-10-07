@@ -42,6 +42,49 @@ body {
 	}
 }
 
+.filter-collapse {
+	position: fixed;
+	z-index: 1030 !important;
+	top: 3rem !important; /* Height of navbar */
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	// min-height: 100% !important;
+	overflow-y: auto;
+	background-color: #f8f9fa;
+	transition: -webkit-transform .3s ease-in-out;
+	transition: transform .3s ease-in-out;
+	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
+	-webkit-transform: translateX(100%);
+	transform: translateX(100%);
+
+	&.open {
+		-webkit-transform: translateX(0);
+		transform: translateX(0); /* Account for horizontal padding on navbar */
+	}
+
+	li.nav-item {
+		&.active {
+			border-left: 3px solid $secondary-color !important;
+
+			a.nav-link {
+				font-weight: bold;
+			}
+		}
+
+		a.nav-link > .svg-inline--fa {
+			display: inline-block;
+			width: 1em !important;
+			margin-right: .3rem;
+		} 
+	}
+
+	@include media-breakpoint-up(lg) {
+		top: 4rem !important;			
+		width: 30% !important;
+	}
+}
+
 .search-collapse {
 	position: fixed;
 	z-index: 1035 !important;
@@ -119,3 +162,29 @@ body {
 .lh-100 { line-height: 1; }
 .lh-125 { line-height: 1.25; }
 .lh-150 { line-height: 1.5; }
+
+.slide-off {
+	height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 3rem;
+    left: 0;
+    background-color: $secondary; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 4rem; /* Place content 60px from the top */
+	transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+	
+	.closebtn {
+		position: absolute;
+		top: 0;
+		right: 1.5rem;
+		font-size: 2rem;
+		margin-left: 3rem;
+	}
+}
+
+.so-main {
+    transition: .5s;
+    // padding: 1.1;
+}

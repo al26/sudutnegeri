@@ -62,20 +62,23 @@
                                 switch ($w->status) {
                                     case 'pending':
                                         $status = 'Dalam proses';
+                                        $badge = 'warning';
                                         break;
                                     case 'processed':
                                         $status = 'Pencairan telah diproses';
+                                        $badge = 'success';
                                         break;
                                     default:
-                                        $status = 'Pengajuan pencairan terkirim';
+                                        $status = 'Dalam proses';
+                                        $badge = 'warning';
                                         break;
                                 }
                             @endphp
                             <tr>
                                 <td>{{Idnme::print_date($w->created_at, true)}}</td>
                                 <td>{{$w->project->project_name}}</td>
-                                <td>{{Idnme::print_rupiah($w->amount)}}</td>
-                                <td>{{$status}}</td>
+                                <td>{{Idnme::print_rupiah($w->amount, false, true)}}</td>
+                                <td><span class="badge badge-{{$badge}}">{{$status}}</span></td>
                                 {{-- <td>
                                     <a class="btn btn-sm btn-primary" data-toggle="pjax" data-pjax="main-content" href="{{route('withdrawal.create', ['slug' => $p->project_slug])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-cloud-upload-alt"></i> Cairkan Dana</a>
                                 </td> --}}

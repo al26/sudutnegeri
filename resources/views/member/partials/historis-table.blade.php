@@ -31,8 +31,8 @@
                             <a href="{{route($route, ['slug' => $history->project->project_slug,'id' => encrypt($history->id)])}}" class="btn btn-sm btn-primary my-1" data-toggle="pjax" data-pjax="main-content"><i class="far fw fa-edit"></i> Edit</a>
                             <a class="btn btn-sm btn-danger my-1" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus History","text":"Hapus data historis {{$history->title}} ?", "actionUrl":"{{route('history.destroy', ["id" => encrypt($history->id)])}}","delete":"Hapus History", "cancel":"Batalkan","redirectAfter":"{{$redirect}}","pjax-container":"#mr"}'><i class="far fw fa-trash-alt"></i> Hapus</a>
                         @else
-                            <span class="btn btn-sm btn-primary" disabled><i class="far fw fa-edit"></i> Edit</span>
-                            <span class="btn btn-sm btn-danger" disabled><i class="far fw fa-trash-alt"></i> Hapus</span>
+                            <span class="btn btn-sm btn-primary disabled"><i class="far fw fa-edit"></i> Edit</span>
+                            <span class="btn btn-sm btn-danger disabled"><i class="far fw fa-trash-alt"></i> Hapus</span>
                         @endif
                     </td>
                 </tr>

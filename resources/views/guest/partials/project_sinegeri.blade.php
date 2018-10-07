@@ -15,10 +15,10 @@
                 @foreach ($donators as $donatur)
                     <div class="col-12 col-md-6 col-xl-4">
                         <div class="media mb-2">
-                            @if($donatur->anonymouse === 'yes')
+                            @if($donatur->anonymouse)
                                 <img class="mr-3" src="{{asset('storage/profile_pictures/avatar.jpg')}}" alt="Generic placeholder image" width="50">
                                 <div class="media-body">
-                                    <span class="mb-2 --text">Anonymouse</span>
+                                    <span class="mb-2 --text">Anonim</span>
                                     <span class="mb-0 --text _sub">{{$donatur->amount}}</span>
                                 </div>
                             @else
