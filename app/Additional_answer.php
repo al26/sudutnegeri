@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Additional_answer extends Model
 {
-    // use SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = ['volunteer_id', 'question_id', 'answer'];
-    // protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
 
     public function question()
     {

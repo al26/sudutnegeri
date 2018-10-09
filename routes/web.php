@@ -20,7 +20,7 @@ Route::get('/cv/{id}', function ($id) {
 })->middleware('web');
 
 Route::get('/', function () {
-    $data['projects'] = \App\Project::take(10)->get();
+    $data['projects'] = \App\Project::where('project_status', '!=', 'submitted')->take(10)->get();
     // dd(\App\User::all());
     $data['member'] = \App\User::where('role', 'member')->where('active', true)->get();
     return view('home', $data);
@@ -79,9 +79,15 @@ Route::group(['prefix' => 'admin'], function () {
     });
     Route::get('dashboard/{menu?}', 'AdminController@index')
             ->where(
-                ['menu'     => '(overview|users|donations)',]
+                ['menu'     => '(overview|users|donations|projects|category|banks|bank-accounts)',]
             )
             ->name('admin.dashboard');
+    Route::put('dashboard/projects/verify/{id}', 'AdminController@projectVerification')->name('project.verify');
+    Route::group(['prefix' => 'dashboard'], function () {
+        Route::resource('category', 'CategoryController');
+        Route::resource('banks', 'BankController');
+        Route::resource('ba', 'BankAccountController');
+    });
 });
 
 Route::group(['prefix' => 'project'], function () {

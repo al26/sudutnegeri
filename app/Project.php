@@ -9,7 +9,7 @@ class Project extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'project_name', 'category_id', 'project_slug', 'project_description', 'funding_target', 'collected_funds', 'volunteer_quota', 'registered_volunteer', 'project_banner', 'regency_id', 'close_donation', 'close_reg', 'attachments'];    
+    protected $fillable = ['user_id', 'project_name', 'category_id', 'project_slug', 'project_description', 'funding_target', 'collected_funds', 'volunteer_quota', 'registered_volunteer', 'project_banner', 'regency_id', 'close_donation', 'close_reg', 'attachments', 'project_status'];    
     protected $dates = ['deleted_at'];
     
     public function user()

@@ -17,6 +17,7 @@ class CreateBanksTable extends Migration
             $table->string('bank_code', 5)->primary();
             $table->string('bank_name');
             $table->string('logo');
+            $table->timestamps();
         });
     }
 

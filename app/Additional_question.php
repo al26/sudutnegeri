@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Additional_question extends Model
 {
-    // use SoftDeletes;
+    use SoftDeletes;
     protected $fillable = ['project_id', 'question'];
-    // protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
     // public $timestamps = false;
 
     public function project() 

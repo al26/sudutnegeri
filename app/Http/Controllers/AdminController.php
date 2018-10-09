@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Rules\CheckRole;
 use App\Donation;
+use App\Project;
+use App\Category;
+use App\Bank;
+use App\Bank_account as Account;
 
 class AdminController extends Controller
 {
@@ -19,6 +23,10 @@ class AdminController extends Controller
     public function index($menu = null) {
         $data['menu'] = $menu;
         $data['donations'] = Donation::all();
+        $data['projects'] = Project::all();
+        $data['categories'] = Category::all();
+        $data['banks'] = Bank::all();
+        $data['bank_accounts'] = Account::all();
         return view('admin.dashboard', $data);
     }
 
@@ -50,5 +58,33 @@ class AdminController extends Controller
     {
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login');
+    }
+
+    public function projectVerification(Request $request, $id) {
+        $project = Project::findOrFail(decrypt($id));
+        $status = "";
+        switch ($request->action) {
+            case 'verify':
+                $status = 'published';
+                break;
+            default:
+                $status = 'rejected';
+                break;
+        }
+
+        $project->project_status = $status;
+        $update = $project->save();
+
+        if ($update) {
+            if($status === 'published') {
+                $return = ['success' => "Proyek $project->project_name telah disetujui dan dipublikasi"];
+            } else {
+                $return = ['error' => "Proyek $project->project_name ditolak"];
+            }
+        } else {
+            $return = ['error' => "Terjadi kesalahan. Silahkan Coba lagi"];
+        }
+
+        return response()->json($return);
     }
 }

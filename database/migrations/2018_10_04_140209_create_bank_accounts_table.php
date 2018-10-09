@@ -20,7 +20,7 @@ class CreateBankAccountsTable extends Migration
             $table->string('bank_address');
             $table->string('account_name');
             $table->string('account_number');
-            // $table->timestamps();
+            $table->timestamps();
         });
     }
 
