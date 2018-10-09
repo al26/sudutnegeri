@@ -3,42 +3,9 @@
 @section('content')
 <!-- Left Panel -->
 
-<aside id="left-panel" class="left-panel">
-    <nav class="navbar navbar-expand-sm navbar-default">
-
-        <div class="navbar-header">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fa fa-bars"></i>
-            </button>
-            <a class="navbar-brand" href="/">{{ config('app.name', 'Laravel') }}</a>
-            <a class="navbar-brand hidden" href="/">{{ config('app.name', 'Laravel') }}</a>
-        </div>
-
-        <div id="main-menu" class="main-menu collapse navbar-collapse">
-            <ul class="nav navbar-nav" id="am-menu">
-                <li class="active">
-                    <a id="am-overview" href="{{route('admin.dashboard', ['menu' => 'overview'])}}" data-toggle="pjax" data-pjax="adm-menu"><i class="fas fw fa-tachometer-alt menu-icon"></i> Dashboard </a>
-                </li>
-                <li class="">
-                    <a id="am-users" href="{{route('admin.dashboard', ['menu' => 'users'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fa fa-users"></i>Kelola Pengguna</a>
-                </li>
-                <li class="">
-                    <a id="am-donations" href="{{route('admin.dashboard', ['menu' => 'donations'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fa fa-users"></i>Kelola Donasi</a>
-                </li>
-                {{-- <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Forms</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Basic Form</a></li>
-                        <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Advanced Form</a></li>
-                    </ul>
-                </li> --}}
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </nav>
-</aside><!-- /#left-panel -->
 
 <!-- Left Panel -->
-
+@include('admin.partials.menu')
 <!-- Right Panel -->
 
 <div id="right-panel" class="right-panel">
@@ -211,6 +178,7 @@
         @include('admin.partials.menu.'.$menu)
 
     </div> <!-- .content -->
+    @include('components.modal')
 </div><!-- /#right-panel -->
 
 <!-- Right Panel -->
@@ -219,7 +187,9 @@
 @section('script')
 <script>
     $(document).ready(function(){
-        $('#example').DataTable(
+        $(document).loadModal();
+        toggleActiveMenuTab();
+        table = $('#example').DataTable(
             {
                 "language": {
                     "sProcessing":   "Sedang proses...",
@@ -237,7 +207,12 @@
                         "sNext":     "Lanjut",
                         "sLast":     "Akhir"
                     }
-                }
+                },
+                responsive : true,
+                autoWidth : true,
+                lengthChange : true,
+                stateSave : true,
+                fixedHeader : true
             }
         );
     });
@@ -248,9 +223,50 @@
         toggleActiveMenuTab();
     });
 
-    // $('#ac').on('pjax:complete', function() {
-        
-    // });
+	$(document).on('click', '#project-verify', function(e){
+        e.preventDefault();
+        var data = $(this).data('data');
+        var url = $(this).attr('href');
+        $(this).ajaxYesNo(url, data);
+    });
+
+    $(document).on('click', '#project-reject', function(e){
+        e.preventDefault();
+        var data = $(this).data('data');
+        var url = $(this).attr('href');
+        $(this).ajaxYesNo(url, data);
+    });
+
+
+    $('#ac').on('pjax:complete', function() {
+        table.destroy();
+        table = $('#example').DataTable(
+            {
+                "language": {
+                    "sProcessing":   "Sedang proses...",
+                    "sLengthMenu":   "Tampilan _MENU_ entri",
+                    "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+                    "sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+                    "sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+                    "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                    "sInfoPostFix":  "",
+                    "sSearch":       "Cari:",
+                    "sUrl":          "",
+                    "oPaginate": {
+                        "sFirst":    "Awal",
+                        "sPrevious": "Balik",
+                        "sNext":     "Lanjut",
+                        "sLast":     "Akhir"
+                    }
+                },
+                responsive : true,
+                autoWidth : true,
+                lengthChange : true,
+                stateSave : true,
+                fixedHeader : true
+            }
+        );
+    });
 
     function toggleActiveMenuTab() {
         var path = document.location.pathname,

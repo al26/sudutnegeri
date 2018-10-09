@@ -22,7 +22,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $project = new Project();
+        $project = Project::where('project_status','!=','submitted');
 
         if ($request->location !== 'all') {
             $project = $project->where('regency_id', $request->location);

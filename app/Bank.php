@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bank extends Model
 {
+    use SoftDeletes;
     protected $fillable = ['bank_name', 'bank_code', 'logo'];
+    protected $dates = ['deleted_at'];
 
     public function donations() 
     {

@@ -82720,6 +82720,40 @@ if (typeof window !== 'undefined' && window.Sweetalert2){  window.swal = window.
             alert('An error occured');
         });
     }
+
+    $.fn.ajaxYesNo = function (url, data) {
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { '_method': 'PUT', '_token': csrf_token },
+            cache: false,
+            ifModified: true,
+            global: false
+        }).done(function (response) {
+            if (response.success) {
+                swal({
+                    type: 'success',
+                    title: response.success,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+            }
+
+            if (response.error) {
+                swal({
+                    type: 'error',
+                    title: response.error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+            }
+        }).fail(function (response) {
+            console.log(response);
+        });
+    };
 })(jQuery);
 
 /***/ }),

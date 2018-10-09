@@ -13,7 +13,7 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 //Normalize
-@import "../css/normalize.css";
+// @import "../css/normalize.css";
 // Bootstrap Functions
 @import "bootstrapFunc";
 // Custom Variables
@@ -24,6 +24,7 @@
 @import '~bootstrap-select/sass/bootstrap-select';
 // SweetAlert2
 @import '~sweetalert2/src/sweetalert2';
+@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
 //custom DataTable
 @import "customDataTable";
 
@@ -1843,3 +1844,5 @@ header .form-inline {
 }
 
 @import "../css/jqvmap.min.css";
+
+@import "adminStyle";
