@@ -21,6 +21,8 @@ class Idnme
             '11' => 'November',
             '12' => 'Desember',
         );
+        
+        date_default_timezone_set('Asia/Jakarta');
         $date = new DateTime($date);
 
         if($time) {

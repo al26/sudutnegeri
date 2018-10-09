@@ -18,11 +18,12 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}"> --}}
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('style')
 </head>
 <body>
         {{-- @yield('bg-nav', 'bg-gradient-secondary') --}}
     <div id="app">
-        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark @yield('bg-nav', 'bg-gradient-secondary')">
+        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark @yield('bg-nav', 'bg-gradient-secondary')" style="height:3rem">
             <div class="container">
                 <button class="navbar-toggler p-0 border-0 text-light" type="button" data-toggle="search">
                     <span class="fas fa-search"></span>
@@ -87,25 +88,25 @@
                                         <span class="--text _sub mt-1">Tergabung sejak : {{Idnme::print_date(Auth::user()->created_at, false)}}</span>
                                     </span>
                                 </div>
-                                <a href="{{route('avatar.edit', ['id' => Auth::user()->profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => Auth::user()->profile->id])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => Auth::user()->profile->id])}}"}'>
+                                <a href="{{route('avatar.edit', ['id' => encrypt(Auth::user()->profile->id)])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => encrypt(Auth::user()->profile->id)])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => encrypt(Auth::user()->profile->id)])}}"}'>
                                     <img class="d-flex ml-3 rounded-0 img-fluid img-thumbnail pchange" src="{{ asset(Auth::user()->profile->profile_picture) }}" alt="Image Icon" style="width: 100px;">
                                 </a>
                             </div>
                             <ul class="list-inline m-0 py-1 px-3 bg-secondary d-flex flex-row justify-content-around">
                                 <li class="list-inline-item mr-5 text-center">
-                                    <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="menu" class="text-white decoration-none">
+                                    <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" class="text-white decoration-none">
                                         <span class="--text"><i class="fas fw fa-project-diagram mr-2"></i>Proyek</span>
                                         <span class="--text">{{Auth::user()->projects->count()}}</span>
                                     </a>
                                 </li>
                                 <li class="list-inline-item mr-5 text-center">
-                                    <a data-toggle="pjax" data-pjax="menu" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" class="text-white decoration-none">
+                                    <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" class="text-white decoration-none">
                                         <span class="--text"><i class="fas fw fa-hand-holding-heart mr-2"></i>Aktivitas</span>
                                         <span class="--text">{{Auth::user()->volunteers()->where('status', 'accepted')->orWhere('status', 'finished')->count()}}</span>
                                     </a>
                                 </li>
                                 <li class="list-inline-item text-center">
-                                    <a data-toggle="pjax" data-pjax="menu" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="text-white decoration-none">
+                                    <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="text-white decoration-none">
                                         <span class="--text"><i class="fas fw fa-coins mr-2"></i>Investasi</span>
                                         <span class="--text">{{Auth::user()->donations()->where('status', 'verified')->count()}}</span>
                                     </a>
@@ -114,14 +115,20 @@
                         @endguest
                         <div class="card-body p-0">
                             <div class="list-group list-group-flush">
-                                <a href="{{url('/')}}" class="list-group-item list-group-item-action dv-menu active"><i class="fas fw fa-home mr-2"></i> Beranda</a>
+                                <a href="{{url('/')}}" class="list-group-item list-group-item-action dv-menu {{empty(Request::segment(1)) ? 'active' : ''}}"><i class="fas fw fa-home mr-2"></i> Beranda</a>
 
-                                <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-lightbulb mr-2"></i> Jadi Sudut</a>
+                                @guest
+                                    <a href="{{route('login', ['continue' => urlencode(base64_encode(route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])))])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-lightbulb mr-2"></i> Jadi Sudut</a>
 
-                                <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-heartbeat mr-2"></i> Jadi Negeri</a>
-                                
+                                    <a href="{{route('login', ['continue' => urlencode(base64_encode(route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])))])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-heartbeat mr-2"></i> Jadi Negeri</a>
+                                @endguest
+
                                 @auth  
-                                    <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-user-cog mr-2"></i> Pengaturan</a>
+                                    <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" class="list-group-item list-group-item-action dv-menu {{!empty(Request::segment(2)) && Request::segment(2) === 'sudut' ? 'active' : ''}}"><i class="fas fw fa-lightbulb mr-2"></i> Jadi Sudut</a>
+
+                                    <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="list-group-item list-group-item-action dv-menu {{!empty(Request::segment(2)) && Request::segment(2) === 'negeri' ? 'active' : ''}}"><i class="fas fw fa-heartbeat mr-2"></i> Jadi Negeri</a>
+
+                                    <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action dv-menu {{!empty(Request::segment(2)) && Request::segment(2) === 'setting' ? 'active' : ''}}"><i class="fas fw fa-user-cog mr-2"></i> Pengaturan</a>
                                     
                                     {{-- <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-project-diagram mr-2"></i> Proyek Saya</a>
         
@@ -137,7 +144,7 @@
                                     @endphp
         
                                     @if ($check)
-                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-user-edit mr-2"></i> Lengkapi Profil </a>
+                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action dv-menu {{(!empty(Request::segment(2)) && Request::segment(2) === 'setting') && (!empty(Request::segment(3)) && Request::segment(3) === 'profile') ? 'active' : ''}}"><i class="fas fw fa-user-edit mr-2"></i> Lengkapi Profil </a>
                                     @endif
 
                                     {{-- <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action dv-menu">{!!$check ? '<i class="fas fw fa-user-edit mr-2"></i> Lengkapi Profil' : '<i class="fas fw fa-user-alt mr-2"></i> Profil Saya'!!}</a> --}}
@@ -149,7 +156,7 @@
                                     @endif --}}
                                     
                                     @if(empty(Auth::user()->password))
-                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-user-lock mr-2"></i> Buat Password</a>
+                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action dv-menu" {{(!empty(Request::segment(2)) && Request::segment(2) === 'setting') && (!empty(Request::segment(3)) && Request::segment(3) === 'account') ? 'active' : ''}}><i class="fas fw fa-user-lock mr-2"></i> Buat Password</a>
                                     @endif
                                 @endauth
                                 <a href="" class="list-group-item list-group-item-action dv-menu"><i class="fas fw fa-file-signature mr-2"></i> Syarat dan Ketentuan</a>
@@ -461,9 +468,9 @@
     </div>
 
     <!-- Scripts -->
-    {{-- <script>
+    <script>
         FontAwesomeConfig = { searchPseudoElements: true };
-    </script> --}}
+    </script>
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script>

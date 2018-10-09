@@ -1,11 +1,9 @@
 @php
     $filter_location = '';
     $location_name = '';
-    if(!empty(app('request')->input('location'))) {
+    if(!empty(app('request')->input('location')) && app('request')->input('location') !== 'all') {
         $location_name = \App\Regency::where('id', app('request')->input('location'))->first()->name;
-        if(app('request')->input('location') !== 'all') {
-            $filter_location = "di ".ucwords(strtolower($location_name));
-        } 
+        $filter_location = "di ".ucwords(strtolower($location_name));
     }
 @endphp
 @extends('layouts.app')
@@ -31,21 +29,73 @@
             </div>
         </div>
     </div> --}}
-    <div class="container clearfix">
-        {{-- <nav class="navbar navbar-light bg-transparent px-0">
+    {{-- <div class="navbar-collapse filter-collapse" id="project-filter-content">
+        <div class="card bg-transparent">
+            <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                <h4 class="card-title text-secondary-black m-0">Filter Proyek</h4>
+                <button class="navbar-toggler p-0 border-0 text-secondary-black" type="button" data-toggle="filter">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <form action="{{route('project.browse')}}" method="GET">
+                    <div class="form-group row m-0 py-2 w-100 clearfix">
+                        <div class="col-12">
+                            <label for="category">Kategori Proyek</label>
+                            <select id="category" class="form-control col-12 select2" name="category">
+                                <option selected value="all">Semua Kategori</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->slug}}" {{app('request')->input('category') === $category->slug ? 'selected' : '' }}>{{$category->category}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="location">Lokasi Proyek</label>
+                            <select id="location" class="select2 col-12 w-100 form-control" name="location">
+                                @if(!empty(app('request')->input('location')))
+                                    <option selected value="{{app('request')->input('location')}}">{{$location_name}}</option>
+                                @else
+                                    <option selected value="all">Semua Lokasi</option>
+                                @endif
+                                <option value="all">Semua Lokasi</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="sort">Urutkan</label>
+                            <select id="sort" class="form-control col-12" name="sort">
+                                <option value="latest" {{app('request')->input('sort') === 'latest' ? 'selected' : '' }}>Urutkan terbaru</option>
+                                <option value="oldest" {{app('request')->input('sort') === 'oldest' ? 'selected' : '' }}>Urutkan terlama</option>
+                            </select>
+                        </div>
+                            <button class="btn btn-md btn-secondary" type="submit">Terapkan Filter</button>
+                            <a href="{{route('project.browse')}}" class="btn btn-md btn-danger" type="reset">Hapus Filter</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> --}}
+    <div class="container clearfix my-2">
+        <nav class="navbar navbar-light bg-transparent px-0">
             <span class="--text d-none d-md-block">Ada {{$projects->count()}} project {{ strtolower(str_replace("-", " ", app('request')->input('category'))) }} membutuhkan bantuanmu</span>
+            <span class="--text d-block d-md-none">Menampilkan {{$projects->count()}} project</span>
+            {{-- <button class="navbar-toggler p-0 border-0" type="button" data-toggle="filter">
+                <i class="fas fa-filter"></i>
+            </button> --}}
+            {{-- <a class="btn btn-light btn-sm border-0 " type="button" id="project-filter">
+                    <i class="fas fa-filter"></i> Filter
+            </a> --}}
             <div class="bg-white p-3">
-                <a href="#" class="border-0 collapsed decoration-none" data-toggle="collapse" data-target="#project-filter" aria-controls="project-filter" aria-expanded="false" aria-label="Toggle navigation">
+                <a href="#" class="navbar-toggler border-0 decoration-none" data-toggle="collapse" data-target="#project-filter" aria-controls="project-filter" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-filter fw"></i> Filter
                 </a>
             </div>
         
-            <div class="navbar p-3 bg-white" id="project-filter" style="">
+            <div class="collapse navbar-collapse p-3 py-4 bg-white" id="project-filter">
                 <form action="{{route('project.browse')}}" method="GET">
-                    <div class="form-group row mx-0">
-                        <div class="col-12 p-0 d-md-flex justify-content-between">
-                            <div class="col-12 col-md-4 p-0 pr-md-3 mb-2 mb-md-0">
-                                <label for="category">Kategori Proyek</label>
+                    <div class="form-group row m-0">
+                        {{-- <div class="col-12 p-0 d-md-flex justify-content-between"> --}}
+                            <div class="col-12 col-md-6 col-lg-4 p-0 px-md-1 mb-2">
+                                {{-- <label for="category">Kategori Proyek</label> --}}
                                 <select id="category" class="select2 col-12" name="category">
                                     <option selected value="all">Semua Kategori</option>
                                     @foreach($categories as $category)
@@ -53,32 +103,36 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-12 col-md-4 p-0 mb-2 mb-md-0">
-                                <label for="location">Lokasi Proyek</label>
+                            <div class="col-12 col-md-6 p-0 col-lg-6 px-md-1 mb-2">
+                                {{-- <label for="location">Lokasi Proyek</label> --}}
                                 <select id="location" class="select2 col-12" name="location">
                                     <option selected value="all">Semua Lokasi</option>
                                 </select>
                             </div>
-                            <div class="col-12 col-md-4 p-0 pl-md-3">
-                                <label for="sort">Urutkan</label>
+                            <div class="col-12 col-md-6 p-0 col-lg-2 px-md-1 mb-2 mb-md-0">
+                                {{-- <label for="sort">Urutkan</label> --}}
                                 <select id="sort" class="select2 col-12" name="sort">
-                                    <option value="latest" selected>Terbaru</option>
-                                    <option value="oldest">Terlama</option>
+                                    <option value="latest" selected>Publikasi Terbaru</option>
+                                    <option value="oldest">Publikasi Lama</option>
                                 </select>
                             </div>
-                        </div>
+                            <div class="col-12 col-md-6 col-lg-auto p-0 px-md-1 mt-2 mt-md-0 d-flex flex-row ml-auto">
+                                <button class="btn btn-md btn-secondary align-self-md-center mx-1 ml-auto" type="submit"><i class="fas fa-check"></i> Terapkan</button>
+                                <a href="{{route('project.browse')}}" class="btn btn-md btn-danger align-self-md-center ml-1" type="reset"><i class="fas fa-undo-alt"></i> Hapus Filter</a>
+                            </div>
+                        {{-- </div> --}}
                     </div>
-                    <button class="btn btn-sm btn-secondary" type="submit">Terapkan Filter</button>
                 </form>
             </div>
-        </nav> --}}
-        <div class="row section-content d-none d-md-block">
+        </nav>
+        {{-- <span class="btn-btn-"></span> --}}
+        {{-- <div class="row section-content d-none d-md-block">
             <div class="col-12 p-0 border-bottom border-secondary-black" id="project-filter" style="">
                 <form action="{{route('project.browse')}}" method="GET">
                     <div class="form-group row m-0 py-3 w-100 clearfix">
                         <div class="col-12 col-md-9 d-flex flex-row justify-content-around align-items-center p-0">
                             <div class="col-12 col-md-4 p-0">
-                                {{-- <label for="category">Kategori Proyek</label> --}}
+                                <label for="category">Kategori Proyek</label>
                                 <select id="category" class="form-control col-12 select2" name="category">
                                     <option selected value="all">Semua Kategori</option>
                                     @foreach($categories as $category)
@@ -87,7 +141,7 @@
                                 </select>
                             </div>
                             <div class="col-12 col-md-4 p-0 px-md-3">
-                                {{-- <label for="location">Lokasi Proyek</label> --}}
+                                <label for="location">Lokasi Proyek</label>
                                 <select id="location" class="select2 col-12 w-100 form-control" name="location">
                                     @if(!empty(app('request')->input('location')))
                                         <option selected value="{{app('request')->input('location')}}">{{$location_name}}</option>
@@ -98,7 +152,7 @@
                                 </select>
                             </div>
                             <div class="col-12 col-md-4 p-0">
-                                {{-- <label for="sort">Urutkan</label> --}}
+                                <label for="sort">Urutkan</label>
                                 <select id="sort" class="form-control col-12" name="sort">
                                     <option value="latest" {{app('request')->input('sort') === 'latest' ? 'selected' : '' }}>Urutkan terbaru</option>
                                     <option value="oldest" {{app('request')->input('sort') === 'oldest' ? 'selected' : '' }}>Urutkan terlama</option>
@@ -113,7 +167,7 @@
                 </form>
             </div>
             <span class="--text d-none d-md-block my-3 px-2">Ada {{$projects->count()}} project {{ app('request')->input('category') !== 'all' ? strtolower(str_replace("-", " ", app('request')->input('category'))) : '' }} {{ $filter_location }} membutuhkan bantuanmu</span>
-        </div>
+        </div> --}}
         {{-- <div class="section-headline text-secondary my-3">
             <nav class="nav bg-transparent">
                 <span class="--text d-none d-md-block">Ada 1244 project kewirausahaan membutuhkan bantuanmu</span>
@@ -144,24 +198,24 @@
         <div class="row section-content">
             @foreach ($projects as $key => $project)    
                 @php
-                    $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
+                    $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
                     $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
 
                     // date_default_timezone_set('Asia/Jakarta');
 
-                    $today = new DateTime('now');
-                    $deadline = new DateTime($project->project_deadline);
-                    $remainingDays = $today->diff($deadline)->format('%d hari'); 
-                    $remainingHours = $today->diff($deadline)->format('%h jam'); 
+                    // $today = new DateTime('now');
+                    // $deadline = new DateTime($project->project_deadline);
+                    // $remainingDays = $today->diff($deadline)->format('%d hari'); 
+                    // $remainingHours = $today->diff($deadline)->format('%h jam'); 
 
-                    if($remainingDays <= 0) {
-                        $remainingDays = $remainingHours;
-                    }
-                    if($remainingDays <= 0 && $remainingHours < 0) {
-                        $remainingDays = "Proyek berakhir";
-                    }
+                    // if($remainingDays <= 0) {
+                    //     $remainingDays = $remainingHours;
+                    // }
+                    // if($remainingDays <= 0 && $remainingHours < 0) {
+                    //     $remainingDays = "Proyek berakhir";
+                    // }
                 @endphp
-                <div class="d-campaigns col-12 col-sm-6 col-lg-4 col-xl-3 card-deck px-1">
+                <div class="d-campaigns col-12 col-sm-6 col-lg-4 col-xl-3 card-deck">
                     <div class="card card-shadow m-0 border-0 mb-3" style="min-height:485px">
                         <div class="category-flag">
                             <p>{{$project->category->category}}</p>
@@ -179,7 +233,7 @@
                         <div class="card-body pb-0 pt-4 _project-info" id="info-{{$project->project_slug}}">
                             <div class="row m-0">
                                 <span class="col-12 --text p-0">Lokasi</span>
-                                <span class="col-12 --text p-0 mb-2 font-weight-bold">{{$project->project_location}}</span>
+                                <span class="col-12 --text p-0 mb-2 font-weight-bold">{{ucwords(strtolower($project->location->name))}}</span>
                                 
                                 <span class="col-12 --text p-0">Batas Pendaftaran Relawan</span>
                                 <span class="col-12 --text p-0 mb-2 font-weight-bold">{{Idnme::print_date($project->close_reg, true)}}</span>
@@ -191,7 +245,7 @@
                         <div class="card-body pb-0 pt-4 _project-progress hidden" id="progress-{{$project->project_slug}}">
                             <div class="info-donasi">
                                 <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
-                                <span class="--text font-weight-bold text-capitalize">{{empty($project->funding_progress) ? Idnme::print_rupiah('0') : Idnme::print_rupiah($project->funding_progress)}}</span>
+                                <span class="--text font-weight-bold text-capitalize">{{Idnme::print_rupiah($project->collected_funds, false, true)}}</span>
                                 <div class="progress">
                                     <div class="progress-bar" style="width: {{$progressDana}}%"></div>
                                 </div>
@@ -335,6 +389,21 @@
 
 @section('script')
 <script>
+    // $(function(){
+    //     // Enables popover
+    //     $("#project-filter").popover({
+    //         container : 'body',
+    //         placement : 'bottom',
+    //         html : true, 
+    //         content: function() {
+    //             return $("#project-filter-content").html();
+    //         }, 
+    //     });
+
+    //     $('#project-filter').on('shown.bs.popover', function () {
+    //         $('.popover-body').css('padding', 0);
+    //     });
+    // });
     $(document).ready(function(){
         $('.select2').select2({
             theme: "bootstrap4",

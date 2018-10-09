@@ -31,7 +31,7 @@ class CreateProjectsTable extends Migration
             $table->dateTime('close_donation');
             $table->dateTime('close_reg');
             $table->string('project_banner')->nullable();
-            $table->string('attachments')->nullable();
+            $table->text('attachments', 500)->nullable();
             $table->enum('project_status', ['submitted', 'published', 'finished'])->default('submitted');
             $table->timestamps();
             $table->softDeletes();

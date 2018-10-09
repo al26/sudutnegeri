@@ -13,12 +13,12 @@
     </div>
     <div class="card-img-overlay d-flex justify-content-center p-0" style="bottom:4rem">
         <div id="p-pic-container" class="text-center mr-5 mt-5">
-            <img id="p-pic" class="img-thumbnail pchange" src="{{asset($user_profile->profile_picture)}}" alt="Profile Picture">
-            <a id="p-pic-overlay" class="text-white decoration-none" href="{{route('avatar.edit', ['id' => $user_profile->id])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => $user_profile->id])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => $user_profile->id])}}"}'><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
+            <img id="p-pic" class="img-thumbnail pchange" src="{{asset(Auth::user()->profile->profile_picture)}}" alt="Profile Picture">
+            <a id="p-pic-overlay" class="text-white decoration-none" href="{{route('avatar.edit', ['id' => encrypt(Auth::user()->profile->id)])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => encrypt(Auth::user()->profile->id)])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => encrypt(Auth::user()->profile->id)])}}"}'><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
         </div>
         <div id="p-data" class="mt-5">
             <div class="">
-                <span class="--text _head">{{$user_profile->name}}
+                <span class="--text _head">{{Auth::user()->profile->name}}
                     <small>
                         <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" data-toggle="pjax" data-pjax="menu" class="p-0 text-white"><i class="fas fa-edit"></i></a>
                     </small>
@@ -70,6 +70,9 @@
                     @if (Auth::user()->profile->verification->status !== 'verified')
                         <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'verify' ? 'active' : ''}}" id="mobile-sudut-verify" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}"><small><i class="fas fw fa-user-check mr-2"></i>Verifikasi Akun</small></a>
                     @endif   
+                    @if (Auth::user()->projects()->where('project_status', '!=', 'submitted')->count() > 0)
+                        <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'withdrawal' ? 'active' : ''}}" id="mobile-sudut-withdrawal" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}"><small><i class="fas fw fa-money-bill-wave mr-2"></i>Pencairan Dana</small></a>
+                    @endif
                     @break
                 @case('negeri')
                     <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'donations' ? 'active' : ''}}" id="mobile-negeri-donations" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}"><small><i class="fas fw fa-coins mr-2"></i>Investasi Saya</small></a>

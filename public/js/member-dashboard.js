@@ -109,11 +109,25 @@ $(document).ready(function () {
     $(document).ajaxPagination();
     // $(document).activateCKEditor();
     $('.the-summernote').summernote({
+        height: 150,
+        callbacks: {
+            onChange: function onChange(contents, $editable) {
+                var imgs = $('.note-editable').find("img");
+                $.each(imgs, function (index, img) {
+                    $(img).addClass("img-fluid");
+                });
+            }
+        }
+    });
+    $('.the-summernote-text').summernote({
+        toolbar: [
+        // [groupName, [list of button]]
+        ['style', ['bold', 'italic', 'underline', 'clear']], ['font', ['strikethrough', 'superscript', 'subscript']], ['fontsize', ['fontsize']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']]],
         height: 150
     });
     activateOptGenerator();
     $('.select2').select2({ theme: "bootstrap4" });
-    $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
+    $(document).ajaxSelect2("regency_id", "/location");
     // showMoreLess(100, 'Selengkapnya', 'Sebagian', '.update-list-item');
 });
 
@@ -142,10 +156,67 @@ $(document).on('click', '#upload-verification', function (e) {
     $('#form-verification').ajaxCrudNonModal(['#mr']);
 });
 
-// $(document).on('click', '#create-project', function(e){
+// $(document).on('click', '#activity-create-history', function(e) {
 //     e.preventDefault();
-//     $('#form-create-project').ajaxCrudNonModal(['#mr'], "{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}");
+//     var redirectTo = $(this).attr('data-redirectAfter');
+//     $('#form-activity-create-history').ajaxCrudNonModal(['#mr'], redirectTo);
 // });
+
+// $(document).on('click', '#activity-update-history', function(e) {
+//     e.preventDefault();
+//     var redirectTo = $(this).attr('data-redirectAfter');
+//     $('#form-activity-update-history').ajaxCrudNonModal(['#mr'], redirectTo);
+// });
+
+$(document).on('click', '#cv-edit', function (e) {
+    e.preventDefault();
+    $('#form-cv').ajaxCrudNonModal(['#mr']);
+});
+
+$(document).on('click', '#create-history', function (e) {
+    e.preventDefault();
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-create-history').ajaxCrudNonModal(['#mr'], redirectTo);
+});
+
+$(document).on('click', '#update-history', function (e) {
+    e.preventDefault();
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-update-history').ajaxCrudNonModal(['#mr'], redirectTo);
+});
+
+$(document).on('click', '#create-project', function (e) {
+    e.preventDefault();
+    $('#form-create-project').ajaxCrudNonModal(['#mr'], "/dashboard/sudut/projects");
+});
+
+$(document).on('click', '#edit-project', function (e) {
+    e.preventDefault();
+    $('#form-edit-project').ajaxCrudNonModal(['#mr'], "/dashboard/sudut/projects");
+});
+
+$(document).on('click', '#create-withdrawal', function (e) {
+    e.preventDefault();
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-create-withdrawal').ajaxCrudNonModal(['#mr'], redirectTo);
+});
+
+projecToCredit = $('#form-create-withdrawal').find('#project_id');
+$(document).on('change', projecToCredit, function (e) {
+    // var project = encodeURIComponent(window.btoa(projecToCredit.val)),
+    var url = projecToCredit.attr('data-saldo') + "?project=" + projecToCredit.val();
+    $.get(url, function (data) {
+        var reverse = data.saldo.toString().split('').reverse().join(''),
+            ribuan = reverse.match(/\d{1,3}/g);
+        ribuan = ribuan.join('.').split('').reverse().join('');
+        var info = $('#form-create-withdrawal').find('#info-saldo');
+
+        if (info.hasClass('hidden')) {
+            info.removeClass('hidden');
+        }
+        info.text('Saldo proyek ' + data.name + ' saat ini : Rp ' + ribuan);
+    });
+});
 
 $(document).pjax('a[data-pjax=menu]', '#mc');
 $('#mc').on('pjax:complete', function () {
@@ -162,8 +233,25 @@ $('#mc, #mr').on('pjax:complete', function () {
     $('.select2').select2({ theme: "bootstrap4", tags: true });
     $('#example').DataTable();
     activateOptGenerator();
-    // $(document).activateSummernote();
-    $(document).ajaxSelect2("project_location", "{{route('get.location')}}");
+    $('.the-summernote').summernote({
+        height: 150,
+        callbacks: {
+            onChange: function onChange(contents, $editable) {
+                var imgs = $('.note-editable').find("img");
+                $.each(imgs, function (index, img) {
+                    $(img).addClass("img-fluid");
+                });
+            }
+        }
+    });
+    $('.the-summernote-text').summernote({
+        toolbar: [
+        // [groupName, [list of button]]
+        ['style', ['bold', 'italic', 'underline', 'clear']], ['font', ['strikethrough', 'superscript', 'subscript']], ['fontsize', ['fontsize']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']]],
+        height: 150
+    });
+    $(document).ajaxSelect2("project_location", "/location");
+    projecToCredit = $('#form-create-withdrawal').find('#project_id');
 });
 
 function toggleActiveMenuTab() {

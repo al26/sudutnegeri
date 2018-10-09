@@ -21,4 +21,9 @@ class User_profile extends Model
     public function verification() {
         return $this->hasOne('App\User_verification');
     }
+
+    public function cv()
+    {
+        return $this->hasOne('App\User_cv');
+    }
 }

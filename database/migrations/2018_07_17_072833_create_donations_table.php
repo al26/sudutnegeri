@@ -27,6 +27,7 @@ class CreateDonationsTable extends Migration
             $table->enum('status', ['unverified', 'pending', 'verified']);
             $table->string('transfer_receipt')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

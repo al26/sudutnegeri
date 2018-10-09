@@ -95,7 +95,10 @@ class RegisterController extends Controller
             'user_profile_id' => $user->profile->id,
             'status' => 'unverified'
         ]);
-
+        
+        $user->profile->cv()->create([
+            'user_profile_id' => $user->profile->id,
+        ]);
         return $user;
     }
 

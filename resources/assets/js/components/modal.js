@@ -138,11 +138,17 @@
                     });
 
                     if(data['redirectAfter']){
-                        // redireload(data['redirectAfter']);
-                        $.pjax({
-                            url: data['redirectAfter'], 
-                            container: data['pjax-reload']
-                        });
+                        // redireload(data['redirectAfter'], data['pjax-reload']);
+                        // $.pjax({
+                        //     url: data['redirectAfter'], 
+                        //     container: data['pjax-reload'][]
+                        // });
+                        $.each(data['pjax-reload'], function(index, val){
+                            $.pjax({
+                                url : data['redirectAfter'],
+                                container : val,
+                            });
+                        })
                     }
 
                     if(data['pchange']) {
@@ -343,7 +349,7 @@
                 },
 
                 processResults: function(data) {
-                    // console.log(data);
+                    console.log(data);
                     return {
                         results: $.map(data.items, function(val, index){
                             return {id:val.id, text:val.name};
@@ -396,12 +402,12 @@
         doSubmit(data, form);
     }
 
-    function redireload(url) {
+    function redireload(url, container) {
         window.history.pushState("", "", url);
         $.ajax({
             url : url  
         }).done(function (data) {
-            $.pjax.reload('#mr');
+            $.pjax.reload(container);
         }).fail(function () {
             alert('An error occured');
         });

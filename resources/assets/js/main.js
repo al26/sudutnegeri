@@ -48,7 +48,6 @@ $(document).ready(function(){
     }
 
     isNumberKey = function(evt){
-        console.log('iaoisasa');
         var charCode = (evt.which) ? evt.which : event.keyCode
         if (charCode > 31 && (charCode < 48 || charCode > 57))
             return false;
@@ -72,13 +71,13 @@ $(document).ready(function(){
 
     getSearcResult = function(input, targetElem) {
         var key = input.value,
-            url = '/json/projects/?key=' + key;
+            url = '/json/projects?key=' + key;
 
         $.get(url, function(data){
             $(targetElem).empty();
             if(key.length > 0) {
                 $.each(data, function(index, obj){  
-                    $(targetElem).append('<a href="/project/details/'+obj.project_slug+'"><div class="items"><div class="media"><img class="img-fluid mr-3" src="/'+obj.project_banner+'" alt="foto proyek" style="max-width:60px"><div class="media-body"><h5 class="mt-0">'+obj.project_name+'</h5><small><i class="fas fa-map-marker-alt"></i> '+obj.location.name+'</small><br><small><i class="fas fa-user"></i> '+obj.user.profile.name+'</small><br></div></div></div></a>');
+                    $(targetElem).append('<a href="/project/details/'+obj.project_slug+'"><div class="items"><div class="media"><img class="img-fluid mr-3" src="/'+obj.project_banner+'" alt="foto proyek" style="max-width:60px"><div class="media-body"><h5 class="mt-0">'+obj.project_name+'</h5><small><i class="fas fa-map-marker-alt"></i> '+ucwords(obj.location.name.toLowerCase())+'</small><br><small><i class="fas fa-user"></i> '+obj.user.profile.name+'</small><br></div></div></div></a>');
                 });
 
                 if(data.length <= 0){
@@ -169,6 +168,12 @@ $(document).ready(function(){
             $(btn).attr('data-action', 'show');
             $(btn).text(textshow);
         }
+    }
+
+    ucwords = function (string) {
+        var out = string.replace(/\b\w/g, function(l){ return l.toUpperCase() });
+
+        return out;
     }
     
     // cutContent = function(container, showchar) {

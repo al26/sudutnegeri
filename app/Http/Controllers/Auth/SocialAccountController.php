@@ -141,6 +141,10 @@ class SocialAccountController extends Controller
             'status' => 'unverified'
         ]);
 
+        $user->profile->cv()->create([
+            'user_profile_id' => $user->profile->id,
+        ]);
+
         $user->socialAccounts()->create([
             'provider_id'   => $providerUser->getId(),
             'provider_name' => $provider,
@@ -173,6 +177,15 @@ class SocialAccountController extends Controller
             ]);
 
             $user->profile->address()->create([
+                'user_profile_id' => $user->profile->id,
+            ]);
+
+            $user->profile->verification()->create([
+                'user_profile_id' => $user->profile->id,
+                'status' => 'unverified'
+            ]);
+
+            $user->profile->cv()->create([
                 'user_profile_id' => $user->profile->id,
             ]);
 

@@ -82968,7 +82968,27 @@ $(function () {
   $('[data-toggle="search"]').on('click', function () {
     $('.search-collapse').toggleClass('open');
   });
+
+  // $('[data-toggle="filter"]').on('click', function () {
+  //   $('.filter-collapse').toggleClass('open')
+  // });
 });
+
+openNav = function openNav() {
+  $('.slide-off').css({ 'width': "16rem" });
+  $('.so-main').css({ 'margin-left': '16rem', 'margin-right': 'auto' });
+  // document.getElementById("mySidenav").style.width = "250px";
+  // document.getElementById("main").style.marginLeft = "250px";
+};
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+closeNav = function closeNav() {
+  $('.slide-off').css({ 'width': "0" });
+  $('.so-main').css({ 'margin-left': 'auto', 'margin-right': 'auto' });
+  // document.getElementById("mySidenav").style.width = "0";
+  // document.getElementById("main").style.marginLeft = "auto";
+  // document.getElementById("main").style.marginRight = "auto";
+};
 
 /***/ }),
 /* 48 */
@@ -83113,10 +83133,16 @@ $(function () {
                     });
 
                     if (data['redirectAfter']) {
-                        // redireload(data['redirectAfter']);
-                        $.pjax({
-                            url: data['redirectAfter'],
-                            container: data['pjax-reload']
+                        // redireload(data['redirectAfter'], data['pjax-reload']);
+                        // $.pjax({
+                        //     url: data['redirectAfter'], 
+                        //     container: data['pjax-reload'][]
+                        // });
+                        $.each(data['pjax-reload'], function (index, val) {
+                            $.pjax({
+                                url: data['redirectAfter'],
+                                container: val
+                            });
                         });
                     }
 
@@ -83313,7 +83339,7 @@ $(function () {
                 },
 
                 processResults: function processResults(data) {
-                    // console.log(data);
+                    console.log(data);
                     return {
                         results: $.map(data.items, function (val, index) {
                             return { id: val.id, text: val.name };
@@ -83369,12 +83395,12 @@ $(function () {
         doSubmit(data, form);
     };
 
-    function redireload(url) {
+    function redireload(url, container) {
         window.history.pushState("", "", url);
         $.ajax({
             url: url
         }).done(function (data) {
-            $.pjax.reload('#mr');
+            $.pjax.reload(container);
         }).fail(function () {
             alert('An error occured');
         });
@@ -83507,7 +83533,7 @@ dynamicList = function dynamicList(input, targetList, storeTo) {
             var index = listVal.indexOf(this.firstChild.nodeValue);
             listVal.splice(index, 1);
             this.parentElement.removeChild(this);
-            document.getElementById(storeTo).value = listVal;
+            document.getElementById(storeTo).value = JSON.stringify(listVal);
             var error = document.getElementById('error-dynamic-list');
             if (error !== null) {
                 inputElement.classList.remove("is-invalid");
@@ -83517,66 +83543,55 @@ dynamicList = function dynamicList(input, targetList, storeTo) {
         };
     }
 
-    document.getElementById(storeTo).value = listVal;
+    document.getElementById(storeTo).value = JSON.stringify(listVal);
     // console.log(document.getElementById(storeTo).value);
 };
 
-dynamicFileList = function dynamicFileList(input, targetList, label, storeTo) {
+dynamicFileList = function dynamicFileList(input, targetList, label) {
     var targetList = document.getElementById(targetList);
     while (targetList.firstChild) {
         targetList.removeChild(targetList.firstChild);
     }
 
     if (input.files) {
-        var hidden = [];
+        // var hidden = [];
         var filename = new Array();
         var fileArray = new Array();
         for (var index = 0; index < input.files.length; index++) {
             var li = document.createElement("li");
-            var span = document.createElement("SPAN");
-            var txt = document.createTextNode("\xD7");
-            span.className = "dynamic-close";
-            span.appendChild(txt);
-            li.appendChild(span);
+            // var span = document.createElement("SPAN");
+            // var txt = document.createTextNode("\u00D7");
+            // span.className = "dynamic-close";
+            // span.appendChild(txt);
+            // li.appendChild(span);
 
-            hidden[index] = input.files[index].name;
-            filename["fn" + index] = document.createTextNode(input.files[index].name + ' (' + formatBytes(input.files[index].size) + ')');
+            // hidden[index] = input.files[index].name;
+            filename[index] = document.createTextNode(input.files[index].name + ' (' + formatBytes(input.files[index].size) + ')');
             targetList.appendChild(li);
 
             var fileReader = new FileReader();
             fileReader.readAsDataURL(input.files[index]);
-            fileArray["fa" + index] = fileReader;
+            fileArray[index] = fileReader;
         }
 
-        console.log(hidden);
-        console.log(fileArray);
-        console.log(filename);
         var existList = targetList.getElementsByTagName("li");
-
-        var _loop = function _loop(i) {
-            existList[i].appendChild(filename["fn" + i]);
-            existList[i].onclick = function (e) {
-                // fileArray.splice("fa"+i, 1);
-                delete fileArray["fa" + i];
-                input.innerHTML = fileArray;
-                // filename.splice("fn"+i, 1);
-                delete filename["fn" + i];
-                // hidden.splice("h"+i, 1);
-                delete hidden[i];
-                document.getElementById(storeTo).value = hidden;
-                document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
-                this.parentElement.removeChild(this);
-                console.log(hidden);
-                console.log(fileArray);
-                console.log(filename);
-            };
-        };
-
         for (var i = 0; i < existList.length; i++) {
-            _loop(i);
+            existList[i].appendChild(filename[i]);
+            // existList[i].onclick = function(e) {
+            // fileArray.splice("fa"+i, 1);
+            // delete fileArray["fa"+i];
+            // input.innerHTML = fileArray;
+            // filename.splice("fn"+i, 1);
+            // delete filename["fn"+i];
+            // hidden.splice("h"+i, 1);
+            // delete hidden[i];
+            // document.getElementById(storeTo).value = hidden;
+            // document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
+            // this.parentElement.removeChild(this);
+            // }
         }
 
-        document.getElementById(storeTo).value = hidden;
+        // document.getElementById(storeTo).value = hidden;
         document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
     }
 };
@@ -83685,7 +83700,6 @@ $(document).ready(function () {
     };
 
     isNumberKey = function isNumberKey(evt) {
-        console.log('iaoisasa');
         var charCode = evt.which ? evt.which : event.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
         return true;
@@ -83708,13 +83722,13 @@ $(document).ready(function () {
 
     getSearcResult = function getSearcResult(input, targetElem) {
         var key = input.value,
-            url = '/json/projects/?key=' + key;
+            url = '/json/projects?key=' + key;
 
         $.get(url, function (data) {
             $(targetElem).empty();
             if (key.length > 0) {
                 $.each(data, function (index, obj) {
-                    $(targetElem).append('<a href="/project/details/' + obj.project_slug + '"><div class="items"><div class="media"><img class="img-fluid mr-3" src="/' + obj.project_banner + '" alt="foto proyek" style="max-width:60px"><div class="media-body"><h5 class="mt-0">' + obj.project_name + '</h5><small><i class="fas fa-map-marker-alt"></i> ' + obj.location.name + '</small><br><small><i class="fas fa-user"></i> ' + obj.user.profile.name + '</small><br></div></div></div></a>');
+                    $(targetElem).append('<a href="/project/details/' + obj.project_slug + '"><div class="items"><div class="media"><img class="img-fluid mr-3" src="/' + obj.project_banner + '" alt="foto proyek" style="max-width:60px"><div class="media-body"><h5 class="mt-0">' + obj.project_name + '</h5><small><i class="fas fa-map-marker-alt"></i> ' + ucwords(obj.location.name.toLowerCase()) + '</small><br><small><i class="fas fa-user"></i> ' + obj.user.profile.name + '</small><br></div></div></div></a>');
                 });
 
                 if (data.length <= 0) {
@@ -83805,6 +83819,14 @@ $(document).ready(function () {
             $(btn).attr('data-action', 'show');
             $(btn).text(textshow);
         }
+    };
+
+    ucwords = function ucwords(string) {
+        var out = string.replace(/\b\w/g, function (l) {
+            return l.toUpperCase();
+        });
+
+        return out;
     };
 
     // cutContent = function(container, showchar) {
