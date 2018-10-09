@@ -48,8 +48,9 @@
         <div class="form-section clearfix mt-3">
             <div class="fs-head">
                 <span class="fs-head-text">Data Historis {{$project->project_name}}</span>
-                <a href="{{route('history.create', ['slug' => $project->project_slug])}}" class="btn btn-sm btn-secondary float-right my-1" data-toggle="pjax" data-pjax="main-content"><i class="fas fw fa-pencil-alt"></i> Tulis Update</a>
+                {{-- <a href="{{route('history.create', ['slug' => $project->project_slug])}}" class="btn btn-sm btn-secondary float-right my-1 d-none d-md-block" data-toggle="pjax" data-pjax="main-content"><i class="fas fw fa-pencil-alt"></i> Tulis Update</a> --}}
             </div>      
+            <a href="{{route('history.create', ['slug' => $project->project_slug])}}" class="btn btn-md btn-secondary w-100 " data-toggle="pjax" data-pjax="main-content"><i class="fas fw fa-pencil-alt"></i> Tulis Data Historis Baru</a>
         </div>
         <div class="row section-content">
             @include('member.partials.historis-table', ['menu' => 'sudut'])

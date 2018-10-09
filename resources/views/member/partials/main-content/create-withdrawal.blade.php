@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header text-left border-bottom bg-lighten">
         <h4 class="m-0 float-left col-11 p-0">Form Pengajuan Pencairan Dana</h4>
-        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="fas fa-times"></i></a>
+        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto"><i class="fas fa-times"></i></a>
     </div>
     @if ($projects->count() <= 0)
         <div class="card-body">

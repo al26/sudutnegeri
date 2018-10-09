@@ -498,7 +498,7 @@
             <div class="card">
                 <div class="card-body p-0">
                     <a href="">
-                        <img src="http://via.placeholder.com/1024x500" class="img-fluid" alt="Responsive image" style="width: 100%;">
+                        <img src="https://via.placeholder.com/1024x500" class="img-fluid" alt="Responsive image" style="width: 100%;">
                     </a>
                 </div>
             </div>

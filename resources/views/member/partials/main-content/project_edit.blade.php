@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <h4 class="m-0 card-title float-left p-0 col-11">Ubah Proyek {{$project->project_name}}</h4>
-        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="fas fa-times"></i></a>
+        <a href="{{url('/dashboard/sudut/projects/manage/'.$project->project_slug)}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto"><i class="fas fa-times"></i></a>
     </div>
     <div class="card-body">
         <form action="{{route('project.update', ['id' => encrypt($project->id)])}}" method="POST" enctype="multipart/form-data" id="form-edit-project">
@@ -134,7 +134,7 @@
                 <ul class="dynamic-list" id="attachments-list"></ul>
             </div> --}}
             <button type="submit" id="edit-project" class="btn btn-md btn-primary">Ubah Proyek</button>
-            <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-md btn-danger" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"> Batalkan</a>
+            <a href="{{url('/dashboard/sudut/projects/manage/'.$project->project_slug)}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-md btn-danger"> Batalkan</a>
         </form>
     </div>
 </div>

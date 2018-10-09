@@ -83133,10 +83133,16 @@ closeNav = function closeNav() {
                     });
 
                     if (data['redirectAfter']) {
-                        redireload(data['redirectAfter'], data['pjax-reload']);
-                        $.pjax({
-                            url: data['redirectAfter'],
-                            container: data['pjax-reload']
+                        // redireload(data['redirectAfter'], data['pjax-reload']);
+                        // $.pjax({
+                        //     url: data['redirectAfter'], 
+                        //     container: data['pjax-reload'][]
+                        // });
+                        $.each(data['pjax-reload'], function (index, val) {
+                            $.pjax({
+                                url: data['redirectAfter'],
+                                container: val
+                            });
                         });
                     }
 
@@ -83316,7 +83322,6 @@ closeNav = function closeNav() {
     };
 
     $.fn.ajaxSelect2 = function (id, url) {
-        console.log(url);
         $('#' + id).select2({
             theme: "bootstrap4",
             tags: false,

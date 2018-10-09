@@ -2,13 +2,13 @@
     @if ($menu === 'sudut')
         <div class="card-header text-left border-bottom bg-lighten">
             <h4 class="m-0 float-left col-11 p-0">Kelola Proyek {{$project->project_name}}</h4>
-            <a href="{{route('project.manage', ['slug' => $project->project_slug])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="fas fa-times"></i></a>
+            <a href="{{route('project.manage', ['slug' => $project->project_slug])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto"><i class="fas fa-times"></i></a>
         </div>
     @endif
     @if ($menu === 'negeri')
         <div class="card-header text-left border-bottom bg-lighten">
             <h4 class="m-0 float-left col-11 p-0">Kelola Data Historis</h4>
-            <a href="{{route('history.manage', ['slug' => $project->project_slug])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="fas fa-times"></i></a>
+            <a href="{{route('history.manage', ['slug' => $project->project_slug])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto"><i class="fas fa-times"></i></a>
         </div>
     @endif
     <div class="card-body">

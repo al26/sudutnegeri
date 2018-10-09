@@ -163,7 +163,7 @@
                                             <div class="d-flex flex-row justify-content-around align-items-center">
                                                 <a href="{{route('file.view', ['path' => $i->transfer_receipt])}}" class="btn btn-sm btn-success mr-1" target="_blank"><i class="far fa-eye"></i> Lihat</a>
                                                 @if ($i->status !== 'verified')
-                                                    <a class="btn btn-sm btn-secondary" data-toggle="pjax" data-pjax="main-content" href="{{route('donation.upreceipt', ['id' => encrypt($i->id)])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-redo-alt"></i> Upload Ulang</a>
+                                                    <a class="btn btn-sm btn-secondary" data-toggle="pjax" data-pjax="main-content" href="{{route('donation.upreceipt', ['id' => encrypt($i->id)])}}"><i class="fas fa-redo-alt"></i> Upload Ulang</a>
                                                 @endif
                                             </div>
                                         @endif

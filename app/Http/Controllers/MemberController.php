@@ -15,6 +15,7 @@ use App\Donation;
 use App\Volunteer;
 use App\Regency;
 use App\User;
+use App\User_cv as CV;
 use Hash;
 use App\Data_historis as History;
 use Illuminate\Support\Facades\Storage;
@@ -357,5 +358,64 @@ class MemberController extends Controller
 
 
         return response()->json($return);
+    }
+
+    public function editCV (Request $request, $profile) {
+        $rules = [
+            "institution" => "required",
+            "major" => "required",
+            "year" => "required|digits:4",
+            "foreign_lang" => "required",
+            "org_exp" => "required",
+            "pro_exp" => "required"
+        ];
+
+        $messages = [
+            "institution.required" => "Kolom :attribute tidak boleh kososng",
+            "major.required" => "Kolom :attribute tidak boleh kososng",
+            "year.required" => "Kolom :attribute tidak boleh kososng",
+            "year.digits" => "Bukan format tahun yang valid. Kolom :attribute harus terdiri dari 4 karakter angka",
+            "foreign_lang.required" => "Kolom :attribute tidak boleh kososng",
+            "org_exp.required" => "Kolom :attribute tidak boleh kososng",
+            "pro_exp.required" => "Kolom :attribute tidak boleh kososng",
+        ];
+
+        $attributes = [
+            "institution" => "institusi / universitas",
+            "major" => "jurusan",
+            "year" => "tahun kelulusan",
+            "foreign_lang" => "bahasa asing",
+            "org_exp" => "pengalaman organisasi",
+            "pro_exp" => "pengalaman profesional"
+        ];
+
+        $data = $request->data;
+        // dd($data['interest'][0]);
+
+        $validator = Validator::make($data, $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        } else { 
+            $cv['education'] = $data['major'].", ".$data['institution'].", ".$data['year'];
+            $cv['foreign_lang'] = $data['foreign_lang'];
+            $cv['org_exp'] = $data['org_exp'];
+            $cv['pro_exp'] = $data['pro_exp'];
+            $update = CV::where('user_profile_id', decrypt($profile))->update($cv);
+
+            if($update) {
+                $return = ['success' => 'Berhasil membuat CV'];
+            } else {
+                $return = ['error' => 'Terjadi Kesalahan. Gagal membuat CV'];
+            }
+        }
+
+        return response()->json($return);
+    }
+
+    public function viewModalCV($id) {
+        $data['user'] = User::where('id', decrypt($id))->firstOrFail();
+        // dd($data);
+        return view('member.partials.modal.cv', $data);
     }
 }

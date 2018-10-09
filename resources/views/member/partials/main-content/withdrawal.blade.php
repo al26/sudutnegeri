@@ -1,5 +1,5 @@
 @php
-    $total_withdrawal = Auth::user()->withdrawals->sum('amount');
+    $total_withdrawal = Auth::user()->withdrawals()->where('status', 'processed')->sum('amount');
     $saldo_keseluruhan = Auth::user()->projects->sum('collected_funds') - $total_withdrawal;
     $project_list = Auth::user()->projects()->where('collected_funds', '>', 0)->get();
 @endphp
@@ -37,9 +37,9 @@
                 <span class="fs-head-text float-left p-0">Riwayat Pencairan</span>
                 {{-- <p class="m-0 p-0 float-left"></p> --}}
                 @if ($saldo_keseluruhan > 0)
-                    <a class="btn btn-sm btn-primary float-right" data-toggle="pjax" data-pjax="main-content" href="{{route('withdrawal.create')}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-reply fa-rotate-270"></i> Ajukan Pencairan Dana</a>
+                    <a class="btn btn-sm btn-primary float-right" data-toggle="pjax" data-pjax="main-content" href="{{route('withdrawal.create')}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-reply fa-rotate-270"></i> Ajukan Pencairan</a>
                 @else
-                    <span class="btn btn-sm btn-primary float-right disabled"><i class="fas fa-reply fa-rotate-270"></i> Ajukan Pencairan Dana</span>
+                    <span class="btn btn-sm btn-primary float-right disabled"><i class="fas fa-reply fa-rotate-270"></i> Ajukan Pencairan</span>
                 @endif
             </div>
         </div>

@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header text-left border-bottom bg-lighten">
         <h4 class="m-0 float-left p-0 col-11">Kelola Data Historis</h4>
-        <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="fas fa-times"></i></a>
+        <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto"><i class="fas fa-times"></i></a>
     </div>
     @if ($historis->count() <= 0)
         <div class="card-body text-center">

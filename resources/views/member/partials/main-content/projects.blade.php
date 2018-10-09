@@ -42,7 +42,7 @@
                 </div>
                 @foreach ($user_projects as $project)    
                     @php
-                        $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
+                        $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
                         $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
     
                         date_default_timezone_set('Asia/Jakarta');

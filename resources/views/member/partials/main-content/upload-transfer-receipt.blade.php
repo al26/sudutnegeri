@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <h4 class="m-0 float-left p-0 col-11">Unggah Bukti Transfer</h4>
-        <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="fas fa-times"></i></a>
+        <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto"><i class="fas fa-times"></i></a>
     </div>
     <div class="card-body">
         <form action="{{route('donation.savereceipt', ['id' => $donation->id])}}" method="POST" enctype="multipart/form-data" id="form-receipt">

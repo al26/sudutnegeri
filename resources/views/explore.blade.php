@@ -1,11 +1,9 @@
 @php
     $filter_location = '';
     $location_name = '';
-    if(!empty(app('request')->input('location'))) {
+    if(!empty(app('request')->input('location')) && app('request')->input('location') !== 'all') {
         $location_name = \App\Regency::where('id', app('request')->input('location'))->first()->name;
-        if(app('request')->input('location') !== 'all') {
-            $filter_location = "di ".ucwords(strtolower($location_name));
-        } 
+        $filter_location = "di ".ucwords(strtolower($location_name));
     }
 @endphp
 @extends('layouts.app')

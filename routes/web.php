@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Storage;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/cv/{id}', function ($id) {
+    $data['user'] = \App\User::findOrFail($id);
+    // $pdf = PDF::loadView('cv', $data);
+    // return $pdf->download('cv.pdf');
+    return view('cv', $data);
+})->middleware('web');
 
 Route::get('/', function () {
     $data['projects'] = \App\Project::take(10)->get();
@@ -58,8 +64,10 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('negeri/activity/manage/{slug}', 'DataHistorisController@manage')->name('history.manage');
     Route::get('negeri/activity/manage/{slug}/history/create', 'DataHistorisController@createFromVolunteer')->name('activity.history.create');
     Route::get('negeri/activity/manage/{slug}/history/edit/{id}', 'DataHistorisController@editFromVolunteer')->name('activity.history.edit');
+    Route::put('negeri/cv/update/{profile}', 'MemberController@editCV')->name('update.cv');
     Route::put('/password/change', 'MemberController@changePassword')->name('password.change');
     Route::put('/account/verify', 'MemberController@verifyAccount')->name('account.verify');
+    Route::get('negeri/cv/view/{id}', 'MemberController@viewModalCV')->name('view.cv');
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -183,5 +191,5 @@ Route::post('location', function (\Illuminate\Http\Request $request) {
 // })->name('get.location.id');
 
 Route::get('{path}', function(\Illuminate\Http\Request $request, $path){
-    return public_path($path);
+    return response()->file(public_path($path));
 })->middleware('auth')->name('file.view');

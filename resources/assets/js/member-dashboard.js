@@ -33,7 +33,27 @@ $(document).ready(function() {
     $(document).ajaxPagination();
     // $(document).activateCKEditor();
     $('.the-summernote').summernote({
-        height:150
+        height:150,
+        callbacks: {
+            onChange: function(contents, $editable) {
+                var imgs = $('.note-editable').find("img");
+                $.each(imgs, function(index, img){
+                    $(img).addClass("img-fluid");
+                })
+            }
+        }
+    });
+    $('.the-summernote-text').summernote({
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']]
+        ],
+        height: 150
     });
     activateOptGenerator();
     $('.select2').select2({theme: "bootstrap4"});
@@ -77,6 +97,11 @@ $(document).on('click', '#upload-verification', function(e){
 //     var redirectTo = $(this).attr('data-redirectAfter');
 //     $('#form-activity-update-history').ajaxCrudNonModal(['#mr'], redirectTo);
 // });
+
+$(document).on('click', '#cv-edit', function(e){
+    e.preventDefault();
+    $('#form-cv').ajaxCrudNonModal(['#mr']);
+});
 
 $(document).on('click', '#create-history', function(e) {
     e.preventDefault();
@@ -139,7 +164,27 @@ $('#mc, #mr').on('pjax:complete', function() {
     $('#example').DataTable();
     activateOptGenerator();
     $('.the-summernote').summernote({
-        height:150
+        height:150,
+        callbacks: {
+            onChange: function(contents, $editable) {
+                var imgs = $('.note-editable').find("img");
+                $.each(imgs, function(index, img){
+                    $(img).addClass("img-fluid");
+                })
+            }
+        }
+    });
+    $('.the-summernote-text').summernote({
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']]
+        ],
+        height: 150
     });
     $(document).ajaxSelect2("project_location", "/location");
     projecToCredit = $('#form-create-withdrawal').find('#project_id');

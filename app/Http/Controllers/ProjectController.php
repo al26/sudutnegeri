@@ -22,13 +22,33 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->category && strtolower($request->category) !== 'all') {
-            $category = Category::where('slug', $request->category)->pluck('id')->toArray();
-            $data['projects'] = Project::whereIn('category_id', $category)->paginate(6);
-        } else {
-            $data['projects'] = Project::paginate(6); 
+        $project = new Project();
+
+        if ($request->location !== 'all') {
+            $project = $project->where('regency_id', $request->location);
+            $data['lokasi'] = $request->location;
         }
+
+        if ($request->category !== 'all') {
+            $category = Category::where('slug', $request->category)->pluck('id')->toArray();
+            $project = $project->whereIn('category_id', $category);
+            $data['category'] = $request->category;
+        }
+
+        if ($request->sort) {
+            if ($request->sort === 'latest') {
+                $project = $project->latest();
+            } else {
+                $project = $project->oldest();
+            }  
+
+            $data['sort'] = $request->sort;
+        }
+
+        $data['projects'] = $project->paginate(6);
         
+        // dd($data);
+
         $data['categories'] = Category::all();
 
         return view('explore', $data);

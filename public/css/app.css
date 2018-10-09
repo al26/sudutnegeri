@@ -14234,6 +14234,7 @@ main#main-content {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 1030 !important;
 }
 
 .text-wrap {
@@ -15851,4 +15852,36 @@ span.dynamic-close:hover {
   width: 100%;
   min-height: 10rem;
   opacity: 0 !important;
+}
+
+@media all {
+  .cv-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border: none;
+  }
+  .cv-header .cv-top {
+    padding: 0 1rem;
+  }
+  .cv-header .cv-brand {
+    padding: 1rem;
+    margin-right: 2rem;
+  }
+  .cv-header .cv-title {
+    padding: 1rem;
+    margin-left: 2rem;
+    margin-right: auto;
+    border: none;
+  }
 }

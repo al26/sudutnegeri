@@ -8,17 +8,12 @@
 
             // date_default_timezone_set('Asia/Jakarta');
 
-            // $today = new DateTime('now');
-            // $deadline = new DateTime($project->project_deadline);
-            // $remainingDays = $today->diff($deadline)->format('%d hari'); 
-            // $remainingHours = $today->diff($deadline)->format('%h jam'); 
+            $today = new DateTime('now');
+            $close_reg = new DateTime($project->close_reg);
+            $close_donation = new DateTime($project->close_donation);
 
-            // if($remainingDays <= 0) {
-            //     $remainingDays = $remainingHours;
-            // }
-            // if($remainingDays <= 0 && $remainingHours < 0) {
-            //     $remainingDays = "Proyek berakhir";
-            // }
+            $cr = $today->diff($close_reg)->format('%h jam'); 
+            $cd = $today->diff($close_donation)->format('%h jam'); 
         @endphp
         <div class="row">
             <div class="col-12 col-lg-4 sticky-side-info --container --left order-2 order-lg-1">
@@ -40,15 +35,19 @@
                             </div>
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            @auth
-                                @if ($project->user_id === Auth::user()->id)
-                                    <span class="btn btn-small btn-secondary text-capitalize w-100 disabled">Mulai Investasi</span>
+                            @if ($cd > 0)
+                                @auth
+                                    @if ($project->user_id === Auth::user()->id)
+                                        <span class="btn btn-small btn-secondary text-capitalize w-100 disabled">Mulai Investasi</span>
+                                    @else
+                                        <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
+                                    @endif
                                 @else
                                     <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
-                                @endif
+                                @endauth
                             @else
-                                <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
-                            @endauth
+                                <span class="btn btn-small btn-secondary text-capitalize w-100 disabled">Investasi ditutup</span>
+                            @endif
 
                         </div>
                     </section>
@@ -70,15 +69,19 @@
                             <span class="--text text-capitalize">target {{$project->volunteer_quota}} relawan</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            @auth
-                                @if ($project->user_id === Auth::user()->id)
-                                    <span class="btn btn-small btn-danger text-capitalize w-100 disabled">Jadi Relawan</span>
+                            @if ($cr > 0)
+                                @auth
+                                    @if ($project->user_id === Auth::user()->id)
+                                        <span class="btn btn-small btn-danger text-capitalize w-100 disabled">Jadi Relawan</span>
+                                    @else
+                                        <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
+                                    @endif
                                 @else
                                     <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
-                                @endif
+                                @endauth
                             @else
-                                <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
-                            @endauth
+                                <span class="btn btn-small btn-danger text-capitalize w-100 disabled">Pendaftaran ditutup</span>
+                            @endif
                         </div>
                     </section>
                     {{-- <section class="card --content">
@@ -180,7 +183,7 @@
         $(document).loadModal();
         // $(document).activeteSelectPicker();
 
-        $('#donation-btn').on('click', function(e){
+        $(document).on('click','#donation-btn', function(e){
             var isAuth = "{{Auth::check()}}";
             // var continue = 
             var url = "/login?continue=" + encodeURIComponent(window.btoa($(this).attr('href')));
@@ -198,7 +201,7 @@
             }
         });
 
-        $('#volunteer-btn').on('click', function(e){
+        $(document).on('click','#volunteer-btn', function(e){
             var isAuth = "{{Auth::check()}}";
             // var continue = 
             var url = "/login?continue=" + encodeURIComponent(window.btoa($(this).attr('href')));
