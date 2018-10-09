@@ -1,8 +1,10 @@
 require('./bootstrap');
-require('./fontawesome-all');
+// require('./fontawesome-all');
 require('jquery-pjax');
 // require('./admin/plugins');
 require('./admin/main');
+require('./components/modal');
+require('./ajaxPagination');
 // require('./admin/Chart.bundle');
 // require('./admin/dashboard');
 // require('./admin/widgets');

@@ -23617,6 +23617,7 @@ try {
   __webpack_require__(20);
   __webpack_require__(21);
   // require('select2-bootstrap4-theme');
+  __webpack_require__(45);
 } catch (e) {}
 
 /**
@@ -82312,7 +82313,6 @@ module.exports = __webpack_require__(62);
 
 __webpack_require__(13);
 // require('./fontawesome-all');
-__webpack_require__(45);
 __webpack_require__(46);
 __webpack_require__(47);
 __webpack_require__(41);
