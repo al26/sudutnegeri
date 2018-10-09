@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Rules\CheckRole;
 use App\Donation;
+use App\Bank;
 
 class AdminController extends Controller
 {
@@ -18,7 +19,9 @@ class AdminController extends Controller
 
     public function index($menu = null) {
         $data['menu'] = $menu;
-        $data['donations'] = Donation::all();
+        $data['donations'] = Donation::with('bank')->get();
+        // return $data;
+        // die();
         return view('admin.dashboard', $data);
     }
 
@@ -35,13 +38,13 @@ class AdminController extends Controller
         $credential = [
             'email' => $request->email,
             'password' => $request->password,
-        ]; 
+        ];
 
         if ( Auth::guard('admin')->attempt($credential, $request->remember) ) {
             // dd('masuk');
             return redirect()->intended(route('admin.dashboard'));
         }
-        
+
         // dd($credential);
         return redirect()->back()->withInput($request->only('email', 'remember'));
     }
@@ -50,5 +53,11 @@ class AdminController extends Controller
     {
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login');
+    }
+    public function editDonation(){
+
+    }
+    public function updateDonation(){
+
     }
 }

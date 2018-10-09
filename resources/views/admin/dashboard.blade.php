@@ -20,7 +20,7 @@
                     <a id="am-overview" href="{{route('admin.dashboard', ['menu' => 'overview'])}}" data-toggle="pjax" data-pjax="adm-menu"><i class="fas fw fa-tachometer-alt menu-icon"></i> Dashboard </a>
                 </li>
                 <li class="">
-                    <a id="am-users" href="{{route('admin.dashboard', ['menu' => 'users'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fa fa-users"></i>Kelola Pengguna</a>
+                    <a id="am-users" href="{{route('admin.dashboard', ['menu' => 'users'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fa fa-users"></i>Kelola Akun</a>
                 </li>
                 <li class="">
                     <a id="am-donations" href="{{route('admin.dashboard', ['menu' => 'donations'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fa fa-users"></i>Kelola Donasi</a>
@@ -205,7 +205,7 @@
 
         @php
             if (empty($menu)) {
-                $menu = "overview";   
+                $menu = "overview";
             }
         @endphp
         @include('admin.partials.menu.'.$menu)
@@ -214,6 +214,7 @@
 </div><!-- /#right-panel -->
 
 <!-- Right Panel -->
+@include('components.modal')
 @endsection
 
 @section('script')
@@ -249,7 +250,7 @@
     });
 
     // $('#ac').on('pjax:complete', function() {
-        
+
     // });
 
     function toggleActiveMenuTab() {

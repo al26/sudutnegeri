@@ -36,10 +36,10 @@ Route::namespace('Auth')->group(function () {
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/', function(){
         return redirect()->route('dashboard', ['menu' => 'overview']);
-    }); 
+    });
     Route::get('/{menu?}/{section?}', 'MemberController@index')
             ->where(
-                ['menu'     => '(overview|setting|sudut|negeri)', 
+                ['menu'     => '(overview|setting|sudut|negeri)',
                 'section'   => '(profile|account|projects|donations|activity|volunteer|cv|verify)']
             )
             ->name('dashboard');
@@ -60,13 +60,15 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('login', 'AdminController@login')->name('admin.login.submit')->middleware(['guest']);
     Route::get('logout', 'AdminController@logout')->name('admin.logout');
     Route::get('/', function () {
-        return redirect()->route('admin.dashboard');  
+        return redirect()->route('admin.dashboard');
     });
     Route::get('dashboard/{menu?}', 'AdminController@index')
             ->where(
                 ['menu'     => '(overview|users|donations)',]
             )
             ->name('admin.dashboard');
+  Route::post('updateDonation/{id}','AdminController@updateDonation')->name('update.donation');
+  Route::get('updateDonation/{id}','AdminController@updateDonation')->name('edit.donation');
 });
 
 Route::group(['prefix' => 'project'], function () {
@@ -114,11 +116,11 @@ Route::group(['prefix' => 'json'], function () {
         if($table == 'regencies'){
             $data = \App\Regency::where('province_id', $id)->get();
         }
-    
+
         if($table == 'districts'){
             $data = \App\District::where('regency_id', $id)->get();
         }
-        
+
         return response()->json($data);
     })->name('json.option');
 
@@ -133,7 +135,7 @@ Route::group(['prefix' => 'json'], function () {
                              ->orWhereIn('regency_id', $regencies)
                              ->with('user.profile','location')->get();
         }
-        
+
         // dd(json_encode($data));
         return response()->json($data);
     });
@@ -142,7 +144,7 @@ Route::group(['prefix' => 'json'], function () {
         $res = \App\User_profile::where("id", $request->id)->pluck('profile_picture');
         return response()->json($res, 200);
     })->name('pchange');
-    
+
 });
 
 

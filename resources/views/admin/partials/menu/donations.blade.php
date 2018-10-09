@@ -9,8 +9,8 @@
                             <th>Donatur</th>
                             <th>Donasi</th>
                             <th>Bank</th>
-                            <th>Kode Bayar</th>
-                            <th>Bukti Transfer</th>
+                            {{-- <th>Kode Bayar</th>
+                            <th>Bukti Transfer</th> --}}
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -21,16 +21,29 @@
                                 <td>{{$donation->user->profile->name}}</td>
                                 <td>{{$donation->amount}}</td>
                                 <td>{{$donation->bank->bank_name}}</td>
-                                <td>{{$donation->payment_code}}</td>
+                                {{-- <td>{{$donation->payment_code}}</td>
                                 <td>
                                     @if(empty($donation->transfer_receipt))
                                         Belum Ada
                                     @else
                                     <a href="{{asset($donation->transfer_receipt)}}" target="_blank"><i class="fas fa-external-link-alt"></i> Lihat</a>
-                                    @endif    
-                                </td>
+                                    @endif
+                                </td> --}}
                                 <td>
-                                    <a href="" class="btn btn-sm btn-primary"><i class="far fa-check-circle"></i> Verifikasi</a>
+
+                                  <a class="text-black decoration-none" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false"
+                                    data-modal='
+                                    {
+                                      "title":"Verifikasi Data Donasi",
+                                      "edit":"Verifikasi",
+                                      "lg":true,
+                                      "cancel":"Batal",
+                                      "actionUrl":"{{route('edit.donation', ['id' => $donation->id])}}",
+                                      "pjax-reload":false,
+                                      
+                                    }
+                                    '>
+                                    <i class="fas fw fa-camera-retro"></i> Verifikasi</a>
                                     <a class="btn btn-sm btn-danger" href=""><i class="fas fa-ban"></i> Batalkan</a>
                                 </td>
                             </tr>
