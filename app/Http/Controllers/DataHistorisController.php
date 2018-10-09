@@ -26,10 +26,16 @@ class DataHistorisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($projectId = null)
+    public function create($slug)
     {
-        $data['project_id'] = $projectId;
-        return view('member.partials.modal.create_history', $data);
+        $data['project'] = \App\Project::where('project_slug', $slug)->firstOrFail();
+        return view('member.dashboard', ['menu' => 'sudut', 'section' => 'create-history'], $data);
+    }
+
+    public function createFromVolunteer($slug)
+    {
+        $data['project'] = \App\Project::where('project_slug', $slug)->firstOrFail();
+        return view('member.dashboard', ['menu' => 'negeri', 'section' => 'create-history'], $data);
     }
 
     /**
@@ -62,17 +68,26 @@ class DataHistorisController extends Controller
         if ($validator->fails()) {
             $return = ["errors" => $validator->messages()];
         } else {
-            // date_default_timezone_set('Asia/Jakarta');
+            $data['user_id'] = decrypt($request->data['user_id']);
+            $data['project_id'] = decrypt($request->data['project_id']);
             
             $store = History::create($data);
             if($store) {
-                $return = ["success" => "Cerita proyek berhasil dibuat"];
+                $return = ["success" => "Data historis proyek berhasil dibuat"];
             } else {
                 $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
             }
         }
         
         return response()->json($return);
+    }
+
+    public function manage(Request $request, $slug)
+    {
+        $data['project'] = \App\Project::where('project_slug', $slug)->firstOrFail();
+        $data['historis'] = History::where('project_id', $data['project']->id)->orderBy('created_at', 'desc')->get();
+
+        return view('member.dashboard', ['menu' => 'negeri', 'section' => 'manage-history'], $data);
     }
 
     /**
@@ -92,10 +107,16 @@ class DataHistorisController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug, $id)
     {
-        $data = History::find($id);
-        return view('member.partials.modal.edit_history', $data);
+        $data['history'] = History::findOrFail(decrypt($id));
+        return view('member.dashboard', ['menu' => 'sudut', 'section' => 'edit-history'], $data);
+    }
+
+    public function editFromVolunteer($slug, $id)
+    {
+        $data['history'] = History::findOrFail(decrypt($id));
+        return view('member.dashboard', ['menu' => 'negeri', 'section' => 'edit-history'], $data);
     }
 
     /**
@@ -131,7 +152,7 @@ class DataHistorisController extends Controller
         } else {
             // date_default_timezone_set('Asia/Jakarta');
             
-            $store = History::where('id', $id)->update($data);
+            $store = History::where('id', decrypt($id))->update($data);
             if($store) {
                 $return = ["success" => "History berhasil diubah"];
             } else {
@@ -150,7 +171,7 @@ class DataHistorisController extends Controller
      */
     public function destroy($id)
     {
-        $delete = History::find($id)->delete();
+        $delete = History::find(decrypt($id))->delete();
         if($delete) {
             $return = ["success" => "History berhasil dihapus"];
         } else {

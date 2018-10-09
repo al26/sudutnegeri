@@ -77669,6 +77669,33 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
+<<<<<<< HEAD
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+=======
 
 /***/ }),
 /* 36 */
@@ -77715,16 +77742,60 @@ module.exports = function isAbsoluteURL(url) {
   // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
   // by any combination of letters, digits, plus, period, or hyphen.
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
 };
 
 
 /***/ }),
+<<<<<<< HEAD
+/* 37 */
+=======
 /* 38 */
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+/**
+<<<<<<< HEAD
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+=======
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+};
+
+
+/***/ }),
+<<<<<<< HEAD
+/* 38 */
+=======
+/* 39 */
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+<<<<<<< HEAD
 /**
  * Creates a new URL by combining the specified URLs
  *
@@ -78265,6 +78336,527 @@ if ('state' in window.history) {
 // stuff yet.
 function onPjaxPopstate(event) {
 
+=======
+var Cancel = __webpack_require__(11);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports) {
+
+/*!
+ * Copyright 2012, Chris Wanstrath
+ * Released under the MIT License
+ * https://github.com/defunkt/jquery-pjax
+ */
+
+(function($){
+
+// When called on a container with a selector, fetches the href with
+// ajax into the container or with the data-pjax attribute on the link
+// itself.
+//
+// Tries to make sure the back button and ctrl+click work the way
+// you'd expect.
+//
+// Exported as $.fn.pjax
+//
+// Accepts a jQuery ajax options object that may include these
+// pjax specific options:
+//
+//
+// container - String selector for the element where to place the response body.
+//      push - Whether to pushState the URL. Defaults to true (of course).
+//   replace - Want to use replaceState instead? That's cool.
+//
+// For convenience the second parameter can be either the container or
+// the options object.
+//
+// Returns the jQuery object
+function fnPjax(selector, container, options) {
+  options = optionsFor(container, options)
+  return this.on('click.pjax', selector, function(event) {
+    var opts = options
+    if (!opts.container) {
+      opts = $.extend({}, options)
+      opts.container = $(this).attr('data-pjax')
+    }
+    handleClick(event, opts)
+  })
+}
+
+// Public: pjax on click handler
+//
+// Exported as $.pjax.click.
+//
+// event   - "click" jQuery.Event
+// options - pjax options
+//
+// Examples
+//
+//   $(document).on('click', 'a', $.pjax.click)
+//   // is the same as
+//   $(document).pjax('a')
+//
+// Returns nothing.
+function handleClick(event, container, options) {
+  options = optionsFor(container, options)
+
+  var link = event.currentTarget
+  var $link = $(link)
+
+  if (link.tagName.toUpperCase() !== 'A')
+    throw "$.fn.pjax or $.pjax.click requires an anchor element"
+
+  // Middle click, cmd click, and ctrl click should open
+  // links in a new tab as normal.
+  if ( event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey )
+    return
+
+  // Ignore cross origin links
+  if ( location.protocol !== link.protocol || location.hostname !== link.hostname )
+    return
+
+  // Ignore case when a hash is being tacked on the current URL
+  if ( link.href.indexOf('#') > -1 && stripHash(link) == stripHash(location) )
+    return
+
+  // Ignore event with default prevented
+  if (event.isDefaultPrevented())
+    return
+
+  var defaults = {
+    url: link.href,
+    container: $link.attr('data-pjax'),
+    target: link
+  }
+
+  var opts = $.extend({}, defaults, options)
+  var clickEvent = $.Event('pjax:click')
+  $link.trigger(clickEvent, [opts])
+
+  if (!clickEvent.isDefaultPrevented()) {
+    pjax(opts)
+    event.preventDefault()
+    $link.trigger('pjax:clicked', [opts])
+  }
+}
+
+// Public: pjax on form submit handler
+//
+// Exported as $.pjax.submit
+//
+// event   - "click" jQuery.Event
+// options - pjax options
+//
+// Examples
+//
+//  $(document).on('submit', 'form', function(event) {
+//    $.pjax.submit(event, '[data-pjax-container]')
+//  })
+//
+// Returns nothing.
+function handleSubmit(event, container, options) {
+  options = optionsFor(container, options)
+
+  var form = event.currentTarget
+  var $form = $(form)
+
+  if (form.tagName.toUpperCase() !== 'FORM')
+    throw "$.pjax.submit requires a form element"
+
+  var defaults = {
+    type: ($form.attr('method') || 'GET').toUpperCase(),
+    url: $form.attr('action'),
+    container: $form.attr('data-pjax'),
+    target: form
+  }
+
+  if (defaults.type !== 'GET' && window.FormData !== undefined) {
+    defaults.data = new FormData(form)
+    defaults.processData = false
+    defaults.contentType = false
+  } else {
+    // Can't handle file uploads, exit
+    if ($form.find(':file').length) {
+      return
+    }
+
+    // Fallback to manually serializing the fields
+    defaults.data = $form.serializeArray()
+  }
+
+  pjax($.extend({}, defaults, options))
+
+  event.preventDefault()
+}
+
+// Loads a URL with ajax, puts the response body inside a container,
+// then pushState()'s the loaded URL.
+//
+// Works just like $.ajax in that it accepts a jQuery ajax
+// settings object (with keys like url, type, data, etc).
+//
+// Accepts these extra keys:
+//
+// container - String selector for where to stick the response body.
+//      push - Whether to pushState the URL. Defaults to true (of course).
+//   replace - Want to use replaceState instead? That's cool.
+//
+// Use it just like $.ajax:
+//
+//   var xhr = $.pjax({ url: this.href, container: '#main' })
+//   console.log( xhr.readyState )
+//
+// Returns whatever $.ajax returns.
+function pjax(options) {
+  options = $.extend(true, {}, $.ajaxSettings, pjax.defaults, options)
+
+  if ($.isFunction(options.url)) {
+    options.url = options.url()
+  }
+
+  var hash = parseURL(options.url).hash
+
+  var containerType = $.type(options.container)
+  if (containerType !== 'string') {
+    throw "expected string value for 'container' option; got " + containerType
+  }
+  var context = options.context = $(options.container)
+  if (!context.length) {
+    throw "the container selector '" + options.container + "' did not match anything"
+  }
+
+  // We want the browser to maintain two separate internal caches: one
+  // for pjax'd partial page loads and one for normal page loads.
+  // Without adding this secret parameter, some browsers will often
+  // confuse the two.
+  if (!options.data) options.data = {}
+  if ($.isArray(options.data)) {
+    options.data.push({name: '_pjax', value: options.container})
+  } else {
+    options.data._pjax = options.container
+  }
+
+  function fire(type, args, props) {
+    if (!props) props = {}
+    props.relatedTarget = options.target
+    var event = $.Event(type, props)
+    context.trigger(event, args)
+    return !event.isDefaultPrevented()
+  }
+
+  var timeoutTimer
+
+  options.beforeSend = function(xhr, settings) {
+    // No timeout for non-GET requests
+    // Its not safe to request the resource again with a fallback method.
+    if (settings.type !== 'GET') {
+      settings.timeout = 0
+    }
+
+    xhr.setRequestHeader('X-PJAX', 'true')
+    xhr.setRequestHeader('X-PJAX-Container', options.container)
+
+    if (!fire('pjax:beforeSend', [xhr, settings]))
+      return false
+
+    if (settings.timeout > 0) {
+      timeoutTimer = setTimeout(function() {
+        if (fire('pjax:timeout', [xhr, options]))
+          xhr.abort('timeout')
+      }, settings.timeout)
+
+      // Clear timeout setting so jquerys internal timeout isn't invoked
+      settings.timeout = 0
+    }
+
+    var url = parseURL(settings.url)
+    if (hash) url.hash = hash
+    options.requestUrl = stripInternalParams(url)
+  }
+
+  options.complete = function(xhr, textStatus) {
+    if (timeoutTimer)
+      clearTimeout(timeoutTimer)
+
+    fire('pjax:complete', [xhr, textStatus, options])
+
+    fire('pjax:end', [xhr, options])
+  }
+
+  options.error = function(xhr, textStatus, errorThrown) {
+    var container = extractContainer("", xhr, options)
+
+    var allowed = fire('pjax:error', [xhr, textStatus, errorThrown, options])
+    if (options.type == 'GET' && textStatus !== 'abort' && allowed) {
+      locationReplace(container.url)
+    }
+  }
+
+  options.success = function(data, status, xhr) {
+    var previousState = pjax.state
+
+    // If $.pjax.defaults.version is a function, invoke it first.
+    // Otherwise it can be a static string.
+    var currentVersion = typeof $.pjax.defaults.version === 'function' ?
+      $.pjax.defaults.version() :
+      $.pjax.defaults.version
+
+    var latestVersion = xhr.getResponseHeader('X-PJAX-Version')
+
+    var container = extractContainer(data, xhr, options)
+
+    var url = parseURL(container.url)
+    if (hash) {
+      url.hash = hash
+      container.url = url.href
+    }
+
+    // If there is a layout version mismatch, hard load the new url
+    if (currentVersion && latestVersion && currentVersion !== latestVersion) {
+      locationReplace(container.url)
+      return
+    }
+
+    // If the new response is missing a body, hard load the page
+    if (!container.contents) {
+      locationReplace(container.url)
+      return
+    }
+
+    pjax.state = {
+      id: options.id || uniqueId(),
+      url: container.url,
+      title: container.title,
+      container: options.container,
+      fragment: options.fragment,
+      timeout: options.timeout
+    }
+
+    if (options.push || options.replace) {
+      window.history.replaceState(pjax.state, container.title, container.url)
+    }
+
+    // Only blur the focus if the focused element is within the container.
+    var blurFocus = $.contains(context, document.activeElement)
+
+    // Clear out any focused controls before inserting new page contents.
+    if (blurFocus) {
+      try {
+        document.activeElement.blur()
+      } catch (e) { /* ignore */ }
+    }
+
+    if (container.title) document.title = container.title
+
+    fire('pjax:beforeReplace', [container.contents, options], {
+      state: pjax.state,
+      previousState: previousState
+    })
+    context.html(container.contents)
+
+    // FF bug: Won't autofocus fields that are inserted via JS.
+    // This behavior is incorrect. So if theres no current focus, autofocus
+    // the last field.
+    //
+    // http://www.w3.org/html/wg/drafts/html/master/forms.html
+    var autofocusEl = context.find('input[autofocus], textarea[autofocus]').last()[0]
+    if (autofocusEl && document.activeElement !== autofocusEl) {
+      autofocusEl.focus()
+    }
+
+    executeScriptTags(container.scripts)
+
+    var scrollTo = options.scrollTo
+
+    // Ensure browser scrolls to the element referenced by the URL anchor
+    if (hash) {
+      var name = decodeURIComponent(hash.slice(1))
+      var target = document.getElementById(name) || document.getElementsByName(name)[0]
+      if (target) scrollTo = $(target).offset().top
+    }
+
+    if (typeof scrollTo == 'number') $(window).scrollTop(scrollTo)
+
+    fire('pjax:success', [data, status, xhr, options])
+  }
+
+
+  // Initialize pjax.state for the initial page load. Assume we're
+  // using the container and options of the link we're loading for the
+  // back button to the initial page. This ensures good back button
+  // behavior.
+  if (!pjax.state) {
+    pjax.state = {
+      id: uniqueId(),
+      url: window.location.href,
+      title: document.title,
+      container: options.container,
+      fragment: options.fragment,
+      timeout: options.timeout
+    }
+    window.history.replaceState(pjax.state, document.title)
+  }
+
+  // Cancel the current request if we're already pjaxing
+  abortXHR(pjax.xhr)
+
+  pjax.options = options
+  var xhr = pjax.xhr = $.ajax(options)
+
+  if (xhr.readyState > 0) {
+    if (options.push && !options.replace) {
+      // Cache current container element before replacing it
+      cachePush(pjax.state.id, [options.container, cloneContents(context)])
+
+      window.history.pushState(null, "", options.requestUrl)
+    }
+
+    fire('pjax:start', [xhr, options])
+    fire('pjax:send', [xhr, options])
+  }
+
+  return pjax.xhr
+}
+
+// Public: Reload current page with pjax.
+//
+// Returns whatever $.pjax returns.
+function pjaxReload(container, options) {
+  var defaults = {
+    url: window.location.href,
+    push: false,
+    replace: true,
+    scrollTo: false
+  }
+
+  return pjax($.extend(defaults, optionsFor(container, options)))
+}
+
+// Internal: Hard replace current state with url.
+//
+// Work for around WebKit
+//   https://bugs.webkit.org/show_bug.cgi?id=93506
+//
+// Returns nothing.
+function locationReplace(url) {
+  window.history.replaceState(null, "", pjax.state.url)
+  window.location.replace(url)
+}
+
+
+var initialPop = true
+var initialURL = window.location.href
+var initialState = window.history.state
+
+// Initialize $.pjax.state if possible
+// Happens when reloading a page and coming forward from a different
+// session history.
+if (initialState && initialState.container) {
+  pjax.state = initialState
+}
+
+// Non-webkit browsers don't fire an initial popstate event
+if ('state' in window.history) {
+  initialPop = false
+}
+
+// popstate handler takes care of the back and forward buttons
+//
+// You probably shouldn't use pjax on pages with other pushState
+// stuff yet.
+function onPjaxPopstate(event) {
+
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
   // Hitting back or forward should override any pending PJAX request.
   if (!initialPop) {
     abortXHR(pjax.xhr)
@@ -78441,6 +79033,7 @@ function parseURL(url) {
 // Returns String
 function stripHash(location) {
   return location.href.replace(/#.*/, '')
+<<<<<<< HEAD
 }
 
 // Internal: Build options Object for arguments.
@@ -78631,6 +79224,198 @@ function cachePop(direction, id, value) {
   var pushStack, popStack
   cacheMapping[id] = value
 
+=======
+}
+
+// Internal: Build options Object for arguments.
+//
+// For convenience the first parameter can be either the container or
+// the options object.
+//
+// Examples
+//
+//   optionsFor('#container')
+//   // => {container: '#container'}
+//
+//   optionsFor('#container', {push: true})
+//   // => {container: '#container', push: true}
+//
+//   optionsFor({container: '#container', push: true})
+//   // => {container: '#container', push: true}
+//
+// Returns options Object.
+function optionsFor(container, options) {
+  if (container && options) {
+    options = $.extend({}, options)
+    options.container = container
+    return options
+  } else if ($.isPlainObject(container)) {
+    return container
+  } else {
+    return {container: container}
+  }
+}
+
+// Internal: Filter and find all elements matching the selector.
+//
+// Where $.fn.find only matches descendants, findAll will test all the
+// top level elements in the jQuery object as well.
+//
+// elems    - jQuery object of Elements
+// selector - String selector to match
+//
+// Returns a jQuery object.
+function findAll(elems, selector) {
+  return elems.filter(selector).add(elems.find(selector))
+}
+
+function parseHTML(html) {
+  return $.parseHTML(html, document, true)
+}
+
+// Internal: Extracts container and metadata from response.
+//
+// 1. Extracts X-PJAX-URL header if set
+// 2. Extracts inline <title> tags
+// 3. Builds response Element and extracts fragment if set
+//
+// data    - String response data
+// xhr     - XHR response
+// options - pjax options Object
+//
+// Returns an Object with url, title, and contents keys.
+function extractContainer(data, xhr, options) {
+  var obj = {}, fullDocument = /<html/i.test(data)
+
+  // Prefer X-PJAX-URL header if it was set, otherwise fallback to
+  // using the original requested url.
+  var serverUrl = xhr.getResponseHeader('X-PJAX-URL')
+  obj.url = serverUrl ? stripInternalParams(parseURL(serverUrl)) : options.requestUrl
+
+  var $head, $body
+  // Attempt to parse response html into elements
+  if (fullDocument) {
+    $body = $(parseHTML(data.match(/<body[^>]*>([\s\S.]*)<\/body>/i)[0]))
+    var head = data.match(/<head[^>]*>([\s\S.]*)<\/head>/i)
+    $head = head != null ? $(parseHTML(head[0])) : $body
+  } else {
+    $head = $body = $(parseHTML(data))
+  }
+
+  // If response data is empty, return fast
+  if ($body.length === 0)
+    return obj
+
+  // If there's a <title> tag in the header, use it as
+  // the page's title.
+  obj.title = findAll($head, 'title').last().text()
+
+  if (options.fragment) {
+    var $fragment = $body
+    // If they specified a fragment, look for it in the response
+    // and pull it out.
+    if (options.fragment !== 'body') {
+      $fragment = findAll($fragment, options.fragment).first()
+    }
+
+    if ($fragment.length) {
+      obj.contents = options.fragment === 'body' ? $fragment : $fragment.contents()
+
+      // If there's no title, look for data-title and title attributes
+      // on the fragment
+      if (!obj.title)
+        obj.title = $fragment.attr('title') || $fragment.data('title')
+    }
+
+  } else if (!fullDocument) {
+    obj.contents = $body
+  }
+
+  // Clean up any <title> tags
+  if (obj.contents) {
+    // Remove any parent title elements
+    obj.contents = obj.contents.not(function() { return $(this).is('title') })
+
+    // Then scrub any titles from their descendants
+    obj.contents.find('title').remove()
+
+    // Gather all script[src] elements
+    obj.scripts = findAll(obj.contents, 'script[src]').remove()
+    obj.contents = obj.contents.not(obj.scripts)
+  }
+
+  // Trim any whitespace off the title
+  if (obj.title) obj.title = $.trim(obj.title)
+
+  return obj
+}
+
+// Load an execute scripts using standard script request.
+//
+// Avoids jQuery's traditional $.getScript which does a XHR request and
+// globalEval.
+//
+// scripts - jQuery object of script Elements
+//
+// Returns nothing.
+function executeScriptTags(scripts) {
+  if (!scripts) return
+
+  var existingScripts = $('script[src]')
+
+  scripts.each(function() {
+    var src = this.src
+    var matchedScripts = existingScripts.filter(function() {
+      return this.src === src
+    })
+    if (matchedScripts.length) return
+
+    var script = document.createElement('script')
+    var type = $(this).attr('type')
+    if (type) script.type = type
+    script.src = $(this).attr('src')
+    document.head.appendChild(script)
+  })
+}
+
+// Internal: History DOM caching class.
+var cacheMapping      = {}
+var cacheForwardStack = []
+var cacheBackStack    = []
+
+// Push previous state id and container contents into the history
+// cache. Should be called in conjunction with `pushState` to save the
+// previous container contents.
+//
+// id    - State ID Number
+// value - DOM Element to cache
+//
+// Returns nothing.
+function cachePush(id, value) {
+  cacheMapping[id] = value
+  cacheBackStack.push(id)
+
+  // Remove all entries in forward history stack after pushing a new page.
+  trimCacheStack(cacheForwardStack, 0)
+
+  // Trim back history stack to max cache length.
+  trimCacheStack(cacheBackStack, pjax.defaults.maxCacheLength)
+}
+
+// Shifts cache from directional history cache. Should be
+// called on `popstate` with the previous state id and container
+// contents.
+//
+// direction - "forward" or "back" String
+// id        - State ID Number
+// value     - DOM Element to cache
+//
+// Returns nothing.
+function cachePop(direction, id, value) {
+  var pushStack, popStack
+  cacheMapping[id] = value
+
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
   if (direction === 'forward') {
     pushStack = cacheBackStack
     popStack  = cacheForwardStack
@@ -78722,6 +79507,7 @@ function disable() {
   $(window).off('popstate.pjax', onPjaxPopstate)
 }
 
+<<<<<<< HEAD
 
 // Add the state property to jQuery's event object so we can use it in
 // $(window).bind('popstate')
@@ -78744,8 +79530,30 @@ if ($.support.pjax) {
 }
 
 })(jQuery)
+=======
 
+// Add the state property to jQuery's event object so we can use it in
+// $(window).bind('popstate')
+if ($.event.props && $.inArray('state', $.event.props) < 0) {
+  $.event.props.push('state')
+} else if (!('state' in $.Event.prototype)) {
+  $.event.addProp('state')
+}
 
+// Is pjax supported by this browser?
+$.support.pjax =
+  window.history && window.history.pushState && window.history.replaceState &&
+  // pushState isn't reliable on iOS until 5.
+  !navigator.userAgent.match(/((iPod|iPhone|iPad).+\bOS\s+[1-4]\D|WebApps\/.+CFNetwork)/)
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+
+if ($.support.pjax) {
+  enable()
+} else {
+  disable()
+}
+
+<<<<<<< HEAD
 /***/ }),
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -78767,6 +79575,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 };
 
 
+=======
+})(jQuery)
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+* sweetalert2 v7.26.6
+* Released under the MIT License.
+*/
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.Sweetalert2 = factory());
+}(this, (function () { 'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
 
 
 
@@ -78775,6 +79607,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 
+<<<<<<< HEAD
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -78802,7 +79635,61 @@ var createClass = function () {
 
 
 
+=======
 
+
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+
+
+
+
+<<<<<<< HEAD
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+var get = function get(object, property, receiver) {
+  if (object === null) object = Function.prototype;
+  var desc = Object.getOwnPropertyDescriptor(object, property);
+
+  if (desc === undefined) {
+    var parent = Object.getPrototypeOf(object);
+
+=======
 
 
 
@@ -78827,6 +79714,7 @@ var get = function get(object, property, receiver) {
   if (desc === undefined) {
     var parent = Object.getPrototypeOf(object);
 
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
     if (parent === null) {
       return undefined;
     } else {
@@ -78920,6 +79808,7 @@ var formatInputOptions = function formatInputOptions(inputOptions) {
   }
   return result;
 };
+<<<<<<< HEAD
 
 /**
  * Standardise console warnings
@@ -78933,6 +79822,21 @@ var warn = function warn(message) {
  * Standardise console errors
  * @param message
  */
+=======
+
+/**
+ * Standardise console warnings
+ * @param message
+ */
+var warn = function warn(message) {
+  console.warn(consolePrefix + ' ' + message);
+};
+
+/**
+ * Standardise console errors
+ * @param message
+ */
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
 var error = function error(message) {
   console.error(consolePrefix + ' ' + message);
 };
@@ -79202,6 +80106,7 @@ var getFocusableElements = function getFocusableElements() {
 var isModal = function isModal() {
   return !document.body.classList.contains(swalClasses['toast-shown']);
 };
+<<<<<<< HEAD
 
 var isToast = function isToast() {
   return document.body.classList.contains(swalClasses['toast-shown']);
@@ -79285,6 +80190,91 @@ var init = function init(params) {
   return popup;
 };
 
+=======
+
+var isToast = function isToast() {
+  return document.body.classList.contains(swalClasses['toast-shown']);
+};
+
+var isLoading = function isLoading() {
+  return getPopup().hasAttribute('data-loading');
+};
+
+// Detect Node env
+var isNodeEnv = function isNodeEnv() {
+  return typeof window === 'undefined' || typeof document === 'undefined';
+};
+
+var sweetHTML = ('\n <div aria-labelledby="' + swalClasses.title + '" aria-describedby="' + swalClasses.content + '" class="' + swalClasses.popup + '" tabindex="-1">\n   <div class="' + swalClasses.header + '">\n     <ul class="' + swalClasses.progresssteps + '"></ul>\n     <div class="' + swalClasses.icon + ' ' + iconTypes.error + '">\n       <span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span>\n     </div>\n     <div class="' + swalClasses.icon + ' ' + iconTypes.question + '">\n       <span class="' + swalClasses['icon-text'] + '">?</span>\n      </div>\n     <div class="' + swalClasses.icon + ' ' + iconTypes.warning + '">\n       <span class="' + swalClasses['icon-text'] + '">!</span>\n      </div>\n     <div class="' + swalClasses.icon + ' ' + iconTypes.info + '">\n       <span class="' + swalClasses['icon-text'] + '">i</span>\n      </div>\n     <div class="' + swalClasses.icon + ' ' + iconTypes.success + '">\n       <div class="swal2-success-circular-line-left"></div>\n       <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>\n       <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>\n       <div class="swal2-success-circular-line-right"></div>\n     </div>\n     <img class="' + swalClasses.image + '" />\n     <h2 class="' + swalClasses.title + '" id="' + swalClasses.title + '"></h2>\n     <button type="button" class="' + swalClasses.close + '">\xD7</button>\n   </div>\n   <div class="' + swalClasses.content + '">\n     <div id="' + swalClasses.content + '"></div>\n     <input class="' + swalClasses.input + '" />\n     <input type="file" class="' + swalClasses.file + '" />\n     <div class="' + swalClasses.range + '">\n       <input type="range" />\n       <output></output>\n     </div>\n     <select class="' + swalClasses.select + '"></select>\n     <div class="' + swalClasses.radio + '"></div>\n     <label for="' + swalClasses.checkbox + '" class="' + swalClasses.checkbox + '">\n       <input type="checkbox" />\n       <span class="' + swalClasses.label + '"></span>\n     </label>\n     <textarea class="' + swalClasses.textarea + '"></textarea>\n     <div class="' + swalClasses.validationerror + '" id="' + swalClasses.validationerror + '"></div>\n   </div>\n   <div class="' + swalClasses.actions + '">\n     <button type="button" class="' + swalClasses.confirm + '">OK</button>\n     <button type="button" class="' + swalClasses.cancel + '">Cancel</button>\n   </div>\n   <div class="' + swalClasses.footer + '">\n   </div>\n </div>\n').replace(/(^|\n)\s*/g, '');
+
+/*
+ * Add modal + backdrop to DOM
+ */
+var init = function init(params) {
+  // Clean up the old popup if it exists
+  var c = getContainer();
+  if (c) {
+    c.parentNode.removeChild(c);
+    removeClass([document.documentElement, document.body], [swalClasses['no-backdrop'], swalClasses['toast-shown'], swalClasses['has-column']]);
+  }
+
+  if (isNodeEnv()) {
+    error('SweetAlert2 requires document to initialize');
+    return;
+  }
+
+  var container = document.createElement('div');
+  container.className = swalClasses.container;
+  container.innerHTML = sweetHTML;
+
+  var targetElement = typeof params.target === 'string' ? document.querySelector(params.target) : params.target;
+  targetElement.appendChild(container);
+
+  var popup = getPopup();
+  var content = getContent();
+  var input = getChildByClass(content, swalClasses.input);
+  var file = getChildByClass(content, swalClasses.file);
+  var range = content.querySelector('.' + swalClasses.range + ' input');
+  var rangeOutput = content.querySelector('.' + swalClasses.range + ' output');
+  var select = getChildByClass(content, swalClasses.select);
+  var checkbox = content.querySelector('.' + swalClasses.checkbox + ' input');
+  var textarea = getChildByClass(content, swalClasses.textarea);
+
+  // a11y
+  popup.setAttribute('role', params.toast ? 'alert' : 'dialog');
+  popup.setAttribute('aria-live', params.toast ? 'polite' : 'assertive');
+  if (!params.toast) {
+    popup.setAttribute('aria-modal', 'true');
+  }
+
+  var oldInputVal = void 0; // IE11 workaround, see #1109 for details
+  var resetValidationError = function resetValidationError(e) {
+    if (Swal.isVisible() && oldInputVal !== e.target.value) {
+      Swal.resetValidationError();
+    }
+    oldInputVal = e.target.value;
+  };
+
+  input.oninput = resetValidationError;
+  file.onchange = resetValidationError;
+  select.onchange = resetValidationError;
+  checkbox.onchange = resetValidationError;
+  textarea.oninput = resetValidationError;
+
+  range.oninput = function (e) {
+    resetValidationError(e);
+    rangeOutput.value = range.value;
+  };
+
+  range.onchange = function (e) {
+    resetValidationError(e);
+    range.nextSibling.value = range.value;
+  };
+
+  return popup;
+};
+
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
 var parseHtmlToContainer = function parseHtmlToContainer(param, target) {
   if (!param) {
     return hide(target);
@@ -79442,6 +80432,7 @@ var renderIcon = function renderIcon(params) {
     }
   }
 };
+<<<<<<< HEAD
 
 var renderImage = function renderImage(params) {
   var image = getImage();
@@ -79597,6 +80588,163 @@ var close = function close(onClose, onAfterClose) {
   removeClass(popup, swalClasses.show);
   addClass(popup, swalClasses.hide);
 
+=======
+
+var renderImage = function renderImage(params) {
+  var image = getImage();
+
+  if (params.imageUrl) {
+    image.setAttribute('src', params.imageUrl);
+    image.setAttribute('alt', params.imageAlt);
+    show(image);
+
+    if (params.imageWidth) {
+      image.setAttribute('width', params.imageWidth);
+    } else {
+      image.removeAttribute('width');
+    }
+
+    if (params.imageHeight) {
+      image.setAttribute('height', params.imageHeight);
+    } else {
+      image.removeAttribute('height');
+    }
+
+    image.className = swalClasses.image;
+    if (params.imageClass) {
+      addClass(image, params.imageClass);
+    }
+  } else {
+    hide(image);
+  }
+};
+
+var renderProgressSteps = function renderProgressSteps(params) {
+  var progressStepsContainer = getProgressSteps();
+  var currentProgressStep = parseInt(params.currentProgressStep === null ? Swal.getQueueStep() : params.currentProgressStep, 10);
+  if (params.progressSteps && params.progressSteps.length) {
+    show(progressStepsContainer);
+    progressStepsContainer.innerHTML = '';
+    if (currentProgressStep >= params.progressSteps.length) {
+      warn('Invalid currentProgressStep parameter, it should be less than progressSteps.length ' + '(currentProgressStep like JS arrays starts from 0)');
+    }
+    params.progressSteps.forEach(function (step, index) {
+      var circle = document.createElement('li');
+      addClass(circle, swalClasses.progresscircle);
+      circle.innerHTML = step;
+      if (index === currentProgressStep) {
+        addClass(circle, swalClasses.activeprogressstep);
+      }
+      progressStepsContainer.appendChild(circle);
+      if (index !== params.progressSteps.length - 1) {
+        var line = document.createElement('li');
+        addClass(line, swalClasses.progressline);
+        if (params.progressStepsDistance) {
+          line.style.width = params.progressStepsDistance;
+        }
+        progressStepsContainer.appendChild(line);
+      }
+    });
+  } else {
+    hide(progressStepsContainer);
+  }
+};
+
+var renderTitle = function renderTitle(params) {
+  var title = getTitle();
+
+  if (params.titleText) {
+    title.innerText = params.titleText;
+  } else if (params.title) {
+    if (typeof params.title === 'string') {
+      params.title = params.title.split('\n').join('<br />');
+    }
+    parseHtmlToContainer(params.title, title);
+  }
+};
+
+var fixScrollbar = function fixScrollbar() {
+  // for queues, do not do this more than once
+  if (states.previousBodyPadding !== null) {
+    return;
+  }
+  // if the body has overflow
+  if (document.body.scrollHeight > window.innerHeight) {
+    // add padding so the content doesn't shift after removal of scrollbar
+    states.previousBodyPadding = parseInt(window.getComputedStyle(document.body).getPropertyValue('padding-right'));
+    document.body.style.paddingRight = states.previousBodyPadding + measureScrollbar() + 'px';
+  }
+};
+
+var undoScrollbar = function undoScrollbar() {
+  if (states.previousBodyPadding !== null) {
+    document.body.style.paddingRight = states.previousBodyPadding;
+    states.previousBodyPadding = null;
+  }
+};
+
+// Fix iOS scrolling http://stackoverflow.com/q/39626302/1331425
+
+/* istanbul ignore next */
+var iOSfix = function iOSfix() {
+  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  if (iOS && !hasClass(document.body, swalClasses.iosfix)) {
+    var offset = document.body.scrollTop;
+    document.body.style.top = offset * -1 + 'px';
+    addClass(document.body, swalClasses.iosfix);
+  }
+};
+
+/* istanbul ignore next */
+var undoIOSfix = function undoIOSfix() {
+  if (hasClass(document.body, swalClasses.iosfix)) {
+    var offset = parseInt(document.body.style.top, 10);
+    removeClass(document.body, swalClasses.iosfix);
+    document.body.style.top = '';
+    document.body.scrollTop = offset * -1;
+  }
+};
+
+var RESTORE_FOCUS_TIMEOUT = 100;
+
+var globalState = {};
+
+// Restore previous active (focused) element
+var restoreActiveElement = function restoreActiveElement() {
+  var x = window.scrollX;
+  var y = window.scrollY;
+  globalState.restoreFocusTimeout = setTimeout(function () {
+    if (globalState.previousActiveElement && globalState.previousActiveElement.focus) {
+      globalState.previousActiveElement.focus();
+      globalState.previousActiveElement = null;
+    } else if (document.body) {
+      document.body.focus();
+    }
+  }, RESTORE_FOCUS_TIMEOUT); // issues/900
+  if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+    // IE doesn't have scrollX/scrollY support
+    window.scrollTo(x, y);
+  }
+};
+
+/*
+ * Global function to close sweetAlert
+ */
+var close = function close(onClose, onAfterClose) {
+  var container = getContainer();
+  var popup = getPopup();
+  if (!popup) {
+    return;
+  }
+
+  if (onClose !== null && typeof onClose === 'function') {
+    onClose(popup);
+  }
+
+  removeClass(popup, swalClasses.show);
+  addClass(popup, swalClasses.hide);
+
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
   var removePopupAndResetState = function removePopupAndResetState() {
     if (!isToast()) {
       restoreActiveElement();
@@ -79675,6 +80823,7 @@ function withNoNewKeyword(ParentSwal) {
   var NoNewKeywordSwal = function NoNewKeywordSwal() {
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
+<<<<<<< HEAD
     }
 
     if (!(this instanceof NoNewKeywordSwal)) {
@@ -79853,8 +81002,140 @@ function withGlobalDefaults(ParentSwal) {
 
   if (typeof window !== 'undefined' && _typeof(window._swalDefaults) === 'object') {
     SwalWithGlobalDefaults.setDefaults(window._swalDefaults);
-  }
+=======
+    }
 
+    if (!(this instanceof NoNewKeywordSwal)) {
+      return new (Function.prototype.bind.apply(NoNewKeywordSwal, [null].concat(args)))();
+    }
+    Object.getPrototypeOf(NoNewKeywordSwal).apply(this, args);
+  };
+  NoNewKeywordSwal.prototype = _extends(Object.create(ParentSwal.prototype), { constructor: NoNewKeywordSwal });
+
+  if (typeof Object.setPrototypeOf === 'function') {
+    Object.setPrototypeOf(NoNewKeywordSwal, ParentSwal);
+  } else {
+    // Android 4.4
+    // eslint-disable-next-line
+    NoNewKeywordSwal.__proto__ = ParentSwal;
+  }
+  return NoNewKeywordSwal;
+}
+
+var defaultParams = {
+  title: '',
+  titleText: '',
+  text: '',
+  html: '',
+  footer: '',
+  type: null,
+  toast: false,
+  customClass: '',
+  target: 'body',
+  backdrop: true,
+  animation: true,
+  heightAuto: true,
+  allowOutsideClick: true,
+  allowEscapeKey: true,
+  allowEnterKey: true,
+  stopKeydownPropagation: true,
+  keydownListenerCapture: false,
+  showConfirmButton: true,
+  showCancelButton: false,
+  preConfirm: null,
+  confirmButtonText: 'OK',
+  confirmButtonAriaLabel: '',
+  confirmButtonColor: null,
+  confirmButtonClass: null,
+  cancelButtonText: 'Cancel',
+  cancelButtonAriaLabel: '',
+  cancelButtonColor: null,
+  cancelButtonClass: null,
+  buttonsStyling: true,
+  reverseButtons: false,
+  focusConfirm: true,
+  focusCancel: false,
+  showCloseButton: false,
+  closeButtonAriaLabel: 'Close this dialog',
+  showLoaderOnConfirm: false,
+  imageUrl: null,
+  imageWidth: null,
+  imageHeight: null,
+  imageAlt: '',
+  imageClass: null,
+  timer: null,
+  width: null,
+  padding: null,
+  background: null,
+  input: null,
+  inputPlaceholder: '',
+  inputValue: '',
+  inputOptions: {},
+  inputAutoTrim: true,
+  inputClass: null,
+  inputAttributes: {},
+  inputValidator: null,
+  grow: false,
+  position: 'center',
+  progressSteps: [],
+  currentProgressStep: null,
+  progressStepsDistance: null,
+  onBeforeOpen: null,
+  onAfterClose: null,
+  onOpen: null,
+  onClose: null,
+  useRejections: false,
+  expectRejections: false
+};
+
+var deprecatedParams = ['useRejections', 'expectRejections'];
+
+/**
+ * Is valid parameter
+ * @param {String} paramName
+ */
+var isValidParameter = function isValidParameter(paramName) {
+  return defaultParams.hasOwnProperty(paramName) || paramName === 'extraParams';
+};
+
+/**
+ * Is valid parameter for toasts
+ * @param {String} paramName
+ */
+var isValidToastParameter = function isValidToastParameter(paramName) {
+  var incompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop', 'focusConfirm', 'focusCancel', 'heightAuto', 'keydownListenerCapture'];
+  return incompatibleParams.indexOf(paramName) === -1;
+};
+
+/**
+ * Is deprecated parameter
+ * @param {String} paramName
+ */
+var isDeprecatedParameter = function isDeprecatedParameter(paramName) {
+  return deprecatedParams.indexOf(paramName) !== -1;
+};
+
+/**
+ * Show relevant warnings for given params
+ *
+ * @param params
+ */
+var showWarningsForParams = function showWarningsForParams(params) {
+  for (var param in params) {
+    if (!isValidParameter(param)) {
+      warn('Unknown parameter "' + param + '"');
+    }
+    if (params.toast && !isValidToastParameter(param)) {
+      warn('The parameter "' + param + '" is incompatible with toasts');
+    }
+    if (isDeprecatedParameter(param)) {
+      warnOnce('The parameter "' + param + '" is deprecated and will be removed in the next major release.');
+    }
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+  }
+};
+
+<<<<<<< HEAD
   return SwalWithGlobalDefaults;
 }
 
@@ -80291,6 +81572,646 @@ function setParameters(params) {
   if (!params.target || typeof params.target === 'string' && !document.querySelector(params.target) || typeof params.target !== 'string' && !params.target.appendChild) {
     warn('Target parameter is not valid, defaulting to "body"');
     params.target = 'body';
+=======
+var deprecationWarning = '"setDefaults" & "resetDefaults" methods are deprecated in favor of "mixin" method and will be removed in the next major release. For new projects, use "mixin". For past projects already using "setDefaults", support will be provided through an additional package.';
+var defaults$1 = {};
+
+function withGlobalDefaults(ParentSwal) {
+  var SwalWithGlobalDefaults = function (_ParentSwal) {
+    inherits(SwalWithGlobalDefaults, _ParentSwal);
+
+    function SwalWithGlobalDefaults() {
+      classCallCheck(this, SwalWithGlobalDefaults);
+      return possibleConstructorReturn(this, (SwalWithGlobalDefaults.__proto__ || Object.getPrototypeOf(SwalWithGlobalDefaults)).apply(this, arguments));
+    }
+
+    createClass(SwalWithGlobalDefaults, [{
+      key: '_main',
+      value: function _main(params) {
+        return get(SwalWithGlobalDefaults.prototype.__proto__ || Object.getPrototypeOf(SwalWithGlobalDefaults.prototype), '_main', this).call(this, _extends({}, defaults$1, params));
+      }
+    }], [{
+      key: 'setDefaults',
+      value: function setDefaults(params) {
+        warnOnce(deprecationWarning);
+        if (!params || (typeof params === 'undefined' ? 'undefined' : _typeof(params)) !== 'object') {
+          throw new TypeError('SweetAlert2: The argument for setDefaults() is required and has to be a object');
+        }
+        showWarningsForParams(params);
+        // assign valid params from `params` to `defaults`
+        Object.keys(params).forEach(function (param) {
+          if (ParentSwal.isValidParameter(param)) {
+            defaults$1[param] = params[param];
+          }
+        });
+      }
+    }, {
+      key: 'resetDefaults',
+      value: function resetDefaults() {
+        warnOnce(deprecationWarning);
+        defaults$1 = {};
+      }
+    }]);
+    return SwalWithGlobalDefaults;
+  }(ParentSwal);
+
+  // Set default params if `window._swalDefaults` is an object
+
+
+  if (typeof window !== 'undefined' && _typeof(window._swalDefaults) === 'object') {
+    SwalWithGlobalDefaults.setDefaults(window._swalDefaults);
+  }
+
+  return SwalWithGlobalDefaults;
+}
+
+/**
+ * Returns an extended version of `Swal` containing `params` as defaults.
+ * Useful for reusing Swal configuration.
+ *
+ * For example:
+ *
+ * Before:
+ * const textPromptOptions = { input: 'text', showCancelButton: true }
+ * const {value: firstName} = await Swal({ ...textPromptOptions, title: 'What is your first name?' })
+ * const {value: lastName} = await Swal({ ...textPromptOptions, title: 'What is your last name?' })
+ *
+ * After:
+ * const TextPrompt = Swal.mixin({ input: 'text', showCancelButton: true })
+ * const {value: firstName} = await TextPrompt('What is your first name?')
+ * const {value: lastName} = await TextPrompt('What is your last name?')
+ *
+ * @param mixinParams
+ */
+function mixin(mixinParams) {
+  return withNoNewKeyword(function (_ref) {
+    inherits(MixinSwal, _ref);
+
+    function MixinSwal() {
+      classCallCheck(this, MixinSwal);
+      return possibleConstructorReturn(this, (MixinSwal.__proto__ || Object.getPrototypeOf(MixinSwal)).apply(this, arguments));
+    }
+
+    createClass(MixinSwal, [{
+      key: '_main',
+      value: function _main(params) {
+        return get(MixinSwal.prototype.__proto__ || Object.getPrototypeOf(MixinSwal.prototype), '_main', this).call(this, _extends({}, mixinParams, params));
+      }
+    }]);
+    return MixinSwal;
+  }(this));
+}
+
+// private global state for the queue feature
+var currentSteps = [];
+
+/*
+ * Global function for chaining sweetAlert popups
+ */
+var queue = function queue(steps) {
+  var swal = this;
+  currentSteps = steps;
+  var resetQueue = function resetQueue() {
+    currentSteps = [];
+    document.body.removeAttribute('data-swal2-queue-step');
+  };
+  var queueResult = [];
+  return new Promise(function (resolve) {
+    (function step(i, callback) {
+      if (i < currentSteps.length) {
+        document.body.setAttribute('data-swal2-queue-step', i);
+
+        swal(currentSteps[i]).then(function (result) {
+          if (typeof result.value !== 'undefined') {
+            queueResult.push(result.value);
+            step(i + 1, callback);
+          } else {
+            resetQueue();
+            resolve({ dismiss: result.dismiss });
+          }
+        });
+      } else {
+        resetQueue();
+        resolve({ value: queueResult });
+      }
+    })(0);
+  });
+};
+
+/*
+ * Global function for getting the index of current popup in queue
+ */
+var getQueueStep = function getQueueStep() {
+  return document.body.getAttribute('data-swal2-queue-step');
+};
+
+/*
+ * Global function for inserting a popup to the queue
+ */
+var insertQueueStep = function insertQueueStep(step, index) {
+  if (index && index < currentSteps.length) {
+    return currentSteps.splice(index, 0, step);
+  }
+  return currentSteps.push(step);
+};
+
+/*
+ * Global function for deleting a popup from the queue
+ */
+var deleteQueueStep = function deleteQueueStep(index) {
+  if (typeof currentSteps[index] !== 'undefined') {
+    currentSteps.splice(index, 1);
+  }
+};
+
+/**
+ * Show spinner instead of Confirm button and disable Cancel button
+ */
+var showLoading = function showLoading() {
+  var popup = getPopup();
+  if (!popup) {
+    Swal('');
+  }
+  popup = getPopup();
+  var actions = getActions();
+  var confirmButton = getConfirmButton();
+  var cancelButton = getCancelButton();
+
+  show(actions);
+  show(confirmButton);
+  addClass([popup, actions], swalClasses.loading);
+  confirmButton.disabled = true;
+  cancelButton.disabled = true;
+
+  popup.setAttribute('data-loading', true);
+  popup.setAttribute('aria-busy', true);
+  popup.focus();
+};
+
+/**
+ * Show spinner instead of Confirm button and disable Cancel button
+ */
+var getTimerLeft = function getTimerLeft() {
+  return globalState.timeout && globalState.timeout.getTimerLeft();
+};
+
+
+
+var staticMethods = Object.freeze({
+	isValidParameter: isValidParameter,
+	isDeprecatedParameter: isDeprecatedParameter,
+	argsToParams: argsToParams,
+	adaptInputValidator: adaptInputValidator,
+	close: close,
+	closePopup: close,
+	closeModal: close,
+	closeToast: close,
+	isVisible: isVisible$1,
+	clickConfirm: clickConfirm,
+	clickCancel: clickCancel,
+	getPopup: getPopup,
+	getTitle: getTitle,
+	getContent: getContent,
+	getImage: getImage,
+	getIcons: getIcons,
+	getCloseButton: getCloseButton,
+	getButtonsWrapper: getButtonsWrapper,
+	getActions: getActions,
+	getConfirmButton: getConfirmButton,
+	getCancelButton: getCancelButton,
+	getFooter: getFooter,
+	getFocusableElements: getFocusableElements,
+	isLoading: isLoading,
+	fire: fire,
+	mixin: mixin,
+	queue: queue,
+	getQueueStep: getQueueStep,
+	insertQueueStep: insertQueueStep,
+	deleteQueueStep: deleteQueueStep,
+	showLoading: showLoading,
+	enableLoading: showLoading,
+	getTimerLeft: getTimerLeft
+});
+
+// https://github.com/Riim/symbol-polyfill/blob/master/index.js
+
+/* istanbul ignore next */
+var _Symbol = typeof Symbol === 'function' ? Symbol : function () {
+  var idCounter = 0;
+  function _Symbol(key) {
+    return '__' + key + '_' + Math.floor(Math.random() * 1e9) + '_' + ++idCounter + '__';
+  }
+  _Symbol.iterator = _Symbol('Symbol.iterator');
+  return _Symbol;
+}();
+
+// WeakMap polyfill, needed for Android 4.4
+// Related issue: https://github.com/sweetalert2/sweetalert2/issues/1071
+// http://webreflection.blogspot.fi/2015/04/a-weakmap-polyfill-in-20-lines-of-code.html
+
+/* istanbul ignore next */
+var WeakMap$1 = typeof WeakMap === 'function' ? WeakMap : function (s, dP, hOP) {
+  function WeakMap() {
+    dP(this, s, { value: _Symbol('WeakMap') });
+  }
+  WeakMap.prototype = {
+    'delete': function del(o) {
+      delete o[this[s]];
+    },
+    get: function get(o) {
+      return o[this[s]];
+    },
+    has: function has(o) {
+      return hOP.call(o, this[s]);
+    },
+    set: function set(o, v) {
+      dP(o, this[s], { configurable: true, value: v });
+    }
+  };
+  return WeakMap;
+}(_Symbol('WeakMap'), Object.defineProperty, {}.hasOwnProperty);
+
+/**
+ * This module containts `WeakMap`s for each effectively-"private  property" that a `swal` has.
+ * For example, to set the private property "foo" of `this` to "bar", you can `privateProps.foo.set(this, 'bar')`
+ * This is the approach that Babel will probably take to implement private methods/fields
+ *   https://github.com/tc39/proposal-private-methods
+ *   https://github.com/babel/babel/pull/7555
+ * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
+ *   then we can use that language feature.
+ */
+
+var privateProps = {
+  promise: new WeakMap$1(),
+  innerParams: new WeakMap$1(),
+  domCache: new WeakMap$1()
+};
+
+/**
+ * Show spinner instead of Confirm button and disable Cancel button
+ */
+function hideLoading() {
+  var innerParams = privateProps.innerParams.get(this);
+  var domCache = privateProps.domCache.get(this);
+  if (!innerParams.showConfirmButton) {
+    hide(domCache.confirmButton);
+    if (!innerParams.showCancelButton) {
+      hide(domCache.actions);
+    }
+  }
+  removeClass([domCache.popup, domCache.actions], swalClasses.loading);
+  domCache.popup.removeAttribute('aria-busy');
+  domCache.popup.removeAttribute('data-loading');
+  domCache.confirmButton.disabled = false;
+  domCache.cancelButton.disabled = false;
+}
+
+// Get input element by specified type or, if type isn't specified, by params.input
+function getInput(inputType) {
+  var innerParams = privateProps.innerParams.get(this);
+  var domCache = privateProps.domCache.get(this);
+  inputType = inputType || innerParams.input;
+  if (!inputType) {
+    return null;
+  }
+  switch (inputType) {
+    case 'select':
+    case 'textarea':
+    case 'file':
+      return getChildByClass(domCache.content, swalClasses[inputType]);
+    case 'checkbox':
+      return domCache.popup.querySelector('.' + swalClasses.checkbox + ' input');
+    case 'radio':
+      return domCache.popup.querySelector('.' + swalClasses.radio + ' input:checked') || domCache.popup.querySelector('.' + swalClasses.radio + ' input:first-child');
+    case 'range':
+      return domCache.popup.querySelector('.' + swalClasses.range + ' input');
+    default:
+      return getChildByClass(domCache.content, swalClasses.input);
+  }
+}
+
+function enableButtons() {
+  var domCache = privateProps.domCache.get(this);
+  domCache.confirmButton.disabled = false;
+  domCache.cancelButton.disabled = false;
+}
+
+function disableButtons() {
+  var domCache = privateProps.domCache.get(this);
+  domCache.confirmButton.disabled = true;
+  domCache.cancelButton.disabled = true;
+}
+
+function enableConfirmButton() {
+  var domCache = privateProps.domCache.get(this);
+  domCache.confirmButton.disabled = false;
+}
+
+function disableConfirmButton() {
+  var domCache = privateProps.domCache.get(this);
+  domCache.confirmButton.disabled = true;
+}
+
+function enableInput() {
+  var input = this.getInput();
+  if (!input) {
+    return false;
+  }
+  if (input.type === 'radio') {
+    var radiosContainer = input.parentNode.parentNode;
+    var radios = radiosContainer.querySelectorAll('input');
+    for (var i = 0; i < radios.length; i++) {
+      radios[i].disabled = false;
+    }
+  } else {
+    input.disabled = false;
+  }
+}
+
+function disableInput() {
+  var input = this.getInput();
+  if (!input) {
+    return false;
+  }
+  if (input && input.type === 'radio') {
+    var radiosContainer = input.parentNode.parentNode;
+    var radios = radiosContainer.querySelectorAll('input');
+    for (var i = 0; i < radios.length; i++) {
+      radios[i].disabled = true;
+    }
+  } else {
+    input.disabled = true;
+  }
+}
+
+// Show block with validation error
+function showValidationError(error) {
+  var domCache = privateProps.domCache.get(this);
+  domCache.validationError.innerHTML = error;
+  var popupComputedStyle = window.getComputedStyle(domCache.popup);
+  domCache.validationError.style.marginLeft = '-' + popupComputedStyle.getPropertyValue('padding-left');
+  domCache.validationError.style.marginRight = '-' + popupComputedStyle.getPropertyValue('padding-right');
+  show(domCache.validationError);
+
+  var input = this.getInput();
+  if (input) {
+    input.setAttribute('aria-invalid', true);
+    input.setAttribute('aria-describedBy', swalClasses.validationerror);
+    focusInput(input);
+    addClass(input, swalClasses.inputerror);
+  }
+}
+
+// Hide block with validation error
+function resetValidationError() {
+  var domCache = privateProps.domCache.get(this);
+  if (domCache.validationError) {
+    hide(domCache.validationError);
+  }
+
+  var input = this.getInput();
+  if (input) {
+    input.removeAttribute('aria-invalid');
+    input.removeAttribute('aria-describedBy');
+    removeClass(input, swalClasses.inputerror);
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+  }
+
+<<<<<<< HEAD
+  var popup = void 0;
+  var oldPopup = getPopup();
+  var targetElement = typeof params.target === 'string' ? document.querySelector(params.target) : params.target;
+  // If the model target has changed, refresh the popup
+  if (oldPopup && targetElement && oldPopup.parentNode !== targetElement.parentNode) {
+    popup = init(params);
+  } else {
+    popup = oldPopup || init(params);
+  }
+
+  // Set popup width
+  if (params.width) {
+    popup.style.width = typeof params.width === 'number' ? params.width + 'px' : params.width;
+  }
+
+  // Set popup padding
+  if (params.padding) {
+    popup.style.padding = typeof params.padding === 'number' ? params.padding + 'px' : params.padding;
+  }
+
+  // Set popup background
+  if (params.background) {
+    popup.style.background = params.background;
+  }
+  var popupBackgroundColor = window.getComputedStyle(popup).getPropertyValue('background-color');
+  var successIconParts = popup.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix');
+  for (var i = 0; i < successIconParts.length; i++) {
+    successIconParts[i].style.backgroundColor = popupBackgroundColor;
+  }
+
+  var container = getContainer();
+  var closeButton = getCloseButton();
+  var footer = getFooter();
+
+  // Title
+  renderTitle(params);
+
+  // Content
+  renderContent(params);
+
+  // Backdrop
+  if (typeof params.backdrop === 'string') {
+    getContainer().style.background = params.backdrop;
+  } else if (!params.backdrop) {
+    addClass([document.documentElement, document.body], swalClasses['no-backdrop']);
+  }
+  if (!params.backdrop && params.allowOutsideClick) {
+    warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`');
+  }
+
+  // Position
+  if (params.position in swalClasses) {
+    addClass(container, swalClasses[params.position]);
+  } else {
+    warn('The "position" parameter is not valid, defaulting to "center"');
+    addClass(container, swalClasses.center);
+  }
+
+  // Grow
+  if (params.grow && typeof params.grow === 'string') {
+    var growClass = 'grow-' + params.grow;
+    if (growClass in swalClasses) {
+      addClass(container, swalClasses[growClass]);
+    }
+  }
+
+  // Animation
+  if (typeof params.animation === 'function') {
+    params.animation = params.animation.call();
+  }
+
+  // Close button
+  if (params.showCloseButton) {
+    closeButton.setAttribute('aria-label', params.closeButtonAriaLabel);
+    show(closeButton);
+  } else {
+    hide(closeButton);
+  }
+
+  // Default Class
+  popup.className = swalClasses.popup;
+  if (params.toast) {
+    addClass([document.documentElement, document.body], swalClasses['toast-shown']);
+    addClass(popup, swalClasses.toast);
+  } else {
+    addClass(popup, swalClasses.modal);
+  }
+
+  // Custom Class
+  if (params.customClass) {
+    addClass(popup, params.customClass);
+  }
+
+  // Progress steps
+  renderProgressSteps(params);
+
+  // Icon
+  renderIcon(params);
+
+  // Image
+  renderImage(params);
+
+  // Actions (buttons)
+  renderActions(params);
+
+  // Footer
+  parseHtmlToContainer(params.footer, footer);
+
+  // CSS animation
+  if (params.animation === true) {
+    removeClass(popup, swalClasses.noanimation);
+  } else {
+    addClass(popup, swalClasses.noanimation);
+  }
+
+  // showLoaderOnConfirm && preConfirm
+  if (params.showLoaderOnConfirm && !params.preConfirm) {
+    warn('showLoaderOnConfirm is set to true, but preConfirm is not defined.\n' + 'showLoaderOnConfirm should be used together with preConfirm, see usage example:\n' + 'https://sweetalert2.github.io/#ajax-request');
+  }
+}
+
+/**
+ * Open popup, add necessary classes and styles, fix scrollbar
+ *
+ * @param {Array} params
+ */
+var openPopup = function openPopup(params) {
+  var container = getContainer();
+  var popup = getPopup();
+
+  if (params.onBeforeOpen !== null && typeof params.onBeforeOpen === 'function') {
+    params.onBeforeOpen(popup);
+  }
+
+  if (params.animation) {
+    addClass(popup, swalClasses.show);
+    addClass(container, swalClasses.fade);
+    removeClass(popup, swalClasses.hide);
+  } else {
+    removeClass(popup, swalClasses.fade);
+  }
+  show(popup);
+
+  // scrolling is 'hidden' until animation is done, after that 'auto'
+  container.style.overflowY = 'hidden';
+  if (animationEndEvent && !hasClass(popup, swalClasses.noanimation)) {
+    popup.addEventListener(animationEndEvent, function swalCloseEventFinished() {
+      popup.removeEventListener(animationEndEvent, swalCloseEventFinished);
+      container.style.overflowY = 'auto';
+    });
+  } else {
+    container.style.overflowY = 'auto';
+=======
+function getProgressSteps$1() {
+  var innerParams = privateProps.innerParams.get(this);
+  return innerParams.progressSteps;
+}
+
+function setProgressSteps(progressSteps) {
+  var innerParams = privateProps.innerParams.get(this);
+  var updatedParams = _extends({}, innerParams, { progressSteps: progressSteps });
+  privateProps.innerParams.set(this, updatedParams);
+  renderProgressSteps(updatedParams);
+}
+
+function showProgressSteps() {
+  var domCache = privateProps.domCache.get(this);
+  show(domCache.progressSteps);
+}
+
+function hideProgressSteps() {
+  var domCache = privateProps.domCache.get(this);
+  hide(domCache.progressSteps);
+}
+
+var Timer = function Timer(callback, delay) {
+  classCallCheck(this, Timer);
+
+  var id = void 0,
+      started = void 0,
+      running = void 0;
+  var remaining = delay;
+  this.start = function () {
+    running = true;
+    started = new Date();
+    id = setTimeout(callback, remaining);
+  };
+  this.stop = function () {
+    running = false;
+    clearTimeout(id);
+    remaining -= new Date() - started;
+  };
+  this.getTimerLeft = function () {
+    if (running) {
+      this.stop();
+      this.start();
+    }
+    return remaining;
+  };
+  this.start();
+};
+
+var defaultInputValidators = {
+  email: function email(string, extraParams) {
+    return (/^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? Promise.resolve() : Promise.reject(extraParams && extraParams.validationMessage ? extraParams.validationMessage : 'Invalid email address')
+    );
+  },
+  url: function url(string, extraParams) {
+    // taken from https://stackoverflow.com/a/3809435/1331425
+    return (/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/.test(string) ? Promise.resolve() : Promise.reject(extraParams && extraParams.validationMessage ? extraParams.validationMessage : 'Invalid URL')
+    );
+  }
+};
+
+/**
+ * Set type, text and actions on popup
+ *
+ * @param params
+ * @returns {boolean}
+ */
+function setParameters(params) {
+  // Use default `inputValidator` for supported input types if not provided
+  if (!params.inputValidator) {
+    Object.keys(defaultInputValidators).forEach(function (key) {
+      if (params.input === key) {
+        params.inputValidator = params.expectRejections ? defaultInputValidators[key] : Swal.adaptInputValidator(defaultInputValidators[key]);
+      }
+    });
+  }
+
+  // Determine if the custom target element is valid
+  if (!params.target || typeof params.target === 'string' && !document.querySelector(params.target) || typeof params.target !== 'string' && !params.target.appendChild) {
+    warn('Target parameter is not valid, defaulting to "body"');
+    params.target = 'body';
   }
 
   var popup = void 0;
@@ -80463,6 +82384,27 @@ var openPopup = function openPopup(params) {
     setTimeout(function () {
       params.onOpen(popup);
     });
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+  }
+};
+
+<<<<<<< HEAD
+  addClass([document.documentElement, document.body, container], swalClasses.shown);
+  if (params.heightAuto && params.backdrop && !params.toast) {
+    addClass([document.documentElement, document.body], swalClasses['height-auto']);
+  }
+
+  if (isModal()) {
+    fixScrollbar();
+    iOSfix();
+  }
+  if (!isToast() && !globalState.previousActiveElement) {
+    globalState.previousActiveElement = document.activeElement;
+  }
+  if (params.onOpen !== null && typeof params.onOpen === 'function') {
+    setTimeout(function () {
+      params.onOpen(popup);
+    });
   }
 };
 
@@ -80485,6 +82427,27 @@ function _main(userParams) {
   // clear the restore focus timeout
   clearTimeout(globalState.restoreFocusTimeout);
 
+=======
+function _main(userParams) {
+  var _this = this;
+
+  showWarningsForParams(userParams);
+
+  var innerParams = _extends({}, defaultParams, userParams);
+  setParameters(innerParams);
+  Object.freeze(innerParams);
+  privateProps.innerParams.set(this, innerParams);
+
+  // clear the previous timer
+  if (globalState.timeout) {
+    globalState.timeout.stop();
+    delete globalState.timeout;
+  }
+
+  // clear the restore focus timeout
+  clearTimeout(globalState.restoreFocusTimeout);
+
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
   var domCache = {
     popup: getPopup(),
     container: getContainer(),
@@ -80657,6 +82620,41 @@ function _main(userParams) {
         default:
       }
     };
+<<<<<<< HEAD
+
+    var buttons = domCache.popup.querySelectorAll('button');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].onclick = onButtonEvent;
+      buttons[i].onmouseover = onButtonEvent;
+      buttons[i].onmouseout = onButtonEvent;
+      buttons[i].onmousedown = onButtonEvent;
+    }
+
+    // Closing popup by close button
+    domCache.closeButton.onclick = function () {
+      dismissWith(constructor.DismissReason.close);
+    };
+
+    if (innerParams.toast) {
+      // Closing popup by internal click
+      domCache.popup.onclick = function () {
+        if (innerParams.showConfirmButton || innerParams.showCancelButton || innerParams.showCloseButton || innerParams.input) {
+          return;
+        }
+        dismissWith(constructor.DismissReason.close);
+      };
+    } else {
+      var ignoreOutsideClick = false;
+
+      // Ignore click events that had mousedown on the popup but mouseup on the container
+      // This can happen when the user drags a slider
+      domCache.popup.onmousedown = function () {
+        domCache.container.onmouseup = function (e) {
+          domCache.container.onmouseup = undefined;
+          // We only check if the mouseup target is the container because usually it doesn't
+          // have any other direct children aside of the popup
+          if (e.target === domCache.container) {
+=======
 
     var buttons = domCache.popup.querySelectorAll('button');
     for (var i = 0; i < buttons.length; i++) {
@@ -80695,6 +82693,19 @@ function _main(userParams) {
         };
       };
 
+      // Ignore click events that had mousedown on the container but mouseup on the popup
+      domCache.container.onmousedown = function () {
+        domCache.popup.onmouseup = function (e) {
+          domCache.popup.onmouseup = undefined;
+          // We also need to check if the mouseup target is a child of the popup
+          if (e.target === domCache.popup || domCache.popup.contains(e.target)) {
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+            ignoreOutsideClick = true;
+          }
+        };
+      };
+
+<<<<<<< HEAD
       // Ignore click events that had mousedown on the container but mouseup on the popup
       domCache.container.onmousedown = function () {
         domCache.popup.onmouseup = function (e) {
@@ -80806,6 +82817,108 @@ function _main(userParams) {
       }
     };
 
+=======
+      domCache.container.onclick = function (e) {
+        if (ignoreOutsideClick) {
+          ignoreOutsideClick = false;
+          return;
+        }
+        if (e.target !== domCache.container) {
+          return;
+        }
+        if (callIfFunction(innerParams.allowOutsideClick)) {
+          dismissWith(constructor.DismissReason.backdrop);
+        }
+      };
+    }
+
+    // Reverse buttons (Confirm on the right side)
+    if (innerParams.reverseButtons) {
+      domCache.confirmButton.parentNode.insertBefore(domCache.cancelButton, domCache.confirmButton);
+    } else {
+      domCache.confirmButton.parentNode.insertBefore(domCache.confirmButton, domCache.cancelButton);
+    }
+
+    // Focus handling
+    var setFocus = function setFocus(index, increment) {
+      var focusableElements = getFocusableElements(innerParams.focusCancel);
+      // search for visible elements and select the next possible match
+      for (var _i = 0; _i < focusableElements.length; _i++) {
+        index = index + increment;
+
+        // rollover to first item
+        if (index === focusableElements.length) {
+          index = 0;
+
+          // go to last item
+        } else if (index === -1) {
+          index = focusableElements.length - 1;
+        }
+
+        return focusableElements[index].focus();
+      }
+      // no visible focusable elements, focus the popup
+      domCache.popup.focus();
+    };
+
+    var keydownHandler = function keydownHandler(e, innerParams) {
+      if (innerParams.stopKeydownPropagation) {
+        e.stopPropagation();
+      }
+
+      var arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Left', 'Right', 'Up', 'Down' // IE11
+      ];
+
+      if (e.key === 'Enter' && !e.isComposing) {
+        if (e.target && _this.getInput() && e.target.outerHTML === _this.getInput().outerHTML) {
+          if (['textarea', 'file'].indexOf(innerParams.input) !== -1) {
+            return; // do not submit
+          }
+
+          constructor.clickConfirm();
+          e.preventDefault();
+        }
+
+        // TAB
+      } else if (e.key === 'Tab') {
+        var targetElement = e.target;
+
+        var focusableElements = getFocusableElements(innerParams.focusCancel);
+        var btnIndex = -1;
+        for (var _i2 = 0; _i2 < focusableElements.length; _i2++) {
+          if (targetElement === focusableElements[_i2]) {
+            btnIndex = _i2;
+            break;
+          }
+        }
+
+        if (!e.shiftKey) {
+          // Cycle to the next button
+          setFocus(btnIndex, 1);
+        } else {
+          // Cycle to the prev button
+          setFocus(btnIndex, -1);
+        }
+        e.stopPropagation();
+        e.preventDefault();
+
+        // ARROWS - switch focus between buttons
+      } else if (arrowKeys.indexOf(e.key) !== -1) {
+        // focus Cancel button if Confirm button is currently focused
+        if (document.activeElement === domCache.confirmButton && isVisible(domCache.cancelButton)) {
+          domCache.cancelButton.focus();
+          // and vice versa
+        } else if (document.activeElement === domCache.cancelButton && isVisible(domCache.confirmButton)) {
+          domCache.confirmButton.focus();
+        }
+
+        // ESC
+      } else if ((e.key === 'Escape' || e.key === 'Esc') && callIfFunction(innerParams.allowEscapeKey) === true) {
+        dismissWith(constructor.DismissReason.esc);
+      }
+    };
+
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
     if (globalState.keydownHandlerAdded) {
       globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, { capture: globalState.keydownListenerCapture });
       globalState.keydownHandlerAdded = false;
@@ -80838,6 +82951,7 @@ function _main(userParams) {
       var inputClass = swalClasses[inputTypes[_i3]];
       var inputContainer = getChildByClass(domCache.content, inputClass);
       input = _this.getInput(inputTypes[_i3]);
+<<<<<<< HEAD
 
       // set attributes
       if (input) {
@@ -80987,6 +83101,157 @@ function _main(userParams) {
         error('Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "' + innerParams.input + '"');
         break;
     }
+=======
+
+      // set attributes
+      if (input) {
+        for (var j in input.attributes) {
+          if (input.attributes.hasOwnProperty(j)) {
+            var attrName = input.attributes[j].name;
+            if (attrName !== 'type' && attrName !== 'value') {
+              input.removeAttribute(attrName);
+            }
+          }
+        }
+        for (var attr in innerParams.inputAttributes) {
+          input.setAttribute(attr, innerParams.inputAttributes[attr]);
+        }
+      }
+
+      // set class
+      inputContainer.className = inputClass;
+      if (innerParams.inputClass) {
+        addClass(inputContainer, innerParams.inputClass);
+      }
+
+      hide(inputContainer);
+    }
+
+    var populateInputOptions = void 0;
+    switch (innerParams.input) {
+      case 'text':
+      case 'email':
+      case 'password':
+      case 'number':
+      case 'tel':
+      case 'url':
+        {
+          input = getChildByClass(domCache.content, swalClasses.input);
+          input.value = innerParams.inputValue;
+          input.placeholder = innerParams.inputPlaceholder;
+          input.type = innerParams.input;
+          show(input);
+          break;
+        }
+      case 'file':
+        {
+          input = getChildByClass(domCache.content, swalClasses.file);
+          input.placeholder = innerParams.inputPlaceholder;
+          input.type = innerParams.input;
+          show(input);
+          break;
+        }
+      case 'range':
+        {
+          var range = getChildByClass(domCache.content, swalClasses.range);
+          var rangeInput = range.querySelector('input');
+          var rangeOutput = range.querySelector('output');
+          rangeInput.value = innerParams.inputValue;
+          rangeInput.type = innerParams.input;
+          rangeOutput.value = innerParams.inputValue;
+          show(range);
+          break;
+        }
+      case 'select':
+        {
+          var select = getChildByClass(domCache.content, swalClasses.select);
+          select.innerHTML = '';
+          if (innerParams.inputPlaceholder) {
+            var placeholder = document.createElement('option');
+            placeholder.innerHTML = innerParams.inputPlaceholder;
+            placeholder.value = '';
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            select.appendChild(placeholder);
+          }
+          populateInputOptions = function populateInputOptions(inputOptions) {
+            inputOptions.forEach(function (inputOption) {
+              var optionValue = inputOption[0];
+              var optionLabel = inputOption[1];
+              var option = document.createElement('option');
+              option.value = optionValue;
+              option.innerHTML = optionLabel;
+              if (innerParams.inputValue.toString() === optionValue.toString()) {
+                option.selected = true;
+              }
+              select.appendChild(option);
+            });
+            show(select);
+            select.focus();
+          };
+          break;
+        }
+      case 'radio':
+        {
+          var radio = getChildByClass(domCache.content, swalClasses.radio);
+          radio.innerHTML = '';
+          populateInputOptions = function populateInputOptions(inputOptions) {
+            inputOptions.forEach(function (inputOption) {
+              var radioValue = inputOption[0];
+              var radioLabel = inputOption[1];
+              var radioInput = document.createElement('input');
+              var radioLabelElement = document.createElement('label');
+              radioInput.type = 'radio';
+              radioInput.name = swalClasses.radio;
+              radioInput.value = radioValue;
+              if (innerParams.inputValue.toString() === radioValue.toString()) {
+                radioInput.checked = true;
+              }
+              var label = document.createElement('span');
+              label.innerHTML = radioLabel;
+              label.className = swalClasses.label;
+              radioLabelElement.appendChild(radioInput);
+              radioLabelElement.appendChild(label);
+              radio.appendChild(radioLabelElement);
+            });
+            show(radio);
+            var radios = radio.querySelectorAll('input');
+            if (radios.length) {
+              radios[0].focus();
+            }
+          };
+          break;
+        }
+      case 'checkbox':
+        {
+          var checkbox = getChildByClass(domCache.content, swalClasses.checkbox);
+          var checkboxInput = _this.getInput('checkbox');
+          checkboxInput.type = 'checkbox';
+          checkboxInput.value = 1;
+          checkboxInput.id = swalClasses.checkbox;
+          checkboxInput.checked = Boolean(innerParams.inputValue);
+          var label = checkbox.querySelector('span');
+          label.innerHTML = innerParams.inputPlaceholder;
+          show(checkbox);
+          break;
+        }
+      case 'textarea':
+        {
+          var textarea = getChildByClass(domCache.content, swalClasses.textarea);
+          textarea.value = innerParams.inputValue;
+          textarea.placeholder = innerParams.inputPlaceholder;
+          show(textarea);
+          break;
+        }
+      case null:
+        {
+          break;
+        }
+      default:
+        error('Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "' + innerParams.input + '"');
+        break;
+    }
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
 
     if (innerParams.input === 'select' || innerParams.input === 'radio') {
       var processInputOptions = function processInputOptions(inputOptions) {
@@ -82652,6 +84917,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       this._core.$element.off(a, this._handlers[a]);
     }for (c in Object.getOwnPropertyNames(this)) {
       "function" != typeof this[c] && (this[c] = null);
+<<<<<<< HEAD
     }
   }, a.fn.owlCarousel.Constructor.Plugins.AutoRefresh = e;
 }(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
@@ -82826,6 +85092,285 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     this._core.is("rotating") && (this._paused = !0);
   }, e.prototype.destroy = function () {
     var a, b;this.stop();for (a in this._handlers) {
+=======
+    }
+  }, a.fn.owlCarousel.Constructor.Plugins.AutoRefresh = e;
+}(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
+  var e = function e(b) {
+    this._core = b, this._loaded = [], this._handlers = { "initialized.owl.carousel change.owl.carousel resized.owl.carousel": a.proxy(function (b) {
+        if (b.namespace && this._core.settings && this._core.settings.lazyLoad && (b.property && "position" == b.property.name || "initialized" == b.type)) for (var c = this._core.settings, e = c.center && Math.ceil(c.items / 2) || c.items, f = c.center && e * -1 || 0, g = (b.property && b.property.value !== d ? b.property.value : this._core.current()) + f, h = this._core.clones().length, i = a.proxy(function (a, b) {
+          this.load(b);
+        }, this); f++ < e;) {
+          this.load(h / 2 + this._core.relative(g)), h && a.each(this._core.clones(this._core.relative(g)), i), g++;
+        }
+      }, this) }, this._core.options = a.extend({}, e.Defaults, this._core.options), this._core.$element.on(this._handlers);
+  };e.Defaults = { lazyLoad: !1 }, e.prototype.load = function (c) {
+    var d = this._core.$stage.children().eq(c),
+        e = d && d.find(".owl-lazy");!e || a.inArray(d.get(0), this._loaded) > -1 || (e.each(a.proxy(function (c, d) {
+      var e,
+          f = a(d),
+          g = b.devicePixelRatio > 1 && f.attr("data-src-retina") || f.attr("data-src");this._core.trigger("load", { element: f, url: g }, "lazy"), f.is("img") ? f.one("load.owl.lazy", a.proxy(function () {
+        f.css("opacity", 1), this._core.trigger("loaded", { element: f, url: g }, "lazy");
+      }, this)).attr("src", g) : (e = new Image(), e.onload = a.proxy(function () {
+        f.css({ "background-image": 'url("' + g + '")', opacity: "1" }), this._core.trigger("loaded", { element: f, url: g }, "lazy");
+      }, this), e.src = g);
+    }, this)), this._loaded.push(d.get(0)));
+  }, e.prototype.destroy = function () {
+    var a, b;for (a in this.handlers) {
+      this._core.$element.off(a, this.handlers[a]);
+    }for (b in Object.getOwnPropertyNames(this)) {
+      "function" != typeof this[b] && (this[b] = null);
+    }
+  }, a.fn.owlCarousel.Constructor.Plugins.Lazy = e;
+}(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
+  var e = function e(b) {
+    this._core = b, this._handlers = { "initialized.owl.carousel refreshed.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._core.settings.autoHeight && this.update();
+      }, this), "changed.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._core.settings.autoHeight && "position" == a.property.name && this.update();
+      }, this), "loaded.owl.lazy": a.proxy(function (a) {
+        a.namespace && this._core.settings.autoHeight && a.element.closest("." + this._core.settings.itemClass).index() === this._core.current() && this.update();
+      }, this) }, this._core.options = a.extend({}, e.Defaults, this._core.options), this._core.$element.on(this._handlers);
+  };e.Defaults = { autoHeight: !1, autoHeightClass: "owl-height" }, e.prototype.update = function () {
+    var b = this._core._current,
+        c = b + this._core.settings.items,
+        d = this._core.$stage.children().toArray().slice(b, c),
+        e = [],
+        f = 0;a.each(d, function (b, c) {
+      e.push(a(c).height());
+    }), f = Math.max.apply(null, e), this._core.$stage.parent().height(f).addClass(this._core.settings.autoHeightClass);
+  }, e.prototype.destroy = function () {
+    var a, b;for (a in this._handlers) {
+      this._core.$element.off(a, this._handlers[a]);
+    }for (b in Object.getOwnPropertyNames(this)) {
+      "function" != typeof this[b] && (this[b] = null);
+    }
+  }, a.fn.owlCarousel.Constructor.Plugins.AutoHeight = e;
+}(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
+  var e = function e(b) {
+    this._core = b, this._videos = {}, this._playing = null, this._handlers = { "initialized.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._core.register({ type: "state", name: "playing", tags: ["interacting"] });
+      }, this), "resize.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._core.settings.video && this.isInFullScreen() && a.preventDefault();
+      }, this), "refreshed.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._core.is("resizing") && this._core.$stage.find(".cloned .owl-video-frame").remove();
+      }, this), "changed.owl.carousel": a.proxy(function (a) {
+        a.namespace && "position" === a.property.name && this._playing && this.stop();
+      }, this), "prepared.owl.carousel": a.proxy(function (b) {
+        if (b.namespace) {
+          var c = a(b.content).find(".owl-video");c.length && (c.css("display", "none"), this.fetch(c, a(b.content)));
+        }
+      }, this) }, this._core.options = a.extend({}, e.Defaults, this._core.options), this._core.$element.on(this._handlers), this._core.$element.on("click.owl.video", ".owl-video-play-icon", a.proxy(function (a) {
+      this.play(a);
+    }, this));
+  };e.Defaults = { video: !1, videoHeight: !1, videoWidth: !1 }, e.prototype.fetch = function (a, b) {
+    var c = function () {
+      return a.attr("data-vimeo-id") ? "vimeo" : a.attr("data-vzaar-id") ? "vzaar" : "youtube";
+    }(),
+        d = a.attr("data-vimeo-id") || a.attr("data-youtube-id") || a.attr("data-vzaar-id"),
+        e = a.attr("data-width") || this._core.settings.videoWidth,
+        f = a.attr("data-height") || this._core.settings.videoHeight,
+        g = a.attr("href");if (!g) throw new Error("Missing video URL.");if (d = g.match(/(http:|https:|)\/\/(player.|www.|app.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com)|vzaar\.com)\/(video\/|videos\/|embed\/|channels\/.+\/|groups\/.+\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/), d[3].indexOf("youtu") > -1) c = "youtube";else if (d[3].indexOf("vimeo") > -1) c = "vimeo";else {
+      if (!(d[3].indexOf("vzaar") > -1)) throw new Error("Video URL not supported.");c = "vzaar";
+    }d = d[6], this._videos[g] = { type: c, id: d, width: e, height: f }, b.attr("data-video", g), this.thumbnail(a, this._videos[g]);
+  }, e.prototype.thumbnail = function (b, c) {
+    var d,
+        e,
+        f,
+        g = c.width && c.height ? 'style="width:' + c.width + "px;height:" + c.height + 'px;"' : "",
+        h = b.find("img"),
+        i = "src",
+        j = "",
+        k = this._core.settings,
+        l = function l(a) {
+      e = '<div class="owl-video-play-icon"></div>', d = k.lazyLoad ? '<div class="owl-video-tn ' + j + '" ' + i + '="' + a + '"></div>' : '<div class="owl-video-tn" style="opacity:1;background-image:url(' + a + ')"></div>', b.after(d), b.after(e);
+    };if (b.wrap('<div class="owl-video-wrapper"' + g + "></div>"), this._core.settings.lazyLoad && (i = "data-src", j = "owl-lazy"), h.length) return l(h.attr(i)), h.remove(), !1;"youtube" === c.type ? (f = "//img.youtube.com/vi/" + c.id + "/hqdefault.jpg", l(f)) : "vimeo" === c.type ? a.ajax({ type: "GET", url: "//vimeo.com/api/v2/video/" + c.id + ".json", jsonp: "callback", dataType: "jsonp", success: function success(a) {
+        f = a[0].thumbnail_large, l(f);
+      } }) : "vzaar" === c.type && a.ajax({ type: "GET", url: "//vzaar.com/api/videos/" + c.id + ".json", jsonp: "callback", dataType: "jsonp", success: function success(a) {
+        f = a.framegrab_url, l(f);
+      } });
+  }, e.prototype.stop = function () {
+    this._core.trigger("stop", null, "video"), this._playing.find(".owl-video-frame").remove(), this._playing.removeClass("owl-video-playing"), this._playing = null, this._core.leave("playing"), this._core.trigger("stopped", null, "video");
+  }, e.prototype.play = function (b) {
+    var c,
+        d = a(b.target),
+        e = d.closest("." + this._core.settings.itemClass),
+        f = this._videos[e.attr("data-video")],
+        g = f.width || "100%",
+        h = f.height || this._core.$stage.height();this._playing || (this._core.enter("playing"), this._core.trigger("play", null, "video"), e = this._core.items(this._core.relative(e.index())), this._core.reset(e.index()), "youtube" === f.type ? c = '<iframe width="' + g + '" height="' + h + '" src="//www.youtube.com/embed/' + f.id + "?autoplay=1&rel=0&v=" + f.id + '" frameborder="0" allowfullscreen></iframe>' : "vimeo" === f.type ? c = '<iframe src="//player.vimeo.com/video/' + f.id + '?autoplay=1" width="' + g + '" height="' + h + '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>' : "vzaar" === f.type && (c = '<iframe frameborder="0"height="' + h + '"width="' + g + '" allowfullscreen mozallowfullscreen webkitAllowFullScreen src="//view.vzaar.com/' + f.id + '/player?autoplay=true"></iframe>'), a('<div class="owl-video-frame">' + c + "</div>").insertAfter(e.find(".owl-video")), this._playing = e.addClass("owl-video-playing"));
+  }, e.prototype.isInFullScreen = function () {
+    var b = c.fullscreenElement || c.mozFullScreenElement || c.webkitFullscreenElement;return b && a(b).parent().hasClass("owl-video-frame");
+  }, e.prototype.destroy = function () {
+    var a, b;this._core.$element.off("click.owl.video");for (a in this._handlers) {
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
+      this._core.$element.off(a, this._handlers[a]);
+    }for (b in Object.getOwnPropertyNames(this)) {
+      "function" != typeof this[b] && (this[b] = null);
+    }
+<<<<<<< HEAD
+  }, a.fn.owlCarousel.Constructor.Plugins.autoplay = e;
+}(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
+  "use strict";
+  var e = function e(b) {
+    this._core = b, this._initialized = !1, this._pages = [], this._controls = {}, this._templates = [], this.$element = this._core.$element, this._overrides = { next: this._core.next, prev: this._core.prev, to: this._core.to }, this._handlers = { "prepared.owl.carousel": a.proxy(function (b) {
+        b.namespace && this._core.settings.dotsData && this._templates.push('<div class="' + this._core.settings.dotClass + '">' + a(b.content).find("[data-dot]").addBack("[data-dot]").attr("data-dot") + "</div>");
+      }, this), "added.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._core.settings.dotsData && this._templates.splice(a.position, 0, this._templates.pop());
+      }, this), "remove.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._core.settings.dotsData && this._templates.splice(a.position, 1);
+      }, this), "changed.owl.carousel": a.proxy(function (a) {
+        a.namespace && "position" == a.property.name && this.draw();
+      }, this), "initialized.owl.carousel": a.proxy(function (a) {
+        a.namespace && !this._initialized && (this._core.trigger("initialize", null, "navigation"), this.initialize(), this.update(), this.draw(), this._initialized = !0, this._core.trigger("initialized", null, "navigation"));
+      }, this), "refreshed.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._initialized && (this._core.trigger("refresh", null, "navigation"), this.update(), this.draw(), this._core.trigger("refreshed", null, "navigation"));
+      }, this) }, this._core.options = a.extend({}, e.Defaults, this._core.options), this.$element.on(this._handlers);
+  };e.Defaults = { nav: !1, navText: ["prev", "next"], navSpeed: !1, navElement: "div", navContainer: !1, navContainerClass: "owl-nav", navClass: ["owl-prev", "owl-next"], slideBy: 1, dotClass: "owl-dot", dotsClass: "owl-dots", dots: !0, dotsEach: !1, dotsData: !1, dotsSpeed: !1, dotsContainer: !1 }, e.prototype.initialize = function () {
+    var b,
+        c = this._core.settings;this._controls.$relative = (c.navContainer ? a(c.navContainer) : a("<div>").addClass(c.navContainerClass).appendTo(this.$element)).addClass("disabled"), this._controls.$previous = a("<" + c.navElement + ">").addClass(c.navClass[0]).html(c.navText[0]).prependTo(this._controls.$relative).on("click", a.proxy(function (a) {
+      this.prev(c.navSpeed);
+    }, this)), this._controls.$next = a("<" + c.navElement + ">").addClass(c.navClass[1]).html(c.navText[1]).appendTo(this._controls.$relative).on("click", a.proxy(function (a) {
+      this.next(c.navSpeed);
+    }, this)), c.dotsData || (this._templates = [a("<div>").addClass(c.dotClass).append(a("<span>")).prop("outerHTML")]), this._controls.$absolute = (c.dotsContainer ? a(c.dotsContainer) : a("<div>").addClass(c.dotsClass).appendTo(this.$element)).addClass("disabled"), this._controls.$absolute.on("click", "div", a.proxy(function (b) {
+      var d = a(b.target).parent().is(this._controls.$absolute) ? a(b.target).index() : a(b.target).parent().index();b.preventDefault(), this.to(d, c.dotsSpeed);
+    }, this));for (b in this._overrides) {
+      this._core[b] = a.proxy(this[b], this);
+    }
+  }, e.prototype.destroy = function () {
+    var a, b, c, d;for (a in this._handlers) {
+      this.$element.off(a, this._handlers[a]);
+    }for (b in this._controls) {
+      this._controls[b].remove();
+    }for (d in this.overides) {
+      this._core[d] = this._overrides[d];
+    }for (c in Object.getOwnPropertyNames(this)) {
+      "function" != typeof this[c] && (this[c] = null);
+    }
+  }, e.prototype.update = function () {
+    var a,
+        b,
+        c,
+        d = this._core.clones().length / 2,
+        e = d + this._core.items().length,
+        f = this._core.maximum(!0),
+        g = this._core.settings,
+        h = g.center || g.autoWidth || g.dotsData ? 1 : g.dotsEach || g.items;if ("page" !== g.slideBy && (g.slideBy = Math.min(g.slideBy, g.items)), g.dots || "page" == g.slideBy) for (this._pages = [], a = d, b = 0, c = 0; a < e; a++) {
+      if (b >= h || 0 === b) {
+        if (this._pages.push({ start: Math.min(f, a - d), end: a - d + h - 1 }), Math.min(f, a - d) === f) break;b = 0, ++c;
+      }b += this._core.mergers(this._core.relative(a));
+    }
+  }, e.prototype.draw = function () {
+    var b,
+        c = this._core.settings,
+        d = this._core.items().length <= c.items,
+        e = this._core.relative(this._core.current()),
+        f = c.loop || c.rewind;this._controls.$relative.toggleClass("disabled", !c.nav || d), c.nav && (this._controls.$previous.toggleClass("disabled", !f && e <= this._core.minimum(!0)), this._controls.$next.toggleClass("disabled", !f && e >= this._core.maximum(!0))), this._controls.$absolute.toggleClass("disabled", !c.dots || d), c.dots && (b = this._pages.length - this._controls.$absolute.children().length, c.dotsData && 0 !== b ? this._controls.$absolute.html(this._templates.join("")) : b > 0 ? this._controls.$absolute.append(new Array(b + 1).join(this._templates[0])) : b < 0 && this._controls.$absolute.children().slice(b).remove(), this._controls.$absolute.find(".active").removeClass("active"), this._controls.$absolute.children().eq(a.inArray(this.current(), this._pages)).addClass("active"));
+  }, e.prototype.onTrigger = function (b) {
+    var c = this._core.settings;b.page = { index: a.inArray(this.current(), this._pages), count: this._pages.length, size: c && (c.center || c.autoWidth || c.dotsData ? 1 : c.dotsEach || c.items) };
+  }, e.prototype.current = function () {
+    var b = this._core.relative(this._core.current());return a.grep(this._pages, a.proxy(function (a, c) {
+      return a.start <= b && a.end >= b;
+    }, this)).pop();
+  }, e.prototype.getPosition = function (b) {
+    var c,
+        d,
+        e = this._core.settings;return "page" == e.slideBy ? (c = a.inArray(this.current(), this._pages), d = this._pages.length, b ? ++c : --c, c = this._pages[(c % d + d) % d].start) : (c = this._core.relative(this._core.current()), d = this._core.items().length, b ? c += e.slideBy : c -= e.slideBy), c;
+  }, e.prototype.next = function (b) {
+    a.proxy(this._overrides.to, this._core)(this.getPosition(!0), b);
+  }, e.prototype.prev = function (b) {
+    a.proxy(this._overrides.to, this._core)(this.getPosition(!1), b);
+  }, e.prototype.to = function (b, c, d) {
+    var e;!d && this._pages.length ? (e = this._pages.length, a.proxy(this._overrides.to, this._core)(this._pages[(b % e + e) % e].start, c)) : a.proxy(this._overrides.to, this._core)(b, c);
+  }, a.fn.owlCarousel.Constructor.Plugins.Navigation = e;
+}(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
+  "use strict";
+  var e = function e(c) {
+    this._core = c, this._hashes = {}, this.$element = this._core.$element, this._handlers = { "initialized.owl.carousel": a.proxy(function (c) {
+        c.namespace && "URLHash" === this._core.settings.startPosition && a(b).trigger("hashchange.owl.navigation");
+      }, this), "prepared.owl.carousel": a.proxy(function (b) {
+        if (b.namespace) {
+          var c = a(b.content).find("[data-hash]").addBack("[data-hash]").attr("data-hash");if (!c) return;this._hashes[c] = b.content;
+        }
+      }, this), "changed.owl.carousel": a.proxy(function (c) {
+        if (c.namespace && "position" === c.property.name) {
+          var d = this._core.items(this._core.relative(this._core.current())),
+              e = a.map(this._hashes, function (a, b) {
+            return a === d ? b : null;
+          }).join();if (!e || b.location.hash.slice(1) === e) return;b.location.hash = e;
+        }
+      }, this) }, this._core.options = a.extend({}, e.Defaults, this._core.options), this.$element.on(this._handlers), a(b).on("hashchange.owl.navigation", a.proxy(function (a) {
+      var c = b.location.hash.substring(1),
+          e = this._core.$stage.children(),
+          f = this._hashes[c] && e.index(this._hashes[c]);f !== d && f !== this._core.current() && this._core.to(this._core.relative(f), !1, !0);
+    }, this));
+  };e.Defaults = { URLhashListener: !1 }, e.prototype.destroy = function () {
+    var c, d;a(b).off("hashchange.owl.navigation");for (c in this._handlers) {
+      this._core.$element.off(c, this._handlers[c]);
+    }for (d in Object.getOwnPropertyNames(this)) {
+      "function" != typeof this[d] && (this[d] = null);
+    }
+=======
+  }, a.fn.owlCarousel.Constructor.Plugins.Video = e;
+}(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
+  var e = function e(b) {
+    this.core = b, this.core.options = a.extend({}, e.Defaults, this.core.options), this.swapping = !0, this.previous = d, this.next = d, this.handlers = { "change.owl.carousel": a.proxy(function (a) {
+        a.namespace && "position" == a.property.name && (this.previous = this.core.current(), this.next = a.property.value);
+      }, this), "drag.owl.carousel dragged.owl.carousel translated.owl.carousel": a.proxy(function (a) {
+        a.namespace && (this.swapping = "translated" == a.type);
+      }, this), "translate.owl.carousel": a.proxy(function (a) {
+        a.namespace && this.swapping && (this.core.options.animateOut || this.core.options.animateIn) && this.swap();
+      }, this) }, this.core.$element.on(this.handlers);
+  };e.Defaults = { animateOut: !1, animateIn: !1 }, e.prototype.swap = function () {
+    if (1 === this.core.settings.items && a.support.animation && a.support.transition) {
+      this.core.speed(0);var b,
+          c = a.proxy(this.clear, this),
+          d = this.core.$stage.children().eq(this.previous),
+          e = this.core.$stage.children().eq(this.next),
+          f = this.core.settings.animateIn,
+          g = this.core.settings.animateOut;this.core.current() !== this.previous && (g && (b = this.core.coordinates(this.previous) - this.core.coordinates(this.next), d.one(a.support.animation.end, c).css({ left: b + "px" }).addClass("animated owl-animated-out").addClass(g)), f && e.one(a.support.animation.end, c).addClass("animated owl-animated-in").addClass(f));
+    }
+  }, e.prototype.clear = function (b) {
+    a(b.target).css({ left: "" }).removeClass("animated owl-animated-out owl-animated-in").removeClass(this.core.settings.animateIn).removeClass(this.core.settings.animateOut), this.core.onTransitionEnd();
+  }, e.prototype.destroy = function () {
+    var a, b;for (a in this.handlers) {
+      this.core.$element.off(a, this.handlers[a]);
+    }for (b in Object.getOwnPropertyNames(this)) {
+      "function" != typeof this[b] && (this[b] = null);
+    }
+  }, a.fn.owlCarousel.Constructor.Plugins.Animate = e;
+}(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
+  var e = function e(b) {
+    this._core = b, this._timeout = null, this._paused = !1, this._handlers = { "changed.owl.carousel": a.proxy(function (a) {
+        a.namespace && "settings" === a.property.name ? this._core.settings.autoplay ? this.play() : this.stop() : a.namespace && "position" === a.property.name && this._core.settings.autoplay && this._setAutoPlayInterval();
+      }, this), "initialized.owl.carousel": a.proxy(function (a) {
+        a.namespace && this._core.settings.autoplay && this.play();
+      }, this), "play.owl.autoplay": a.proxy(function (a, b, c) {
+        a.namespace && this.play(b, c);
+      }, this), "stop.owl.autoplay": a.proxy(function (a) {
+        a.namespace && this.stop();
+      }, this), "mouseover.owl.autoplay": a.proxy(function () {
+        this._core.settings.autoplayHoverPause && this._core.is("rotating") && this.pause();
+      }, this), "mouseleave.owl.autoplay": a.proxy(function () {
+        this._core.settings.autoplayHoverPause && this._core.is("rotating") && this.play();
+      }, this), "touchstart.owl.core": a.proxy(function () {
+        this._core.settings.autoplayHoverPause && this._core.is("rotating") && this.pause();
+      }, this), "touchend.owl.core": a.proxy(function () {
+        this._core.settings.autoplayHoverPause && this.play();
+      }, this) }, this._core.$element.on(this._handlers), this._core.options = a.extend({}, e.Defaults, this._core.options);
+  };e.Defaults = { autoplay: !1, autoplayTimeout: 5e3, autoplayHoverPause: !1, autoplaySpeed: !1 }, e.prototype.play = function (a, b) {
+    this._paused = !1, this._core.is("rotating") || (this._core.enter("rotating"), this._setAutoPlayInterval());
+  }, e.prototype._getNextTimeout = function (d, e) {
+    return this._timeout && b.clearTimeout(this._timeout), b.setTimeout(a.proxy(function () {
+      this._paused || this._core.is("busy") || this._core.is("interacting") || c.hidden || this._core.next(e || this._core.settings.autoplaySpeed);
+    }, this), d || this._core.settings.autoplayTimeout);
+  }, e.prototype._setAutoPlayInterval = function () {
+    this._timeout = this._getNextTimeout();
+  }, e.prototype.stop = function () {
+    this._core.is("rotating") && (b.clearTimeout(this._timeout), this._core.leave("rotating"));
+  }, e.prototype.pause = function () {
+    this._core.is("rotating") && (this._paused = !0);
+  }, e.prototype.destroy = function () {
+    var a, b;this.stop();for (a in this._handlers) {
       this._core.$element.off(a, this._handlers[a]);
     }for (b in Object.getOwnPropertyNames(this)) {
       "function" != typeof this[b] && (this[b] = null);
@@ -82931,6 +85476,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     }for (d in Object.getOwnPropertyNames(this)) {
       "function" != typeof this[d] && (this[d] = null);
     }
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
   }, a.fn.owlCarousel.Constructor.Plugins.Hash = e;
 }(window.Zepto || window.jQuery, window, document), function (a, b, c, d) {
   function e(b, c) {
@@ -82953,6 +85499,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return !!e("animation");
     } };j.csstransitions() && (a.support.transition = new String(f("transition")), a.support.transition.end = i.transition.end[a.support.transition]), j.cssanimations() && (a.support.animation = new String(f("animation")), a.support.animation.end = i.animation.end[a.support.animation]), j.csstransforms() && (a.support.transform = new String(f("transform")), a.support.transform3d = j.csstransforms3d());
 }(window.Zepto || window.jQuery, window, document);
+<<<<<<< HEAD
 
 /***/ }),
 /* 47 */
@@ -83177,12 +85724,187 @@ $(function () {
                     if (data['modal']) {
                         $('#modal').modal('hide');
                     }
+=======
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports) {
+
+$(function () {
+  'use strict';
+
+  $('[data-toggle="offcanvas"]').on('click', function () {
+    $('.offcanvas-collapse').toggleClass('open');
+  });
+
+  $('[data-toggle="search"]').on('click', function () {
+    $('.search-collapse').toggleClass('open');
+  });
+
+  // $('[data-toggle="filter"]').on('click', function () {
+  //   $('.filter-collapse').toggleClass('open')
+  // });
+});
+
+openNav = function openNav() {
+  $('.slide-off').css({ 'width': "16rem" });
+  $('.so-main').css({ 'margin-left': '16rem', 'margin-right': 'auto' });
+  // document.getElementById("mySidenav").style.width = "250px";
+  // document.getElementById("main").style.marginLeft = "250px";
+};
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+closeNav = function closeNav() {
+  $('.slide-off').css({ 'width': "0" });
+  $('.so-main').css({ 'margin-left': 'auto', 'margin-right': 'auto' });
+  // document.getElementById("mySidenav").style.width = "0";
+  // document.getElementById("main").style.marginLeft = "auto";
+  // document.getElementById("main").style.marginRight = "auto";
+};
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+(function ($) {
+    $.fn.loadModal = function () {
+        $("#modal").on("show.bs.modal", function (e) {
+            $(".modal-body").empty();
+            var url = $(e.relatedTarget).attr('href'),
+                md = $('.modal-dialog');
+            data = $(e.relatedTarget).data('modal');
+
+            console.log(data);
+            data['modal'] = true,
+            // data['pjax-reload'] = '#mr';
+
+            $(".modal-title").text(data['title']);
+
+            md.removeClass('modal-lg');
+            if (data['lg']) {
+                md.addClass('modal-lg');
+            }
+
+            if (url) {
+                $.get(url, function (content) {
+                    $(".modal-body").html(content);
+                }).fail(function (response) {
+                    console.log(response);
+                });
+            } else {
+                $(".modal-body").html(data['text']);
+            }
+
+            generateBtn(data);
+        });
+    };
+
+    function generateBtn(data) {
+        resetBtn();
+
+        if (data['delete']) {
+            $("#mbtn-delete").on('click', function (e) {
+                e.preventDefault();
+                deleteData(data);
+            });
+            $("#mbtn-delete").html("<i class='far fw fa-trash-alt'></i> " + data['delete']);
+            $("#mbtn-delete").show(100);
+        }
+
+        if (data['add']) {
+            $('#mbtn-add').on('click', function (e) {
+                e.preventDefault();
+                doSubmit(data, $('#modal form'));
+            });
+            $("#mbtn-add").html("<i class='fas fa-plus fw'></i> " + data['add']);
+            $("#mbtn-add").show(100);
+        }
+
+        if (data['edit']) {
+            $('#mbtn-edit').on('click', function (e) {
+                e.preventDefault();
+                doSubmit(data, $('#modal form'));
+            });
+            $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
+            $("#mbtn-edit").show(100);
+        }
+
+        if (data['yes']) {
+            $('#mbtn-yes').on('click', function (e) {
+                e.preventDefault();
+                yesnoSubmit(data['yesUrl'], data, 'yes');
+            });
+
+            $("#mbtn-yes").html("<i class='fas fa-check'></i> " + data['yes']);
+            $("#mbtn-yes").show(100);
+        }
+
+        if (data['no']) {
+            $('#mbtn-no').on('click', function (e) {
+                e.preventDefault();
+                yesnoSubmit(data['noUrl'], data, 'no');
+            });
+            $("#mbtn-no").html("<i class='fas fa-times'></i> " + data['no']);
+            $("#mbtn-no").show(100);
+        }
+
+        if (data['cancel']) {
+            $("#mbtn-cancel").html("<i class='far fa-window-close'></i> " + data['cancel']);
+            $("#mbtn-cancel").show(100);
+        }
+    }
+
+    function resetBtn() {
+        $.each($(".mbtn"), function () {
+            $(this).hide(100);
+        });
+    }
+
+    function doSubmit(data, form) {
+        var form = form,
+            action = data['actionUrl'],
+            value = form.serialize();
+
+        $.ajax({
+            url: action,
+            type: "POST",
+            data: new FormData(form[0]),
+            contentType: false,
+            processData: false,
+            success: function success(response) {
+                if (response.errors) {
+                    resetFeedback();
+                    getFeedback(response.errors);
+                }
+
+                if (response.error) {
+                    swal({
+                        type: 'error',
+                        title: response.error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+
+                if (response.success) {
+                    if (data['pjax-reload']) {
+                        $.each(data['pjax-reload'], function (index, val) {
+                            $.pjax.reload(val);
+                        });
+                    }
+
+                    if (data['modal']) {
+                        $('#modal').modal('hide');
+                    }
+
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
                     swal({
                         type: 'success',
                         title: response.success,
                         showConfirmButton: false,
                         timer: 1500
                     });
+<<<<<<< HEAD
 
                     $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
                 }
@@ -83508,6 +86230,392 @@ dynamicList = function dynamicList(input, targetList, storeTo) {
     if (inputValue === '') {
         // alert("You must write something!");
     } else {
+=======
+
+                    if (data['redirectAfter']) {
+                        // redireload(data['redirectAfter'], data['pjax-reload']);
+                        // $.pjax({
+                        //     url: data['redirectAfter'], 
+                        //     container: data['pjax-reload'][]
+                        // });
+                        $.each(data['pjax-reload'], function (index, val) {
+                            $.pjax({
+                                url: data['redirectAfter'],
+                                container: val
+                            });
+                        });
+                    }
+
+                    if (data['pchange']) {
+                        pchange(data['pchange-url']);
+                    }
+                }
+            },
+            error: function error(response) {
+                console.log(response);
+                swal({
+                    type: 'error',
+                    title: 'Oops, Terjadi kesalahan !',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
+
+    function pchange(url) {
+        var split = url.split("/");
+        baseurl = split[0] + '//' + split[2] + '/';
+
+        $.get(url, function (response) {
+            console.log("img src : " + baseurl + response);
+            $(".pchange").attr('src', baseurl + response);
+        });
+    }
+
+    function getFeedback(errors) {
+        // var inputs = $('input:not([type="submit"]), textarea, select');
+
+        $.each(errors, function (index, value) {
+            $('#' + index).parent().append('<div class="invalid-feedback d-block">' + value + '</div>');
+            $('#' + index).addClass('is-invalid');
+        });
+
+        // console.log(errors);
+    }
+
+    function resetFeedback() {
+        var inputs = $('input:not([type="submit"]), textarea, select');
+        $.each(inputs, function () {
+            $(this).siblings('.invalid-feedback').remove();
+            $(this).removeClass('is-invalid');
+        });
+    }
+
+    function deleteData(data) {
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: data['actionUrl'],
+            type: "POST",
+            data: { '_method': 'DELETE', '_token': csrf_token },
+            success: function success(response) {
+                if (response.success) {
+                    if (data['modal']) {
+                        $('#modal').modal('hide');
+                    }
+                    swal({
+                        type: 'success',
+                        title: response.success,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                }
+
+                if (response.errors) {
+                    if (data['modal']) {
+                        $('#modal').modal('hide');
+                    }
+                    swal({
+                        type: 'success',
+                        title: response.error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+        });
+    }
+
+    function yesnoSubmit(url, data, type) {
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { '_method': 'PUT', '_token': csrf_token },
+            cache: false,
+            ifModified: true,
+            global: false
+        }).done(function (response) {
+            if (response.success) {
+                if (data['modal']) {
+                    $('#modal').modal('hide');
+                }
+
+                if (type == 'yes') {
+                    swal({
+                        type: 'success',
+                        title: response.success,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    swal({
+                        type: 'error',
+                        title: response.success,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+
+                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+            }
+
+            if (response.errors) {
+                if (data['modal']) {
+                    $('#modal').modal('hide');
+                }
+                swal({
+                    type: 'success',
+                    title: response.error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            $('#mbtn-yes').off();
+            $('#mbtn-no').off();
+        }).fail(function (response) {
+            console.log(response);
+        });
+    }
+
+    $.fn.activateCKEditor = function () {
+        $("#modal").on("shown.bs.modal", function (e) {
+            // $('.the-summernote').summernote();
+            ClassicEditor.create(document.querySelector('.editor')).then(function (editor) {
+                console.log(editor);
+            }).catch(function (error) {
+                console.error(error);
+            });
+        });
+    };
+
+    $.fn.getLocation = function (id, url) {
+        $('#' + id).select2({
+            theme: "bootstrap4",
+            tags: true,
+            // dropdownParent: $('#modal'),
+            ajax: {
+                url: url,
+                type: "POST",
+                dataType: "json",
+                delay: 250,
+                data: function data(params) {
+                    return {
+                        key: params.term,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    };
+                },
+
+                processResults: function processResults(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data.items, function (val, index) {
+                            return { id: val, text: val };
+                        })
+                    };
+                }
+            }
+        });
+    };
+
+    $.fn.ajaxSelect2 = function (id, url) {
+        $('#' + id).select2({
+            theme: "bootstrap4",
+            tags: false,
+            // dropdownParent: $('#modal'),
+            ajax: {
+                url: url,
+                type: "POST",
+                dataType: "json",
+                delay: 250,
+                data: function data(params) {
+                    return {
+                        key: params.term,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    };
+                },
+
+                processResults: function processResults(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data.items, function (val, index) {
+                            return { id: val.id, text: val.name };
+                        })
+                    };
+                }
+            }
+        });
+    };
+
+    $.fn.ajaxSelect2Modal = function (id, url) {
+        $("#modal").on("shown.bs.modal", function (e) {
+            $('#' + id).select2({
+                theme: "bootstrap4",
+                tags: true,
+                dropdownParent: $('#modal'),
+                ajax: {
+                    url: url,
+                    type: "POST",
+                    dataType: "json",
+                    delay: 250,
+                    data: function data(params) {
+                        return {
+                            key: params.term,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        };
+                    },
+
+                    processResults: function processResults(data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data.items, function (val, index) {
+                                return { id: val, text: val };
+                            })
+                        };
+                    }
+                }
+            });
+        });
+    };
+
+    $.fn.ajaxCrudNonModal = function () {
+        var pjax = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        var redirectAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+        var form = $(this),
+            data = {
+            "actionUrl": form.attr('action'),
+            "pjax-reload": pjax,
+            "redirectAfter": redirectAfter
+        };
+
+        doSubmit(data, form);
+    };
+
+    function redireload(url, container) {
+        window.history.pushState("", "", url);
+        $.ajax({
+            url: url
+        }).done(function (data) {
+            $.pjax.reload(container);
+        }).fail(function () {
+            alert('An error occured');
+        });
+    }
+})(jQuery);
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports) {
+
+(function ($) {
+    $.fn.ajaxPagination = function () {
+        $('body').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+
+            var url = $(this).attr('href');
+
+            $(this).parent().siblings().removeClass('active');
+            $(this).parent().addClass('active');
+
+            $(this).redireload(url);
+        });
+
+        $('body').on('click', '.pagination .page-item.active', function (e) {
+            e.preventDefault();
+        });
+    };
+
+    $.fn.redireload = function (url) {
+        window.history.pushState("", "", url);
+        $.ajax({
+            url: url
+        }).done(function (data) {
+            $.pjax.reload('#mr');
+        }).fail(function () {
+            alert('An error occured');
+        });
+    };
+
+    $.fn.setBackUrl = function () {
+        backUrl = document.location.href;
+    };
+
+    $.fn.getBackUrl = function () {
+        return backUrl;
+    };
+})(jQuery);
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports) {
+
+(function ($) {
+    $.fn.countRemainingTime = function (now, countDownDate, expiryMsg) {
+        var container = $(this).data();
+        setInterval(function () {
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor(distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+            var minutes = Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
+            var seconds = Math.floor(distance % (1000 * 60) / 1000);
+
+            container.innerHTML = days + " hari";
+
+            if (days <= 0) {
+                container.innerHTML = hours + " jam";
+            }
+
+            if (days <= 0 && hours <= 0) {
+                container.innerHTML = minutes + " menit";
+            }
+
+            if (days <= 0 && hours <= 0 && minutes <= 0) {
+                container.innerHTML = seconds + " detik";
+            }
+
+            if (distance < 0) {
+                clearInterval(x);
+                container.innerHTML = expiryMsg;
+            }
+        }, 1000);
+    };
+})(jQuery);
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports) {
+
+// Create a new list item when clicking on the "Add" button
+dynamicList = function dynamicList(input, targetList, storeTo) {
+    var inputElement = document.getElementById(input);
+    var targetList = document.getElementById(targetList);
+    var li = document.createElement("li");
+    var inputValue = inputElement.value;
+    var div = document.createElement("DIV");
+    var msg = document.createTextNode("Anda belum mengetikkan pertanyaan !");
+    var error = document.getElementById('error-dynamic-list');
+    var t = document.createTextNode(inputValue);
+    li.appendChild(t);
+    if (inputValue === '') {
+        div.setAttribute("id", "error-dynamic-list");
+        div.classList.add("invalid-feedback");
+        div.classList.add("d-block");
+        div.appendChild(msg);
+        inputElement.classList.add("is-invalid");
+        inputElement.parentElement.appendChild(div);
+    } else {
+        if (error !== null) {
+            inputElement.classList.remove("is-invalid");
+            inputElement.parentElement.removeChild(error);
+        }
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
         targetList.appendChild(li);
     }
     document.getElementById(input).value = "";
@@ -83517,6 +86625,7 @@ dynamicList = function dynamicList(input, targetList, storeTo) {
     span.className = "dynamic-close";
     span.appendChild(txt);
     li.appendChild(span);
+<<<<<<< HEAD
 
     var existList = targetList.getElementsByTagName("li");
     var listVal = new Array();
@@ -83534,6 +86643,88 @@ dynamicList = function dynamicList(input, targetList, storeTo) {
     document.getElementById(storeTo).value = listVal;
     console.log(document.getElementById(storeTo).value);
 };
+=======
+
+    var existList = targetList.getElementsByTagName("li");
+    var listVal = new Array();
+    for (var i = 0; i < existList.length; i++) {
+        listVal[i] = existList[i].firstChild.nodeValue;
+        existList[i].onclick = function () {
+            var index = listVal.indexOf(this.firstChild.nodeValue);
+            listVal.splice(index, 1);
+            this.parentElement.removeChild(this);
+            document.getElementById(storeTo).value = JSON.stringify(listVal);
+            var error = document.getElementById('error-dynamic-list');
+            if (error !== null) {
+                inputElement.classList.remove("is-invalid");
+                inputElement.parentElement.removeChild(error);
+            }
+            // console.log(document.getElementById(storeTo).value);
+        };
+    }
+
+    document.getElementById(storeTo).value = JSON.stringify(listVal);
+    // console.log(document.getElementById(storeTo).value);
+};
+
+dynamicFileList = function dynamicFileList(input, targetList, label) {
+    var targetList = document.getElementById(targetList);
+    while (targetList.firstChild) {
+        targetList.removeChild(targetList.firstChild);
+    }
+
+    if (input.files) {
+        // var hidden = [];
+        var filename = new Array();
+        var fileArray = new Array();
+        for (var index = 0; index < input.files.length; index++) {
+            var li = document.createElement("li");
+            // var span = document.createElement("SPAN");
+            // var txt = document.createTextNode("\u00D7");
+            // span.className = "dynamic-close";
+            // span.appendChild(txt);
+            // li.appendChild(span);
+
+            // hidden[index] = input.files[index].name;
+            filename[index] = document.createTextNode(input.files[index].name + ' (' + formatBytes(input.files[index].size) + ')');
+            targetList.appendChild(li);
+
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(input.files[index]);
+            fileArray[index] = fileReader;
+        }
+
+        var existList = targetList.getElementsByTagName("li");
+        for (var i = 0; i < existList.length; i++) {
+            existList[i].appendChild(filename[i]);
+            // existList[i].onclick = function(e) {
+            // fileArray.splice("fa"+i, 1);
+            // delete fileArray["fa"+i];
+            // input.innerHTML = fileArray;
+            // filename.splice("fn"+i, 1);
+            // delete filename["fn"+i];
+            // hidden.splice("h"+i, 1);
+            // delete hidden[i];
+            // document.getElementById(storeTo).value = hidden;
+            // document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
+            // this.parentElement.removeChild(this);
+            // }
+        }
+
+        // document.getElementById(storeTo).value = hidden;
+        document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
+    }
+};
+
+function formatBytes(bytes, decimals) {
+    if (bytes == 0) return '0 B';
+    var k = 1024,
+        dm = decimals <= 0 ? 0 : decimals || 2,
+        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
 
 /***/ }),
 /* 52 */
@@ -83598,6 +86789,7 @@ $(document).ready(function () {
         $('#main-nav').toggleClass('scrolled', $('#main-nav').offset().top >= 50);
         //   $('#filter-nav').toggleClass('fixed', $(this).scrollTop() >= 150);
     });
+<<<<<<< HEAD
 
     $('#scroll').click(function () {
         $("html, body").animate({ scrollTop: 0 }, 600);
@@ -83750,6 +86942,167 @@ $(document).ready(function () {
             $(btn).attr('data-action', 'show');
             $(btn).text(textshow);
         }
+=======
+
+    $('#scroll').click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+    });
+
+    // $('.smnt').summernote();
+
+    var validateNumericInput = function validateNumericInput(selector) {
+        console.log(selector);
+        $(selector).keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl/cmd+A
+            e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true) ||
+            // Allow: Ctrl/cmd+C
+            e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true) ||
+            // Allow: Ctrl/cmd+X
+            e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true) ||
+            // Allow: home, end, left, right
+            e.keyCode >= 35 && e.keyCode <= 39) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    };
+
+    isNumberKey = function isNumberKey(evt) {
+        var charCode = evt.which ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+        return true;
+    };
+
+    generateOption = function generateOption(triggerElem, targetElem, table, placeholder) {
+        $(triggerElem).on('change', function (e) {
+            var filter_id = e.target.value,
+                url = '/json/option/' + table + '?id=' + filter_id;
+
+            $.get(url, function (data) {
+                $(targetElem).empty();
+                $(targetElem).append('<option selected disabled>--Pilih ' + placeholder + '--</option>');
+                $.each(data, function (index, obj) {
+                    $(targetElem).append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                });
+            });
+        });
+    };
+
+    getSearcResult = function getSearcResult(input, targetElem) {
+        var key = input.value,
+            url = '/json/projects?key=' + key;
+
+        $.get(url, function (data) {
+            $(targetElem).empty();
+            if (key.length > 0) {
+                $.each(data, function (index, obj) {
+                    $(targetElem).append('<a href="/project/details/' + obj.project_slug + '"><div class="items"><div class="media"><img class="img-fluid mr-3" src="/' + obj.project_banner + '" alt="foto proyek" style="max-width:60px"><div class="media-body"><h5 class="mt-0">' + obj.project_name + '</h5><small><i class="fas fa-map-marker-alt"></i> ' + ucwords(obj.location.name.toLowerCase()) + '</small><br><small><i class="fas fa-user"></i> ' + obj.user.profile.name + '</small><br></div></div></div></a>');
+                });
+
+                if (data.length <= 0) {
+                    $(targetElem).append('<div class="items text-center">Tidak ditemukan proyek dengan kata kunci pencarian <b>' + key + '</b></div>');
+                }
+
+                $(targetElem).append('<a href="/project/browse"><div class="items text-center">Semua Proyek</div></a>');
+            }
+        });
+    };
+
+    handleAgreement = function handleAgreement(checkbox, target) {
+        if (checkbox.checked == true) {
+            $('#' + target).removeAttr("disabled");
+        } else {
+            $('#' + target).attr("disabled", "disabled");
+        }
+    };
+
+    checkAgreement = function checkAgreement(btn, reference) {
+        if ($('#' + reference + ':checkbox:checked').length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    previewImgUpload = function previewImgUpload(input, def, loader, prev, label) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function () {
+                if ($(def).is(":visible")) {
+                    $(def).hide(100);
+                }
+                if ($(prev).is(":visible")) {
+                    $(prev).hide(100);
+                }
+            };
+
+            reader.onprogress = function (data) {
+                $(loader).show(100);
+                var timer = 2;
+                var x = setInterval(function () {
+                    timer--;
+
+                    if (timer <= 0) {
+                        clearInterval(x);
+                        $(loader).hide(100);
+                        $(prev).attr('src', reader.result);
+                        $(prev).show(100);
+                        $(label).text(input.files[0].name);
+                    }
+                }, 1000);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+
+    toggleMoreLess = function toggleMoreLess(btn, less, more, textless, textmore) {
+        var action = $(btn).attr('data-action');
+
+        if (action == 'more') {
+            $(less).addClass('hidden');
+            $(more).removeClass('hidden');
+            $(btn).attr('data-action', 'less');
+            $(btn).text(textless);
+        } else {
+            $(more).addClass('hidden');
+            $(less).removeClass('hidden');
+            $(btn).attr('data-action', 'more');
+            $(btn).text(textmore);
+        }
+    };
+
+    showAndHide = function showAndHide(btn, showed, hidden, textshow, texthide) {
+        var action = $(btn).attr('data-action');
+
+        if (action == 'show') {
+            $(hidden).addClass('hidden');
+            $(showed).removeClass('hidden');
+            $(btn).attr('data-action', 'hide');
+            $(btn).text(texthide);
+        } else {
+            $(showed).addClass('hidden');
+            $(hidden).removeClass('hidden');
+            $(btn).attr('data-action', 'show');
+            $(btn).text(textshow);
+        }
+    };
+
+    ucwords = function ucwords(string) {
+        var out = string.replace(/\b\w/g, function (l) {
+            return l.toUpperCase();
+        });
+
+        return out;
+>>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
     };
 
     // cutContent = function(container, showchar) {

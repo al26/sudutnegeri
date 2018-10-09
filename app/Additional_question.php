@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Additional_question extends Model
 {
+    // use SoftDeletes;
     protected $fillable = ['project_id', 'question'];
-    public $timestamps = false;
+    // protected $dates = ['deleted_at'];
+    // public $timestamps = false;
 
     public function project() 
     {

@@ -1,4 +1,8 @@
 <div class="card">
+    <div class="card-header">
+        <h4 class="m-0 card-title float-left p-0 col-11">Buat Proyek Baru</h4>
+        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-sm btn-danger float-right col-auto" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"><i class="fas fa-times"></i></a>
+    </div>
     <div class="card-body">
         <form action="{{route('project.store')}}" method="POST" enctype="multipart/form-data" id="form-create-project">
             @csrf
@@ -22,8 +26,8 @@
                             <small class="form-text text-muted">Pilih kategori yang paling sesuai</small>
                         </div>
                         <div class="col-12 col-md-6 p-0">
-                            <label for="project_location">Lokasi Pelaksanaan Proyek</label>
-                            <select id="project_location" name="data[project_location]" class="select2 col-12">
+                            <label for="regency_id">Lokasi Pelaksanaan Proyek</label>
+                            <select id="regency_id" name="data[regency_id]" class="select2 col-12">
                                 <option selected disabled>--Pilih Lokasi--</option>
                                 {{-- @foreach($regencies as $regency)
                                     <option value="{{$regency->name}}">{{$regency->name}}</option>
@@ -131,12 +135,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="verification_documents">Dokumen Verifikasi</label>
+                <label for="attachments">Dokumen Verifikasi</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="verification_documents" name="data[verification_documents][]" multiple>
-                    <label class="custom-file-label" for="verification_documents">Pilih File</label>
+                    <input type="file" class="custom-file-input" id="attachments" name="data[attachments][]" multiple onchange="javascript:dynamicFileList(this, 'attachments-list', 'attachment-label')">
+                    {{-- <input type="hidden" id="hidden-attachments" name="data[han]"> --}}
+                    <label class="custom-file-label" for="attachments" id="attachment-label">Pilih File</label>
                 </div>
                 <small class="form-text text-muted">Lampirkan sebuah foto dengan format .jpg, .png, atau .svg</small>
+                <ul class="dynamic-list" id="attachments-list"></ul>
             </div>
             <button type="submit" id="create-project" class="btn btn-md btn-primary">Buat Proyek</button>
             <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-toggle="pjax" data-pjax="main-content" class="btn btn-md btn-danger" onclick="javascript:$(this).redireload($(this).getBackUrl()); return false;"> Batalkan</a>

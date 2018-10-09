@@ -123,7 +123,7 @@ class VolunteerController extends Controller
      */
     public function show($id)
     {
-        $data['volunteer'] = Volunteer::find($id);
+        $data['volunteer'] = Volunteer::find(decrypt($id));
         // $data['questions'] = Question::where('project_id', $data['volunteer']->project_id)->get();
         $data['answers'] = Answer::with('question')->where('volunteer_id', $data['volunteer']->id)->get();
         return view('member.partials.modal.show_volunteer_application', $data);
@@ -150,13 +150,13 @@ class VolunteerController extends Controller
     public function update(Request $request, $id) {
         $accept = null;
         $reject = null;
-        $v = Volunteer::find($id);
+        $v = Volunteer::find(decrypt($id));
         
         if ($request->query('code') === 'yes') {
-            $v->status = "diterima";
+            $v->status = "accepted";
             $accept = $v->save();
         } else {
-            $v->status = "tidak diterima";
+            $v->status = "rejected";
             $reject = $v->save();
         }
 

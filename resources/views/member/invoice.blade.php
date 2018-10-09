@@ -32,9 +32,9 @@
             <div class="media">
                 <div class="media-body">
                     <p class="mt-0">Silahkan transfer ke :</p>
-                    <h4 class=""><b>{{$donation->bank->account_number}}</b></h4>
-                    <p class="mb-1">Atas nama : {{$donation->bank->account_name}}</p>
-                    <p class="mb-1">Cabang : {{$donation->bank->bank_address}}</p>
+                    <h4 class=""><b>{{$donation->bank->bank_accounts[0]->account_number}}</b></h4>
+                    <p class="mb-1">Atas nama : {{$donation->bank->bank_accounts[0]->account_name}}</p>
+                    <p class="mb-1">Cabang : {{$donation->bank->bank_accounts[0]->bank_address}}</p>
                 </div>
                 <img class="align-self-center ml-auto img-fluid" src="{{asset($donation->bank->logo)}}" alt="Logo {{$donation->bank->bank_name}}">
             </div>

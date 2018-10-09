@@ -42,7 +42,7 @@
                 </div>
                 @foreach ($user_projects as $project)    
                     @php
-                        $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
+                        $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
                         $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
     
                         date_default_timezone_set('Asia/Jakarta');
@@ -60,7 +60,44 @@
                         }
                     @endphp
                     <div class="d-campaigns col-12 col-sm-6 col-lg-4 card-deck">
-                        <div class="card m-0 mb-3 border">
+                        <div class="cml-conteiner">
+                            <div class="card card-shadow p-0 m-0 border-0">
+                                <div class="category-flag">
+                                    <p>{{$project->category->category}}</p>
+                                </div>
+                                <img class="card-img-top" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                                <div class="media campaigner">
+                                    <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
+                                    <div class="media-body">
+                                        {{$project->user->profile->name}}
+                                    </div>
+                                </div>
+                                <div class="card-header px-3 bg-white font-weight-bold">
+                                    <h5 class="card-title m-0 card-link">{{$project->project_name}}</h5>
+                                </div>
+                                <div class="card-body pb-0 pt-4 px-3 _project-progress">
+                                    <div class="info-donasi">
+                                        <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
+                                        <span class="--text font-weight-bold text-capitalize">{{Idnme::print_rupiah($project->collected_funds, false, true)}}</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{$progressDana}}%"></div>
+                                        </div>
+                                        <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target)}}</span>
+                                    </div>
+                                    <hr class="mt-1 mb-2">
+                                    <div class="info-relawan">
+                                        <span class="--text "><b>{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}}</b> relawan tergabung dari target <b>{{$project->volunteer_quota}}</b> relawan</span>
+                                    </div>
+                                </div>
+                                <a class="cml text-white" data-toggle="pjax" data-pjax="main-content" href="{{route('project.manage', ['slug' => $project->project_slug])}}" onclick="javascript:$(this).setBackUrl();">
+                                    <span>
+                                        <i class="fas fa-cogs fa-2x"></i><br>
+                                        Kelola <br>Project
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        {{-- <div class="card m-0 mb-3 border">
                             <img class="card-img-top rounded-0" src="{{asset($project->project_banner)}}" alt="Project Image">
                             <div class="card-body py-0 px-3 pt-3" style="top:0">
                                 <h5 class="card-title text-danger">{{$project->project_name}}</h5>
@@ -102,7 +139,7 @@
                                     Kelola <br>Project
                                 </span>
                             </a>        
-                        </div>
+                        </div> --}}
                     </div>
                 @endforeach
             </div>

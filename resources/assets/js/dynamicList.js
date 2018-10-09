@@ -1,45 +1,26 @@
-// Create a "close" button and append it to each list item
-// var myNodelist = document.getElementsByTagName("LI");
-// var i;
-// for (i = 0; i < myNodelist.length; i++) {
-//     var span = document.createElement("SPAN");
-//     var txt = document.createTextNode("\u00D7");
-//     span.className = "dynamic-close";
-//     span.appendChild(txt);
-//     myNodelist[i].appendChild(span);
-// }
-
-// Click on a close button to hide the current list item
-// dynamicCloseList = function () {
-//     var close = document.getElementsByClassName("dynamic-close");
-//     var i;
-//     for (i = 0; i < close.length; i++) {
-//         close[i].onclick = function() {
-//             var div = this.parentElement;
-//             div.style.display = "none";
-//         }
-//     }
-// }
-
-// Add a "checked" symbol when clicking on a list item
-// var list = document.querySelector('ul');
-// list.addEventListener('click', function(ev) {
-//     if (ev.target.tagName === 'LI') {
-//         ev.target.classList.toggle('checked');
-//     }
-// }, false);
-
 // Create a new list item when clicking on the "Add" button
 dynamicList = function (input, targetList, storeTo) {
+    var inputElement = document.getElementById(input);
     var targetList = document.getElementById(targetList);
     var li = document.createElement("li");
-    var inputValue = document.getElementById(input).value;
-    // console.log(targetList + ",," + li + ",," + );
+    var inputValue = inputElement.value;
+    var div = document.createElement("DIV");
+    var msg = document.createTextNode("Anda belum mengetikkan pertanyaan !");         
+    var error = document.getElementById('error-dynamic-list');
     var t = document.createTextNode(inputValue);
     li.appendChild(t);
     if (inputValue === '') {
-        // alert("You must write something!");
+        div.setAttribute("id", "error-dynamic-list");
+        div.classList.add("invalid-feedback");
+        div.classList.add("d-block");
+        div.appendChild(msg);
+        inputElement.classList.add("is-invalid");
+        inputElement.parentElement.appendChild(div)
     } else {
+        if(error !== null) {
+            inputElement.classList.remove("is-invalid");
+            inputElement.parentElement.removeChild(error);
+        }
         targetList.appendChild(li);
     }
     document.getElementById(input).value = "";
@@ -58,12 +39,75 @@ dynamicList = function (input, targetList, storeTo) {
             var index = listVal.indexOf(this.firstChild.nodeValue);
             listVal.splice(index, 1);
             this.parentElement.removeChild(this);
-            document.getElementById(storeTo).value = listVal;
-            console.log(document.getElementById(storeTo).value);
+            document.getElementById(storeTo).value = JSON.stringify(listVal);
+            var error = document.getElementById('error-dynamic-list');
+            if(error !== null) {
+                inputElement.classList.remove("is-invalid");
+                inputElement.parentElement.removeChild(error);
+            }
+            // console.log(document.getElementById(storeTo).value);
         }
     }
 
-    document.getElementById(storeTo).value = listVal;
-    console.log(document.getElementById(storeTo).value);
+    document.getElementById(storeTo).value = JSON.stringify(listVal);
+    // console.log(document.getElementById(storeTo).value);
 
 }
+
+dynamicFileList = function (input, targetList, label) {
+    var targetList = document.getElementById(targetList);
+    while (targetList.firstChild) {
+        targetList.removeChild(targetList.firstChild);
+    }
+
+    if (input.files) {
+        // var hidden = [];
+        var filename = new Array();
+        var fileArray = new Array();
+        for (let index = 0; index < input.files.length; index++) {
+            var li = document.createElement("li");
+            // var span = document.createElement("SPAN");
+            // var txt = document.createTextNode("\u00D7");
+            // span.className = "dynamic-close";
+            // span.appendChild(txt);
+            // li.appendChild(span);
+
+            // hidden[index] = input.files[index].name;
+            filename[index] = document.createTextNode(input.files[index].name + ' ('+formatBytes(input.files[index].size)+')');
+            targetList.appendChild(li);
+
+            var fileReader = new FileReader(); 
+            fileReader.readAsDataURL(input.files[index]);
+            fileArray[index] = fileReader;
+        }
+
+        var existList = targetList.getElementsByTagName("li");
+        for (let i = 0; i < existList.length; i++) {
+            existList[i].appendChild(filename[i]);
+            // existList[i].onclick = function(e) {
+                // fileArray.splice("fa"+i, 1);
+                // delete fileArray["fa"+i];
+                // input.innerHTML = fileArray;
+                // filename.splice("fn"+i, 1);
+                // delete filename["fn"+i];
+                // hidden.splice("h"+i, 1);
+                // delete hidden[i];
+                // document.getElementById(storeTo).value = hidden;
+                // document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
+                // this.parentElement.removeChild(this);
+            // }
+        }
+
+        // document.getElementById(storeTo).value = hidden;
+        document.getElementById(label).innerHTML = fileArray.length + " File dipilih";
+    }
+}
+
+function formatBytes(bytes,decimals) {
+    if(bytes == 0) return '0 B';
+    var k = 1024,
+        dm = decimals <= 0 ? 0 : decimals || 2,
+        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+ }

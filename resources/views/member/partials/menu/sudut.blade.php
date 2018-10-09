@@ -11,6 +11,9 @@
             @if (Auth::user()->profile->verification->status !== 'verified')
                 <a class="list-group-item list-group-item-action dv-menu" id="m-sudut-verify" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}"><i class="fas fw fa-user-check mr-2"></i>Verifikasi Akun</a>
             @endif
+            @if (Auth::user()->projects()->where('project_status', '!=', 'submitted')->count() > 0)
+                <a class="list-group-item list-group-item-action dv-menu" id="m-sudut-withdrawal" data-toggle="pjax" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}"><i class="fas fw fa-money-bill-wave mr-2"></i>Pencairan Dana</a>
+            @endif
         </div>
     </div>
     {{-- <div class="nav flex-column nav-pills" id="sudut-menu" aria-orientation="vertical">

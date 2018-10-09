@@ -49,7 +49,7 @@ class DonationController extends Controller
     {
         $rules = [
             "amount"    => "required|digits_between:5, 10",
-            "bank_id"   => "required",
+            "bank_code"   => "required",
             // "phone_number" => "required"
         ];
 
@@ -58,13 +58,13 @@ class DonationController extends Controller
             // "phone_number.required"   => "Kolom :attribute tidak boleh kosong",
             // "amount.numeric"    => "Mohon isikan dengan jumlah yang valid (berupa angka)",
             // "amount.digits"        => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000",
-            "bank_id.required"  => "Mohon pilih salah satu dari :attribute yang tersedia",
+            "bank_code.required"  => "Mohon pilih salah satu dari :attribute yang tersedia",
             "digits_between"    => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000 between"
         ];
 
         $attributes = [
             "amount"    => "jumlah donasi",
-            "bank_id"   => "metode pembayaran",
+            "bank_code"   => "metode pembayaran",
             // "phone_number" => "nomor hp"
         ];
 
@@ -81,7 +81,7 @@ class DonationController extends Controller
                 "user_id"    => (int)base64_decode(urldecode($request->data['user_id'])),
                 "project_id" => $project_id,
                 "amount"     => $request->data['amount'],
-                "bank_id"    => $request->data['bank_id'],
+                "bank_code"    => $request->data['bank_code'],
                 "anonymouse" => $anonymouse,
                 "payment_code" => rand(10,999),
                 "status"     => "pending"
@@ -143,7 +143,8 @@ class DonationController extends Controller
     public function uploadReceipt(Request $request, $id)
     {
         $data['user_profile']  = $request->user()->profile;
-        $data['donation'] = Donation::findOrFail($id);
+        // $data['donation'] = Donation::findOrFail((int)base64_decode(urldecode($id)));
+        $data['donation'] = Donation::findOrFail(decrypt($id));
         return view('member.dashboard', ['menu' => 'negeri', 'section' => 'upload-transfer-receipt'], $data);
         // return view('member.partials.main-content.upload-transfer-receipt', $data);
     }
@@ -161,7 +162,7 @@ class DonationController extends Controller
         $filename = "";
 
         $donation = Donation::findOrFail($id);
-        $old = $donation->transfer_receipt === null ?? substr($donation->transfer_receipt, 7);
+        $old = $donation->transfer_receipt !== null ? substr($donation->transfer_receipt, 7) : null;
 
         if($request->hasFile('receipt')) {
             $filename = md5($id.time()).'.'.$request->receipt->getClientOriginalExtension();
@@ -170,7 +171,9 @@ class DonationController extends Controller
         }
 
         if($path) {
-            $update = $donation->update(['transfer_receipt' => "storage/transfer_receipts/$filename"]);
+            $update = $donation->update([
+                'transfer_receipt' => "storage/transfer_receipts/$filename",
+            ]);
             if($update) {
                 if($old !== null){
                     Storage::delete('public'.$old); 

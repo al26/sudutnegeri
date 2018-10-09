@@ -3,22 +3,17 @@
 @section('content')
     <div class="container my-lg-3">
         @php
-            $progressDana = round(($project->funding_progress / $project->funding_target) * 100);
+            $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
             $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
 
-            date_default_timezone_set('Asia/Jakarta');
+            // date_default_timezone_set('Asia/Jakarta');
 
             $today = new DateTime('now');
-            $deadline = new DateTime($project->project_deadline);
-            $remainingDays = $today->diff($deadline)->format('%d hari'); 
-            $remainingHours = $today->diff($deadline)->format('%h jam'); 
+            $close_reg = new DateTime($project->close_reg);
+            $close_donation = new DateTime($project->close_donation);
 
-            if($remainingDays <= 0) {
-                $remainingDays = $remainingHours;
-            }
-            if($remainingDays <= 0 && $remainingHours < 0) {
-                $remainingDays = "Proyek berakhir";
-            }
+            $cr = $today->diff($close_reg)->format('%h jam'); 
+            $cd = $today->diff($close_donation)->format('%h jam'); 
         @endphp
         <div class="row">
             <div class="col-12 col-lg-4 sticky-side-info --container --left order-2 order-lg-1">
@@ -31,7 +26,7 @@
                                 </div>
                                 <div class="col-12 col-lg-8 offset-lg-1 offset-xl-0 px-0">
                                     <span class="--text text-capitalize">terkumpul {{$progressDana}}%</span>
-                                    <h4 class="m-0">{{Idnme::print_rupiah($project->funding_progress, false, true) }}</h4>
+                                    <h4 class="m-0">{{Idnme::print_rupiah($project->collected_funds, false, true) }}</h4>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{$progressDana}}%"></div>
                                     </div>
@@ -40,44 +35,65 @@
                             </div>
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            @auth
-                                @if ($project->user_id === Auth::user()->id)
-                                    <span class="btn btn-small btn-secondary text-capitalize w-100 disabled">Mulai Investasi</span>
+                            @if ($cd > 0)
+                                @auth
+                                    @if ($project->user_id === Auth::user()->id)
+                                        <span class="btn btn-small btn-secondary text-capitalize w-100 disabled">Mulai Investasi</span>
+                                    @else
+                                        <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
+                                    @endif
                                 @else
                                     <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
-                                @endif
+                                @endauth
                             @else
-                                <a id="donation-btn" class="btn btn-small btn-secondary text-capitalize w-100" href="{{route('donation.create', ['slug' => $project->project_slug]) }}">Mulai Investasi</a>
-                            @endauth
+                                <span class="btn btn-small btn-secondary text-capitalize w-100 disabled">Investasi ditutup</span>
+                            @endif
 
                         </div>
                     </section>
                     <section class="card --content mb-lg-3 info-relawan">
                         <div class="card-body">
-                            <span class="--text text-capitalize">{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}} calon relawan</span>
-                            @if ($project->volunteers->count() > 0)
+                            <span class="--text text-capitalize">{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}} relawan</span>
+                            @if ($project->registered_volunteer > 0)
+                                @php
+                                    $registered_volunteer = $project->volunteers()->where('status', 'accepted')->get();
+                                @endphp
                                 <div id="volunteer-carousel" class="owl-carousel owl-theme my-2">
-                                    @for ($i = 1; $i < 9; $i++)
-                                        <div class="item">                                            
-                                            <img class="" src="{{ asset('storage/profile_pictures/'.$i.'.jpg') }}" alt="Generic placeholder image">
+                                    @foreach ($registered_volunteer as $volunteer)
+                                        <div class="item">                                   
+                                            <img class="" src="{{ asset($volunteer->user->profile->profile_picture) }}" alt="Foto Profil Relawan" title="{{$volunteer->user->profile->name}}" data-toggle="tooltip" data-placement="top">
                                         </div>
-                                    @endfor
+                                    @endforeach
                                 </div>
                             @endif
                             <span class="--text text-capitalize">target {{$project->volunteer_quota}} relawan</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            @auth
-                                @if ($project->user_id === Auth::user()->id)
-                                    <span class="btn btn-small btn-danger text-capitalize w-100 disabled">Jadi Relawan</span>
+                            @if ($cr > 0)
+                                @auth
+                                    @if ($project->user_id === Auth::user()->id)
+                                        <span class="btn btn-small btn-danger text-capitalize w-100 disabled">Jadi Relawan</span>
+                                    @else
+                                        <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
+                                    @endif
                                 @else
                                     <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
-                                @endif
+                                @endauth
                             @else
-                                <a id="volunteer-btn" class="btn btn-small btn-danger text-capitalize w-100" href="{{route('volunteer.create', ['slug' => $project->project_slug])}}">Jadi Relawan</a>
-                            @endauth
+                                <span class="btn btn-small btn-danger text-capitalize w-100 disabled">Pendaftaran ditutup</span>
+                            @endif
                         </div>
                     </section>
+                    {{-- <section class="card --content">
+                        <div class="card-body">
+                            <span>Proyek ini mencurigrakan ? <a href="" class="card-link"> Laporkan</a></span>
+                        </div>
+                    </section> --}}
+                    {{-- <section class="card --content">
+                        <div class="card-body">
+                            <div class="fb-share-button" data-href="{{URL::current()}}" data-layout="button_count"></div>
+                        </div>
+                    </section> --}}
                 </div>
             </div>
             <div class="col-12 col-lg-8 featured --container --right order-1 order-lg-2">
@@ -88,11 +104,14 @@
                     <div class="--headline">
                         <span class="--text _head">{{$project->project_name}}</span>
                     </div>
+                    <div class="px-3 py-1">
+                        <span class="--text _sub"><i class="fas fa-tag fw mr-2"></i> {{$project->category->category}} <span class="mx-1">|</span> <i class="fas fa-map-marker-alt fw mr-2"></i> {{ucwords(strtolower($project->location->name))}}</span>
+                    </div>
                     <div class="--author">
                         <div class="media">
                             <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
                             <div class="media-body">
-                                <p class="mb-2">Campaigner</p>
+                                <p class="mb-2">Si Sudut</p>
                                 <h5 class="mb-0">{{$project->user->profile->name}}</h5>
                             </div>
                         </div>
@@ -150,12 +169,21 @@
 
 @section('script')
 <script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=241110544128";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<script>
     $(document).ready(function(){
         toggleActiveMenuTab();
         $(document).loadModal();
         // $(document).activeteSelectPicker();
 
-        $('#donation-btn').on('click', function(e){
+        $(document).on('click','#donation-btn', function(e){
             var isAuth = "{{Auth::check()}}";
             // var continue = 
             var url = "/login?continue=" + encodeURIComponent(window.btoa($(this).attr('href')));
@@ -173,7 +201,7 @@
             }
         });
 
-        $('#volunteer-btn').on('click', function(e){
+        $(document).on('click','#volunteer-btn', function(e){
             var isAuth = "{{Auth::check()}}";
             // var continue = 
             var url = "/login?continue=" + encodeURIComponent(window.btoa($(this).attr('href')));

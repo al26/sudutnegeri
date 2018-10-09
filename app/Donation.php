@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Donation extends Model
 {
-    protected $fillable = ['user_id', 'project_id', 'bank_id', 'amount', 'anonymouse', 'status', 'transfer_receipt', 'payment_code'];
+    // use SoftDeletes;
+    
+    protected $fillable = ['user_id', 'project_id', 'bank_code', 'amount', 'anonymouse', 'status', 'transfer_receipt', 'payment_code'];
+    // protected $dates = ['deleted_at'];
 
     public function user()
     {
@@ -20,6 +24,6 @@ class Donation extends Model
 
     public function bank()
     {
-        return $this->belongsTo('App\Bank');
+        return $this->belongsTo('App\Bank', 'bank_code', 'bank_code');
     }
 }

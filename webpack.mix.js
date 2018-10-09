@@ -14,6 +14,7 @@ let mix = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .js('resources/assets/js/admin.js', 'public/js')
+   .js('resources/assets/js/member-dashboard.js', 'public/js')
    .sass('resources/assets/sass/admin.scss', 'public/css')
    .copyDirectory('resources/assets/css/', 'public/css', false)
    .copyDirectory('node_modules/summernote/dist/font/', 'public/css/font', false)

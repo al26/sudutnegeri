@@ -474,13 +474,21 @@
 }
 
 .d-campaigns, .owl-carousel{
-    .card, .card-img-top, .card-body, .card-footer, .project-needs, .list-group, .list-group-item, .media, .campaigner, .campaigner img, .media-body{
+    .card, .card-img-top, .card-shadow,.card-header, .card-body, .card-footer, .project-needs, .list-group, .list-group-item, .media, .campaigner, .campaigner img, .media-body{
         &:hover{
             ~.cml{
                 visibility: visible;
             }
         }
-    }
+	}
+	
+	.cml-container {
+		&:hover{
+            ~.cml{
+                visibility: visible;
+            }
+        }
+	}
     .cml {
         position: absolute;
         z-index: 5;
@@ -488,7 +496,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: rgba($color: $secondary, $alpha: .8);
+        background: rgba($color: $secondary, $alpha: .9);
         text-align: center;
         font-size: 2rem;
         text-decoration: none;

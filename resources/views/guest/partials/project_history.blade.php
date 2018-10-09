@@ -1,7 +1,10 @@
+@php
+    $historis = $project->historis()->orderBy('created_at', 'desc')->get();
+@endphp
 <div class="timeline">
     <div class="line text-muted"></div>
     <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-        @foreach ($project->historis as $key => $history)
+        @foreach ($historis as $key => $history)
             <div class="card card-default">
                 <div class="card-heading" role="tab" id="heading1">
                     <div class=" icon"><i class="far fa-dot-circle"></i><span class="sr-only">Expand/Collapse</i></div>
@@ -9,8 +12,9 @@
                 </div>
                 <div class="card-body p-0 pt-2">
                     <div class="timeline-article">
-                        <h5 class="card-title" id="timeline-heading{{$history->id}}"><a class="text-default decoration-none" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$history->id}}" aria-expanded="true" aria-controls="collapse{{$history->id}}">{{$history->title}}</a></h5>
-                        <div id="collapse{{$history->id}}" class="card-collapse collapse in" role="tabpanel" aria-labelledby="timeline-heading{{$history->id}}">
+                        <h5 class="card-title m-0" id="timeline-heading{{$history->id}}"><a class="text-default decoration-none" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$history->id}}" aria-expanded="true" aria-controls="collapse{{$history->id}}">{{$history->title}}</a></h5>
+                        <span class="--text _sub">ditulis oleh : {{$history->user->profile->name}}</span>
+                        <div id="collapse{{$history->id}}" class="card-collapse mt-3 collapse in" role="tabpanel" aria-labelledby="timeline-heading{{$history->id}}">
                             {!! $history->body !!}
                         </div>
                     </div>
