@@ -141,7 +141,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $del = Category::findOrFail(decrypt($id))->delete();
+        $del = Category::find(decrypt($id))->delete();
 
         if($del) {
             $return = ['success' => 'Berhasil hapus kategori'];

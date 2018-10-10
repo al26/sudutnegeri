@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Bank_account as Ba;
+use App\Bank;
+use Validator;
 
 class BankAccountController extends Controller
 {
@@ -23,7 +26,8 @@ class BankAccountController extends Controller
      */
     public function create()
     {
-        //
+        $data['banks'] = Bank::all();
+        return view('admin.partials.modal.bank-account-create', $data);
     }
 
     /**
@@ -34,7 +38,45 @@ class BankAccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'bank_id' => 'required',
+            'account_name' => 'required',
+            'account_number' => 'required|numeric',
+            'bank_address' => 'required'
+        ];
+
+        $messages = [
+            'bank_id.required' => ':attribute tidak boleh kosong',
+            'account_name.required' => ':attribute tidak boleh kosong',
+            'account_number.required' => ':attribute tidak boleh kosong',
+            'account_number.numeric' => ':attribute harus berupa angka',
+            'bank_address.required' => ':attribute tidak boleh kosong' 
+        ];
+
+        $attributes = [
+            'bank_id' => 'Nama bank',
+            'account_name' => 'Nama akun',
+            'account_number' => 'Nomor rekening',
+            'bank_address' => 'Alamat bank'
+        ];
+
+        $data = $request->data;
+        $validator = Validator::make($data, $rules, $messages, $attributes);
+
+        if($validator->fails()) {
+            $return = ['errors' => $validator->errors()];
+        } else {
+            $store = Ba::create($data);
+            
+            if ($store) {
+                $return = ['success' => 'Berhasil menambah akun bank baru'];
+            } else {
+                $return = ['error' => 'Gagal menambah akun bank baru'];
+            }
+
+            return response()->json($return);
+            
+        }
     }
 
     /**
@@ -56,7 +98,10 @@ class BankAccountController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['banks'] = Bank::all();
+        $data['bank_account'] = Ba::find(decrypt($id));
+
+        return view('admin.partials.modal.bank-account-edit', $data);
     }
 
     /**
@@ -68,7 +113,44 @@ class BankAccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'bank_id' => 'required',
+            'account_name' => 'required',
+            'account_number' => 'required|numeric',
+            'bank_address' => 'required'
+        ];
+
+        $messages = [
+            'bank_id.required' => ':attribute tidak boleh kosong',
+            'account_name.required' => ':attribute tidak boleh kosong',
+            'account_number.required' => ':attribute tidak boleh kosong',
+            'account_number.numeric' => ':attribute harus berupa angka',
+            'bank_address.required' => ':attribute tidak boleh kosong' 
+        ];
+
+        $attributes = [
+            'bank_id' => 'Nama bank',
+            'account_name' => 'Nama akun',
+            'account_number' => 'Nomor rekening',
+            'bank_address' => 'Alamat bank'
+        ];
+
+        $data = $request->data;
+        $validator = Validator::make($data, $rules, $messages, $attributes);
+
+        if($validator->fails()) {
+            $return = ['errors' => $validator->errors()];
+        } else {
+            $update = Ba::find(decrypt($id))->update($data);
+            
+            if ($update) {
+                $return = ['success' => 'Berhasil mengubah akun bank'];
+            } else {
+                $return = ['error' => 'Gagal mengubah akun bank'];
+            }
+        }
+
+        return response()->json($return);
     }
 
     /**
@@ -79,6 +161,14 @@ class BankAccountController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $del = Ba::find(decrypt($id))->delete();
+
+        if($del) {
+            $return = ['success' => 'Berhasil hapus akun bank'];
+        } else {
+            $return = ['error' => 'Gagal menghapus akun bank'];
+        }
+
+        return response()->json($return);
     }
 }
