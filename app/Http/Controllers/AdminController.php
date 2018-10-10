@@ -87,4 +87,42 @@ class AdminController extends Controller
 
         return response()->json($return);
     }
+
+    public function showVerifyDonationForm($id){
+        $data['donation'] = Donation::findOrFail(decrypt($id));
+        //return $data;
+        return view('admin.partials.modal.verify-donation',$data);
+    }
+    public function showVerifiedDonationForm($id, $code){
+
+        $status = array(
+            'status'=> $code
+        );
+        $donationUpdate = Donation::find(decrypt($id))->update($status);
+
+        if($donationUpdate) {
+            if($code === "verified"){
+                $dataAmount = Donation::select('amount')->where('id', decrypt($id))->get();
+                $dataIdProject = Donation::select('project_id')->where('id', decrypt($id))->get();
+                $projectCollectedFund=Project::select('collected_funds')->where('id',$dataIdProject[0]->project_id)->get();
+                $afterSum = $dataAmount[0]->amount + $projectCollectedFund[0]->collected_funds;
+                $data = array(
+                    'collected_funds'=> $afterSum
+                );
+                $update = Project::find($dataIdProject[0]->project_id)->update($data);
+
+                if($update) {
+                    $return = ['success' => 'Berhasil memverifikasi donasi'];
+                } else {
+                    $return = ['error' => 'Gagal verifikasi donasi'];
+                }
+            } else {
+                $return = ['success' => 'Berhasil menolak donasi'];
+            }
+        } else {
+            $return = ['error' => 'Gagal verifikasi donasi'];
+        }
+
+        return response()->json($return);
+    }
 }
