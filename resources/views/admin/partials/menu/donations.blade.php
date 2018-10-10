@@ -9,8 +9,8 @@
                             <th>Donatur</th>
                             <th>Donasi</th>
                             <th>Bank</th>
-                            {{-- <th>Kode Bayar</th>
-                            <th>Bukti Transfer</th> --}}
+                            <th>Kode Bayar</th>
+                            <th>Bukti Transfer</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -21,30 +21,21 @@
                                 <td>{{$donation->user->profile->name}}</td>
                                 <td>{{$donation->amount}}</td>
                                 <td>{{$donation->bank->bank_name}}</td>
-                                {{-- <td>{{$donation->payment_code}}</td>
+                                <td>{{$donation->payment_code}}</td>
                                 <td>
                                     @if(empty($donation->transfer_receipt))
                                         Belum Ada
                                     @else
                                     <a href="{{asset($donation->transfer_receipt)}}" target="_blank"><i class="fas fa-external-link-alt"></i> Lihat</a>
                                     @endif
-                                </td> --}}
+                                </td>
                                 <td>
+                                  @if ($donation->status!="pending")
+                                    <h3><span class="badge badge-secondary">Sudah Diverifikasi</span></h3>
+                                  @else
+                                    <a href="{{route('donation.verify', ['id' => encrypt($donation->id)])}}" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Verifikasi Donasi", "lg":true,"cancel":"Batalkan", "no":"rejected" ,"yes":"verifikasi","yesUrl":"{{route('donation.verified', ['id' => encrypt($donation->id),'code'=>'verified'])}}","noUrl":"{{route('donation.verified', ['id' => encrypt($donation->id),'code'=>'unverified'])}}", "pjax-reload":false}'><i class="far fa-check-circle"></i> Verifikasi</a>
+                                  @endif
 
-                                  <a class="text-black decoration-none" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false"
-                                    data-modal='
-                                    {
-                                      "title":"Verifikasi Data Donasi",
-                                      "edit":"Verifikasi",
-                                      "lg":true,
-                                      "cancel":"Batal",
-                                      "actionUrl":"{{route('edit.donation', ['id' => $donation->id])}}",
-                                      "pjax-reload":false,
-                                      
-                                    }
-                                    '>
-                                    <i class="fas fw fa-camera-retro"></i> Verifikasi</a>
-                                    <a class="btn btn-sm btn-danger" href=""><i class="fas fa-ban"></i> Batalkan</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -1,10 +1,6 @@
 /node_modules
 /public/hot
 /public/storage
-<<<<<<< HEAD
-# /storage/*.key
-=======
->>>>>>> 33bffa4d62096918f4192b8483eb6b676d914186
 /vendor
 /.idea
 /.vscode

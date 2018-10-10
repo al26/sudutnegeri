@@ -45,13 +45,8 @@ Route::group(['prefix' => 'dashboard'], function () {
     });
     Route::get('/{menu?}/{section?}', 'MemberController@index')
             ->where(
-<<<<<<< HEAD
                 ['menu'     => '(overview|setting|sudut|negeri)',
-                'section'   => '(profile|account|projects|donations|activity|volunteer|cv|verify)']
-=======
-                ['menu'     => '(overview|setting|sudut|negeri)', 
                 'section'   => '(profile|account|projects|donations|activity|volunteer|cv|verify|withdrawal)']
->>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5
             )
             ->name('dashboard');
     Route::get('sudut/projects/manage/{slug}', 'ProjectController@manage')->name('project.manage');
@@ -87,8 +82,18 @@ Route::group(['prefix' => 'admin'], function () {
                 ['menu'     => '(overview|users|donations)',]
             )
             ->name('admin.dashboard');
-  Route::post('updateDonation/{id}','AdminController@updateDonation')->name('update.donation');
-  Route::get('updateDonation/{id}','AdminController@updateDonation')->name('edit.donation');
+
+
+
+
+
+
+
+
+
+  Route::get('/donation/verify/{id}','AdminController@showVerifyDonationForm')->name('donation.verify');
+  Route::put('/donation/verified/{id}/{code}','AdminController@showVerifiedDonationForm')->name('donation.verified');
+
 });
 
 Route::group(['prefix' => 'project'], function () {
@@ -196,10 +201,7 @@ Route::post('location', function (\Illuminate\Http\Request $request) {
 
 //     return response()->json(["items" => $items]);
 // })->name('get.location.id');
-<<<<<<< HEAD
-=======
 
 Route::get('{path}', function(\Illuminate\Http\Request $request, $path){
     return response()->file(public_path($path));
 })->middleware('auth')->name('file.view');
->>>>>>> 2bc20f7fcd4b15b7548441538c6cf3ced2145ec5

@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use App\Rules\CheckRole;
 use App\Donation;
 use App\Bank;
+use App\Project;
 
 class AdminController extends Controller
 {
@@ -19,9 +20,7 @@ class AdminController extends Controller
 
     public function index($menu = null) {
         $data['menu'] = $menu;
-        $data['donations'] = Donation::with('bank')->get();
-        // return $data;
-        // die();
+        $data['donations'] = Donation::all();
         return view('admin.dashboard', $data);
     }
 
@@ -54,10 +53,124 @@ class AdminController extends Controller
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login');
     }
-    public function editDonation(){
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function showVerifyDonationForm($id){
+       $data['donation'] = Donation::findOrFail(decrypt($id));
+       //return $data;
+       return view('admin.partials.modal_view.verify_donation',$data);
     }
-    public function updateDonation(){
+    public function showVerifiedDonationForm($id, $code){
 
+      $status = array(
+        'status'=> $code
+      );
+      $donationUpdate = Donation::find(decrypt($id))->update($status);
+
+      if($code === "verified"){
+        $dataAmount = Donation::select('amount')->where('id', decrypt($id))->get();
+        $dataIdProject = Donation::select('project_id')->where('id', decrypt($id))->get();
+        $projectCollectedFund=Project::select('collected_funds')->where('id',$dataIdProject[0]->project_id)->get();
+        $afterSum = $dataAmount[0]->amount + $projectCollectedFund[0]->collected_funds;
+        $data = array(
+          'collected_funds'=>$afterSum
+        );
+        $donationUpdate = Project::find($dataIdProject[0]->project_id)->update($data);
+        //return $afterSum;
+      }
+      return $this->index('donations');
     }
 }

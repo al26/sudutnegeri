@@ -20,7 +20,7 @@
                     <a id="am-overview" href="{{route('admin.dashboard', ['menu' => 'overview'])}}" data-toggle="pjax" data-pjax="adm-menu"><i class="fas fw fa-tachometer-alt menu-icon"></i> Dashboard </a>
                 </li>
                 <li class="">
-                    <a id="am-users" href="{{route('admin.dashboard', ['menu' => 'users'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fa fa-users"></i>Kelola Akun</a>
+                    <a id="am-users" href="{{route('admin.dashboard', ['menu' => 'users'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fa fa-users"></i>Kelola Pengguna</a>
                 </li>
                 <li class="">
                     <a id="am-donations" href="{{route('admin.dashboard', ['menu' => 'donations'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fa fa-users"></i>Kelola Donasi</a>
@@ -212,9 +212,10 @@
 
     </div> <!-- .content -->
 </div><!-- /#right-panel -->
+{{-- ini untuk modal --}}
+@include('components.modal')
 
 <!-- Right Panel -->
-@include('components.modal')
 @endsection
 
 @section('script')
@@ -264,5 +265,10 @@
         });
         $('#am-'+menu[3]).parent('li').addClass('active');
     }
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).loadModal();
+    });
 </script>
 @endsection
