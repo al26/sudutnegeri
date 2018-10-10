@@ -108,6 +108,8 @@
                     resetFeedback();
                     getFeedback(response.errors);
 
+                    console.log(response.errors);
+
                 } 
 
                 if(response.error) {
@@ -230,6 +232,15 @@
                     });
                 }
                 
+            }, 
+            error: function(response){
+                console.log(response);
+                swal({
+                    type: 'error',
+                    title: 'Oops, Terjadi kesalahan !',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         })
     }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Bank extends Model
 {
     use SoftDeletes;
+    protected $primaryKey = "bank_code";
     protected $fillable = ['bank_name', 'bank_code', 'logo'];
     protected $dates = ['deleted_at'];
 

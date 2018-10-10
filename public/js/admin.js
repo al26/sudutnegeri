@@ -78870,6 +78870,8 @@ if ($.support.pjax) {
                 if (response.errors) {
                     resetFeedback();
                     getFeedback(response.errors);
+
+                    console.log(response.errors);
                 }
 
                 if (response.error) {
@@ -78991,6 +78993,15 @@ if ($.support.pjax) {
                         timer: 1500
                     });
                 }
+            },
+            error: function error(response) {
+                console.log(response);
+                swal({
+                    type: 'error',
+                    title: 'Oops, Terjadi kesalahan !',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         });
     }
