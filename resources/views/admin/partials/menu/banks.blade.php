@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header text-left border-bottom bg-lighten clearfix d-flex flex-row justify-content-between align-items-center">
                 <h4 class="m-0 p-0">Daftar Bank</h4>
-                <a href="{{route('banks.create')}}" class="btn btn-sm btn-secondary text-white ml-auto" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Tambah Daftar Bank", "cancel":"batal", "add":"Simpan", "actionUrl":"{{route('banks.store')}}","redirectAfter":"{{route('admin.dashboard', ['menu' => 'banks'])}}","pjax-reload":["#ac"]}'><i class="fas fa-plus-square"></i> Tambah Kategori</a>
+                <a href="{{route('banks.create')}}" class="btn btn-sm btn-secondary text-white ml-auto" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Tambah Daftar Bank", "cancel":"batal", "add":"Simpan", "actionUrl":"{{route('banks.store')}}","redirectAfter":"{{route('admin.dashboard', ['menu' => 'banks'])}}","pjax-reload":["#ac"]}'><i class="fas fa-plus-square"></i> Tambah Daftar Bank</a>
             </div>
             <div class="card-body table-responsive">
                 <table id="example" class="table table-striped table-bordered">
