@@ -12,10 +12,10 @@ class BankAccountSeeder extends Seeder
     public function run()
     {
         $accounts = [
-            ['bank_code' => '009', 'account_name' => 'SUDUT NEGERI', 'account_number' => '12 90 7 36 592', 'bank_address' => 'Tembalang'],
-            ['bank_code' => '002', 'account_name' => 'SUDUT NEGERI', 'account_number' => '19 30 8 92 001', 'bank_address' => 'Tembalang'],
-            ['bank_code' => '200', 'account_name' => 'SUDUT NEGERI', 'account_number' => '98 87 6 412', 'bank_address' => 'Tembalang'],
-            ['bank_code' => '008', 'account_name' => 'SUDUT NEGERI', 'account_number' => '88 71 6 192', 'bank_address' => 'Tembalang'],
+            ['account_name' => 'SUDUT NEGERI', 'account_number' => '12 90 7 36 592', 'bank_address' => 'Tembalang'],
+            ['account_name' => 'SUDUT NEGERI', 'account_number' => '19 30 8 92 001', 'bank_address' => 'Tembalang'],
+            ['account_name' => 'SUDUT NEGERI', 'account_number' => '98 87 6 412', 'bank_address' => 'Tembalang'],
+            ['account_name' => 'SUDUT NEGERI', 'account_number' => '88 71 6 192', 'bank_address' => 'Tembalang'],
         ];
 
         foreach($accounts as $a){

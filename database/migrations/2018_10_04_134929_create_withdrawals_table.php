@@ -20,8 +20,10 @@ class CreateWithdrawalsTable extends Migration
             $table->unsignedInteger('project_id');  
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->string('account_number');
-            $table->string('bank_code');  
-            $table->foreign('bank_code')->references('bank_code')->on('banks')->onDelete('cascade');
+            // $table->string('bank_code');  
+            // $table->foreign('bank_code')->references('bank_code')->on('banks')->onDelete('cascade');
+            $table->unsignedInteger('bank_id');  
+            $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
             $table->string('account_name');
             $table->unsignedInteger('amount');
             $table->enum('status', ['pending', 'processed', 'confirmed']);

@@ -1,70 +1,100 @@
 (function($) {
     $.fn.loadModal = function() {        
+        var url = null;
+        var data = null;
+        var loaded = false;
         $("#modal").on("show.bs.modal", function(e) {
             $(".modal-body").empty();
-            var url     = $(e.relatedTarget).attr('href'),
-                md      = $('.modal-dialog');
+            loaded = true;
+
+            if(loaded) {
+
+                var md      = $('.modal-dialog');
+                md.removeClass('modal-lg');
+                
+                url     = $(e.relatedTarget).attr('href')
                 data    = $(e.relatedTarget).data('modal');
-
+                
+                data['modal'] = true;
+                $(".modal-title").text(data['title']);
                 console.log(data);
-                data['modal'] = true,
-                // data['pjax-reload'] = '#mr';
-
-            $(".modal-title").text(data['title']);
-
-            md.removeClass('modal-lg');
-            if(data['lg']) {
-                md.addClass('modal-lg');
-            }
-
-            if(url) {
-                $.get(url, function( content ) {
-                    $(".modal-body").html(content);
-                }).fail(function(response) {
-                    console.log(response);
-                });
+    
+                if(data['lg']) {
+                    md.addClass('modal-lg');
+                }
+    
+                if(url) {
+                    $.get(url, function( content ) {
+                        $(".modal-body").html(content);
+                    }).fail(function(response) {
+                        console.log(response);
+                    });
+                } else {
+                    $(".modal-body").html(data['text']);
+                }
+    
+                generateBtn(data);
             } else {
-                $(".modal-body").html(data['text']);
+                data = null;
             }
-
-            generateBtn(data);
+            // $('.select2').select2({
+            //     theme: "bootstrap4",
+            //     dropdownParent: $('#modal')
+            // });
         });
+
+        $('#modal').on('hidden.bs.modal', function (e) {
+            data = null;
+            loaded = false;
+        })
     }
 
     function generateBtn(data) {
         resetBtn();
 
         if(data['delete']) {
-            $("#mbtn-delete").on('click', function(e){
+            $(document).on('click',"#mbtn-delete", function(e){
                 e.preventDefault();
                 deleteData(data);
+                loaded = false;
+                data['actionUrl'] = null;
+                return false;
             });
             $("#mbtn-delete").html("<i class='far fw fa-trash-alt'></i> " + data['delete']);
             $("#mbtn-delete").show(100);
         }
 
         if(data['add']) {
-            $('#mbtn-add').on('click', function(e){
+            $(document).on('click','#mbtn-add', function(e){
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
+                loaded = false;
+                data['actionUrl'] = null;
+                return false;
             });
             $("#mbtn-add").html("<i class='fas fa-plus fw'></i> " + data['add']);
             $("#mbtn-add").show(100);
         }
 
         if(data['edit']) {
-            $('#mbtn-edit').on('click', function(e){
+            $(document).on('click','#mbtn-edit', function(e){
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
+                loaded = false;
+                data['actionUrl'] = null;
+                return false;
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
             $("#mbtn-edit").show(100);
         }
 
         if(data['yes']) {
-            $('#mbtn-yes').on('click', function(e){
+            $(document).on('click','#mbtn-yes', function(e){
                 e.preventDefault();
                 yesnoSubmit(data['yesUrl'], data, 'yes');
+                loaded = false;
+                data['yesUrl'] = null;
+                return false;
             });
 
             $("#mbtn-yes").html("<i class='fas fa-check'></i> " + data['yes']);
@@ -72,9 +102,12 @@
         }
 
         if(data['no']) {
-            $('#mbtn-no').on('click', function(e){
+            $(document).on('click','#mbtn-no', function(e){
                 e.preventDefault();
                 yesnoSubmit(data['noUrl'], data, 'no');
+                loaded = false;
+                data['noUrl'] = null;
+                return false;
             });
             $("#mbtn-no").html("<i class='fas fa-times'></i> " + data['no']);
             $("#mbtn-no").show(100);
@@ -93,6 +126,9 @@
     }
 
     function doSubmit(data, form) {
+        if (data['actionUrl'] == null) {
+            return;
+        }
         var form    = form,
             action  = data['actionUrl'],
             value   = form.serialize();
@@ -108,6 +144,8 @@
                     resetFeedback();
                     getFeedback(response.errors);
 
+                    console.log(response.errors);
+
                 } 
 
                 if(response.error) {
@@ -117,6 +155,8 @@
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    
+
                 }
 
                 if(response.success) {
@@ -154,6 +194,7 @@
                     if(data['pchange']) {
                         pchange(data['pchange-url']);
                     }
+                    
                 }
             },
             error: function(response){
@@ -164,11 +205,17 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
+                
             }
         });
+
+        loaded = false;
     }
 
     function pchange(url) {
+        if (url == null) {
+            return;
+        }
         var split = url.split("/");
             baseurl = split[0] + '//' + split[2] + '/';
 
@@ -198,6 +245,9 @@
     }
 
     function deleteData(data){
+        if (data['actionUrl'] == null) {
+            return;
+        }
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url: data['actionUrl'],
@@ -230,11 +280,25 @@
                     });
                 }
                 
+            }, 
+            error: function(response){
+                console.log(response);
+                swal({
+                    type: 'error',
+                    title: 'Oops, Terjadi kesalahan !',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
-        })
+        });
+
+        
     }
 
     function yesnoSubmit(url, data, type){
+        if (url == null) {
+            return;
+        }
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url: url,
@@ -285,7 +349,8 @@
             $('#mbtn-no').off();
         }).fail(function(response){
             console.log(response);
-        })
+        });
+        
     }
     
     $.fn.activateCKEditor = function() {
@@ -303,6 +368,9 @@
     }
 
     $.fn.getLocation = function(id, url) {
+        if (url == null) {
+            return;
+        }
         $('#'+id).select2({
             theme: "bootstrap4",
             tags: true, 
@@ -332,6 +400,9 @@
     }
 
     $.fn.ajaxSelect2 = function(id, url) {
+        if (url == null) {
+            return;
+        }
         $('#'+id).select2({
             theme: "bootstrap4",
             tags: false, 
@@ -361,6 +432,9 @@
     }
 
     $.fn.ajaxSelect2Modal = function(id, url) {
+        if (url == null) {
+            return;
+        }
         $("#modal").on("shown.bs.modal", function(e) {
             $('#'+id).select2({
                 theme: "bootstrap4",
@@ -414,6 +488,9 @@
     }
 
     $.fn.ajaxYesNo = function (url, data) {
+        if (url == null) {
+            return;
+        }
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url: url,
@@ -444,7 +521,8 @@
             }
         }).fail(function(response){
             console.log(response);
-        })
+        });
+        
     }
 
 }(jQuery));

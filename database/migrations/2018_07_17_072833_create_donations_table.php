@@ -19,8 +19,10 @@ class CreateDonationsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('project_id');  
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->string('bank_code');  
-            $table->foreign('bank_code')->references('bank_code')->on('banks')->onDelete('cascade');
+            // $table->string('bank_code');  
+            // $table->foreign('bank_code')->references('bank_code')->on('banks')->onDelete('cascade');
+            $table->unsignedInteger('bank_id');  
+            $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
             $table->unsignedInteger('amount');
             $table->unsignedSmallInteger('payment_code');
             $table->boolean('anonymouse')->default(false);

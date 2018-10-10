@@ -189,6 +189,8 @@
     $(document).ready(function(){
         $(document).loadModal();
         toggleActiveMenuTab();
+        $('.select2').select2({theme: "bootstrap4"});
+
         table = $('#example').DataTable(
             {
                 "language": {
@@ -266,6 +268,7 @@
                 fixedHeader : true
             }
         );
+        $('.select2').select2({theme: "bootstrap4"});
     });
 
     function toggleActiveMenuTab() {

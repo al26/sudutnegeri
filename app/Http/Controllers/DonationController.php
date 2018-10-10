@@ -49,7 +49,7 @@ class DonationController extends Controller
     {
         $rules = [
             "amount"    => "required|digits_between:5, 10",
-            "bank_code"   => "required",
+            "bank_id"   => "required",
             // "phone_number" => "required"
         ];
 
@@ -58,13 +58,13 @@ class DonationController extends Controller
             // "phone_number.required"   => "Kolom :attribute tidak boleh kosong",
             // "amount.numeric"    => "Mohon isikan dengan jumlah yang valid (berupa angka)",
             // "amount.digits"        => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000",
-            "bank_code.required"  => "Mohon pilih salah satu dari :attribute yang tersedia",
+            "bank_id.required"  => "Mohon pilih salah satu dari :attribute yang tersedia",
             "digits_between"    => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000 between"
         ];
 
         $attributes = [
             "amount"    => "jumlah donasi",
-            "bank_code"   => "metode pembayaran",
+            "bank_id"   => "metode pembayaran",
             // "phone_number" => "nomor hp"
         ];
 
@@ -81,7 +81,7 @@ class DonationController extends Controller
                 "user_id"    => (int)base64_decode(urldecode($request->data['user_id'])),
                 "project_id" => $project_id,
                 "amount"     => $request->data['amount'],
-                "bank_code"    => $request->data['bank_code'],
+                "bank_id"    => $request->data['bank_id'],
                 "anonymouse" => $anonymouse,
                 "payment_code" => rand(10,999),
                 "status"     => "pending"
