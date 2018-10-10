@@ -87,6 +87,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('category', 'CategoryController');
         Route::resource('banks', 'BankController');
         Route::resource('ba', 'BankAccountController');
+        Route::get('/donations/verify/{id}','AdminController@showVerifyDonationForm')->name('donation.verify');
+        Route::put('/donations/verify/{id}/{code}','AdminController@showVerifiedDonationForm')->name('donation.verified');
     });
 });
 

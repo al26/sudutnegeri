@@ -30,8 +30,11 @@
                                     @endif    
                                 </td>
                                 <td>
-                                    <a href="" class="btn btn-sm btn-primary"><i class="far fa-check-circle"></i> Verifikasi</a>
-                                    <a class="btn btn-sm btn-danger" href=""><i class="fas fa-ban"></i> Batalkan</a>
+                                    @if ($donation->status!="pending")
+                                        <span class="badge badge-secondary">Sudah Diverifikasi</span>
+                                    @else
+                                        <a href="{{route('donation.verify', ['id' => encrypt($donation->id)])}}" class="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Verifikasi Donasi", "lg":true,"cancel":"Batalkan", "no":"Tolak" ,"yes":"Verifikasi","yesUrl":"{{route('donation.verified', ['id' => encrypt($donation->id),'code'=>'verified'])}}","noUrl":"{{route('donation.verified', ['id' => encrypt($donation->id),'code'=>'unverified'])}}", "redirectAfter":"{{route('admin.dashboard', ['menu' => 'donations'])}}", "pjax-container":"#ac"}'><i class="far fa-check-circle"></i> Verifikasi</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
