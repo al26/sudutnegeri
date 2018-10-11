@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-left border-bottom bg-lighten clearfix d-flex flex-row justify-content-between align-items-center">
-                <h4 class="m-0 p-0">Daftar Bank</h4>
+                <h4 class="m-0 p-0">Daftar Akun Bank</h4>
                 <a href="{{route('ba.create')}}" class="btn btn-sm btn-secondary text-white ml-auto" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Tambah Daftar Bank", "cancel":"batal", "add":"Simpan", "actionUrl":"{{route('ba.store')}}","redirectAfter":"{{route('admin.dashboard', ['menu' => 'bank-accounts'])}}","pjax-reload":["#ac"]}'><i class="fas fa-plus-square"></i> Tambah Akun Bank</a>
             </div>
             <div class="card-body table-responsive">

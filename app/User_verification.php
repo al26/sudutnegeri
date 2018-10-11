@@ -10,6 +10,6 @@ class User_verification extends Model
     
     public function profile()
     {
-        return $this->belongsTo('App\User_profile');
+        return $this->belongsTo('App\User_profile', 'user_profile_id', 'id');
     }
 }

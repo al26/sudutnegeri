@@ -11,13 +11,13 @@
 <div id="right-panel" class="right-panel">
 
     <!-- Header-->
-    <header id="header" class="header">
+    <header id="header" class="header d-none d-md-block">
 
         <div class="header-menu">
 
             <div class="col-sm-7">
                 <a id="menuToggle" class="menutoggle float-left"><i class="fa fa fa-tasks"></i></a>
-                <div class="header-left">
+                {{-- <div class="header-left">
                     <button class="search-trigger"><i class="fa fa-search"></i></button>
                     <div class="form-inline">
                         <form class="search-form">
@@ -91,23 +91,24 @@
                         </a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <div class="col-sm-5">
                 <div class="user-area dropdown float-right">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="user-avatar rounded-circle" src="{{asset(Auth::user()->profile->profile_picture)}}" alt="User Avatar">
+                    <a href="#" class="dropdown-toggle d-flex flex-row justify-content-between align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="user-avatar rounded-0 mr-3 my-0" src="{{asset(Auth::user()->profile->profile_picture)}}" alt="User Avatar">
+                        <span>{{Auth::user()->profile->name}}</span>
                     </a>
 
                     <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
+                        {{-- <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
+                        <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
 
-                            <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
+                        <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a> --}}
 
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                        <a class="nav-link" href="{{route('admin.logout')}}"><i class="fas fa-sign-out-alt"></i> Keluar</a>
                     </div>
                 </div>
 
