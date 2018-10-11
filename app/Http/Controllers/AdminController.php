@@ -13,6 +13,8 @@ use App\Project;
 use App\Category;
 use App\Bank;
 use App\Bank_account as Account;
+use App\User;
+use App\User_verification;
 
 class AdminController extends Controller
 {
@@ -27,6 +29,7 @@ class AdminController extends Controller
         $data['categories'] = Category::all();
         $data['banks'] = Bank::all();
         $data['bank_accounts'] = Account::all();
+        $data['users'] = User::where('role', 'member')->get();
         return view('admin.dashboard', $data);
     }
 
@@ -121,6 +124,31 @@ class AdminController extends Controller
             }
         } else {
             $return = ['error' => 'Gagal verifikasi donasi'];
+        }
+
+        return response()->json($return);
+    }
+
+    public function userVerification($id) {
+        $data['verification'] = User_verification::findOrFail(decrypt($id));
+        // dd($data);
+        return view('admin.partials.modal.user-verify', $data);
+    }
+
+    public function userVerify(Request $request, $id) {
+        if($request->action && $request->action === 'verify') {
+            $data['status'] = 'verified';
+        } else {
+            $data['status'] = 'unverified';
+        }
+
+        $v = User_verification::find(decrypt($id));
+        $update = $v->update($data);
+
+        if($update) {
+            $return = ['success' => "Pengguna ".$v->profile->name." berhasil diverifikasi"];
+        } else {
+            $return = ['error' => "Gagal memverifikasi pengguna"];
         }
 
         return response()->json($return);

@@ -1,3 +1,67 @@
-<div class="col-12">
-    <h1>Content Kelola User</h1>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-left border-bottom bg-lighten clearfix d-flex flex-row justify-content-between align-items-center">
+                <h4 class="m-0 p-0">Daftar Pengguna</h4>
+            </div>
+            <div class="card-body table-responsive">
+                <table id="example" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No. Identitas</th>
+                            <th>Nama</th>
+                            <th>Tanggal Lahir</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Alamat</th>
+                            <th>Profesi</th>
+                            <th>Status</th>
+                            <th>Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                            @php
+                                switch ($user->profile->verification->status) {
+                                    case 'pending':
+                                        $status = 'Belum Diverifikasi';
+                                        $badge = 'warning';
+                                        break;
+                                    case 'verified':
+                                        $status = 'Terverifikasi';
+                                        $badge = 'success';
+                                        break;
+                                    case 'unverified':
+                                        $status = 'Tidak Terverifikasi';
+                                        $badge = 'danger';
+                                        break;
+                                    default:
+                                        $status = 'Belum Diverifikasi';
+                                        $badge = 'warning';
+                                        break;
+                                }
+                            @endphp    
+                            <tr>
+                                <td>{{$user->profile->identity_number}}</td>
+                                <td>{{$user->profile->name}}</td>
+                                <td>{{Idnme::print_date($user->profile->dob, false)}}</td>
+                                <td>{{$user->profile->gender}}</td>
+                                <td>{{$user->profile->address->exact_location}}</td>
+                                <td>{{$user->profile->profession}}</td>
+                                <td>
+                                    <span class="badge badge-{{$badge}}">{{$status}}</span>
+                                </td>
+                                <td>
+                                    @if ($user->profile->verification->status !== "pending")
+                                        <span class="btn btn-sm btn-primary text-white disabled"><i class="far fa-check-circle"></i> Verifikasi</span>
+                                    @else
+                                        <a href="{{route('user.verification', ['id' => encrypt($user->profile->verification->id)])}}" class="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Verifikasi Pengguna", "lg":true, "cancel":"Batalkan", "no":"Tolak" ,"yes":"Verifikasi","yesUrl":"{{route('user.verify', ['id' => encrypt($user->profile->verification->id),'action'=>'verify'])}}","noUrl":"{{route('user.verify', ['id' => encrypt($user->profile->verification->id),'action'=>'reject'])}}", "redirectAfter":"{{route('admin.dashboard', ['menu' => 'users'])}}", "pjax-container":"#ac"}'><i class="far fa-check-circle"></i> Verifikasi</a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
