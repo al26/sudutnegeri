@@ -34,6 +34,12 @@
                     <li class="">
                         <a id="am-bank-accounts" href="{{route('admin.dashboard', ['menu' => 'bank-accounts'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-money-check"></i>Daftar Akun Bank</a>
                     </li>
+                    <div class="d-block d-md-none">
+                        <h3 class="menu-title">Akun Saya</h3>
+                        <li class="">
+                            <a id="am-logout" href="{{route('admin.logout')}}"><i class="menu-icon fw fas fa-sign-out-alt"></i>Keluar</a>
+                        </li>
+                    </div>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
