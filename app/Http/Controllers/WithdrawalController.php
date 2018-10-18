@@ -94,7 +94,7 @@ class WithdrawalController extends Controller
             if($request->hasFile('data.attachment')) {
                 $filename = md5($request->data['attachment']->getClientOriginalName().time()).'.'.$request->data['attachment']->getClientOriginalExtension();
                 $file = $request->file('data.attachment');
-                $path = $file->storeAs('public/withdrawal_attachments', $filename);
+                $path = $file->storeAs('withdrawal_attachments', $filename);
             }
 
             if($path) {

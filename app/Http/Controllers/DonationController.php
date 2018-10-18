@@ -167,7 +167,7 @@ class DonationController extends Controller
         if($request->hasFile('receipt')) {
             $filename = md5($id.time()).'.'.$request->receipt->getClientOriginalExtension();
             $file = $request->file('receipt');
-            $path = $file->storeAs('public/transfer_receipts', $filename);
+            $path = $file->storeAs('transfer_receipts', $filename);
         }
 
         if($path) {

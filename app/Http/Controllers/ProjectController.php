@@ -141,7 +141,7 @@ class ProjectController extends Controller
         if($request->hasFile('data.project_banner')) {
             $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
             $file = $request->file('data.project_banner');
-            $path = $file->storeAs('public/project_banner', $filename);
+            $path = $file->storeAs('project_banner', $filename);
         }
 
         if($path) {
@@ -157,7 +157,7 @@ class ProjectController extends Controller
             if(count($attachments) > 1) {
                 foreach ($attachments as $key => $a) {
                     $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
-                    $attachment_path[$key] = $a->storeAs("public/project_verification/$attachment_folder", $attachment_name[$key]);
+                    $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
                     $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
                 }
             }
@@ -300,7 +300,7 @@ class ProjectController extends Controller
         if($request->hasFile('data.project_banner')) {
             $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
             $file = $request->file('data.project_banner');
-            $path = $file->storeAs('public/project_banner', $filename);
+            $path = $file->storeAs('project_banner', $filename);
         }
 
         if($path) {
@@ -316,7 +316,7 @@ class ProjectController extends Controller
         //     if(count($attachments) > 1) {
         //         foreach ($attachments as $key => $a) {
         //             $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
-        //             $attachment_path[$key] = $a->storeAs("public/project_verification/$attachment_folder", $attachment_name[$key]);
+        //             $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
         //             $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
         //         }
         //     }
