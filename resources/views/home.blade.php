@@ -4,9 +4,9 @@
     <section id="banner" class="text-center ">
         <div id="img-banner" class="carousel slide carousel-fade d-flex flex-column" data-ride="carousel">
             <div class="carousel-inner">
-                @foreach (Storage::files('public/homepage_carousel') as $item)
+                @foreach (Storage::files('homepage_carousel') as $item)
                     <div class="carousel-item {{$loop->first ? 'active' : ''}}">
-                        <img src="{{ asset(Storage::url('public/homepage_carousel/').File::basename($item) ) }}" alt="First Image" class="img-fluid">
+                        <img src="{{ asset(Storage::url('homepage_carousel/').File::basename($item) ) }}" alt="First Image" class="img-fluid">
                     </div>
                 @endforeach
             </div>

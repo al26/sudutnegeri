@@ -154,7 +154,7 @@ class ProjectController extends Controller
         if($request->hasFile('data.attachments')){
             $attachments = $request->data['attachments'];
             $attachment_folder = $data['project_slug'].time();
-            if(count($attachments) > 1) {
+            if(count($attachments) >= 1) {
                 foreach ($attachments as $key => $a) {
                     $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
                     $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
@@ -167,7 +167,7 @@ class ProjectController extends Controller
             $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
         }
 
-        // dd($data['attachments']);
+        // dd($data);
 
         $project = Project::create($data);
         if(!empty($request->questions)){

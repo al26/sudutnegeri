@@ -50,7 +50,7 @@ return [
 
         'direct' => [
             'driver' => 'local',
-            'root' => public_path('storage');
+            'root' => public_path('storage'),
         ],
 
         'public' => [

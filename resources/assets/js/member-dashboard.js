@@ -186,7 +186,8 @@ $('#mc, #mr').on('pjax:complete', function() {
         ],
         height: 150
     });
-    $(document).ajaxSelect2("project_location", "/location");
+    // $(document).ajaxSelect2("project_location", "/location");
+    $(document).ajaxSelect2("regency_id", "/location");
     projecToCredit = $('#form-create-withdrawal').find('#project_id');
 });
 
