@@ -11,7 +11,7 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        $json = Storage::get("json_data/categories.json");
+        $json = File::get(storage_path("app/json_data/categories.json"));
         $data = json_decode($json);
         foreach ($data as $obj) {
             DB::table('categories')->insert(

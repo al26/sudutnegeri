@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bank;
+use App\Bank_account;
 use App\Donation;
 use App\Project;
 use Validator;
@@ -35,7 +36,7 @@ class DonationController extends Controller
     public function create($slug)
     {
         $data['project'] = Project::where('project_slug', $slug)->first();
-        $data['banks'] = Bank::all();
+        $data['banks'] = Bank_account::all();
         return view('member.create_donation', $data);
     }
 

@@ -439,9 +439,9 @@
                     <div class="col-12 text-left">
                         <h5 class="font-weight-bold mb-3">Didukung Oleh</h5>
                         <ul class="list-inline">
-                            @foreach (Storage::files('public/sponsors_logo') as $item)
+                            @foreach (Storage::files('sponsors_logo') as $item)
                                 <li class="list-inline-item">
-                                    <img src="{{ asset(Storage::url('public/sponsors_logo/').File::basename($item)) }}" class="img-fluid rounded border p-2">
+                                    <img src="{{ asset(Storage::url('sponsors_logo/').File::basename($item)) }}" class="img-fluid rounded border p-2">
                                 </li>
                             @endforeach
                         </ul>

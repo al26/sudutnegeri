@@ -29,14 +29,14 @@
                 </table>
             </div>
             
-            <div class="media">
-                <div class="media-body">
+            <div class="media col-12 p-0">
+                <div class="media-body col-6 p-0">
                     <p class="mt-0">Silahkan transfer ke :</p>
                     <h4 class=""><b>{{$donation->bank->bank_accounts[0]->account_number}}</b></h4>
                     <p class="mb-1">Atas nama : {{$donation->bank->bank_accounts[0]->account_name}}</p>
                     <p class="mb-1">Cabang : {{$donation->bank->bank_accounts[0]->bank_address}}</p>
                 </div>
-                <img class="align-self-center ml-auto img-fluid" src="{{asset($donation->bank->logo)}}" alt="Logo {{$donation->bank->bank_name}}">
+                <img class="align-self-center ml-auto img-fluid col-6 p-0" src="{{asset($donation->bank->logo)}}" alt="Logo {{$donation->bank->bank_name}}">
             </div>
         
             <div class="col-12 px-0 mt-2">

@@ -12,7 +12,7 @@ class ProvinceSeeder extends Seeder
      */
     public function run()
     {
-        $json = Storage::get("json_data/provinces.json");
+        $json = File::get(storage_path("app/json_data/provinces.json"));
         $data = json_decode($json);
         foreach ($data as $obj) {
             DB::table('provinces')->insert(
