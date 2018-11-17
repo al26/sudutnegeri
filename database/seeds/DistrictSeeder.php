@@ -12,7 +12,7 @@ class DistrictSeeder extends Seeder
      */
      public function run()
     {
-        $json = Storage::get("json_data/districts.json");
+        $json = File::get(storage_path("app/json_data/districts.json"));
         $data = json_decode($json);
         foreach ($data as $obj) {
             DB::table('districts')->insert(

@@ -12,7 +12,7 @@ class RegencySeeder extends Seeder
      */
      public function run()
     {
-        $json = Storage::get("json_data/regencies.json");
+        $json = File::get(storage_path("app/json_data/regencies.json"));
         $data = json_decode($json);
         foreach ($data as $obj) {
             DB::table('regencies')->insert(

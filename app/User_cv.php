@@ -10,6 +10,6 @@ class User_cv extends Model
 
     public function profile()
     {
-        return $this->belongsTo('App\Profile');
+        return $this->belongsTo('App\User_profile');
     }
 }

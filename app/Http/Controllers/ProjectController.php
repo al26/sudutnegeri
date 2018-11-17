@@ -22,14 +22,17 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $project = Project::where('project_status','!=','submitted');
+        $project = Project::where(function($clause) {
+            $clause->where('project_status','published')
+                   ->orWhere('project_status', 'finished');
+        });
 
-        if ($request->location !== 'all') {
+        if (!empty($request->location) && $request->location !== 'all') {
             $project = $project->where('regency_id', $request->location);
             $data['lokasi'] = $request->location;
         }
 
-        if ($request->category !== 'all') {
+        if (!empty($request->category) && $request->category !== 'all') {
             $category = Category::where('slug', $request->category)->pluck('id')->toArray();
             $project = $project->whereIn('category_id', $category);
             $data['category'] = $request->category;
@@ -78,7 +81,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            "project_name"          => 'required|min:10',
+            "project_name"          => 'required|between:10,50',
             "project_description"   => 'required',
             "project_location"      => 'required',
             "funding_target"        => 'required|numeric',
@@ -91,7 +94,7 @@ class ProjectController extends Controller
         ];
         $messages = [
             "project_name.required"             => ":attribute tidak boleh kosong",
-            "project_name.min"                  => "Mohon isi judul proyek setidaknya :min karakter",
+            "project_name.between"              => "Mohon isi judul proyek setidaknya 10 karakter dan maksimal 50 karakter",
             "project_description.required"      => "Mohon isi :attribute untuk menjelaskan detai proyek Anda",
             "project_location.required"         => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
             "close_donation.required"           => "Mohon untuk mengisi :attribute untuk proyek Anda",
@@ -141,7 +144,7 @@ class ProjectController extends Controller
         if($request->hasFile('data.project_banner')) {
             $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
             $file = $request->file('data.project_banner');
-            $path = $file->storeAs('public/project_banner', $filename);
+            $path = $file->storeAs('project_banner', $filename);
         }
 
         if($path) {
@@ -154,10 +157,10 @@ class ProjectController extends Controller
         if($request->hasFile('data.attachments')){
             $attachments = $request->data['attachments'];
             $attachment_folder = $data['project_slug'].time();
-            if(count($attachments) > 1) {
+            if(count($attachments) >= 1) {
                 foreach ($attachments as $key => $a) {
                     $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
-                    $attachment_path[$key] = $a->storeAs("public/project_verification/$attachment_folder", $attachment_name[$key]);
+                    $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
                     $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
                 }
             }
@@ -167,7 +170,7 @@ class ProjectController extends Controller
             $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
         }
 
-        // dd($data['attachments']);
+        // dd($data);
 
         $project = Project::create($data);
         if(!empty($request->questions)){
@@ -300,7 +303,7 @@ class ProjectController extends Controller
         if($request->hasFile('data.project_banner')) {
             $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
             $file = $request->file('data.project_banner');
-            $path = $file->storeAs('public/project_banner', $filename);
+            $path = $file->storeAs('project_banner', $filename);
         }
 
         if($path) {
@@ -316,7 +319,7 @@ class ProjectController extends Controller
         //     if(count($attachments) > 1) {
         //         foreach ($attachments as $key => $a) {
         //             $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
-        //             $attachment_path[$key] = $a->storeAs("public/project_verification/$attachment_folder", $attachment_name[$key]);
+        //             $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
         //             $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
         //         }
         //     }
@@ -365,5 +368,7 @@ class ProjectController extends Controller
         return response()->json($return);
     }
 
-    
+    public function filter() {
+        return view('guest.modal.project_filter', $data);
+    }
 }

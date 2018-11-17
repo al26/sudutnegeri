@@ -526,3 +526,19 @@ div.popover-body {
         min-height: 100vh !important;
     }
 }
+
+.img-fit {
+	width: 100% !important;
+	height: 180px !important;
+	object-fit: cover !important;
+	vertical-align: middle !important;
+
+	&._big {
+		height: 350px !important;
+	}
+}
+
+.img-blur {
+	-webkit-filter: blur(.07rem);
+    filter: blur(.07rem);
+}

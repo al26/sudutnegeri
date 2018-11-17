@@ -4,7 +4,7 @@
     </div>
 </section>
 
-<section class="m-rightcard" id="mr" data-pjax-container>
+<section class="m-rightcard pt-5 pt-lg-0" id="mr" data-pjax-container>
     @php
         if (empty($section)) {
             switch ($menu) {

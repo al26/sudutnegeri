@@ -5,12 +5,12 @@
     </div>
     <div class="card-body">
         <div class="row section-content">
-            <div class="col-4 px-2 info-box-parent">
+            <div class="col-3 px-2 info-box-parent">
                 <a class="btn-box" href="{{route('project.edit', ['id' => encrypt($project->id)])}}" data-toggle="pjax" data-pjax="main-content">
-                    <div class="info-box">
+                    <div class="info-box shadow">
                         <div class="info-box-inner">
-                            <h3 class="text-secondary">Ubah</h3>
-                            <p class="text-secondary">Proyek</p>
+                            <h3 class="text-secondary t">Ubah</h3>
+                            <p class="text-secondary st">Proyek</p>
                         </div>
                         <div class="info-box-icon">
                             <i class="far fa-edit"></i>
@@ -18,12 +18,12 @@
                     </div>
                 </a>
             </div>
-            <div class="col-4 px-2 info-box-parent">
+            <div class="col-3 px-2 info-box-parent">
                 <a class="btn-box" href="{{route('project.show', ['slug' => $project->project_slug])}}" target="_blank">
-                    <div class="info-box">
+                    <div class="info-box shadow">
                         <div class="info-box-inner">
-                            <h3 class="text-secondary">Lihat</h3>
-                            <p class="text-secondary">Proyek</p>
+                            <h3 class="text-secondary t">Lihat</h3>
+                            <p class="text-secondary st">Proyek</p>
                         </div>
                         <div class="info-box-icon">
                             <i class="fas fa-external-link-alt"></i>
@@ -31,15 +31,28 @@
                     </div>
                 </a>
             </div>
-            <div class="col-4 px-2 info-box-parent">
+            <div class="col-3 px-2 info-box-parent">
                 <a class="btn-box" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus Proyek","text":"Hapus proyek {{$project->project_name}} ?", "actionUrl":"{{route('project.destroy', ["id" => encrypt($project->id)])}}","delete":"Hapus Proyek", "cancel":"Batalkan","redirectAfter":"{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}","pjax-container":"#mr"}'>
-                    <div class="info-box">
+                    <div class="info-box shadow">
                         <div class="info-box-inner">
-                            <h3 class="text-secondary">Hapus</h3>
-                            <p class="text-secondary">Proyek</p>
+                            <h3 class="text-secondary t">Hapus</h3>
+                            <p class="text-secondary st">Proyek</p>
                         </div>
                         <div class="info-box-icon">
                             <i class="far fa-trash-alt"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-3 px-2 info-box-parent">
+                <a class="btn-box" href="" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus Proyek","text":"Hapus proyek {{$project->project_name}} ?", "actionUrl":"{{route('project.destroy', ["id" => encrypt($project->id)])}}","delete":"Hapus Proyek", "cancel":"Batalkan","redirectAfter":"{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}","pjax-container":"#mr"}'>
+                    <div class="info-box shadow">
+                        <div class="info-box-inner">
+                            <h3 class="text-secondary t">Akhiri</h3>
+                            <p class="text-secondary st">Proyek</p>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fas fa-power-off"></i>
                         </div>
                     </div>
                 </a>

@@ -206,7 +206,7 @@ class MemberController extends Controller
         if($request->hasFile('avatar')) {
             $filename = md5($id.time()).'.'.$request->avatar->getClientOriginalExtension();
             $file = $request->file('avatar');
-            $path = $file->storeAs('public/profile_pictures', $filename);
+            $path = $file->storeAs('profile_pictures', $filename);
         }
 
         if($path) {
@@ -317,11 +317,11 @@ class MemberController extends Controller
                 
                 $sicfile = $request->file('sic');
                 $sicname = md5("sic".$verify->id.time()).'.'.$sicfile->getClientOriginalExtension();
-                $sicpath = $sicfile->storeAs("public/user_verification/$folder", $sicname);
+                $sicpath = $sicfile->storeAs("user_verification/$folder", $sicname);
     
                 $vpfile = $request->file('vp');
                 $vpname = md5("vp_".$verify->id.time()).'.'.$vpfile->getClientOriginalExtension();
-                $vppath = $vpfile->storeAs("public/user_verification/$folder", $vpname);
+                $vppath = $vpfile->storeAs("user_verification/$folder", $vpname);
             }
     
             if($sicpath !== null) {

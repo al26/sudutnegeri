@@ -40,13 +40,13 @@
                             <select id="bank_id" name="data[bank_id]" class="select2 form-control {{$errors->first('bank_id') ? 'is-invalid' : ''}}">
                                 @if (!empty(old('data.bank_id')))
                                     <option value="{{old('data.bank_id')}}" selected>{{"Transfer Bank ".$banks->where('id', old('data.bank_id'))->pluck('bank_name')[0]}}</option>
-                                    @foreach($banks->where('id', '!=' ,old('data.bank_id')) as $key => $bank)
-                                        <option value="{{$bank->bank_id}}">{{"Transfer Bank $bank->bank_name"}}</option>
+                                    @foreach($banks->bank()->where('id', '!=' ,old('data.bank_id')) as $key => $bank)
+                                        <option value="{{$bank->bank->id}}">{{"Transfer Bank ".$bank->bank->bank_name}}</option>
                                     @endforeach
                                 @else
                                     <option selected disabled>--Pilih Metode Pembayaran--</option>
                                     @foreach($banks as $key => $bank)
-                                        <option value="{{$bank->bank_id}}">{{"Transfer Bank $bank->bank_name"}}</option>
+                                        <option value="{{$bank->bank->id}}">{{"Transfer Bank ".$bank->bank->bank_name}}</option>
                                     @endforeach
                                 @endif
                             </select>

@@ -72,7 +72,7 @@ class BankController extends Controller
             if ($request->hasFile('data.logo')) {
                 $filename = str_slug($data['bank_name'].time()).'.'.$request->data['logo']->getClientOriginalExtension();
                 $file = $request->file('data.logo');
-                $path = $file->storeAs('public/bank_logo', $filename);
+                $path = $file->storeAs('bank_logo', $filename);
             }
             
             if ($path !== "") {
@@ -162,7 +162,7 @@ class BankController extends Controller
                 $old = !empty($bank->logo) ? substr($bank->logo, 7) : null;
                 $filename = str_slug($data['bank_name'].time()).'.'.$request->data['logo']->getClientOriginalExtension();
                 $file = $request->file('data.logo');
-                $path = $file->storeAs('public/bank_logo', $filename);
+                $path = $file->storeAs('bank_logo', $filename);
 
                 if ($path !== "") {
                     $data['logo'] = "storage/bank_logo/".$filename;

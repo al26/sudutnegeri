@@ -787,19 +787,19 @@ pre code {
 
 @media (min-width: 576px) {
   .container {
-    max-width: 540px;
+    max-width: 100%;
   }
 }
 
 @media (min-width: 768px) {
   .container {
-    max-width: 720px;
+    max-width: 100%;
   }
 }
 
 @media (min-width: 992px) {
   .container {
-    max-width: 960px;
+    max-width: 90%;
   }
 }
 
@@ -14735,6 +14735,23 @@ div.popover-body .list-group-item-action:hover {
   }
 }
 
+.img-fit {
+  width: 100% !important;
+  height: 180px !important;
+  -o-object-fit: cover !important;
+     object-fit: cover !important;
+  vertical-align: middle !important;
+}
+
+.img-fit._big {
+  height: 350px !important;
+}
+
+.img-blur {
+  -webkit-filter: blur(0.07rem);
+  filter: blur(0.07rem);
+}
+
 /* FLIP */
 /* FONT FACE */
 /* OPACITY */
@@ -15006,15 +15023,32 @@ section#banner div#caption-banner #right-board {
   padding: .625rem;
 }
 
+.info-box > .info-box-inner .t {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.info-box > .info-box-inner .st {
+  font-size: 1rem;
+}
+
 .info-box .info-box-icon {
   -webkit-transition: all .3s linear;
   transition: all .3s linear;
   position: absolute;
+  color: rgba(42, 93, 111, 0.3);
+  z-index: 0;
   top: -.625rem;
   right: .625rem;
-  z-index: 0;
-  font-size: 5rem;
-  color: rgba(42, 93, 111, 0.3);
+  font-size: 4rem;
+}
+
+@media (min-width: 992px) {
+  .info-box .info-box-icon {
+    top: -.625rem;
+    right: .625rem;
+    font-size: 5rem;
+  }
 }
 
 .info-box .small-box-footer {
@@ -15283,7 +15317,7 @@ div#myCard {
 #hpn-menu.fixed {
   position: fixed;
   top: 0;
-  z-index: 2;
+  z-index: 5;
   background: #fff;
   width: initial;
 }
@@ -15292,6 +15326,19 @@ div#myCard {
   #hpn-menu.fixed {
     top: 3rem !important;
   }
+}
+
+#h-menu-tab {
+  -webkit-transition: top .5s;
+  transition: top .5s;
+  overflow: hidden;
+}
+
+#h-menu-tab.fixed {
+  position: fixed;
+  top: 0;
+  z-index: 5;
+  background: #fff;
 }
 
 #hpn-menu-hidden {
@@ -15578,7 +15625,7 @@ div#myCard {
 
 .d-campaigns .cml, .owl-carousel .cml {
   position: absolute;
-  z-index: 5;
+  z-index: 3;
   left: 0;
   top: 0;
   width: 100%;
@@ -15602,7 +15649,7 @@ div#myCard {
 }
 
 .d-campaigns .cal, .owl-carousel .cal {
-  z-index: 10;
+  z-index: 2;
   width: 100%;
   min-height: 20rem;
   background: inherit;
@@ -15630,6 +15677,14 @@ div#myCard {
   border: 0 !important;
 }
 
+._project-info {
+  min-height: 14rem !important;
+}
+
+._project-progress {
+  min-height: 14rem !important;
+}
+
 ._project-progress .progress {
   background: rgba(11, 101, 177, 0.2);
   margin: .5rem 0;
@@ -15638,6 +15693,14 @@ div#myCard {
 
 ._project-progress .progress .progress-bar {
   background: #0b65b1;
+}
+
+.project-title {
+  min-height: 4rem !important;
+}
+
+.location-name {
+  min-height: 3rem !important;
 }
 
 .m-topcard #p-cover {
@@ -15707,6 +15770,9 @@ div#myCard {
 @media (min-width: 992px) {
   .m-leftcard {
     display: block;
+  }
+  .m-leftcard.fixed {
+    position: fixed;
   }
 }
 
@@ -15809,6 +15875,13 @@ span.dynamic-close:hover {
   .m-content, .m-rightcard > .card, .m-leftcard > .card {
     min-height: 100vh !important;
   }
+}
+
+#mh-menu-tab {
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+  background: #fff;
 }
 
 .cfp {

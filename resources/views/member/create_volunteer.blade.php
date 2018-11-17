@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @php
-    $current_activity = Auth::user()->volunteers()->where('status', 'accepted')->orWhere('status', 'pending')->get();
+    $up = Auth::user()->profile()->first();
+    $isNotCv = in_array(null, $up->cv()->first()->toArray());
 @endphp
 
 @section('content')
@@ -8,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 p-0 px-md-3">
             <div class="card border-0 vh-100">
-                @if ($current_activity->count() <= 0)
+                @if (empty($current_activity))
                     @if (!empty($existing_volunteers) && in_array(Auth::user()->id, $existing_volunteers))
                         <div class="card-body text-center">
                             <div class="my-3">
@@ -23,6 +24,19 @@
                             </div>
                         </div>
                     @else
+                        @if ($isNotCv)
+                            <div class="card-body text-center">
+                                <div class="my-3">
+                                    <i class="fas fa-clipboard-check fa-10x"></i>
+                                </div>
+                                <span class="font-weight-bold">CV kerelawanan Anda masih kosong. Silahkan buat CV Anda terlebih dahulu !</span>
+                                <br>
+                                <div class="d-flex mt-3">
+                                    <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="btn btn-secondary w-50 m-0 mr-1">Kembali ke halaman proyek</a>
+                                    <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'cv'])}}" class="btn btn-primary w-50 m-0 ml-1">Buat CV Saya</a>
+                                </div>
+                            </div>
+                        @else
                         <div class="card-body text-center pb-0">
                             <h4 class="m-0">Hai, {{ucwords(Auth::user()->profile->name)}}</h4>
                             <p class="m-0">Mohon lengkapi formulir berikut untuk melanjutkan pendaftaran sebagai relawan</p>
@@ -83,13 +97,14 @@
                                 </div>
                             </form>
                         </div>
+                        @endif
                     @endif
                 @else
                     <div class="card-body text-center">
                         <div class="my-3">
                             <i class="fas fa-clipboard-check fa-10x"></i>
                         </div>
-                        <span class="font-weight-bold">Anda masih terdaftar sebagai (calon) relawan di proyek <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="card-link">{{$project->project_name}}</a> !</span><br>
+                        <span class="font-weight-bold">Anda masih terdaftar sebagai (calon) relawan di proyek <a href="{{route('project.show', ['slug' => $current_activity->project->project_slug])}}" class="card-link">{{$current_activity->project->project_name}}</a> !</span><br>
                         <span class="">Mohon maaf, setiap member hanya dapat terlibat aktif sebagai relawan dalam 1 proyek. Tidak dapat merangkap ke proyek lain atau aktif dalam 2 atau lebih proyek dalam 1 waktu.</span>
                         <br>
                         <div class="d-flex mt-3">

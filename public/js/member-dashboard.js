@@ -80,6 +80,8 @@ $(document).ready(function () {
     toggleActiveMenuTab();
     toggleActiveContentTab();
 
+    callOnScroll();
+
     $('#example').DataTable({
         "language": {
             "sProcessing": "Sedang proses...",
@@ -127,7 +129,7 @@ $(document).ready(function () {
     });
     activateOptGenerator();
     $('.select2').select2({ theme: "bootstrap4" });
-    $(document).ajaxSelect2("regency_id", "/location");
+    $(document).ajaxSelect2("form-create-project #regency_id", "/location");
     // showMoreLess(100, 'Selengkapnya', 'Sebagian', '.update-list-item');
 });
 
@@ -250,7 +252,8 @@ $('#mc, #mr').on('pjax:complete', function () {
         ['style', ['bold', 'italic', 'underline', 'clear']], ['font', ['strikethrough', 'superscript', 'subscript']], ['fontsize', ['fontsize']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']]],
         height: 150
     });
-    $(document).ajaxSelect2("project_location", "/location");
+    // $(document).ajaxSelect2("project_location", "/location");
+    $(document).ajaxSelect2("regency_id", "/location");
     projecToCredit = $('#form-create-withdrawal').find('#project_id');
 });
 
@@ -286,6 +289,39 @@ function toggleActiveContentTab() {
 function activateOptGenerator() {
     generateOption('#province_id', '#regency_id', 'regencies', 'Kabupaten/Kota');
     generateOption('#regency_id', '#district_id', 'districts', 'Kecamatan');
+}
+
+function callOnScroll() {
+    $(window).scroll(function () {
+        if (window.innerWidth >= 768 && window.innerWidth < window.innerHeight || window.innerWidth >= 992 && window.innerWidth > window.innerHeight) {
+            var tab_offset = $('.tcc').offset().top,
+                tab = $('#h-menu-tab'),
+                tab_width = tab.innerWidth();
+
+            if ($(this).scrollTop() >= tab_offset) {
+                tab.addClass('fixed');
+                tab.width(tab_width);
+                $('#mc').css('padding-top', '4rem');
+            } else {
+                tab.removeClass('fixed');
+                $('#mc').css('padding-top', '0');
+            }
+        }
+        // else {
+        //     var tab_offset = $('.tccm').offset().top,
+        //         tab = $('#mh-menu-tab'),
+        //         tab_width = tab.innerWidth();
+
+        //     if ($(this).scrollTop() >= tab_offset) {
+        //         tab.addClass('fixed');
+        //         tab.width(tab_width);
+        //         $('#mc').css('padding-top', '6rem');
+        //     } else {
+        //         tab.removeClass('fixed');
+        //         $('#mc').css('padding-top', '0');
+        //     }
+        // }
+    });
 }
 
 /***/ })
