@@ -76,26 +76,73 @@
     </div> --}}
     <div class="container clearfix my-2">
         <nav class="navbar navbar-light bg-transparent px-0">
-            <span class="--text d-none d-md-block">Ada {{$projects->count()}} project {{ strtolower(str_replace("-", " ", app('request')->input('category'))) }} membutuhkan bantuanmu</span>
-            <span class="--text d-block d-md-none">Menampilkan {{$projects->count()}} project</span>
+            <span class="--text d-none d-md-block">Ada {{$projects->count()}} proyek {{ app('request')->input('category') !== 'all' ? strtolower(str_replace("-", " ", app('request')->input('category'))) : '' }} membutuhkan bantuanmu</span>
+            <span class="--text d-block d-md-none">Menampilkan {{$projects->count()}} proyek</span>
             {{-- <button class="navbar-toggler p-0 border-0" type="button" data-toggle="filter">
                 <i class="fas fa-filter"></i>
             </button> --}}
             {{-- <a class="btn btn-light btn-sm border-0 " type="button" id="project-filter">
                     <i class="fas fa-filter"></i> Filter
             </a> --}}
-            <div class="bg-white p-3">
-                <a href="#" class="navbar-toggler border-0 decoration-none" data-toggle="collapse" data-target="#project-filter" aria-controls="project-filter" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="">
+                <a href="#" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#modal-filter" data-keyboard="false" data-backdrop="static">
                     <i class="fas fa-filter fw"></i> Filter
                 </a>
             </div>
+
+            <div class="modal fade" id="modal-filter" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Filter Proyek</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{route('project.browse')}}" method="GET">
+                            <div class="modal-body">
+                                <div class="form-group row m-0">
+                                    <div class="col-12 p-0 mb-2">
+                                        <label for="category">Kategori Proyek</label>
+                                        <select id="category" class="select2 col-12" name="category">
+                                            <option value="all">Semua Kategori</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->slug}}" {{app('request')->input('category') === $category->slug ? 'selected' : ''}}>{{$category->category}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-12 p-0 mb-2">
+                                        <label for="location">Lokasi Proyek</label>
+                                        <select id="location" class="select2 col-12" name="location">
+                                            @if ($location_name !== '')
+                                                <option value="{{app('request')->input('location')}}">{{$location_name}}</option>
+                                            @else
+                                                <option selected value="all">Semua Lokasi</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <div class="col-12 p-0 mb-2">
+                                        <label for="sort">Urutkan</label>
+                                        <select id="sort" class="select2 col-12" name="sort">
+                                            <option value="latest" {{app('request')->input('sort') === 'latest' ? 'selected' : ''}}>Publikasi Terbaru</option>
+                                            <option value="oldest" {{app('request')->input('sort') === 'oldest' ? 'selected' : ''}}>Publikasi Lama</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-md btn-secondary align-self-md-center mx-1 ml-auto" type="submit"><i class="fas fa-check"></i> Terapkan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         
-            <div class="collapse navbar-collapse p-3 py-4 bg-white" id="project-filter">
+            {{-- <div class="collapse navbar-collapse p-3 py-4 bg-white" id="project-filter">
                 <form action="{{route('project.browse')}}" method="GET">
                     <div class="form-group row m-0">
-                        {{-- <div class="col-12 p-0 d-md-flex justify-content-between"> --}}
                             <div class="col-12 col-md-6 col-lg-4 p-0 px-md-1 mb-2">
-                                {{-- <label for="category">Kategori Proyek</label> --}}
+                                <label for="category">Kategori Proyek</label>
                                 <select id="category" class="select2 col-12" name="category">
                                     <option selected value="all">Semua Kategori</option>
                                     @foreach($categories as $category)
@@ -104,13 +151,13 @@
                                 </select>
                             </div>
                             <div class="col-12 col-md-6 p-0 col-lg-6 px-md-1 mb-2">
-                                {{-- <label for="location">Lokasi Proyek</label> --}}
+                                <label for="location">Lokasi Proyek</label>
                                 <select id="location" class="select2 col-12" name="location">
                                     <option selected value="all">Semua Lokasi</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-6 p-0 col-lg-2 px-md-1 mb-2 mb-md-0">
-                                {{-- <label for="sort">Urutkan</label> --}}
+                                <label for="sort">Urutkan</label>
                                 <select id="sort" class="select2 col-12" name="sort">
                                     <option value="latest" selected>Publikasi Terbaru</option>
                                     <option value="oldest">Publikasi Lama</option>
@@ -120,10 +167,9 @@
                                 <button class="btn btn-md btn-secondary align-self-md-center mx-1 ml-auto" type="submit"><i class="fas fa-check"></i> Terapkan</button>
                                 <a href="{{route('project.browse')}}" class="btn btn-md btn-danger align-self-md-center ml-1" type="reset"><i class="fas fa-undo-alt"></i> Hapus Filter</a>
                             </div>
-                        {{-- </div> --}}
                     </div>
                 </form>
-            </div>
+            </div> --}}
         </nav>
         {{-- <span class="btn-btn-"></span> --}}
         {{-- <div class="row section-content d-none d-md-block">
@@ -200,27 +246,13 @@
                 @php
                     $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
                     $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
-
-                    // date_default_timezone_set('Asia/Jakarta');
-
-                    // $today = new DateTime('now');
-                    // $deadline = new DateTime($project->project_deadline);
-                    // $remainingDays = $today->diff($deadline)->format('%d hari'); 
-                    // $remainingHours = $today->diff($deadline)->format('%h jam'); 
-
-                    // if($remainingDays <= 0) {
-                    //     $remainingDays = $remainingHours;
-                    // }
-                    // if($remainingDays <= 0 && $remainingHours < 0) {
-                    //     $remainingDays = "Proyek berakhir";
-                    // }
                 @endphp
                 <div class="d-campaigns col-12 col-sm-6 col-lg-4 col-xl-3 card-deck">
                     <div class="card card-shadow m-0 border-0 mb-3" style="min-height:485px">
                         <div class="category-flag">
                             <p>{{$project->category->category}}</p>
                         </div>
-                        <img class="card-img-top" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                        <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
                         <div class="media campaigner">
                             <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
                             <div class="media-body">
@@ -228,21 +260,21 @@
                             </div>
                         </div>
                         <div class="card-header bg-white font-weight-bold">
-                            <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="card-link"><h5 class="card-title m-0">{{$project->project_name}}</h5></a>
+                            <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="card-link"><h5 class="card-title m-0 project-title">{{$project->project_name}}</h5></a>
                         </div>
-                        <div class="card-body pb-0 pt-4 _project-info" id="info-{{$project->project_slug}}">
+                        <div class="card-body pb-0 pt-4 _project-info hidden" id="info-{{$project->project_slug}}">
                             <div class="row m-0">
                                 <span class="col-12 --text p-0">Lokasi</span>
                                 <span class="col-12 --text p-0 mb-2 font-weight-bold">{{ucwords(strtolower($project->location->name))}}</span>
                                 
                                 <span class="col-12 --text p-0">Batas Pendaftaran Relawan</span>
-                                <span class="col-12 --text p-0 mb-2 font-weight-bold">{{Idnme::print_date($project->close_reg, true)}}</span>
+                                <span class="col-12 --text p-0 mb-2 font-weight-bold">{{Idnme::print_date($project->close_reg)}}</span>
                                 
                                 <span class="col-12 --text p-0">Batas Penerimaan Investasi</span>
-                                <span class="col-12 --text p-0 m-0 font-weight-bold">{{Idnme::print_date($project->close_donation, true)}}</span>
+                                <span class="col-12 --text p-0 m-0 font-weight-bold">{{Idnme::print_date($project->close_donation)}}</span>
                             </div>
                         </div>
-                        <div class="card-body pb-0 pt-4 _project-progress hidden" id="progress-{{$project->project_slug}}">
+                        <div class="card-body pb-0 pt-4 _project-progress" id="progress-{{$project->project_slug}}">
                             <div class="info-donasi">
                                 <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
                                 <span class="--text font-weight-bold text-capitalize">{{Idnme::print_rupiah($project->collected_funds, false, true)}}</span>
@@ -257,7 +289,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-lighten">
-                            <button class="btn btn-link text-secondary-black decoration-none w-100 p-0" onclick="javascript:showAndHide(this, '#info-{{$project->project_slug}}', '#progress-{{$project->project_slug}}', 'Lihat Detail Proyek', 'Lihat Progress');" data-action="hide">Lihat Progresss</button>
+                            <button class="btn btn-link text-secondary-black decoration-none w-100 p-0" onclick="javascript:showAndHide(this, '#progress-{{$project->project_slug}}', '#info-{{$project->project_slug}}', 'Lihat Progress', 'Lihat Detail Proyek');" data-action="hide">Lihat Detail Proyek</button>
                         </div>
                         {{-- <div class="card-body">
                             <ul class="nav nav-pills" id="myTab" role="tablist">
@@ -409,7 +441,7 @@
             theme: "bootstrap4",
             tags: false,
         });
-        $(document).ajaxSelect2("location", "{{route('get.location')}}");
+        $(document).ajaxSelect2("location", "{{route('get.location', ['def' => 'true'])}}");
     });
 </script>
 @endsection

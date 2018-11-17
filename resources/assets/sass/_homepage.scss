@@ -95,6 +95,13 @@ section#banner {
 
 	> .info-box-inner {
 		padding: .625rem;
+		.t {
+			font-size: 1.3rem;
+			font-weight: bold;
+		}
+		.st {
+			font-size: 1rem;
+		}
 	}
 
 	.info-box-icon {
@@ -102,11 +109,16 @@ section#banner {
 		-o-transition: all .3s linear;
 		transition: all .3s linear;
 		position: absolute;
+		color: rgba(42,93,111,0.3);
+		z-index: 0;
 		top: -.625rem;
 		right: .625rem;
-		z-index: 0;
-		font-size: 5rem;
-		color: rgba(42,93,111,0.3)
+		font-size: 4rem;
+		@include media-breakpoint-up(lg) {
+			top: -.625rem;
+			right: .625rem;
+			font-size: 5rem;
+		}
 	}
 
 	.small-box-footer {

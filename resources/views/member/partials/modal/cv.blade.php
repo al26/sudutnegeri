@@ -34,7 +34,7 @@
                         </span>
                         {{Idnme::print_date($user->profile->dob, false)}}
                     </li>
-                    <li class="list-group-item border-0 font-weight-bold py-3"><span class="fa-li"><i class="fas fa-user-graduate" data-fa-transform="grow-15"></i></span>{{$user->profile->cv->education}}</li>
+                    <li class="list-group-item border-0 font-weight-bold py-3"><span class="fa-li"><i class="fas fa-user-graduate" data-fa-transform="grow-15"></i></span>{{strpos($user->profile->cv->education, '-') !== false ? '-' : $user->profile->cv->education}}</li>
                 </ul>
             </div>
         </section>
@@ -56,13 +56,17 @@
                 <dt class="col-12 mb-2 card-header">Bahasa Asing / <i>Foreign Language</i></dt>
                 <dd class="col-12">
                     <ul class="list-group fa-ul border-0">
-                        @php
-                            $langs = explode(",", $user->profile->cv->foreign_lang);
-                        @endphp
+                        @if ($user->profile->cv->foreign_lang !== '-')
+                            @php
+                                $langs = explode(",", $user->profile->cv->foreign_lang);
+                            @endphp
 
-                        @foreach ($langs as $l)
-                            <li class="list-group-item border-0"><span class="fa-li"><i class="fas fa-angle-double-right"></i></span>{{$l}}</li>
-                        @endforeach
+                            @foreach ($langs as $l)
+                                <li class="list-group-item border-0"><span class="fa-li"><i class="fas fa-angle-double-right"></i></span>{{$l}}</li>
+                            @endforeach
+                        @else
+                            {{$user->profile->cv->foreign_lang}}
+                        @endif
                     </ul>
                 </dd>
 

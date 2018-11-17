@@ -66,6 +66,9 @@
 
     @include media-breakpoint-up(lg) {
         display: block;
+        &.fixed {
+            position: fixed;
+        }
     }
 
     .card {
@@ -176,4 +179,11 @@ span.dynamic-close {
     @include media-breakpoint-down(md) {
         min-height: 100vh !important;
     }
+}
+
+#mh-menu-tab {
+    position: fixed;
+    width: 100%;
+    z-index: 5;
+    background: #fff;
 }

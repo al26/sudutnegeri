@@ -97,6 +97,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::group(['prefix' => 'project'], function () {
     Route::get('browse', 'ProjectController@index')->name('project.browse');
+    Route::get('filter', 'ProjectController@filter')->name('project.filter');
     Route::get('details/{slug}/{menu?}', 'ProjectController@show')
             ->where(
                 ['menu'     => '(detail|history|sinegeri|faq)']
@@ -187,8 +188,20 @@ Route::group(['prefix' => 'json'], function () {
 
 Route::post('location', function (\Illuminate\Http\Request $request) {
     $key = $request->key;
+    $def = $request->def;
 
-    $items = \App\Regency::where("name","like","%$key%")->select('name', 'id')->get();
+    if(!empty($key)) {
+        $items = \App\Regency::where("name","like","%$key%")->select('name', 'id')->get();
+    } else {
+        $items = \App\Regency::select('name', 'id')->take(100)->get();
+    }
+
+    if($def && empty($key)) {
+        $add = (object) array('name' => 'Semua Lokasi', 'id' => 'all');
+        $items->prepend($add);
+    }
+
+    // dd(json_encode($items));
 
     return response()->json(["items" => $items]);
 })->name('get.location');

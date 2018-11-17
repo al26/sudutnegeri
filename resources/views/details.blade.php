@@ -3,17 +3,23 @@
 @section('content')
     <div class="container my-lg-3">
         @php
+            use Carbon\Carbon;
             $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
             $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
 
             // date_default_timezone_set('Asia/Jakarta');
 
-            $today = new DateTime('now');
-            $close_reg = new DateTime($project->close_reg);
-            $close_donation = new DateTime($project->close_donation);
+            $today = Carbon::now();
+            $close_reg = new Carbon($project->close_donation);
+            $close_donation = new Carbon($project->close_donation);
 
-            $cr = $today->diff($close_reg)->format('%h jam'); 
-            $cd = $today->diff($close_donation)->format('%h jam'); 
+            // $cr = $today->diff($close_reg)->format('%h jam'); 
+            // $cd = $today->diff($close_donation)->format('%h jam');
+            
+            $cr = $today->diffInHours($close_reg);
+            $cd = $today->diffInHours($close_donation);
+
+            // dd([$today, $close_reg, $close_donation, $cr, $cd]);
         @endphp
         <div class="row">
             <div class="col-12 col-lg-4 sticky-side-info --container --left order-2 order-lg-1">
@@ -99,7 +105,7 @@
             <div class="col-12 col-lg-8 featured --container --right order-1 order-lg-2">
                 <section class="card --content mb-lg-3">
                     <div class="--img">
-                        <img src="{{asset($project->project_banner)}}" alt="Project Image" class="img-thumbnail img-fluid">
+                        <img src="{{asset($project->project_banner)}}" alt="Project Image" class="img-thumbnail img-fluid img-fit _big">
                     </div>
                     <div class="--headline">
                         <span class="--text _head">{{$project->project_name}}</span>

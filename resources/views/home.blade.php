@@ -6,7 +6,7 @@
             <div class="carousel-inner">
                 @foreach (Storage::files('homepage_carousel') as $item)
                     <div class="carousel-item {{$loop->first ? 'active' : ''}}">
-                        <img src="{{ asset(Storage::url('homepage_carousel/').File::basename($item) ) }}" alt="First Image" class="img-fluid">
+                        <img src="{{ asset(Storage::url('homepage_carousel/').File::basename($item) ) }}" alt="First Image" class="img-fluid img-blur">
                     </div>
                 @endforeach
             </div>
@@ -77,7 +77,7 @@
                         <div class="card-board p-3">
                             <h5 class="text-capitalize cb-title">Ikut Peduli Majukan Pendidikan Indonesia</h5>
                             <h6 class="cb-desc d-none d-sm-block"><small>SudutNegeri mempertemukan antara Volunteer dan Donatur dengan bagian Indonesia yang membutuhkan bantuan pendidikan</small></h6>
-                            <a href="" class="btn btn-md btn-secondary mt-3">Ikut Peduli</a>
+                            <a href="{{ route('project.browse', ['category' => 'all']) }}" class="btn btn-md btn-secondary mt-3">Ikut Peduli</a>
                             <a href="" class="btn btn-md btn-light mt-3">Pelajari Lebih</a>
                         </div>
                     </div>
@@ -316,7 +316,7 @@
                             <div class="category-flag">
                                 <p>{{$project->category->category}}</p>
                             </div>
-                            <img class="card-img-top" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                            <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
                             <div class="media campaigner">
                                 <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
                                 <div class="media-body">
@@ -324,9 +324,9 @@
                                 </div>
                             </div>
                             <div class="card-header bg-white font-weight-bold">
-                                <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="card-link"><h5 class="card-title m-0">{{$project->project_name}}</h5></a>
+                                <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="card-link"><h5 class="card-title m-0 project-title">{{$project->project_name}}</h5></a>
                             </div>
-                            <div class="card-body pb-0 pt-4 _project-info" id="info-{{$project->project_slug}}">
+                            <div class="card-body pb-0 pt-4 _project-info hidden" id="info-{{$project->project_slug}}">
                                 <div class="row m-0">
                                     <span class="col-12 --text p-0">Lokasi</span>
                                     <span class="col-12 --text p-0 mb-2 font-weight-bold">{{ucwords(strtolower($project->location->name))}}</span>
@@ -338,7 +338,7 @@
                                     <span class="col-12 --text p-0 m-0 font-weight-bold">{{Idnme::print_date($project->close_donation, true)}}</span>
                                 </div>
                             </div>
-                            <div class="card-body pb-0 pt-4 _project-progress hidden" id="progress-{{$project->project_slug}}">
+                            <div class="card-body pb-0 pt-4 _project-progress" id="progress-{{$project->project_slug}}">
                                 <div class="info-donasi">
                                     <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
                                     <span class="--text font-weight-bold text-capitalize">{{Idnme::print_rupiah($project->collected_funds, false, true)}}</span>
@@ -353,7 +353,7 @@
                                 </div>
                             </div>
                             <div class="card-footer bg-lighten">
-                                <button class="btn btn-link text-secondary-black decoration-none w-100 p-0" onclick="javascript:showAndHide(this, '#info-{{$project->project_slug}}', '#progress-{{$project->project_slug}}', 'Lihat Detail Proyek', 'Lihat Progress');" data-action="hide">Lihat Progresss</button>
+                                <button class="btn btn-link text-secondary-black decoration-none w-100 p-0" onclick="javascript:showAndHide(this, '#progress-{{$project->project_slug}}', '#info-{{$project->project_slug}}', 'Lihat Progress', 'Lihat Detail Proyek');" data-action="hide">Lihat Detail Proyek</button>
                             </div>
                             {{-- <div class="card-body">
                                 <ul class="nav nav-pills" id="myTab" role="tablist">

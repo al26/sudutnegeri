@@ -29,8 +29,8 @@
                 </div>
             </div> --}}
             <div class="row section-content">
-                <div class="d-campaigns col-12 col-sm-6 col-lg-4 card-deck">
-                    <div class="card m-0 mb-3">
+                <div class="d-campaigns col-12 col-sm-6 col-xl-4 card-deck mb-3">
+                    <div class="card m-0">
                         {{-- <a class="cal" href="{{route('project.create')}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Buat Project Baru","add":"Buat Project","cancel":"Batal","lg":true, "actionUrl":"{{route('project.store')}}"}'> --}}
                         <a class="cal" href="{{route('project.create')}}" data-toggle="pjax" data-pjax="main-content" onclick="javascript:$(this).setBackUrl();">
                             <span>
@@ -44,28 +44,14 @@
                     @php
                         $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
                         $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
-    
-                        date_default_timezone_set('Asia/Jakarta');
-    
-                        $today = new DateTime('now');
-                        $deadline = new DateTime($project->project_deadline);
-                        $remainingDays = $today->diff($deadline)->format('%d hari'); 
-                        $remainingHours = $today->diff($deadline)->format('%h jam'); 
-    
-                        if($remainingDays <= 0) {
-                            $remainingDays = $remainingHours;
-                        }
-                        if($remainingDays <= 0 && $remainingHours < 0) {
-                            $remainingDays = "Proyek berakhir";
-                        }
                     @endphp
-                    <div class="d-campaigns col-12 col-sm-6 col-lg-4 card-deck">
-                        <div class="cml-conteiner">
+                    <div class="d-campaigns col-12 col-sm-6 col-xl-4 card-deck mb-3">
+                        {{-- <div class="cml-conteiner"> --}}
                             <div class="card card-shadow p-0 m-0 border-0">
                                 <div class="category-flag">
                                     <p>{{$project->category->category}}</p>
                                 </div>
-                                <img class="card-img-top" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                                <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
                                 <div class="media campaigner">
                                     <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
                                     <div class="media-body">
@@ -73,7 +59,7 @@
                                     </div>
                                 </div>
                                 <div class="card-header px-3 bg-white font-weight-bold">
-                                    <h5 class="card-title m-0 card-link">{{$project->project_name}}</h5>
+                                    <h5 class="card-title m-0 card-link project-title">{{$project->project_name}}</h5>
                                 </div>
                                 <div class="card-body pb-0 pt-4 px-3 _project-progress">
                                     <div class="info-donasi">
@@ -96,7 +82,7 @@
                                     </span>
                                 </a>
                             </div>
-                        </div>
+                        {{-- </div> --}}
                         {{-- <div class="card m-0 mb-3 border">
                             <img class="card-img-top rounded-0" src="{{asset($project->project_banner)}}" alt="Project Image">
                             <div class="card-body py-0 px-3 pt-3" style="top:0">

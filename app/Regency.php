@@ -20,7 +20,7 @@ class Regency extends Model
 
     public function address() 
     {
-        return $this->hasOne('App\User_address');
+        return $this->hasMany('App\User_address');
     }
 
     public function projects()

@@ -13,6 +13,6 @@ class Province extends Model
 
     public function address() 
     {
-        return $this->hasOne('App\User_address');
+        return $this->hasMany('App\User_address');
     }
 }
