@@ -145,7 +145,7 @@ $(document).on('click', '#password-change', function (e) {
 
 $(document).on('click', '#profile-edit', function (e) {
     e.preventDefault();
-    $('#form-profile').ajaxCrudNonModal(['#mr', '#mt']);
+    $('#form-profile').ajaxCrudNonModal(['#mr', '#mt'], '/dashboard/setting/profile');
 });
 
 $(document).on('click', '#upload-receipt', function (e) {
@@ -204,7 +204,7 @@ $(document).on('click', '#create-withdrawal', function (e) {
 });
 
 projecToCredit = $('#form-create-withdrawal').find('#project_id');
-$(document).on('change', projecToCredit, function (e) {
+projecToCredit.on('change', function (e) {
     // var project = encodeURIComponent(window.btoa(projecToCredit.val)),
     var url = projecToCredit.attr('data-saldo') + "?project=" + projecToCredit.val();
     $.get(url, function (data) {

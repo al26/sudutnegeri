@@ -79,7 +79,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
     Route::get('dashboard/{menu?}', 'AdminController@index')
             ->where(
-                ['menu'     => '(overview|users|donations|projects|category|banks|bank-accounts)',]
+                ['menu'     => '(overview|users|donations|projects|category|banks|bank-accounts|withdrawal)',]
             )
             ->name('admin.dashboard');
     Route::put('dashboard/projects/verify/{id}', 'AdminController@projectVerification')->name('project.verify');
@@ -114,7 +114,9 @@ Route::group(['prefix' => 'project'], function () {
     // Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
     // Route::get('create', 'ProjectController@create')->name('project.create');
     Route::post('store', 'ProjectController@store')->name('project.store');
-    Route::resource('withdrawal', 'WithdrawalController')->only(['store', 'update', 'destroy']);
+    Route::resource('withdrawal', 'WithdrawalController')->only(['store', 'update', 'destroy', 'show']);
+    Route::put('withdrawal/proceed/{id}', 'WithdrawalController@confirm')->name('withdrawal.proceed');
+    Route::put('withdrawal/reject/{id}', 'WithdrawalController@reject')->name('withdrawal.reject');
     Route::resource('history', 'DataHistorisController')->only(['store', 'update', 'destroy']);
 });
 

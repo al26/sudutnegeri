@@ -33,9 +33,12 @@ class DonationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($slug)
+    public function create($slug, Request $request)
     {
         $data['project'] = Project::where('project_slug', $slug)->first();
+        if($request->user()->id === $data['project']->user_id) {
+            return redirect()->back();
+        }
         $data['banks'] = Bank_account::all();
         return view('member.create_donation', $data);
     }

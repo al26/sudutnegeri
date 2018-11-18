@@ -78819,9 +78819,9 @@ if ($.support.pjax) {
             $(document).on('click', "#mbtn-delete", function (e) {
                 e.preventDefault();
                 deleteData(data);
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-delete").html("<i class='far fw fa-trash-alt'></i> " + data['delete']);
             $("#mbtn-delete").show(100);
@@ -78831,9 +78831,9 @@ if ($.support.pjax) {
             $(document).on('click', '#mbtn-add', function (e) {
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-add").html("<i class='fas fa-plus fw'></i> " + data['add']);
             $("#mbtn-add").show(100);
@@ -78843,9 +78843,9 @@ if ($.support.pjax) {
             $(document).on('click', '#mbtn-edit', function (e) {
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
             $("#mbtn-edit").show(100);
@@ -78855,9 +78855,9 @@ if ($.support.pjax) {
             $(document).on('click', '#mbtn-yes', function (e) {
                 e.preventDefault();
                 yesnoSubmit(data['yesUrl'], data, 'yes');
-                loaded = false;
-                data['yesUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['yesUrl'] = null;
+                // return false;
             });
 
             $("#mbtn-yes").html("<i class='fas fa-check'></i> " + data['yes']);
@@ -78868,9 +78868,9 @@ if ($.support.pjax) {
             $(document).on('click', '#mbtn-no', function (e) {
                 e.preventDefault();
                 yesnoSubmit(data['noUrl'], data, 'no');
-                loaded = false;
-                data['noUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['noUrl'] = null;
+                // return false;
             });
             $("#mbtn-no").html("<i class='fas fa-times'></i> " + data['no']);
             $("#mbtn-no").show(100);

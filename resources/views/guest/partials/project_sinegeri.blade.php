@@ -19,13 +19,13 @@
                                 <img class="mr-3" src="{{asset('storage/profile_pictures/avatar.jpg')}}" alt="Generic placeholder image" width="50">
                                 <div class="media-body">
                                     <span class="mb-2 --text">Anonim</span>
-                                    <span class="mb-0 --text _sub">{{$donatur->amount}}</span>
+                                    <span class="mb-0 --text _sub">{{Idnme::print_rupiah($donatur->amount, false, true)}}</span>
                                 </div>
                             @else
                                 <img class="mr-3" src="{{asset($donatur->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
                                 <div class="media-body">
                                     <span class="mb-2 --text">{{$donatur->user->profile->name}}</span>
-                                    <span class="mb-0 --text _sub">{{$donatur->amount}}</span>
+                                    <span class="mb-0 --text _sub">{{Idnme::print_rupiah($donatur->amount, false, true)}}</span>
                                 </div>
                             @endif
                         </div>

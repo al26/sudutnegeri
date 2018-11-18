@@ -15,6 +15,7 @@ use App\Bank;
 use App\Bank_account as Account;
 use App\User;
 use App\User_verification;
+use App\Withdrawal;
 
 class AdminController extends Controller
 {
@@ -30,6 +31,7 @@ class AdminController extends Controller
         $data['banks'] = Bank::all();
         $data['bank_accounts'] = Account::all();
         $data['users'] = User::where('role', 'member')->get();
+        $data['withdrawals'] = Withdrawal::all();
         return view('admin.dashboard', $data);
     }
 

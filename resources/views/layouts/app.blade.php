@@ -72,7 +72,7 @@
                                 <div class="media-body">
                                     <p class="my-0 text-light lead">{{ Auth::user()->profile->name }}
                                         <small>
-                                            <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" data-toggle="pjax" data-pjax="menu" class="p-0 text-white"><i class="fas fa-edit"></i></a>
+                                            <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="p-0 text-white"><i class="fas fa-edit"></i></a>
                                         </small>
                                     </p>
                                     <p class="my-0 text-light">{{ Auth::user()->email }}</p>
@@ -124,6 +124,8 @@
                                 @endguest
 
                                 @auth  
+                                    <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="list-group-item list-group-item-action dv-menu {{!empty(Request::segment(2)) && Request::segment(2) === 'overview' ? 'active' : ''}}"><i class="fas fw fa-tachometer-alt mr-2"></i> Dasbor</a>
+
                                     <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" class="list-group-item list-group-item-action dv-menu {{!empty(Request::segment(2)) && Request::segment(2) === 'sudut' ? 'active' : ''}}"><i class="fas fw fa-lightbulb mr-2"></i> Jadi Sudut</a>
 
                                     <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="list-group-item list-group-item-action dv-menu {{!empty(Request::segment(2)) && Request::segment(2) === 'negeri' ? 'active' : ''}}"><i class="fas fw fa-heartbeat mr-2"></i> Jadi Negeri</a>

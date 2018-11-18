@@ -45,7 +45,7 @@
                                 }
                             @endphp    
                             <tr>
-                                <td><a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="btn-link text-primary" target="_blank">{{$project->project_name}}</a></td>
+                                <td><a href="{{route('project.show', ['slug' => $project->project_slug, 'menu' => 'detail'])}}" class="btn-link text-primary" target="_blank">{{$project->project_name}}</a></td>
                                 <td>{{ucwords(strtolower($project->location->name))}}</td>
                                 <td>{{Idnme::print_rupiah($project->funding_target, false, true)}}</td>
                                 <td>{{$project->volunteer_quota}}</td>

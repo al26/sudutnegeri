@@ -10,6 +10,7 @@ use App\Helpers\Idnme;
 class WithdrawalController extends Controller
 {
     public function __construct(){
+        $this->middleware(['auth:admin'])->only(['show', 'confirm', 'reject']);
         $this->middleware(['auth'])->except(['index']);
     }
     /**
@@ -30,7 +31,7 @@ class WithdrawalController extends Controller
     public function create(Request $request)
     {
         $credits = $request->user()->withdrawals()->where('status', 'pending')->pluck('project_id')->toArray();
-        $data['projects'] = $request->user()->projects->whereNotIn('id', $credits);
+        $data['projects'] = $request->user()->projects->whereNotIn('id', $credits)->where('collected_funds', '>', 0);
         $data['banks'] = \App\Bank::all();
         return view('member.dashboard', ['menu' => 'sudut', 'section' => 'create-withdrawal'], $data);
     }
@@ -45,8 +46,8 @@ class WithdrawalController extends Controller
     {
         $rules = [
             "account_number" => 'required|numeric',
-            "bank_code" => 'required',
-            "account_name" => 'required',
+            "bank_id" => 'required',
+            // "account_name" => 'required',
             "amount" => ['required','digits_between:5, 10',
                             function($attribute, $value, $fail) use ($request) {
                                 $saldo = \App\Project::where('id', decrypt($request->data['project_id']))->pluck('collected_funds')[0];
@@ -56,26 +57,26 @@ class WithdrawalController extends Controller
                                 }
                             }
                         ],
-            "attachment" => 'image|mimes:jpg,jpeg,png,svg'
+            // "attachment" => 'image|mimes:jpg,jpeg,png,svg'
         ];
 
         $messages = [
             'account_number.required' => 'Nomor rekening tidak boleh kosong',
             'account_number.numeric' => 'Nomor rekening harus berupa angka',
-            'bank_code.required' => 'Mohon pilih bank tujuan transfer pencairan dana',
-            'account_name.required' => 'Atas nama tidak boleh kosong',
+            'bank_id.required' => 'Mohon pilih bank tujuan transfer pencairan dana',
+            // 'account_name.required' => 'Atas nama tidak boleh kosong',
             'ammount.required' => 'Mohon isi jumlah penarikan',
             'ammount.digits_between' => 'Jumlah minimal penarikan adalah 10.000 maksimal 4.000.000.000',
-            'attachment.image' => 'Mohon upload scan/foto KTP dalam format .jpg, .png, atau .svg',
-            'attachment.mimes' => 'Mohon upload scan/foto KTP dalam format .jpg, .png, atau .svg',
+            // 'attachment.image' => 'Mohon upload scan/foto KTP dalam format .jpg, .png, atau .svg',
+            // 'attachment.mimes' => 'Mohon upload scan/foto KTP dalam format .jpg, .png, atau .svg',
         ];
 
         $attributes = [
             'account_number' => 'nomor rekening',
-            'bank_code' => 'bank',
-            'account_name' => 'atas nama',
+            'bank_id' => 'bank',
+            // 'account_name' => 'atas nama',
             'amount' => 'jumlah penarikan',
-            'attachment' => 'scan/foto KTP'
+            // 'attachment' => 'scan/foto KTP'
         ];
 
         $data = $request->data;
@@ -87,19 +88,21 @@ class WithdrawalController extends Controller
         } else {
             $data['user_id'] = $request->user()->id;
             $data['project_id'] = decrypt($request->data['project_id']);
+            $data['account_name'] = ucwords($request->user()->profile->name);
+            // $data['bank_id'] = App\Bank::where('bank_code', $request->data['bank_code'])->pluck('id');
             
-            $path = "";
-            $filename = "";
+            // $path = "";
+            // $filename = "";
 
-            if($request->hasFile('data.attachment')) {
-                $filename = md5($request->data['attachment']->getClientOriginalName().time()).'.'.$request->data['attachment']->getClientOriginalExtension();
-                $file = $request->file('data.attachment');
-                $path = $file->storeAs('withdrawal_attachments', $filename);
-            }
+            // if($request->hasFile('data.attachment')) {
+            //     $filename = md5($request->data['attachment']->getClientOriginalName().time()).'.'.$request->data['attachment']->getClientOriginalExtension();
+            //     $file = $request->file('data.attachment');
+            //     $path = $file->storeAs('withdrawal_attachments', $filename);
+            // }
 
-            if($path) {
-                $data['attachment'] = "storage/withdrawal_attachments/".$filename;
-            }
+            // if($path) {
+            //     $data['attachment'] = "storage/withdrawal_attachments/".$filename;
+            // }
 
             $withdrawal = Withdrawal::create($data);
 
@@ -121,7 +124,8 @@ class WithdrawalController extends Controller
      */
     public function show($id)
     {
-        //
+        $data['withdrawal'] = Withdrawal::find(decrypt($id));
+        return view('admin.partials.modal.proceed-withdrawal', $data);
     }
 
     /**
@@ -156,5 +160,56 @@ class WithdrawalController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function confirm(Request $request, $id) {       
+        $rules = array(
+            'receipt' => 'required|image|mimes:jpg,jpeg,png,svg'
+        );
+
+        $messages = array(
+            'receipt.required' => 'Bukti transfer tidak boleh kosong',
+            "receipt.image"    => "Mohon upload foto bukti transfer",
+            "receipt.mimes"    => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
+        );
+
+        $attributes = array('receipt' => 'Bukti transfer');
+
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        } else {
+            $id = decrypt($id);
+            $withdrawal = Withdrawal::find($id);
+            $old = !empty($withdrawal->withdrawal_receipt) ? substr($withdrawal->withdrawal_receipt, 7) : "";
+
+            if($request->hasFile('receipt')) {
+                $filename = md5($id.time()).'.'.$request->receipt->getClientOriginalExtension();
+                $file = $request->file('receipt');
+                $path = $file->storeAs('withdrawal_receipt', $filename);
+            }
+
+            if($path) {
+                $data['status'] = 'processed';
+                $data['receipt'] = "storage/withdrawal_receipt/$filename";
+                
+                $update = $withdrawal->update($data);
+                if($update) {
+                    if($old !== ""){
+                        Storage::delete('public'.$old); 
+                    }
+                    $return = ['success' => "Pencairan dana berhasil diproses"];
+                } else {
+                    $return = ['error' => "Terjadi kesalahan. Memproses pencairan Dana"];
+                }
+            }
+
+        }
+        return response()->json($return);
+    }
+
+    public function reject($id) {
+
     }
 }

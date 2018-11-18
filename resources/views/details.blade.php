@@ -198,8 +198,11 @@
                     type: 'error',
                     title: 'Oops...',
                     text: 'Anda belum Login. Silahkan Login terlebih dahulu untuk melanjutkan donasi!',
-                    showConfirmButton: false,
-                    footer: '<a href="' + url + '" class="btn btn-secondary btn-sm">Login di sini</a>'
+                    showConfirmButton: true,
+                    confirmButtonText: 'Login di sini',
+                    showCancelButton: true,
+                    cancelButtonText: 'Batal',
+                    preConfirm: () => {window.location.href = url}
                 });
                 return false;
             } else {
@@ -216,8 +219,11 @@
                     type: 'error',
                     title: 'Oops...',
                     text: 'Anda belum Login. Silahkan Login terlebih dahulu untuk melanjutkan pendaftaran sebagai relawan!',
-                    showConfirmButton: false,
-                    footer: '<a href="' + url + '" class="btn btn-secondary btn-sm">Login di sini</a>'
+                    showConfirmButton: true,
+                    confirmButtonText: 'Login di sini',
+                    showCancelButton: true,
+                    cancelButtonText: 'Batal',
+                    preConfirm: () => {window.location.href = url}
                 });
                 return false;
             } else {
@@ -236,8 +242,17 @@
             // tab.offset({left : tab_content.offset().left});
         });
 
-
+        var prevScrollpos = window.pageYOffset;
         $(window).scroll(function(){
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                $('.btn-bottom').css('bottom', '0');
+            } else {
+                $('.btn-bottom').css('bottom', '-4rem');
+            }
+            prevScrollpos = currentScrollPos;
+
+
             var tab_offset = $('.details').offset().top,
                 tab_content = $('#hpn-content'),
                 tab = $('#hpn-menu'),
@@ -269,8 +284,14 @@
             if ($(this).scrollTop() >= tab_offset) {
                 tab.addClass('fixed');
                 tab.width(tab_width);
+                // if((window.innerWidth >= 768 && window.innerWidth < window.innerHeight) || (window.innerWidth >= 992 && window.innerWidth > window.innerHeight) ) {
+                //     tab_content.css('padding-top', '7rem');
+                // } else {
+                    tab_content.css('padding-top', '7rem');                    
+                // }                    
             } else {
                 tab.removeClass('fixed');
+                tab_content.css('padding-top', '0');
             }
 
             // if(window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
@@ -340,7 +361,7 @@
             .toggleClass('fa-chevron-up fa-chevron-down');
     }
 
-    $(document).pjax('a[data-pjax=hpn-menu]', '#hpn-content', {scrollTo:$('.details').offset().top});
+    $(document).pjax('a[data-pjax=hpn-menu]', '#hpn-content', {scrollTo:$('#hpn-content').offset().top});
 
     $('#hpn-content').on('pjax:send', function() {
         toggleActiveMenuTab();
@@ -348,7 +369,7 @@
     });
 
     $('#hpn-content').on('pjax:complete', function() {
-        activateTogglingIcon();
+        activateTogglingIcon();                   
     });
 
     function toggleActiveMenuTab() {
