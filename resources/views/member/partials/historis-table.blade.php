@@ -17,7 +17,7 @@
                     <td>{{Idnme::print_date($history->created_at)}}</td>
                     <td>{{Idnme::print_date($history->updated_at)}}</td>
                     <td>
-                        @if ($history->user->id === Auth::user()->id || $history->project->user->id === Auth::user()->id)
+                        @if (($history->user->id === Auth::user()->id || $history->project->user->id === Auth::user()->id) && $history->project->project_status === 'published')
                             @php
                                 if($menu === 'sudut') {
                                     $route = 'history.edit';

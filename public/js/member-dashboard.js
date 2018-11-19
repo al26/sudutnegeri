@@ -82,6 +82,10 @@ $(document).ready(function () {
 
     callOnScroll();
 
+    $(window).on('resize', function () {
+        $('#h-menu-tab').width($('#mt').innerWidth());
+    });
+
     $('#example').DataTable({
         "language": {
             "sProcessing": "Sedang proses...",
@@ -307,20 +311,6 @@ function callOnScroll() {
                 $('#mc').css('padding-top', '0');
             }
         }
-        // else {
-        //     var tab_offset = $('.tccm').offset().top,
-        //         tab = $('#mh-menu-tab'),
-        //         tab_width = tab.innerWidth();
-
-        //     if ($(this).scrollTop() >= tab_offset) {
-        //         tab.addClass('fixed');
-        //         tab.width(tab_width);
-        //         $('#mc').css('padding-top', '6rem');
-        //     } else {
-        //         tab.removeClass('fixed');
-        //         $('#mc').css('padding-top', '0');
-        //     }
-        // }
     });
 }
 

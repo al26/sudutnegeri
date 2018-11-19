@@ -9,6 +9,7 @@
                     <thead>
                         <tr>
                             <th>Judul Proyek</th>
+                            <th>Si Sudut</th>
                             <th>Lokasi</th>
                             <th>Target Dana</th>
                             <th>Target Relawan</th>
@@ -38,6 +39,10 @@
                                         $status = 'Ditolak';
                                         $badge = 'danger';
                                         break;
+                                    case 'freeze':
+                                        $status = 'Dibekukan';
+                                        $badge = 'primary';
+                                        break;
                                     default:
                                         $status = 'Diajukan';
                                         $badge = 'warning';
@@ -46,6 +51,7 @@
                             @endphp    
                             <tr>
                                 <td><a href="{{route('project.show', ['slug' => $project->project_slug, 'menu' => 'detail'])}}" class="btn-link text-primary" target="_blank">{{$project->project_name}}</a></td>
+                                <td>{{$project->user->profile->name}}</td>
                                 <td>{{ucwords(strtolower($project->location->name))}}</td>
                                 <td>{{Idnme::print_rupiah($project->funding_target, false, true)}}</td>
                                 <td>{{$project->volunteer_quota}}</td>
@@ -58,8 +64,17 @@
                                     <span class="badge badge-{{$badge}}">{{$status}}</span>
                                 </td>
                                 <td>
-                                    <a id="project-verify" href="{{route('project.verify', ['id' => encrypt($project->id), 'action' => 'verify'])}}" class="btn btn-sm btn-primary text-white my-1" data-data='{"redirectAfter":"{{route('admin.dashboard', ['menu' => 'projects'])}}", "pjax-container":"#ac"}'><i class="far fa-check-circle"></i> Setujui & terbitkan</a>
-                                    <a id="project-reject" href="{{route('project.verify', ['id' => encrypt($project->id), 'action' => 'reject'])}}" class="btn btn-sm btn-danger text-white my-1" data-data='{"redirectAfter":"{{route('admin.dashboard', ['menu' => 'projects'])}}", "pjax-container":"#ac"}'><i class="far fa-times-circle"></i> Tolak</a>
+                                    @if ($project->project_status === 'finished' || $project->project_status === 'published')
+                                        <span class="btn btn-sm btn-light disabled">Tak ada opsi</span>
+                                    @else
+                                        {{-- @if ($project->project_status === 'published')
+                                            <a id="project-freeze" href="{{route('project.verify', ['id' => encrypt($project->id), 'action' => 'freeze'])}}" class="btn btn-sm btn-primary text-white my-1" data-data='{"redirectAfter":"{{route('admin.dashboard', ['menu' => 'projects'])}}", "pjax-container":"#ac"}'><i class="far fa-check-circle"></i> Bekukan</a>
+                                        @else     --}}
+                                            <a id="project-verify" href="{{route('project.verify', ['id' => encrypt($project->id), 'action' => 'verify'])}}" class="btn btn-sm btn-success text-white my-1" data-data='{"redirectAfter":"{{route('admin.dashboard', ['menu' => 'projects'])}}", "pjax-container":"#ac"}'><i class="far fa-check-circle"></i> Publikasikan</a>
+
+                                            <a id="project-reject" href="{{route('project.verify', ['id' => encrypt($project->id), 'action' => 'reject'])}}" class="btn btn-sm btn-danger text-white my-1" data-data='{"redirectAfter":"{{route('admin.dashboard', ['menu' => 'projects'])}}", "pjax-container":"#ac"}'><i class="far fa-times-circle"></i> Tolak</a>
+                                        {{-- @endif --}}
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

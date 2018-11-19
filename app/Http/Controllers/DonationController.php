@@ -180,10 +180,13 @@ class DonationController extends Controller
             ]);
             if($update) {
                 if($old !== null){
-                    Storage::delete('public'.$old); 
+                    Storage::delete($old); 
                 }
                 $return = ['success' => "Bukti transfer brhasil diunggah"];
             } else {
+                if(Storage::exists($path)) {
+                    Storage::deleteDirectory($path);
+                }
                 $return = ['error' => "Terjadi kesalahan. Gagal mengunggah bukti transfer"];
             }
         }

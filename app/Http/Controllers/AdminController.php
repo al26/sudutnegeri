@@ -15,6 +15,7 @@ use App\Bank;
 use App\Bank_account as Account;
 use App\User;
 use App\User_verification;
+use App\User_profile;
 use App\Withdrawal;
 
 class AdminController extends Controller
@@ -30,7 +31,7 @@ class AdminController extends Controller
         $data['categories'] = Category::all();
         $data['banks'] = Bank::all();
         $data['bank_accounts'] = Account::all();
-        $data['users'] = User::where('role', 'member')->get();
+        $data['users'] = User_profile::where('updated_at', '!=', 'created_at')->whereNotNull('identity_card')->get();
         $data['withdrawals'] = Withdrawal::all();
         return view('admin.dashboard', $data);
     }
@@ -72,8 +73,14 @@ class AdminController extends Controller
             case 'verify':
                 $status = 'published';
                 break;
-            default:
+            case 'reject':
                 $status = 'rejected';
+                break;
+            case 'freeze':
+                $status = 'freeze';
+                break;
+            default:
+                $status = 'submitted';
                 break;
         }
 
@@ -82,9 +89,13 @@ class AdminController extends Controller
 
         if ($update) {
             if($status === 'published') {
-                $return = ['success' => "Proyek $project->project_name telah disetujui dan dipublikasi"];
-            } else {
+                $return = ['success' => "Proyek $project->project_name berhasil dipublikasi"];
+            } 
+            if ($status === 'rejected') {
                 $return = ['error' => "Proyek $project->project_name ditolak"];
+            } 
+            if($status === 'freeze') {
+                $return = ['success' => "Proyek $project->project_name berhasil dibekukan"];
             }
         } else {
             $return = ['error' => "Terjadi kesalahan. Silahkan Coba lagi"];

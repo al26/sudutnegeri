@@ -213,6 +213,13 @@
         $(this).ajaxYesNo(url, data);
     });
 
+    $(document).on('click', '#project-freeze', function(e){
+        e.preventDefault();
+        var data = $(this).data('data');
+        var url = $(this).attr('href');
+        $(this).ajaxYesNo(url, data);
+    });
+
 
     $('#ac').on('pjax:complete', function() {
         table.destroy();

@@ -46,86 +46,61 @@
                         $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
                     @endphp
                     <div class="d-campaigns col-12 col-sm-6 col-xl-4 card-deck mb-3">
-                        {{-- <div class="cml-conteiner"> --}}
-                            <div class="card card-shadow p-0 m-0 border-0">
-                                <div class="category-flag">
-                                    <p>{{$project->category->category}}</p>
-                                </div>
-                                <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
-                                <div class="media campaigner">
-                                    <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
-                                    <div class="media-body">
-                                        {{$project->user->profile->name}}
-                                    </div>
-                                </div>
-                                <div class="card-header px-3 bg-white font-weight-bold">
-                                    <h5 class="card-title m-0 card-link project-title">{{$project->project_name}}</h5>
-                                </div>
-                                <div class="card-body pb-0 pt-4 px-3 _project-progress">
-                                    <div class="info-donasi">
-                                        <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
-                                        <span class="--text font-weight-bold text-capitalize">{{Idnme::print_rupiah($project->collected_funds, false, true)}}</span>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: {{$progressDana}}%"></div>
-                                        </div>
-                                        <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target)}}</span>
-                                    </div>
-                                    <hr class="mt-1 mb-2">
-                                    <div class="info-relawan">
-                                        <span class="--text "><b>{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}}</b> relawan tergabung dari target <b>{{$project->volunteer_quota}}</b> relawan</span>
-                                    </div>
-                                </div>
-                                <a class="cml text-white" data-toggle="pjax" data-pjax="main-content" href="{{route('project.manage', ['slug' => $project->project_slug])}}" onclick="javascript:$(this).setBackUrl();">
-                                    <span>
-                                        <i class="fas fa-cogs fa-2x"></i><br>
-                                        Kelola <br>Project
-                                    </span>
-                                </a>
+                        <div class="card card-shadow p-0 m-0 border-0">
+                            <div class="category-flag">
+                                <p>{{$project->category->category}}</p>
                             </div>
-                        {{-- </div> --}}
-                        {{-- <div class="card m-0 mb-3 border">
-                            <img class="card-img-top rounded-0" src="{{asset($project->project_banner)}}" alt="Project Image">
-                            <div class="card-body py-0 px-3 pt-3" style="top:0">
-                                <h5 class="card-title text-danger">{{$project->project_name}}</h5>
-                                <p class="card-text">{!!$project->project_description!!}</p>
+                            <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                            <div class="media campaigner">
+                                <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
+                                <div class="media-body">
+                                    {{$project->user->profile->name}}
+                                </div>
                             </div>
-                            <div class="project-needs">
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Dana
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: {{$progressDana}}%;" aria-valuenow="{{$progressDana}}" aria-valuemin="0" aria-valuemax="100"></div>
-                                            <small class="progress-capt">{{$progressDana}} %</small>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Relawan
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: {{$progressRelawan}}%;" aria-valuenow="{{$progressRelawan}}" aria-valuemin="0" aria-valuemax="100"></div>
-                                            <small class="progress-capt">{{$progressRelawan}}%</small>
-                                        </div>
-                                    </li>
-                                </ul>
+                            <div class="card-header px-3 bg-white font-weight-bold">
+                                <h5 class="card-title m-0 card-link project-title">{{$project->project_name}}</h5>
                             </div>
-                            <div class="card-footer px-3">
-                                <div class="row">
-                                    <div class="col-6 text-left">
-                                        <p class="mb-0"><small>Lokasi</small></p>
-                                        <p class="mb-0">{{$project->project_location}}</p>
+                            <div class="card-body pb-0 pt-4 px-3 _project-progress">
+                                <div class="info-donasi">
+                                    <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
+                                    <span class="--text font-weight-bold text-capitalize">{{Idnme::print_rupiah($project->collected_funds, false, true)}}</span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: {{$progressDana}}%"></div>
                                     </div>
-                                    <div class="col-6 text-right">
-                                        <p class="mb-0"><small>Sisa Waktu</small></p>
-                                        <p class="mb-0" id="remainingTime">{{$remainingDays}}</p>
-                                    </div>
-                                </div>				      	
+                                    <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target)}}</span>
+                                </div>
+                                <hr class="mt-1 mb-2">
+                                <div class="info-relawan">
+                                    <span class="--text "><b>{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}}</b> relawan tergabung dari target <b>{{$project->volunteer_quota}}</b> relawan</span>
+                                </div>
                             </div>
-                            <a class="cml text-white" data-toggle="pjax" data-pjax="main-content" href="{{route('project.manage', ['slug' => $project->project_slug])}}" onclick="javascript:$(this).setBackUrl();">
+                            {{-- <a class="cml text-white" data-toggle="pjax" data-pjax="main-content" href="{{route('project.manage', ['slug' => $project->project_slug])}}" onclick="javascript:$(this).setBackUrl();">
                                 <span>
                                     <i class="fas fa-cogs fa-2x"></i><br>
                                     Kelola <br>Project
                                 </span>
-                            </a>        
-                        </div> --}}
+                            </a> --}}
+                            <div class="cml text-white">
+                                @if ($project->project_status === 'finished')
+                                    <p class="w-100 my-2 text-white display-5">Proyek ini telah berakhir</p>
+                                    
+                                    <a href="{{route('project.show', ['slug' => $project->project_slug])}}" target="_blank" class="btn btn-lg btn-light text-secondary"><i class="fas fa-external-link-alt"></i> Lihat Proyek</a>
+                                @else
+                                    <a class="btn btn-lg btn-light text-secondary py-5 w-100 my-2" data-toggle="pjax" data-pjax="main-content" href="{{route('project.manage', ['slug' => $project->project_slug])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-cogs"></i> Kelola Proyek</a>
+
+                                    @if ($project->project_status === 'rejected')
+                                        <div class="alert alert-danger">
+                                            <small class="--text _sub text-justify">Pengajuan proyek ini ditolak. Silahkan perbarui dokumen verifikasi sesuai arahan yang dikirmkan ke email Anda agar dapat diverifikasi ulang. <br>
+                                                <a href="{{route('project.edit-doc', ['id' => encrypt($project->id)])}}" class="btn btn-sm btn-success my-2" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Unggah ulang dokumen verifikasi proyek", "cancel":"batal", "edit":"Unggah Dokumen", "actionUrl":"{{route('project.update-doc', ['id' => encrypt($project->id)])}}","redirectAfter":"{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}","pjax-reload":["#mr"]}'><i class="fas fa-edit"></i> Perbarui dokumen verifikasi</a> 
+                                            </small>
+                                        </div>
+                                    @else
+                                        <a class="btn btn-lg btn-danger py-5 w-100 my-2" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Akhiri Proyek","text":"Akhiri proyek {{$project->project_name}} ?", "yesUrl":"{{route('project.finish', ["id" => encrypt($project->id)])}}","yes":"Akhiri Proyek", "cancel":"Batalkan","redirectAfter":"{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}","pjax-container":"#mr"}'><i class="fas fa-power-off"></i> Akhiri Proyek</a>
+                                    @endif
+                                @endif
+
+                            </div>
+                        </div>
                     </div>
                 @endforeach
             </div>

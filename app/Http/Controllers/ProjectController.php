@@ -9,6 +9,7 @@ use App\Regency;
 use App\Donation;
 use App\Category;
 use App\Data_historis As History;
+use Storage;
 
 class ProjectController extends Controller
 {
@@ -249,7 +250,6 @@ class ProjectController extends Controller
             "close_donation"        => 'required|after_or_equal:today',
             "close_reg"             => 'required|after_or_equal:today',
             "project_banner"        => 'required|image|mimes:jpg,jpeg,png,svg',
-            // "attachments"           => 'image|mimes:jpg,jpeg,png,svg'
         ];
         $messages = [
             "project_name.required"             => ":attribute tidak boleh kosong",
@@ -268,8 +268,6 @@ class ProjectController extends Controller
             "project_banner.required"           => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
             "project_banner.image"              => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
             "project_banner.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
-            // "attachments.image"                 => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
-            // "attachments.mimes"                 => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
         ];
         $attributes = [
             "project_name"          => 'Judul Proyek',
@@ -281,11 +279,8 @@ class ProjectController extends Controller
             "volunteer_quota"       => 'jumlah target relawan',
             "category_id"           => 'kategori',
             "project_banner"        => 'spanduk',
-            // "attachments"           => 'dokumen verifikasi'
         ];
                 
-        // dd($request->data['attachments']);
-
         $validator = Validator::make($request->all(), $rules, $messages, $attributes);
 
         if ($validator->fails()) {
@@ -310,41 +305,18 @@ class ProjectController extends Controller
             $data['project_banner'] = "storage/project_banner/".$filename;
         }
         
-        // $attachment_name = [];
-        // $attachment_path = [];
-        // $attachment_link = [];
-        // if($request->hasFile('data.attachments')){
-        //     $attachments = $request->data['attachments'];
-        //     $attachment_folder = $data['project_slug'].time();
-        //     if(count($attachments) > 1) {
-        //         foreach ($attachments as $key => $a) {
-        //             $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
-        //             $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
-        //             $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
-        //         }
-        //     }
-        // }
-
-        // if(!empty($attachment_path)){
-        //     $data['attachments'] = json_encode($attachment_link);
-        // }
-
-        // dd($data);
-
         $project = Project::where('id', decrypt($id))->update($data);
-        // if(!empty($request->questions)){
-        //     $questions = json_decode($request->questions);
-        //     $qt = array();
-        //     foreach ($questions as $key => $q) {
-        //         $qt[$key]['question'] = $q;
-        //     }
-        //     $project->questions()->createMany($qt);
-        // }
-
+        $oldBanner = !empty($project->project_banner) ? substr($project->project_banner, 7) : "";
 
         if($project) {
+            if ($oldBanner !== "") {
+                Storage::delete($oldBanner);
+            }
             $return = ["success" => "Proyek berhasil diubah"];
         } else {
+            if (Storage::exists($path)) {
+                Storage::delete($path);
+            }
             $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
         }
         
@@ -370,5 +342,70 @@ class ProjectController extends Controller
 
     public function filter() {
         return view('guest.modal.project_filter', $data);
+    }
+
+    public function finish($id) {
+        $project = Project::find(decrypt($id));
+        $finished = $project->update(['project_status' => 'finished']);
+
+        if($finished) {
+            $return = ['success' => 'Berhasil mengakhiri Proyek'];
+        } else {
+            $return = ['error' => 'Terjadi kesalahan. Gagal mengakhiri proyek'];
+        }
+
+        return response()->json($return);
+    }
+
+    public function edit_doc($id) {
+        $data['id'] = $id;
+        return view('member.partials.modal.edit_project_doc', $data);
+    }
+
+    public function update_doc($id, Request $request) {
+        $project = Project::find(decrypt($id));
+        $oldPath = "";
+        
+        if (!empty($project->attachments)) {
+            $docs = json_decode($project->attachments);
+            foreach ($docs as $key => $doc) {
+                $segment = explode('/', $doc);
+            }
+            $oldPath = $segment[1]."/".$segment[2];
+        }
+        
+        // "storage/project_verification/0f78cdd70266e24156a96204457904fc1539944107/a5d72a24f55fabceab7d33a5152d3e3b.jpg"
+
+        $attachment_name = [];
+        $attachment_path = [];
+        $attachment_link = [];
+        if($request->hasFile('data.attachments')){
+            $attachments = $request->data['attachments'];
+            $attachment_folder = str_shuffle($project->project_slug.time());
+            if(count($attachments) > 0) {
+                foreach ($attachments as $key => $a) {
+                    $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
+                    $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
+                    $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
+                }
+            }
+        }
+
+        if(!empty($attachment_path)){
+            $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
+        }
+
+        $update = $project->update($data);
+
+        if($update) {
+            if ($oldPath !== "") {
+                Storage::deleteDirectory($oldPath);
+            }
+            $return = ['success' => 'Berhasil memperbarui dokumen verifikasi proyek'];
+        } else {
+            $return = ['errors' => 'Terjadi kesalahan. Gagal memperbarui dokumen verifikasi proyek'];
+        }
+
+        return response()->json($return);
     }
 }

@@ -14646,6 +14646,10 @@ table th, table td {
   border: 0 !important;
 }
 
+.btn-box.disabled {
+  opacity: .65;
+}
+
 .btn-box:hover {
   text-decoration: none !important;
 }
@@ -15021,6 +15025,10 @@ section#banner div#caption-banner #right-board {
   text-align: left;
 }
 
+.info-box.disabled {
+  opacity: .65;
+}
+
 .info-box > .info-box-inner {
   padding: .625rem;
 }
@@ -15339,7 +15347,7 @@ div#myCard {
 #h-menu-tab.fixed {
   position: fixed;
   top: 0;
-  z-index: 5;
+  z-index: 1000 !important;
   background: #fff;
 }
 
@@ -15638,6 +15646,7 @@ div#myCard {
   text-decoration: none;
   font-weight: bolder;
   visibility: hidden;
+  padding: 50% 1rem;
 }
 
 .d-campaigns .cml:hover, .owl-carousel .cml:hover {
@@ -15647,7 +15656,7 @@ div#myCard {
 .d-campaigns .cml span, .owl-carousel .cml span {
   position: relative;
   width: 100%;
-  top: 30%;
+  top: 3rem;
 }
 
 .d-campaigns .cal, .owl-carousel .cal {
@@ -15882,7 +15891,7 @@ span.dynamic-close:hover {
 #mh-menu-tab {
   position: fixed;
   width: 100%;
-  z-index: 5;
+  z-index: 1000 !important;
   background: #fff;
 }
 

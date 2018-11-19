@@ -171,7 +171,7 @@
     <section id="info" class="py-4">
         <div class="container py-5">
             {{-- <div class="row">
-                <div class="col-lg-6 col-12">
+                <div class="col-lg-4 col-12">
                     <div class="info-box bg-white">
                         <div class="info-box-inner">
                             <h3 class="text-secondary">1224</h3>
@@ -182,7 +182,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12">
+                <div class="col-lg-4 col-12">
                     <div class="info-box bg-white">
                         <div class="info-box-inner">
                             <h3 class="text-secondary">1224</h3>
@@ -193,7 +193,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12">
+                <div class="col-lg-4 col-12">
                     <div class="info-box bg-white">
                         <div class="info-box-inner">
                             <h3 class="text-secondary">122478</h3>
@@ -204,81 +204,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12">
-                    <div class="info-box bg-white">
-                        <div class="info-box-inner">
-                            <h3 class="text-secondary">1224</h3>
-                            <p class="text-secondary">Investasi Berdampak</p>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fas fa-cubes"></i>
-                        </div>
-                    </div>
-                </div>
             </div> --}}
 
             <div class="row">
                 <div class="col-12 col-md-4 text-center text-white">
-                    {{-- <div class="d-flex justify-content-beetwen align-items-center text-white">
-                        <div class="text-center mr-4">
-                            <i class="fas fa-users fa-5x fw"></i>
-                        </div>
-                        <div class="text-left">
-                            <h2 >1224</h2>
-                            <p class="m-0">Si Negeri Peduli</p>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="media text-white">
-                        <img class="img-fluid mr-3" src="https://via.placeholder.com/100x100" alt="Generic placeholder image" width="64" height="64">
-                        <i class="fas fa-users fa-5x fw mr-4"></i>
-                        <div class="media-body">
-                            <h2 >1224</h2>
-                            <p class="m-0">Si Negeri Peduli</p>
-                        </div>
-                    </div> --}}
                     <h2>1224</h2>
                     <p class="m-0">Si Negeri Peduli</p>
                 </div>
                 <div class="col-12 col-md-4 text-center text-white">
-                    {{-- <div class="d-flex justify-content-beetwen align-items-center text-white">
-                        <div class="text-center mr-4">
-                            <i class="fas fa-calendar-check fa-5x fw"></i>
-                        </div>
-                        <div class="text-left">
-                            <h2 >1224</h2>
-                            <p class="m-0">Proyek Terlaksana</p>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="media text-white">
-                        <img class="img-fluid mr-3" src="https://via.placeholder.com/100x100" alt="Generic placeholder image" width="64" height="64">
-                        <i class="fas fa-calendar-check fa-5x fw mr-4"></i>
-                        <div class="media-body">
-                            <h2 >1224</h2>
-                            <p class="m-0">Proyek Terlaksana</p>
-                        </div>
-                    </div> --}}
                     <h2 >1224</h2>
                     <p class="m-0">Proyek Terlaksana</p>
                 </div>
                 <div class="col-12 col-md-4 text-center text-white">
-                    {{-- <div class="d-flex justify-content-beetwen align-items-center text-white">
-                        <div class="text-center mr-4">
-                            <i class="fas fa-angle-double-up fa-5x fw"></i>
-                        </div>
-                        <div class="text-left">
-                            <h2 >1224</h2>
-                            <p class="m-0">Investasi Berdampak</p>
-                        </div>
-                    </div> --}}
-
-                    {{-- <div class="media text-white">
-                        <img class="img-fluid mr-3" src="https://via.placeholder.com/100x100" alt="Generic placeholder image" width="64" height="64">
-                        <i class="fas fa-angle-double-up fw" data-fa-transform="grow-100 down-25"></i>
-                        <div class="media-body">
-                            <h2 >1224</h2>
-                            <p class="m-0">Investasi Berdampak</p>
-                        </div>
-                    </div> --}}
                     <h2 >1224</h2>
                     <p class="m-0">Investasi Berdampak</p>
                 </div>

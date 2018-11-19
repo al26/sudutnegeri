@@ -39,7 +39,7 @@ Route::namespace('Auth')->group(function () {
     Route::get('/disconnect/{provider}/{continue}', 'SocialAccountController@disconnect')->name('oauth.disconnect');
 });
 
-Route::group(['prefix' => 'dashboard'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::get('/', function(){
         return redirect()->route('dashboard', ['menu' => 'overview']);
     }); 
@@ -54,6 +54,8 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('sudut/projects/manage/{slug}/history/edit/{id}', 'DataHistorisController@edit')->name('history.edit');
     Route::get('sudut/projects/create', 'ProjectController@create')->name('project.create');
     Route::get('sudut/projects/edit/{id}', 'ProjectController@edit')->name('project.edit');
+    Route::get('sudut/projects/edit-doc/{id}', 'ProjectController@edit_doc')->name('project.edit-doc');
+    Route::put('sudut/projects/update-doc/{id}', 'ProjectController@update_doc')->name('project.update-doc');
     Route::get('sudut/withdrawal/create', 'WithdrawalController@create')->name('withdrawal.create');
     Route::put('setting/profile/edit/{id}', 'MemberController@editProfile')->name('profile.edit');
     Route::get('setting/profile/avatar/edit/{id}','MemberController@editProfilePicture')->name('avatar.edit');
@@ -95,6 +97,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
+Route::resource('project', 'ProjectController')->only(['store', 'update', 'destroy']);
 Route::group(['prefix' => 'project'], function () {
     Route::get('browse', 'ProjectController@index')->name('project.browse');
     Route::get('filter', 'ProjectController@filter')->name('project.filter');
@@ -108,12 +111,12 @@ Route::group(['prefix' => 'project'], function () {
     Route::get('details/{slug}/volunteer-reg', 'VolunteerController@create')->name('volunteer.create');
     Route::get('details/{slug}/volunteer-reg/post-msg', 'VolunteerController@postmsg')->name('volunteer.postmsg');
 
-    Route::resource('project', 'ProjectController')->only(['store', 'update', 'destroy']);
     // Route::get('edit/{id}', 'ProjectController@edit')->name('project.edit');
     // Route::put('update/{id}', 'ProjectController@update')->name('project.update');
     // Route::delete('delete/{id}', 'ProjectController@destroy')->name('project.delete');
     // Route::get('create', 'ProjectController@create')->name('project.create');
-    Route::post('store', 'ProjectController@store')->name('project.store');
+    // Route::post('store', 'ProjectController@store')->name('project.store');
+    Route::put('finish/{id}', 'ProjectController@finish')->name('project.finish');
     Route::resource('withdrawal', 'WithdrawalController')->only(['store', 'update', 'destroy', 'show']);
     Route::put('withdrawal/proceed/{id}', 'WithdrawalController@confirm')->name('withdrawal.proceed');
     Route::put('withdrawal/reject/{id}', 'WithdrawalController@reject')->name('withdrawal.reject');

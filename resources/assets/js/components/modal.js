@@ -92,9 +92,9 @@
             $(document).on('click','#mbtn-yes', function(e){
                 e.preventDefault();
                 yesnoSubmit(data['yesUrl'], data, 'yes');
-                // loaded = false;
-                // data['yesUrl'] = null;
-                // return false;
+                loaded = false;
+                data['yesUrl'] = null;
+                return false;
             });
 
             $("#mbtn-yes").html("<i class='fas fa-check'></i> " + data['yes']);
@@ -105,9 +105,9 @@
             $(document).on('click','#mbtn-no', function(e){
                 e.preventDefault();
                 yesnoSubmit(data['noUrl'], data, 'no');
-                // loaded = false;
-                // data['noUrl'] = null;
-                // return false;
+                loaded = false;
+                data['noUrl'] = null;
+                return false;
             });
             $("#mbtn-no").html("<i class='fas fa-times'></i> " + data['no']);
             $("#mbtn-no").show(100);

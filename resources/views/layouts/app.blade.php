@@ -326,10 +326,10 @@
                             <small>Bulusan, Tembalang, Kota Semarang, Jawa Tengah 50275</small>
                         </h5>
                         <ul class="mr-sm-auto my-0 list-inline">
-                            <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fab fa-facebook-f rounded-0 social-icon fb"></i></a></li>
-                            <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Google Plus"><i class="fab fa-google-plus-g rounded-0 social-icon g-plus"></i></a></li>
-                            <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fab fa-youtube rounded-0 social-icon youtube"></i></a></li>
-                            <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fab fa-instagram rounded-0 social-icon ig"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fab fa-facebook-f rounded-0 social-icon fb"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Google Plus"><i class="fab fa-google-plus-g rounded-0 social-icon g-plus"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fab fa-youtube rounded-0 social-icon youtube"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fab fa-instagram rounded-0 social-icon ig"></i></a></li>
                         </ul>
                         {{-- <h5 class="font-weight-bold">Didukung Oleh :</h5>
                         <ul class="list-inline">
@@ -343,48 +343,35 @@
                     <div class="col-lg-3 pt-3">
                         <h5 class="font-weight-bold">Bidang Pendidikan</h5>
                         <ul class="list-group list-group-flush">
-                            <li class="px-0 py-1 list-group-item border-top-0"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
-                                <small>Pengembangan Karakter Anak</small>
-                            </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
-                                <small>Kewirausahaan</small>
-                            </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
-                                <small>Kesehatan dan Lingkungan</small>
-                            </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
-                                <small>Keterampilan</small>
-                            </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
-                                <small>Edukasi Science Dasar</small>
-                            </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
-                                <small>Pendidikan Perempuan</small>
-                            </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
-                                <small>Wawasan Umum</small>
-                            </a></li>
+                            @php
+                                $sectors = App\Category::all();
+                            @endphp
+                            @foreach ($sectors as $key => $s)
+                                <li class="px-0 py-1 list-group-item {{$loop->first ? 'border-top-0' : ''}}"><a href="{{route('project.browse', ['category' => $s->slug])}}" class="decoration-none p-0 btn btn-link text-secondary-black">
+                                    <small>{{$s->category}}</small>
+                                </a></li>    
+                            @endforeach
                         </ul>
                     </div>
                     <div class="col-lg-3 pt-3">
                         <h5 class="font-weight-bold">Pelajari Lebih</h5>
                         <ul class="list-group list-group-flush">
-                            <li class="px-0 py-1 list-group-item border-top-0"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            <li class="px-0 py-1 list-group-item border-top-0"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Apa itu SudutNegeri ?</small>
                             </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            <li class="px-0 py-1 list-group-item"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>FAQ (Pertanyaan Populer)</small>
                             </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            <li class="px-0 py-1 list-group-item"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Pelajari Sudut</small>
                             </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            <li class="px-0 py-1 list-group-item"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Pelajari Negeri</small>
                             </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            <li class="px-0 py-1 list-group-item"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Syarat dan Ketentuan</small>
                             </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            <li class="px-0 py-1 list-group-item"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Kebijakan Privasi</small>
                             </a></li>
                         </ul>
@@ -392,16 +379,16 @@
                     <div class="col-lg-2 pt-3">
                         <h5 class="font-weight-bold">Dukungan</h5>
                         <ul class="list-group list-group-flush">
-                            <li class="px-0 py-1 list-group-item border-top-0"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            {{-- <li class="px-0 py-1 list-group-item border-top-0"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Tips Project</small>
-                            </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            </a></li> --}}
+                            <li class="px-0 py-1 list-group-item border-top-0"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Transaksi</small>
                             </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            <li class="px-0 py-1 list-group-item"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Kontak Kami</small>
                             </a></li>
-                            <li class="px-0 py-1 list-group-item"><a href="" class="decoration-none p-0 btn btn-link text-secondary-black">
+                            <li class="px-0 py-1 list-group-item"><a href="#" class="decoration-none p-0 btn btn-link text-secondary-black">
                                 <small>Kepercayaan dan Keamanan</small>
                             </a></li>
                         </ul>
@@ -454,10 +441,10 @@
             <nav class="navbar navbar-dark d-block bg-secondary">
                 <div class="container p-0 py-2">
                     <ul class="mr-sm-auto my-0 list-inline d-block d-lg-none">
-                        <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fab fa-facebook-f rounded-0 social-icon fb"></i></a></li>
-                        <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Google Plus"><i class="fab fa-google-plus-g rounded-0 social-icon g-plus"></i></a></li>
-                        <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fab fa-youtube rounded-0 social-icon youtube"></i></a></li>
-                        <li class="list-inline-item"><a href="" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fab fa-instagram rounded-0 social-icon ig"></i></a></li>
+                        <li class="list-inline-item"><a href="#" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fab fa-facebook-f rounded-0 social-icon fb"></i></a></li>
+                        <li class="list-inline-item"><a href="#" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Google Plus"><i class="fab fa-google-plus-g rounded-0 social-icon g-plus"></i></a></li>
+                        <li class="list-inline-item"><a href="#" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fab fa-youtube rounded-0 social-icon youtube"></i></a></li>
+                        <li class="list-inline-item"><a href="#" class="nav-link p-0" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fab fa-instagram rounded-0 social-icon ig"></i></a></li>
                     </ul>
 
                     <ul class="mr-lg-auto ml-lg-0 ml-sm-auto my-2 my-sm-0 list-inline d-none d-md-block">
