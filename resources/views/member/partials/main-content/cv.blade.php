@@ -3,10 +3,10 @@
 @endphp
 <div class="card">
     <div class="card-header text-left border-bottom bg-lighten">
-        <h4 class="m-0 float-left">Buat CV</h4>
         @php
             $cv = Auth::user()->profile->cv->toArray();
         @endphp
+        <h4 class="m-0 float-left">{{in_array(null, $cv) ? 'Buat' : 'Perbarui'}} CV Saya</h4>
         @if (!in_array(null, $cv))
             <a class="btn btn-sm btn-secondary float-right" href="{{route('view.cv', ['id' => encrypt(Auth::user()->id)])}}" data-toggle="modal" data-target="#modal" data-modal='{"title":"CV Relawan", "cancel":"Tutup", "lg":true}' data-backdrop="static" data-keyboard="false">Lihat CV Saya</a>
         @endif

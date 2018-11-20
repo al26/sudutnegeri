@@ -42,8 +42,20 @@ class AdminController extends Controller
 
     public function login (Request $request) {
         $this->validate($request, [
-            'email' => ['required','email','exists:users,email', new CheckRole('users', 'admin')],
+            'email' => [
+                'required','email',
+                Rule::exists('users')->where(function($q){
+                    $q->where('active', true)
+                      ->where('role', 'admin');
+                })
+            ],
             'password' => 'required|min:6',
+        ], [
+            'email.required' => 'Kolom email tidak boleh kkosong',
+            'email.email' => 'Mohon masukkan email yang valid',
+            'email.exists' => 'Akun yang Anda masukkan tidak terdaftar',
+            'password.required' => 'Kolom password tidak boleh kosong',
+            'password.min' => 'Panjang password minimal 6 karakter' 
         ]);
 
         $credential = [

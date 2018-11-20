@@ -51,9 +51,10 @@ class LoginController extends Controller
     {
         $this->validate($request, [
             $this->username() => [
-                'required', 'string', new CheckRole('users', 'member'),
+                'required', 'string',
                 Rule::exists('users')->where(function($q){
-                    $q->where('active', true);
+                    $q->where('active', true)
+                      ->where('role', 'member');
                 })
             ],
             'password' => 'required|string',

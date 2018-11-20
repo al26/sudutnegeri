@@ -37,41 +37,6 @@
     </div>
     @else
         <div class="card-body">
-            {{-- <div class="row section-content">
-                <div class="col-4 px-2 info-box-parent">
-                    <div class="info-box">
-                        <div class="info-box-inner">
-                            <h3 class="text-secondary">0</h3>
-                            <p class="text-secondary">Total Aktivitas</p>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fas fa-hands"></i>
-                        </div>
-                    </div>
-                </div> --}}
-                {{-- <div class="col-4 px-2 info-box-parent">
-                    <div class="info-box">
-                        <div class="info-box-inner">
-                            <h3 class="text-secondary"></h3>
-                            <p class="text-secondary">Lencana</p>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fas fa-hands"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 px-2 info-box-parent">
-                    <div class="info-box">
-                        <div class="info-box-inner">
-                            <h3 class="text-secondary"></h3>
-                            <p class="text-secondary">Total Waktu Pengabdian</p>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fas fa-hands"></i>
-                        </div>
-                    </div>
-                </div> --}}
-            {{-- </div> --}}
             @if (!empty($current_activity) && $current_activity->status !== 'finished')
                 <div class="form-section">
                     <div class="fs-head">

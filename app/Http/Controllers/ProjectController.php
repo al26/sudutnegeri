@@ -347,6 +347,7 @@ class ProjectController extends Controller
     public function finish($id) {
         $project = Project::find(decrypt($id));
         $finished = $project->update(['project_status' => 'finished']);
+        $finished .= $project->volunteers()->where('project_id', decrypt($id))->update(['status' => 'finished']);
 
         if($finished) {
             $return = ['success' => 'Berhasil mengakhiri Proyek'];
