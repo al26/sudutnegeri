@@ -6,8 +6,8 @@ body, body *:not(html):not(style):not(br):not(tr):not(code) {
 }
 
 body {
-    background-color: #f5f8fa;
-    color: #74787E;
+    background-color: #0b65b1;
+    color: #4d4d4d;
     height: 100%;
     hyphens: auto;
     line-height: 1.4;
@@ -18,7 +18,7 @@ body {
     -webkit-hyphens: auto;
     -webkit-text-size-adjust: none;
     word-break: break-all;
-    /* word-break: break-word; */
+    word-break: break-word;
 }
 
 p,
@@ -30,7 +30,7 @@ blockquote {
 }
 
 a {
-    color: #3869D4;
+    color: #0e82e4;
 }
 
 a img {
@@ -40,7 +40,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #2F3133;
+    color: #000000;
     font-size: 19px;
     font-weight: bold;
     margin-top: 0;
@@ -48,7 +48,7 @@ h1 {
 }
 
 h2 {
-    color: #2F3133;
+    color: #000000;
     font-size: 16px;
     font-weight: bold;
     margin-top: 0;
@@ -56,7 +56,7 @@ h2 {
 }
 
 h3 {
-    color: #2F3133;
+    color: #000000;
     font-size: 14px;
     font-weight: bold;
     margin-top: 0;
@@ -64,7 +64,7 @@ h3 {
 }
 
 p {
-    color: #74787E;
+    color: #4d4d4d;
     font-size: 16px;
     line-height: 1.5em;
     margin-top: 0;
@@ -82,7 +82,7 @@ img {
 /* Layout */
 
 .wrapper {
-    background-color: #f5f8fa;
+    background-color: #0b65b1;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -108,19 +108,19 @@ img {
 }
 
 .header a {
-    color: #bbbfc3;
+    color: #ffffff;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
-    text-shadow: 0 1px 0 white;
+    text-shadow: 0 1px 0 #ffffff;
 }
 
 /* Body */
 
 .body {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #EDEFF2;
-    border-top: 1px solid #EDEFF2;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -130,7 +130,7 @@ img {
 }
 
 .inner-body {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     margin: 0 auto;
     padding: 0;
     width: 570px;
@@ -142,7 +142,7 @@ img {
 /* Subcopy */
 
 .subcopy {
-    border-top: 1px solid #EDEFF2;
+    border-top: 1px solid #ffffff;
     margin-top: 25px;
     padding-top: 25px;
     hyphens: auto;
@@ -170,7 +170,7 @@ img {
 }
 
 .footer p {
-    color: #AEAEAE;
+    color: #ffffff;
     font-size: 12px;
     text-align: center;
 }
@@ -186,17 +186,16 @@ img {
 }
 
 .table th {
-    border-bottom: 1px solid #EDEFF2;
+    color: #4d4d4d;
+    border-bottom: 1px solid #4d4d4d;
     padding-bottom: 8px;
-    margin: 0;
 }
 
 .table td {
-    color: #74787E;
+    color: #4d4d4d;
     font-size: 15px;
     line-height: 18px;
     padding: 10px 0;
-    margin: 0;
 }
 
 .content-cell {
@@ -218,34 +217,34 @@ img {
 .button {
     border-radius: 3px;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
-    color: #FFF;
+    color: #ffffff;
     display: inline-block;
     text-decoration: none;
     -webkit-text-size-adjust: none;
 }
 
 .button-blue {
-    background-color: #3097D1;
-    border-top: 10px solid #3097D1;
-    border-right: 18px solid #3097D1;
-    border-bottom: 10px solid #3097D1;
-    border-left: 18px solid #3097D1;
+    background-color: #0e82e4;
+    border-top: 10px solid #0e82e4;
+    border-right: 18px solid #0e82e4;
+    border-bottom: 10px solid #0e82e4;
+    border-left: 18px solid #0e82e4;
 }
 
 .button-green {
-    background-color: #2ab27b;
-    border-top: 10px solid #2ab27b;
-    border-right: 18px solid #2ab27b;
-    border-bottom: 10px solid #2ab27b;
-    border-left: 18px solid #2ab27b;
+    background-color: #00be4c;
+    border-top: 10px solid #00be4c;
+    border-right: 18px solid #00be4c;
+    border-bottom: 10px solid #00be4c;
+    border-left: 18px solid #00be4c;
 }
 
 .button-red {
-    background-color: #bf5329;
-    border-top: 10px solid #bf5329;
-    border-right: 18px solid #bf5329;
-    border-bottom: 10px solid #bf5329;
-    border-left: 18px solid #bf5329;
+    background-color: #e82d26;
+    border-top: 10px solid #e82d26;
+    border-right: 18px solid #e82d26;
+    border-bottom: 10px solid #e82d26;
+    border-left: 18px solid #e82d26;
 }
 
 /* Panels */
@@ -255,7 +254,7 @@ img {
 }
 
 .panel-content {
-    background-color: #EDEFF2;
+    background-color: #edeff2;
     padding: 16px;
 }
 

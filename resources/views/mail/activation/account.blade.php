@@ -1,22 +1,17 @@
 @component('mail::message')
-# Aktivasi Akun Sudut Negeri
-
-Hai, <strong>{{$user->profile->name}}</strong>,<br>
-Terima kasih telah bergabung bersama Sudut Negeri. Aktifkan akun Anda dengan klik pada tombol di bawah ini
+Hai, <strong>{{$user->profile->name}}</strong><br>
+Terima kasih telah bergabung bersama Sudut Negeri. Klik tombol di bawah untuk aktivasi akun Anda.
 
 @component('mail::button', ['url' => route('auth.activate', ['token' => $user->activation_token, 'email' => encrypt($user->email)])])
 Aktifkan Akun Saya
 @endcomponent
 
-Abaikan Email ini jika Anda merasa tidak melakukan pendaftaran ke website SudutNegeri
+Abaikan email ini jika Anda merasa tidak melakukan pendaftaran ke website Sudut Negeri
 
 Salam,<br>
-{{ config('app.name') }}
+<strong>{{ config('app.name') }}</strong>
 
-<hr>
-<small>
-    Sebagai antisipasi jika tombol di atas tidak berfungsi, silahkan <i>copy &amp; paste</i> tautan berikut pada peramban Anda.
-
-    {{route('auth.activate', ['token' => $user->activation_token, 'email' => encrypt($user->email)])}}
-</small>
+@slot('subcopy')
+Sebagai antisipasi jika tombol di atas tidak berfungsi, silahkan <i>copy &amp; paste</i> tautan berikut pada peramban Anda : {{route('auth.activate', ['token' => $user->activation_token, 'email' => encrypt($user->email)])}}
+@endslot
 @endcomponent
