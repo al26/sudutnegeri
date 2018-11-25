@@ -1,12 +1,11 @@
 @component('mail::message')
-# Introduction
+# Hai, {{ucwords($project->user->profile->name)}}
 
-The body of your message.
+Pengajuan proyek {{$project->project_name}} Anda ditolak karena beberapa hal terkait dokumen versifikasi yang Anda sertakan.
+Silahkan hubungi admin Sudut Negeri untuk mengetahui detail kesalahan dalam pengajuan proyek tersebut.
 
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
+Jangan lupa untuk memperbarui dan mengunggah ulang dokumen verifikasi sesuai petunjuk yang diberikan Admin Sudut Negeri.
 
-Thanks,<br>
-{{ config('app.name') }}
+Terimakasih,<br>
+<strong>{{ config('app.name') }}</strong>
 @endcomponent

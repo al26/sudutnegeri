@@ -81,10 +81,12 @@
                         <input type="file" class="custom-file-input" id="attachment" name="data[attachment]" onchange="javascript:previewImgUpload(this, '#wd-preview-default', '#wd-loader', '#wd-preview', '#wd-label');">
                         <label class="custom-file-label" for="attachment" id="wd-label">Pilih File</label>
                     </div>
-                    <small class="form-text text-muted">Lampirkan foto/scan ktp pemilik rekening jika bukan atas nama Anda sendiri. Format .jpg, atau .png</small> --}}
+                    <small class="form-text text-muted">Lampirkan foto/scan ktp pemilik rekening jika bukan atas nama Anda sendiri. Format .jpg, atau .png</small> 
+                </div>--}}
+                <div class="float-right">
+                    <button type="submit" id="create-withdrawal" class="btn btn-md btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}">Ajukan Penarikan Dana</button>
+                    <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}" class="btn btn-danger" data-toggle="pjax" data-pjax="main-content">Batal</a>
                 </div>
-                <button type="submit" id="create-withdrawal" class="btn btn-md btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}">Ajukan Penarikan Dana</button>
-                <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}" class="btn btn-danger" data-toggle="pjax" data-pjax="main-content">Batal</a>
             </form>
         </div>
     @endif

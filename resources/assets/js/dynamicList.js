@@ -55,6 +55,17 @@ dynamicList = function (input, targetList, storeTo) {
 }
 
 dynamicFileList = function (input, targetList, label) {
+    console.log(input.va());
+
+
+    if($(input).hasClass('is-invalid')) {
+        $(input).removeClass('is-invalid');
+    }
+
+    if($(input).siblings('.invalid-feedback')) {
+        $(input).siblings('.invalid-feedback').remove();
+    }
+
     var targetList = document.getElementById(targetList);
     while (targetList.firstChild) {
         targetList.removeChild(targetList.firstChild);

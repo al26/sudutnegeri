@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Withdrawal;
 use App\Helpers\Idnme;
+use App\Notifications\AcceptWithdrawal;
+use App\Notifications\RejectWithdrawal;
 
 class WithdrawalController extends Controller
 {
@@ -197,9 +199,11 @@ class WithdrawalController extends Controller
                 $update = $withdrawal->update($data);
                 if($update) {
                     if($old !== ""){
-                        Storage::delete('public'.$old); 
+                        Storage::delete($old); 
                     }
                     $return = ['success' => "Pencairan dana berhasil diproses"];
+                    $when = now()->addSeconds(10);
+                    $withdrawal->user->notify((new AcceptWithdrawal($withdrawal))->delay($when));
                 } else {
                     $return = ['error' => "Terjadi kesalahan. Memproses pencairan Dana"];
                 }

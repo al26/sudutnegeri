@@ -17,6 +17,10 @@ use App\User;
 use App\User_verification;
 use App\User_profile;
 use App\Withdrawal;
+use App\Notifications\VerifyDonation;
+use App\Notifications\RejectDonation;
+use App\Notifications\AcceptProject;
+use App\Notifications\RejectProject;
 
 class AdminController extends Controller
 {
@@ -98,13 +102,16 @@ class AdminController extends Controller
 
         $project->project_status = $status;
         $update = $project->save();
+        $when = now()->addSeconds(10);
 
         if ($update) {
             if($status === 'published') {
                 $return = ['success' => "Proyek $project->project_name berhasil dipublikasi"];
+                $project->user->notify((new AcceptProject($project))->delay($when));
             } 
             if ($status === 'rejected') {
                 $return = ['error' => "Proyek $project->project_name ditolak"];
+                $project->user->notify((new RejectProject($project))->delay($when));
             } 
             if($status === 'freeze') {
                 $return = ['success' => "Proyek $project->project_name berhasil dibekukan"];
@@ -126,9 +133,11 @@ class AdminController extends Controller
         $status = array(
             'status'=> $code
         );
-        $donationUpdate = Donation::find(decrypt($id))->update($status);
-
+        $donation = Donation::find(decrypt($id));
+        $donationUpdate = $donation->update($status);
+        
         if($donationUpdate) {
+            $when = now()->addSeconds(10);
             if($code === "verified"){
                 $dataAmount = Donation::select('amount')->where('id', decrypt($id))->get();
                 $dataIdProject = Donation::select('project_id')->where('id', decrypt($id))->get();
@@ -141,11 +150,14 @@ class AdminController extends Controller
 
                 if($update) {
                     $return = ['success' => 'Berhasil memverifikasi donasi'];
+                    $donation->user->notify((new VerifyDonation($donation))->delay($when));
                 } else {
                     $return = ['error' => 'Gagal verifikasi donasi'];
+                    Donation::find(decrypt($id))->update(['status' => 'pending']);
                 }
             } else {
                 $return = ['success' => 'Berhasil menolak donasi'];
+                $donation->user->notify((new RejectDonation($donation))->delay($when));
             }
         } else {
             $return = ['error' => 'Gagal verifikasi donasi'];

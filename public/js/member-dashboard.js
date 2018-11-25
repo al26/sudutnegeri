@@ -154,12 +154,12 @@ $(document).on('click', '#profile-edit', function (e) {
 
 $(document).on('click', '#upload-receipt', function (e) {
     e.preventDefault();
-    $('#form-receipt').ajaxCrudNonModal(['#mr']);
+    $('#form-receipt').ajaxCrudNonModal(['#mr'], '/dashboard/negeri/donations');
 });
 
 $(document).on('click', '#upload-verification', function (e) {
     e.preventDefault();
-    $('#form-verification').ajaxCrudNonModal(['#mr']);
+    $('#form-verification').ajaxCrudNonModal(['#mr'], '/dashboard/sudut/projects');
 });
 
 // $(document).on('click', '#activity-create-history', function(e) {

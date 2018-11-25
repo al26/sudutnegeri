@@ -10,6 +10,8 @@ use App\Project;
 use Validator;
 use Notification;
 use App\Notifications\DonationInvoice;
+use App\Notifications\VerifyDonation;
+use App\Notifications\RejectDonation;
 use Nexmo;
 use Storage;
 
@@ -177,12 +179,13 @@ class DonationController extends Controller
         if($path) {
             $update = $donation->update([
                 'transfer_receipt' => "storage/transfer_receipts/$filename",
+                'status' => 'pending'
             ]);
             if($update) {
                 if($old !== null){
                     Storage::delete($old); 
                 }
-                $return = ['success' => "Bukti transfer brhasil diunggah"];
+                $return = ['success' => "Bukti transfer berhasil diunggah"];
             } else {
                 if(Storage::exists($path)) {
                     Storage::deleteDirectory($path);

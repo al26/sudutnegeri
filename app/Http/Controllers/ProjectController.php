@@ -364,6 +364,19 @@ class ProjectController extends Controller
     }
 
     public function update_doc($id, Request $request) {
+        $rules = ['attachments' => 'required|mimes:jpg,png,jpeg,svg,doc,docx,pdf'];
+        $messages = [
+            'attachments.required' => 'Dokumen verifikasi tidak boleh kosong',
+            'attachments.mimes' => 'Format dokumen yang diijinkan hanya .jpg, .png, .svg, .doc, .docx, dan .pdf'
+        ];
+        $attributes = ['attachments' => 'dokumen verifikasi'];
+        
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            return response()->json(["errors" => $validator->messages()]);
+        }
+
         $project = Project::find(decrypt($id));
         $oldPath = "";
         
@@ -375,8 +388,6 @@ class ProjectController extends Controller
             $oldPath = $segment[1]."/".$segment[2];
         }
         
-        // "storage/project_verification/0f78cdd70266e24156a96204457904fc1539944107/a5d72a24f55fabceab7d33a5152d3e3b.jpg"
-
         $attachment_name = [];
         $attachment_path = [];
         $attachment_link = [];
@@ -390,22 +401,25 @@ class ProjectController extends Controller
                     $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
                 }
             }
-        }
 
-        if(!empty($attachment_path)){
-            $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
-        }
-
-        $update = $project->update($data);
-
-        if($update) {
-            if ($oldPath !== "") {
-                Storage::deleteDirectory($oldPath);
+            if(!empty($attachment_path)){
+                $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
             }
-            $return = ['success' => 'Berhasil memperbarui dokumen verifikasi proyek'];
+    
+            $update = $project->update($data);
+    
+            if($update) {
+                if ($oldPath !== "") {
+                    Storage::deleteDirectory($oldPath);
+                }
+                $return = ['success' => 'Berhasil memperbarui dokumen verifikasi proyek'];
+            } else {
+                $return = ['errors' => 'Terjadi kesalahan. Gagal memperbarui dokumen verifikasi proyek'];
+            }
         } else {
-            $return = ['errors' => 'Terjadi kesalahan. Gagal memperbarui dokumen verifikasi proyek'];
+            $return = ['error' => 'Tidak ada file dipilih. Mohon pilih file terlebih dahulu'];
         }
+
 
         return response()->json($return);
     }

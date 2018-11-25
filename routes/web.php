@@ -176,7 +176,9 @@ Route::group(['prefix' => 'json'], function () {
             $regencies = App\Regency::where('name', 'LIKE', '%'.$key.'%')->pluck('id')->toArray();
             $data = $projects->where('project_name','LIKE','%'.$key.'%')
                              ->orWhereIn('regency_id', $regencies)
-                             ->with('user.profile','location')->get();
+                             ->with('user.profile','location')
+                             ->orderBy('id', 'DESC')
+                             ->take(5)->get();
         }
         
         // dd(json_encode($data));

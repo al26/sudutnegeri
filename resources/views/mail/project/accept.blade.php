@@ -1,12 +1,9 @@
 @component('mail::message')
-# Introduction
+# Selamat, {{ucwords($project->user->profile->name)}}
 
-The body of your message.
+Pengajuan proyek {{$project->project_name}} Anda telah disetujui dan proyek tersebut telah dipublikasikan.
+Silahkan cek pada situs <a href="{{route('/')}}">Sudut Negeri</a>. Hubungi Admin Sudut Negeri bila proyek Anda ternyata belum terpublikasi.
 
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
-
-Thanks,<br>
-{{ config('app.name') }}
+Terimakasih,<br>
+<strong>{{ config('app.name') }}</strong>
 @endcomponent

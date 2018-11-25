@@ -7,6 +7,9 @@ use App\Project;
 use App\Volunteer;
 use App\Additional_question as Question;
 use App\Additional_answer as Answer;
+use App\Notifications\PostRegNotification;
+use App\Notifications\AcceptVolunteer;
+use App\Notifications\RejectVolunteer;
 use Validator;
 
 class VolunteerController extends Controller
@@ -41,7 +44,7 @@ class VolunteerController extends Controller
         return view('member.create_volunteer', $data);
     }
 
-    public function postmsg($slug) 
+    public function postmsg(Request $request, $slug) 
     {
         $data['project'] = Project::where('project_slug', $slug)->first();
         return view('member.post_reg_msg', $data);
@@ -110,6 +113,8 @@ class VolunteerController extends Controller
 
             if($store) {
                 $return = redirect()->route('volunteer.postmsg', ['slug' => $slug]);
+                $when = now()->addSeconds(10);
+                $request->user()->notify((new PostRegNotification(Project::where('project_slug', $slug)->first(), $request->user()))->delay($when));
             } else {
                 $return = redirect()->back()->with('error', 'Terjadi kesalahan. Silahkan coba lagi')->withInput($data);
             }
@@ -155,6 +160,7 @@ class VolunteerController extends Controller
         $accept = null;
         $reject = null;
         $v = Volunteer::find(decrypt($id));
+        $when = now()->addSeconds(10);
         
         if ($request->query('code') === 'yes') {
             $v->status = "accepted";
@@ -166,8 +172,10 @@ class VolunteerController extends Controller
 
         if($accept){
             $return = ["success" => $v->user->profile->name." berhasil didaftarkan sebagai relawan proyek "]; 
+            $v->user->notify((new AcceptVolunteer($v))->delay($when));
         } elseif($reject){
             $return = ["success" => $v->user->profile->name." ditolak sebagai relawan proyek "]; 
+            $v->user->notify((new RejectVolunteer($v))->delay($when));
         } else {
             $return = ["erorr" => "Terjadi kesalahan. Silahkan coba lagi atau hubingi administrator"];
         }
