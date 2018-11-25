@@ -364,7 +364,7 @@ class ProjectController extends Controller
     }
 
     public function update_doc($id, Request $request) {
-        $rules = ['attachments' => 'required|mimes:jpg,png,jpeg,svg,doc,docx,pdf'];
+        $rules = ['attachments.*' => 'required|mimes:jpg,png,jpeg,svg,doc,docx,pdf'];
         $messages = [
             'attachments.required' => 'Dokumen verifikasi tidak boleh kosong',
             'attachments.mimes' => 'Format dokumen yang diijinkan hanya .jpg, .png, .svg, .doc, .docx, dan .pdf'

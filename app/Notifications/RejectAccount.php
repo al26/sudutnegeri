@@ -7,18 +7,20 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class RejectAccount extends Notification
+class RejectAccount extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    protected $verification;
+
     /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    * Create a new notification instance.
+    *
+    * @return void
+    */
+    public function __construct($verification)
     {
-        //
+        $this->verification = $verification;
     }
 
     /**
@@ -40,7 +42,8 @@ class RejectAccount extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.project.reject');
+        return (new MailMessage)->subject("Informasi verifikasi akun")
+                                ->markdown('mail.account.reject', ['verification' => $this->verification]);
     }
 
     /**

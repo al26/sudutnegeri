@@ -43,8 +43,8 @@ class PostRegNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('Sudut Negeri : Pendaftaran relawan')
-                                ->markdown('mail.postreg', ['project' => $this->project, 'volunteer' => $this->volunteer]);
+        return (new MailMessage)->subject('Pendaftaran relawan')
+                                ->markdown('mail.volunteer.postreg', ['project' => $this->project, 'volunteer' => $this->volunteer]);
     }
 
     /**

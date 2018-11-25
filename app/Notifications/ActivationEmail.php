@@ -45,7 +45,7 @@ class ActivationEmail extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->subject('Aktivasi Akun Sudut Negeri')
-                    ->markdown('mail.activation.account', ['user' => $this->user]);
+                    ->markdown('mail.account.activation', ['user' => $this->user]);
     }
 
     /**

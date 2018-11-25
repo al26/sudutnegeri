@@ -55,9 +55,6 @@ dynamicList = function (input, targetList, storeTo) {
 }
 
 dynamicFileList = function (input, targetList, label) {
-    console.log(input.va());
-
-
     if($(input).hasClass('is-invalid')) {
         $(input).removeClass('is-invalid');
     }

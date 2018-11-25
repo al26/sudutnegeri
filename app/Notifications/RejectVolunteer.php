@@ -41,7 +41,7 @@ class RejectVolunteer extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('Sudut Negeri : Informasi penerimaan relawan')
+        return (new MailMessage)->subject('Informasi penerimaan relawan')
                                 ->markdown('mail.volunteer.reject', ['volunteer' => $this->volunteer]);
     }
 
