@@ -78819,9 +78819,9 @@ if ($.support.pjax) {
             $(document).on('click', "#mbtn-delete", function (e) {
                 e.preventDefault();
                 deleteData(data);
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-delete").html("<i class='far fw fa-trash-alt'></i> " + data['delete']);
             $("#mbtn-delete").show(100);
@@ -78831,9 +78831,9 @@ if ($.support.pjax) {
             $(document).on('click', '#mbtn-add', function (e) {
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-add").html("<i class='fas fa-plus fw'></i> " + data['add']);
             $("#mbtn-add").show(100);
@@ -78843,9 +78843,9 @@ if ($.support.pjax) {
             $(document).on('click', '#mbtn-edit', function (e) {
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
             $("#mbtn-edit").show(100);
@@ -83652,6 +83652,16 @@ dynamicList = function dynamicList(input, targetList, storeTo) {
 };
 
 dynamicFileList = function dynamicFileList(input, targetList, label) {
+    console.log(input.va());
+
+    if ($(input).hasClass('is-invalid')) {
+        $(input).removeClass('is-invalid');
+    }
+
+    if ($(input).siblings('.invalid-feedback')) {
+        $(input).siblings('.invalid-feedback').remove();
+    }
+
     var targetList = document.getElementById(targetList);
     while (targetList.firstChild) {
         targetList.removeChild(targetList.firstChild);
@@ -83874,6 +83884,14 @@ $(document).ready(function () {
                 }
                 if ($(prev).is(":visible")) {
                     $(prev).hide(100);
+                }
+
+                if ($(input).hasClass('is-invalid')) {
+                    $(input).removeClass('is-invalid');
+                }
+
+                if ($(input).siblings('.invalid-feedback')) {
+                    $(input).siblings('.invalid-feedback').remove();
                 }
             };
 

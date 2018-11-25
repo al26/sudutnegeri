@@ -3,6 +3,10 @@ $(document).ready(function() {
     toggleActiveContentTab();
 
     callOnScroll();
+
+    $(window).on('resize', function(){
+        $('#h-menu-tab').width($('#mt').innerWidth());
+    });
     
     $('#example').DataTable(
         {
@@ -75,17 +79,17 @@ $(document).on('click', '#password-change', function(e){
 
 $(document).on('click', '#profile-edit', function(e){
     e.preventDefault();
-    $('#form-profile').ajaxCrudNonModal(['#mr', '#mt']);
+    $('#form-profile').ajaxCrudNonModal(['#mr', '#mt'], '/dashboard/setting/profile');
 });
 
 $(document).on('click', '#upload-receipt', function(e){
     e.preventDefault();
-    $('#form-receipt').ajaxCrudNonModal(['#mr']);
+    $('#form-receipt').ajaxCrudNonModal(['#mr'], '/dashboard/negeri/donations');
 });
 
 $(document).on('click', '#upload-verification', function(e){
     e.preventDefault();
-    $('#form-verification').ajaxCrudNonModal(['#mr']);
+    $('#form-verification').ajaxCrudNonModal(['#mr'], '/dashboard/sudut/projects');
 });
 
 // $(document).on('click', '#activity-create-history', function(e) {
@@ -134,7 +138,7 @@ $(document).on('click', '#create-withdrawal', function(e) {
 });
 
 projecToCredit = $('#form-create-withdrawal').find('#project_id');
-$(document).on('change', projecToCredit, function(e){
+projecToCredit.on('change', function(e){
     // var project = encodeURIComponent(window.btoa(projecToCredit.val)),
     var url = projecToCredit.attr('data-saldo') +"?project="+ projecToCredit.val();
     $.get(url, function(data) {
@@ -242,20 +246,6 @@ function callOnScroll() {
                 tab.removeClass('fixed');
                 $('#mc').css('padding-top', '0');
             }
-        } 
-        // else {
-        //     var tab_offset = $('.tccm').offset().top,
-        //         tab = $('#mh-menu-tab'),
-        //         tab_width = tab.innerWidth();
-
-        //     if ($(this).scrollTop() >= tab_offset) {
-        //         tab.addClass('fixed');
-        //         tab.width(tab_width);
-        //         $('#mc').css('padding-top', '6rem');
-        //     } else {
-        //         tab.removeClass('fixed');
-        //         $('#mc').css('padding-top', '0');
-        //     }
-        // }
+        }
     })
 }

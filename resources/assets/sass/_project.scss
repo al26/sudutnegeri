@@ -190,7 +190,7 @@
 	&.fixed {
 		position: fixed;
 		top: 0;
-		z-index: 5;
+		z-index: 1000 !important;
 		background: #fff;
 		// width: initial;
 	}
@@ -515,14 +515,15 @@
         font-size: 2rem;
         text-decoration: none;
         font-weight: bolder;
-        visibility: hidden;
+		visibility: hidden;
+		padding: 50% 1rem;
         &:hover {
             visibility: visible;
         }
         span{
             position: relative;
             width: 100%;
-            top: 30%;
+            top: 3rem;
         }
 
     }  
@@ -539,7 +540,7 @@
         font-size: 2rem;
         text-decoration: none;
         font-weight: bolder;
-        padding: 8rem 0;
+        padding: 11rem 0;
         &:hover {
             background: rgba($color: $secondary, $alpha: 1);
             color: #ffffff;

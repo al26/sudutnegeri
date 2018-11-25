@@ -10,6 +10,8 @@ use App\Project;
 use Validator;
 use Notification;
 use App\Notifications\DonationInvoice;
+use App\Notifications\VerifyDonation;
+use App\Notifications\RejectDonation;
 use Nexmo;
 use Storage;
 
@@ -33,9 +35,12 @@ class DonationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($slug)
+    public function create($slug, Request $request)
     {
         $data['project'] = Project::where('project_slug', $slug)->first();
+        if($request->user()->id === $data['project']->user_id) {
+            return redirect()->back();
+        }
         $data['banks'] = Bank_account::all();
         return view('member.create_donation', $data);
     }
@@ -174,13 +179,17 @@ class DonationController extends Controller
         if($path) {
             $update = $donation->update([
                 'transfer_receipt' => "storage/transfer_receipts/$filename",
+                'status' => 'pending'
             ]);
             if($update) {
                 if($old !== null){
-                    Storage::delete('public'.$old); 
+                    Storage::delete($old); 
                 }
-                $return = ['success' => "Bukti transfer brhasil diunggah"];
+                $return = ['success' => "Bukti transfer berhasil diunggah"];
             } else {
+                if(Storage::exists($path)) {
+                    Storage::deleteDirectory($path);
+                }
                 $return = ['error' => "Terjadi kesalahan. Gagal mengunggah bukti transfer"];
             }
         }
@@ -208,7 +217,7 @@ class DonationController extends Controller
         $donation = Donation::where($where)->orderBy('id', 'desc')->first();
         $data['donation'] = $donation;
         $when = now()->addSeconds(10);
-        $request->user()->notify((new DonationInvoice($request->user(), $slug))->delay($when));
+        $request->user()->notify((new DonationInvoice($request->user(), $slug, $donation))->delay($when));
         // Nexmo::message()->send([
         //     'to'   => '+6285868444101',
         //     'from' => '+6281392531719',

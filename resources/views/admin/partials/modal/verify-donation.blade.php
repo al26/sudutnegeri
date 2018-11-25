@@ -15,40 +15,34 @@
                 <div class="table-responsive mt-3">
                     <table class="table table-striped">
                         <tbody>
-                          <tr>
-                              <th scope="row"><h5 class="font-weight-bold">Penerima</h5></th>
-
-                              <td class="text-right">{{$donation->bank->bank_accounts[0]->account_name}}</td>
-                          </tr>
-                          <tr>
-                              <th scope="row"><h5 class="font-weight-bold">Rek. Penerima</h5></th>
-
-                              <td class="text-right">{{$donation->bank->bank_accounts[0]->account_number}}</td>
-                          </tr>
+                            <tr>
+                                <th scope="row"><h5 class="font-weight-bold">Penerima</h5></th>
+                                <td class="">{{$donation->bank->bank_accounts[0]->account_name}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><h5 class="font-weight-bold">Rek. Penerima</h5></th>
+                                <td class="">{{$donation->bank->bank_accounts[0]->account_number}}</td>
+                            </tr>
                             <tr>
                                 <th scope="row">Jumlah Donasi</th>
-
-                                <td class="text-right">{{Idnme::print_rupiah($donation->amount,false,true)}}</td>
+                                <td class="">{{Idnme::print_rupiah($donation->amount,false,true)}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Kode Bayar</th>
-
-                                <td class="text-right">{{$donation->payment_code}}</td>
+                                <td class="">{{$donation->payment_code}}</td>
                             </tr>
                             <tr>
                                 <th scope="row"><h5 class="font-weight-bold">Pengirim</h5></th>
-
-                                <td class="text-right">{{$donation->user->profile->name}}</td>
+                                <td class="">{{$donation->user->profile->name}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><h5 class="font-weight-bold">Bank</h5></th>
+                                <td>
+                                    <img class="align-self-center ml-auto" src="{{asset($donation->bank->logo)}}" height="50" alt="Logo {{$donation->bank->bank_name}}">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-
-                <div class="media">
-                    <div class="media-body">
-                        <p>Nama Bank</p>
-                    </div>
-                    <img class="align-self-center ml-auto img-fluid" src="{{asset($donation->bank->logo)}}" alt="Logo {{$donation->bank->bank_name}}">
                 </div>
 
         </div>

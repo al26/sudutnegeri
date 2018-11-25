@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\User;
+use App\Project;
 
 class DonationInvoice extends Notification implements ShouldQueue
 {
@@ -21,11 +22,11 @@ class DonationInvoice extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(User $user, $slug)
+    public function __construct(User $user, $slug, $donation)
     {
         $this->user = $user;
         $this->slug = $slug;
-        // $this->donation = $donation;
+        $this->donation = $donation;
     }
 
     /**
@@ -47,13 +48,10 @@ class DonationInvoice extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url = route('donation.invoice', ['slug' => $this->slug]);
+        $project = Project::where('project_slug', $this->slug)->first();
 
-        return (new MailMessage)
-                    ->greeting('Hello!'.$this->user->profile->name)
-                    ->line('One of your invoices has been paid!')
-                    ->action('View Invoice', $url)
-                    ->line('Thank you for using our application!');
+        return (new MailMessage)->subject('Sudut Negeri : Faktur investasi proyek')
+                                ->markdown('mail.invoice', ['user' => $this->user, 'project' => $project, 'donation' => $this->donation]);
     }
 
     /**

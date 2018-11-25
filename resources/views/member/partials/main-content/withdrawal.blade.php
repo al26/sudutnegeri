@@ -78,7 +78,7 @@
                                 <td>{{Idnme::print_date($w->created_at, true)}}</td>
                                 <td>{{$w->project->project_name}}</td>
                                 <td>{{Idnme::print_rupiah($w->amount, false, true)}}</td>
-                                <td><span class="badge badge-{{$badge}}">{{$status}}</span></td>
+                                <td><span class="badge badge-{{$badge}}">{{$status}}</span>&nbsp;<a href="{{route('file.view', ['path' => $w->receipt])}}" class="badge badge-secondary text-white" target="_blank"><i class="fas fa-receipt"></i> Bukti Pencairan</a></td>
                                 {{-- <td>
                                     <a class="btn btn-sm btn-primary" data-toggle="pjax" data-pjax="main-content" href="{{route('withdrawal.create', ['slug' => $p->project_slug])}}" onclick="javascript:$(this).setBackUrl();"><i class="fas fa-cloud-upload-alt"></i> Cairkan Dana</a>
                                 </td> --}}

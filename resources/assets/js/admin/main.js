@@ -53,6 +53,14 @@ previewImgUpload = function (input, def, loader, prev, label) {
 			if($(prev).is(":visible")) {
 				$(prev).hide(100);
 			}
+
+			if($(input).hasClass('is-invalid')) {
+				$(input).removeClass('is-invalid');
+			}
+
+			if($(input).siblings('.invalid-feedback')) {
+				$(input).siblings('.invalid-feedback').remove();
+			}
 		}
 
 		reader.onprogress = function(data) {

@@ -213,10 +213,13 @@ class MemberController extends Controller
             $update = $profile->update(['profile_picture' => "storage/profile_pictures/$filename"]);
             if($update) {
                 if($old !== '/profile_pictures/avatar.jpg'){
-                    Storage::delete('public'.$old); 
+                    Storage::delete($old); 
                 }
                 $return = ['success' => "Foto profil berhasil diubah"];
             } else {
+                if (Storage::exists($path)) {
+                    Storage::delete($path);
+                }
                 $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
             }
         }
@@ -309,8 +312,17 @@ class MemberController extends Controller
         } else {
             $verify = Verification::where('user_profile_id', $request->user()->profile->id)->firstOrFail();
             $data['status'] = 'pending';
-            // $old_sic = substr($verify->scan_id_card, 7) ?? null;
-            // $old_vp = substr($verify->verification_picture, 7) ?? null;
+            $oldPath = "";
+        
+            if (!empty($verify->scan_id_card)) {
+                $segment = explode('/', $verify->scan_id_card);
+                $oldPath = $segment[1]."/".$segment[2];
+            } else {
+                if (!empty($verify->verification_picture)) {
+                    $segment = explode('/', $verify->verification_picture);
+                    $oldPath = $segment[1]."/".$segment[2];
+                }   
+            }
     
             if($request->hasFile('sic') && $request->hasFile('vp')) {
                 $folder = md5($verify->id.time()*26);
@@ -326,29 +338,36 @@ class MemberController extends Controller
     
             if($sicpath !== null) {
                 $data['scan_id_card'] = "storage/user_verification/$folder/$sicname";
+                $newSicSegment = explode('/', $sicpath);
+                $newSicPath = $newSicSegment[1]."/".$newSicSegment[2];
     
                 if ($vppath !== null) {
                     $data['verification_picture'] = "storage/user_verification/$folder/$vpname";
-    
+                    $newVpSegment = explode('/', $sicpath);
+                    $newVpPath = $newVpSegment[1]."/".$newVpSegment[2];
+
                     $update = $verify->update($data);
     
                     if($update) {
+                        if ($oldPath !== null) {
+                            Storage::deleteDirectory($oldPath);
+                        }
                         $return = ['success' => "Foto verifikasi akun berhasil diunggah. Permintaan verifikasi akun Anda akan segera diproses oleh Sudut Negeri."];
                     } else {
-                        if (Storage::exists($sicpath)) {
-                            Storage::delete($sicpath);
+                        if (Storage::exists($newSicPath)) {
+                            Storage::deleteDirectory($newSicPath);
                         }
     
-                        if (Storage::exists($vppath)) {
-                            Storage::delete($vppath);
+                        if (Storage::exists($newVpPath)) {
+                            Storage::deleteDirectory($newVpPath);
                         }
     
                         $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
                     }
     
                 } else {
-                    if (Storage::exists($sicpath)) {
-                        Storage::delete($sicpath);
+                    if (Storage::exists($newSicPath)) {
+                        Storage::deleteDirectory($newSicPath);
                     }
     
                     $return = ['error' => "Terjadi kesalahan. Silahkan coba lagi"];

@@ -56,9 +56,9 @@
             $(document).on('click',"#mbtn-delete", function(e){
                 e.preventDefault();
                 deleteData(data);
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-delete").html("<i class='far fw fa-trash-alt'></i> " + data['delete']);
             $("#mbtn-delete").show(100);
@@ -68,9 +68,9 @@
             $(document).on('click','#mbtn-add', function(e){
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-add").html("<i class='fas fa-plus fw'></i> " + data['add']);
             $("#mbtn-add").show(100);
@@ -80,9 +80,9 @@
             $(document).on('click','#mbtn-edit', function(e){
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
-                loaded = false;
-                data['actionUrl'] = null;
-                return false;
+                // loaded = false;
+                // data['actionUrl'] = null;
+                // return false;
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
             $("#mbtn-edit").show(100);

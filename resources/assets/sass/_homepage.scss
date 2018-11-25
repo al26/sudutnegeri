@@ -92,6 +92,11 @@ section#banner {
 	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 	background: rgba(245,248,250,.7);
 	text-align: left;
+	
+	&.disabled {
+		opacity: .65;
+		// background: rgba($secondary, $alpha: 0.5);
+	}
 
 	> .info-box-inner {
 		padding: .625rem;

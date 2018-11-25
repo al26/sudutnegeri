@@ -17,6 +17,19 @@
         <div class="card-body">
             <form action="{{route('withdrawal.store')}}" method="post" id="form-create-withdrawal">
                 @csrf
+                <div class="alert alert-info">Mohon gunakan rekening atas nama Anda sendiri sesuai nama yang terdaftar di Sudut Negeri yaitu <b>{{ucwords(Auth::user()->profile->name)}}</b></div>
+                <div class="form-group row mx-0">
+                    <label class="fs-label col-12 col-md-3 p-0" for="bank_code">Nama Bank</label>
+                    <div class="col-12 col-md-9 p-0">
+                        <select id="bank_id" name="data[bank_id]" class="select2 form-control">
+                            <option selected disabled>-- Pilih Bank --</option>
+                            @foreach ($banks as $bank)
+                                <option value="{{$bank->id}}">{{"Bank ".$bank->bank_name}}</option>
+                            @endforeach
+                        </select>
+                        <small class="form-text text-muted">Pilih nama bank tujuan pencairan dana</small>
+                    </div>
+                </div>
                 <div class="form-group row mx-0">
                     <label class="fs-label col-12 col-md-3 p-0" for="account_number">Nomor Rekening</label>
                     <div class="col-12 col-md-9 p-0">
@@ -25,22 +38,9 @@
                     </div>
                 </div>
                 <div class="form-group row mx-0">
-                    <label class="fs-label col-12 col-md-3 p-0" for="bank_code">Nama Bank</label>
-                    <div class="col-12 col-md-9 p-0">
-                        <select id="bank_code" name="data[bank_code]" class="select2 form-control">
-                            <option selected disabled>-- Pilih Bank --</option>
-                            @foreach ($banks as $bank)
-                                <option value="{{$bank->bank_code}}">{{"Bank ".$bank->bank_name}}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-text text-muted">Pilih nama bank tujuan pencairan dana</small>
-                    </div>
-                </div>
-                <div class="form-group row mx-0">
                     <label class="fs-label col-12 col-md-3 p-0" for="account_name">Atas Nama</label>
                     <div class="col-12 col-md-9 p-0">
-                        <input type="text" class="form-control" id="account_name" name="data[account_name]" placeholder="Atas nama nomor rekening anda">
-                        <small class="form-text text-muted">Masukkan nama pemilik rekening</small>
+                        <input type="text" class="form-control" value="{{ucwords(Auth::user()->profile->name)}}" readonly>
                     </div>
                 </div>
                 <div class="form-group row mx-0">
@@ -68,7 +68,7 @@
                         Masukkan nominal dana yang ingin dicairkan
                     </small>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="attachment">Scan/foto ktp pemilik rekening <b>(jika bukan atas nama sendiri)</b></label>
                     <div class="row mb-3 text-center">
                         <div class="col-12">
@@ -81,10 +81,12 @@
                         <input type="file" class="custom-file-input" id="attachment" name="data[attachment]" onchange="javascript:previewImgUpload(this, '#wd-preview-default', '#wd-loader', '#wd-preview', '#wd-label');">
                         <label class="custom-file-label" for="attachment" id="wd-label">Pilih File</label>
                     </div>
-                    <small class="form-text text-muted">Lampirkan foto/scan ktp pemilik rekening jika bukan atas nama Anda sendiri. Format .jpg, atau .png</small>
+                    <small class="form-text text-muted">Lampirkan foto/scan ktp pemilik rekening jika bukan atas nama Anda sendiri. Format .jpg, atau .png</small> 
+                </div>--}}
+                <div class="float-right">
+                    <button type="submit" id="create-withdrawal" class="btn btn-md btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}">Ajukan Penarikan Dana</button>
+                    <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}" class="btn btn-danger" data-toggle="pjax" data-pjax="main-content">Batal</a>
                 </div>
-                <button type="submit" id="create-withdrawal" class="btn btn-md btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}">Ajukan Penarikan Dana</button>
-                <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'withdrawal'])}}" class="btn btn-danger" data-toggle="pjax" data-pjax="main-content">Batal</a>
             </form>
         </div>
     @endif
