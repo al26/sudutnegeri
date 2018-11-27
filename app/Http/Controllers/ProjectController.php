@@ -84,20 +84,21 @@ class ProjectController extends Controller
         $rules = [
             "project_name"          => 'required|between:10,50',
             "project_description"   => 'required',
-            "project_location"      => 'required',
+            "regency_id"            => 'required',
             "funding_target"        => 'required|numeric',
             "volunteer_quota"       => 'required|numeric',
             "category_id"           => 'required',
             "close_donation"        => 'required|after_or_equal:today',
             "close_reg"             => 'required|after_or_equal:today',
             "project_banner"        => 'required|image|mimes:jpg,jpeg,png,svg',
-            "attachments"           => 'image|mimes:jpg,jpeg,png,svg'
+            "attachments"           => 'required',
+            // "attachments.*"         => 'mimes:jpg,jpeg,png,svg'
         ];
         $messages = [
             "project_name.required"             => ":attribute tidak boleh kosong",
             "project_name.between"              => "Mohon isi judul proyek setidaknya 10 karakter dan maksimal 50 karakter",
             "project_description.required"      => "Mohon isi :attribute untuk menjelaskan detai proyek Anda",
-            "project_location.required"         => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
+            "regency_id.required"               => "Mohon diisi. Calon relawan perlu informasi :attribute proyek Anda",
             "close_donation.required"           => "Mohon untuk mengisi :attribute untuk proyek Anda",
             "close_donation.after_or_equal"     => "Mohon isikan :attribute setidaknya tanggal hari ini",
             "close_reg.required"                => "Mohon untuk mengisi :attribute untuk proyek Anda",
@@ -110,13 +111,15 @@ class ProjectController extends Controller
             "project_banner.required"           => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
             "project_banner.image"              => "Mohon sertakan sebuah foto sebagai :attribute proyek anda",
             "project_banner.mimes"              => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
-            "attachments.image"                 => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg",
-            "attachments.mimes"                 => "Jenis file yang diperbolehkan hanya .jpg, .png, atau .svg"
+            "attachments.required"              => "Dokumen verifikasi tidak boleh kosong",
+            // "attachments.image"                 => "Jenis file yang diperbolehkan image hanya .jpg, .png, atau .svg",
+            // "attachments.*.mimes"                 => "Jenis file yang diperbolehkan hanya .pdf",
+            // "attachments.mimetypes"                 => "Jenis file yang diperbolehkan hanya .pdf"
         ];
         $attributes = [
             "project_name"          => 'Judul Proyek',
             "project_description"   => 'deskripsi proyek',
-            "project_location"      => 'lokasi',
+            "regency_id"            => 'lokasi',
             "close_donation"        => 'batas waktu donasi',
             "close_reg"             => 'batas waktu registrasi',
             "funding_target"        => 'nominal target dana',
@@ -126,68 +129,74 @@ class ProjectController extends Controller
             "attachments"           => 'dokumen verifikasi'
         ];
                 
-        // dd($request->data['attachments']);
+        if($request->hasFile('attachments')) {
+            foreach ($request->attachments as $key => $a) {
+                $rules["attachments.".$key] = "mimetypes:application/pdf"; 
+                $messages["attachments.".$key.".mimetypes"] = "Oops !!. Dokumen verifikasi ".$a->getClientOriginalName()." bukan berformat PDF";
+            }
+        }
 
         $validator = Validator::make($request->all(), $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             $return = ["errors" => $validator->messages()];
-        }
+        } else {
 
-        $data = $request->data;
-        $data["project_slug"] = md5($request->data['project_name']);
-        $data["close_donation"] = date_create_from_format('Y-m-d', $request->data['close_donation'])->format('Y-m-d H:i:s');
-        $data["close_reg"] = date_create_from_format('Y-m-d', $request->data['close_reg'])->format('Y-m-d H:i:s');
-        
-        $path = "";
-        $filename = "";
+            $data = $request->data;
+            $data["project_slug"] = md5($request->data['project_name']);
+            $data["close_donation"] = date_create_from_format('Y-m-d', $request->data['close_donation'])->format('Y-m-d H:i:s');
+            $data["close_reg"] = date_create_from_format('Y-m-d', $request->data['close_reg'])->format('Y-m-d H:i:s');
+            
+            $path = "";
+            $filename = "";
 
-        if($request->hasFile('data.project_banner')) {
-            $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
-            $file = $request->file('data.project_banner');
-            $path = $file->storeAs('project_banner', $filename);
-        }
+            if($request->hasFile('data.project_banner')) {
+                $filename = md5($request->data['project_banner']->getClientOriginalName().time()).'.'.$request->data['project_banner']->getClientOriginalExtension();
+                $file = $request->file('data.project_banner');
+                $path = $file->storeAs('project_banner', $filename);
+            }
 
-        if($path) {
-            $data['project_banner'] = "storage/project_banner/".$filename;
-        }
-        
-        $attachment_name = [];
-        $attachment_path = [];
-        $attachment_link = [];
-        if($request->hasFile('data.attachments')){
-            $attachments = $request->data['attachments'];
-            $attachment_folder = $data['project_slug'].time();
-            if(count($attachments) >= 1) {
-                foreach ($attachments as $key => $a) {
-                    $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
-                    $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
-                    $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
+            if($path) {
+                $data['project_banner'] = "storage/project_banner/".$filename;
+            }
+            
+            $attachment_name = [];
+            $attachment_path = [];
+            $attachment_link = [];
+            if($request->hasFile('attachments')){
+                $attachments = $request->attachments;
+                $attachment_folder = $data['project_slug'].time();
+                if(count($attachments) >= 1) {
+                    foreach ($attachments as $key => $a) {
+                        $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
+                        $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
+                        $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
+                    }
                 }
             }
-        }
 
-        if(!empty($attachment_path)){
-            $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
-        }
-
-        // dd($data);
-
-        $project = Project::create($data);
-        if(!empty($request->questions)){
-            $questions = json_decode($request->questions);
-            $qt = array();
-            foreach ($questions as $key => $q) {
-                $qt[$key]['question'] = $q;
+            if(!empty($attachment_path)){
+                $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
             }
-            $project->questions()->createMany($qt);
-        }
+
+            // dd($data);
+
+            $project = Project::create($data);
+            if(!empty($request->questions)){
+                $questions = json_decode($request->questions);
+                $qt = array();
+                foreach ($questions as $key => $q) {
+                    $qt[$key]['question'] = $q;
+                }
+                $project->questions()->createMany($qt);
+            }
 
 
-        if($project) {
-            $return = ["success" => "Proyek baru berhasil dibuat"];
-        } else {
-            $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
+            if($project) {
+                $return = ["success" => "Proyek baru berhasil dibuat"];
+            } else {
+                $return = ["errors" => "Terjadi Kesalahan. Gagal membuat proyek baru."];
+            }
         }
         
         return response()->json($return);
@@ -364,62 +373,66 @@ class ProjectController extends Controller
     }
 
     public function update_doc($id, Request $request) {
-        $rules = ['attachments.*' => 'required|mimes:jpg,png,jpeg,svg,doc,docx,pdf'];
+        $rules = ['attachments' => 'required'];
         $messages = [
-            'attachments.required' => 'Dokumen verifikasi tidak boleh kosong',
-            'attachments.mimes' => 'Format dokumen yang diijinkan hanya .jpg, .png, .svg, .doc, .docx, dan .pdf'
+            'attachments.required' => 'Dokumen verifikasi tidak boleh kosong'
         ];
         $attributes = ['attachments' => 'dokumen verifikasi'];
+
+        if($request->hasFile('attachments')) {
+            foreach ($request->attachments as $key => $a) {
+                $rules["attachments.".$key] = "mimetypes:application/pdf"; 
+                $messages["attachments.".$key.".mimetypes"] = "Oops !!. Dokumen verifikasi ".$a->getClientOriginalName()." bukan berformat PDF";
+            }
+        }
         
         $validator = Validator::make($request->all(), $rules, $messages, $attributes);
-
+        $return = [];
         if ($validator->fails()) {
             return response()->json(["errors" => $validator->messages()]);
-        }
-
-        $project = Project::find(decrypt($id));
-        $oldPath = "";
-        
-        if (!empty($project->attachments)) {
-            $docs = json_decode($project->attachments);
-            foreach ($docs as $key => $doc) {
-                $segment = explode('/', $doc);
-            }
-            $oldPath = $segment[1]."/".$segment[2];
-        }
-        
-        $attachment_name = [];
-        $attachment_path = [];
-        $attachment_link = [];
-        if($request->hasFile('data.attachments')){
-            $attachments = $request->data['attachments'];
-            $attachment_folder = str_shuffle($project->project_slug.time());
-            if(count($attachments) > 0) {
-                foreach ($attachments as $key => $a) {
-                    $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
-                    $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
-                    $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
-                }
-            }
-
-            if(!empty($attachment_path)){
-                $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
-            }
-    
-            $update = $project->update($data);
-    
-            if($update) {
-                if ($oldPath !== "") {
-                    Storage::deleteDirectory($oldPath);
-                }
-                $return = ['success' => 'Berhasil memperbarui dokumen verifikasi proyek'];
-            } else {
-                $return = ['errors' => 'Terjadi kesalahan. Gagal memperbarui dokumen verifikasi proyek'];
-            }
         } else {
-            $return = ['error' => 'Tidak ada file dipilih. Mohon pilih file terlebih dahulu'];
-        }
 
+            $project = Project::find(decrypt($id));
+            $oldPath = "";
+            
+            if (!empty($project->attachments)) {
+                $docs = json_decode($project->attachments);
+                foreach ($docs as $key => $doc) {
+                    $segment = explode('/', $doc);
+                }
+                $oldPath = $segment[1]."/".$segment[2];
+            }
+            $data = [];
+            $attachment_name = [];
+            $attachment_path = [];
+            $attachment_link = [];
+            if($request->hasFile('attachments')){
+                $attachments = $request->attachments;
+                $attachment_folder = str_shuffle($project->project_slug.time());
+                if(count($attachments) > 0) {
+                    foreach ($attachments as $key => $a) {
+                        $attachment_name[$key] = md5($a->getClientOriginalName().time()).'.'.$a->getClientOriginalExtension();
+                        $attachment_path[$key] = $a->storeAs("project_verification/$attachment_folder", $attachment_name[$key]);
+                        $attachment_link[$key] = "storage/project_verification/$attachment_folder/$attachment_name[$key]";
+                    }
+                }
+
+                if(!empty($attachment_path)){
+                    $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
+                }
+        
+                $update = $project->update($data);
+        
+                if($update) {
+                    if ($oldPath !== "") {
+                        Storage::deleteDirectory($oldPath);
+                    }
+                    $return = ['success' => 'Berhasil memperbarui dokumen verifikasi proyek'];
+                } else {
+                    $return = ['errors' => 'Terjadi kesalahan. Gagal memperbarui dokumen verifikasi proyek'];
+                }
+            }
+        }
 
         return response()->json($return);
     }

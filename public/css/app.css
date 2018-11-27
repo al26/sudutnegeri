@@ -14334,6 +14334,7 @@ main#main-content {
   text-indent: -9999px;
   display: none;
   border-radius: 0;
+  z-index: 1000;
 }
 
 @media (min-width: 768px) {

@@ -71,7 +71,7 @@
                                         <td>{{$volunteer->project->project_name}}</td>
                                         <td><span class="badge badge-{{getStatus($volunteer->status)[0]}}">{{getStatus($volunteer->status)[1]}}</td>
                                         <td>
-                                            @if ($volunteer->status === 'accepted')
+                                            @if ($volunteer->status === 'accepted' || $volunteer->status === 'finished')
                                                 ---
                                             @else
                                                 <a href="{{route('volunteer.show', ['id' => encrypt($volunteer->id)])}}" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Tinjau Aplikasi","yes":"Terima", "no":"Tolak", "lg":true, "yesUrl":"{{route('volunteer.update', ['id' => encrypt($volunteer->id), 'code' => 'yes'])}}", "noUrl":"{{route('volunteer.update', ['id' => encrypt($volunteer->id), 'code' => 'no'])}}", "redirectAfter":"{{route('dashboard', ['menu' => 'sudut', 'section' => 'volunteer'])}}", "pjax-container":"#mr"}'><i class="fas fa-search"></i> Tinjau</a>

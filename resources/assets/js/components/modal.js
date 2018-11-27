@@ -89,7 +89,7 @@
         }
 
         if(data['yes']) {
-            $(document).on('click','#mbtn-yes', function(e){
+            $("#modal").on('click','#mbtn-yes', function(e){
                 e.preventDefault();
                 yesnoSubmit(data['yesUrl'], data, 'yes');
                 loaded = false;
@@ -102,7 +102,7 @@
         }
 
         if(data['no']) {
-            $(document).on('click','#mbtn-no', function(e){
+            $("#modal").on('click','#mbtn-no', function(e){
                 e.preventDefault();
                 yesnoSubmit(data['noUrl'], data, 'no');
                 loaded = false;
@@ -194,8 +194,8 @@
                     if(data['pchange']) {
                         pchange(data['pchange-url']);
                     }
-                    
                 }
+                return;
             },
             error: function(response){
                 console.log(response);
@@ -205,7 +205,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
-                
+                return;
             }
         });
 
@@ -229,6 +229,10 @@
         // var inputs = $('input:not([type="submit"]), textarea, select');
 
         $.each(errors, function(index, value){
+            var sp = index.split(".");
+            if(sp.length > 0) {
+                index = sp[0];
+            }
             $('#'+index).parent().append('<div class="invalid-feedback d-block">'+value+'</div>');
             $('#'+index).addClass('is-invalid');
         });
@@ -279,7 +283,7 @@
                         timer: 1500
                     });
                 }
-                
+                return;
             }, 
             error: function(response){
                 console.log(response);
@@ -289,10 +293,104 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
+                return;
             }
         });
 
         
+    }
+
+    function yesSubmit(url, data) {
+        if (url == null) {return;}
+
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {'_method' : 'PUT', '_token': csrf_token},
+            cache: false,
+            ifModified: true,
+            global: false
+        }).done(function(response) {
+            if(response.success) {
+                if(data['modal']) {
+                    $('#modal').modal('hide');
+                }
+                swal({
+                    type: 'success',
+                    title: response.success,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                
+                $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+            }
+
+            if(response.errors) {
+                if(data['modal']) {
+                    $('#modal').modal('hide');
+                }
+                swal({
+                    type: 'error',
+                    title: response.error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            $('#mbtn-yes').off();
+            $('#mbtn-no').off();
+            return false;
+
+        }).fail(function(response){
+            console.log(response);
+            return false;
+        });
+    }
+
+    function noSubmit(url, data) {
+        if (url == null) {return;}
+
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {'_method' : 'PUT', '_token': csrf_token},
+            cache: false,
+            ifModified: true,
+            global: false
+        }).done(function(response) {
+            if(response.success) {
+                if(data['modal']) {
+                    $('#modal').modal('hide');
+                }
+                swal({
+                    type: 'success',
+                    title: response.success,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                
+                $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+            }
+
+            if(response.errors) {
+                if(data['modal']) {
+                    $('#modal').modal('hide');
+                }
+                swal({
+                    type: 'error',
+                    title: response.error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            $('#mbtn-yes').off();
+            $('#mbtn-no').off();
+            return false;
+        }).fail(function(response){
+            console.log(response);
+            return false;
+        });
     }
 
     function yesnoSubmit(url, data, type){
@@ -330,7 +428,7 @@
                 }
 
                 $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
-                
+                return;
             }
 
             if(response.errors) {
@@ -343,12 +441,15 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
+                return;
             }
 
             $('#mbtn-yes').off();
             $('#mbtn-no').off();
+            return;
         }).fail(function(response){
             console.log(response);
+            return;
         });
         
     }
@@ -519,8 +620,11 @@
                 });
                 $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
             }
+            return;
+
         }).fail(function(response){
             console.log(response);
+            return;
         });
         
     }
