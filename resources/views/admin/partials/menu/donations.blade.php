@@ -4,7 +4,7 @@
             <div class="card-header text-left border-bottom bg-lighten clearfix d-flex flex-row justify-content-between align-items-center">
                 <h4 class="m-0 p-0">Daftar Investasi Masuk</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body table-responsive">
                 <table id="example" class="table table-striped table-bordered">
                     <thead>
                         <tr>

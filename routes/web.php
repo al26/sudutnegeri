@@ -130,7 +130,7 @@ Route::group(['prefix' => 'donation', 'middleware' => 'web'], function () {
 Route::group(['prefix' => 'volunteer', 'middleware' => 'web'], function () {
     Route::post('store', 'VolunteerController@store')->name('volunteer.store');
     Route::get('show/{id}', 'VolunteerController@show')->name('volunteer.show');
-    Route::put('update/{id}', 'VolunteerController@update')->name('volunteer.update');
+    Route::put('update/{id}/{code}', 'VolunteerController@update')->name('volunteer.update');
     Route::put('accept/{id}', 'VolunteerController@accept')->name('volunteer.accept');
     Route::put('reject/{id}', 'VolunteerController@reject')->name('volunteer.reject');
 });

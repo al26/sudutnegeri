@@ -78764,42 +78764,37 @@ if ($.support.pjax) {
 (function ($) {
     $.fn.loadModal = function () {
         var url = null;
-        var data = null;
-        var loaded = false;
+        data = null;
         $("#modal").on("show.bs.modal", function (e) {
             $(".modal-body").empty();
-            loaded = true;
 
-            if (loaded) {
+            var md = $('.modal-dialog');
+            md.removeClass('modal-lg');
 
-                var md = $('.modal-dialog');
-                md.removeClass('modal-lg');
+            url = $(e.relatedTarget).attr('href');
+            data = $(e.relatedTarget).data('modal');
 
-                url = $(e.relatedTarget).attr('href');
-                data = $(e.relatedTarget).data('modal');
+            data['modal'] = true;
+            $(".modal-title").text(data['title']);
+            console.log(data);
 
-                data['modal'] = true;
-                $(".modal-title").text(data['title']);
-                console.log(data);
-
-                if (data['lg']) {
-                    md.addClass('modal-lg');
-                }
-
-                if (url) {
-                    $.get(url, function (content) {
-                        $(".modal-body").html(content);
-                    }).fail(function (response) {
-                        console.log(response);
-                    });
-                } else {
-                    $(".modal-body").html(data['text']);
-                }
-
-                generateBtn(data);
-            } else {
-                data = null;
+            if (data['lg']) {
+                md.addClass('modal-lg');
             }
+
+            if (url) {
+                $.ajaxSetup({ cache: false });
+                $.get(url, function (content) {
+                    $(".modal-body").html(content);
+                }).fail(function (response) {
+                    console.log(response);
+                });
+            } else {
+                $(".modal-body").html(data['text']);
+            }
+
+            generateBtn(data);
+
             // $('.select2').select2({
             //     theme: "bootstrap4",
             //     dropdownParent: $('#modal')
@@ -78808,7 +78803,6 @@ if ($.support.pjax) {
 
         $('#modal').on('hidden.bs.modal', function (e) {
             data = null;
-            loaded = false;
         });
     };
 
@@ -78855,9 +78849,6 @@ if ($.support.pjax) {
             $("#modal").on('click', '#mbtn-yes', function (e) {
                 e.preventDefault();
                 yesnoSubmit(data['yesUrl'], data, 'yes');
-                loaded = false;
-                data['yesUrl'] = null;
-                return false;
             });
 
             $("#mbtn-yes").html("<i class='fas fa-check'></i> " + data['yes']);
@@ -78868,9 +78859,6 @@ if ($.support.pjax) {
             $("#modal").on('click', '#mbtn-no', function (e) {
                 e.preventDefault();
                 yesnoSubmit(data['noUrl'], data, 'no');
-                loaded = false;
-                data['noUrl'] = null;
-                return false;
             });
             $("#mbtn-no").html("<i class='fas fa-times'></i> " + data['no']);
             $("#mbtn-no").show(100);
@@ -78892,6 +78880,9 @@ if ($.support.pjax) {
         if (data['actionUrl'] == null) {
             return;
         }
+        $.ajaxSetup({
+            cache: false
+        });
         var form = form,
             action = data['actionUrl'],
             value = form.serialize();
@@ -78978,7 +78969,9 @@ if ($.support.pjax) {
         }
         var split = url.split("/");
         baseurl = split[0] + '//' + split[2] + '/';
-
+        $.ajaxSetup({
+            cache: false
+        });
         $.get(url, function (response) {
             console.log("img src : " + baseurl + response);
             $(".pchange").attr('src', baseurl + response);
@@ -79013,6 +79006,9 @@ if ($.support.pjax) {
             return;
         }
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            cache: false
+        });
         $.ajax({
             url: data['actionUrl'],
             type: "POST",
@@ -79158,59 +79154,65 @@ if ($.support.pjax) {
         if (url == null) {
             return;
         }
-        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        var csrf_token = $('meta[name="csrf-token"]').attr('content'),
+            time = new Date().getTime();
+        $.ajaxSetup({
+            cache: false
+        });
         $.ajax({
             url: url,
             type: "POST",
-            data: { '_method': 'PUT', '_token': csrf_token },
-            cache: false,
-            ifModified: true,
-            global: false
-        }).done(function (response) {
-            if (response.success) {
-                if (data['modal']) {
-                    $('#modal').modal('hide');
+            data: { '_method': 'PUT', '_token': csrf_token, 'code': type },
+            async: false,
+            success: function success(response) {
+                if (response.success) {
+                    if (data['modal']) {
+                        $('#modal').modal('hide');
+                    }
+
+                    if (type == 'yes') {
+                        swal({
+                            type: 'success',
+                            title: response.success,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        swal({
+                            type: 'error',
+                            title: response.success,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+
+                    $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                    // redireload(data['redirectAfter'],data['pjax-container']);
+                    // window.attr.href = data['redirectAfter'];
+                    url = null;
+                    return;
                 }
 
-                if (type == 'yes') {
+                if (response.errors) {
+                    if (data['modal']) {
+                        $('#modal').modal('hide');
+                    }
                     swal({
                         type: 'success',
-                        title: response.success,
+                        title: response.error,
                         showConfirmButton: false,
                         timer: 1500
                     });
-                } else {
-                    swal({
-                        type: 'error',
-                        title: response.success,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                    return;
                 }
 
-                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                $('#mbtn-yes').off();
+                $('#mbtn-no').off();
+                return;
+            }, error: function error(response) {
+                console.log(response);
                 return;
             }
-
-            if (response.errors) {
-                if (data['modal']) {
-                    $('#modal').modal('hide');
-                }
-                swal({
-                    type: 'success',
-                    title: response.error,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                return;
-            }
-
-            $('#mbtn-yes').off();
-            $('#mbtn-no').off();
-            return;
-        }).fail(function (response) {
-            console.log(response);
-            return;
         });
     }
 
@@ -79353,6 +79355,9 @@ if ($.support.pjax) {
             return;
         }
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            cache: false
+        });
         $.ajax({
             url: url,
             type: "POST",

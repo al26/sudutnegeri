@@ -156,13 +156,13 @@ class VolunteerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id, $code) {
         $accept = null;
         $reject = null;
         $v = Volunteer::find(decrypt($id));
         $when = now()->addSeconds(10);
         
-        if ($request->query('code') === 'yes') {
+        if ($request->code === 'yes') {
             $v->status = "accepted";
             $accept = $v->save();
         } else {
@@ -186,7 +186,7 @@ class VolunteerController extends Controller
     public function accept(Request $request, $id)
     {   
         $v = Volunteer::find($id);
-        $v->status = "diterima";
+        $v->status = "accepted";
         $accept = $v->save();
 
         if($accept){
@@ -201,7 +201,7 @@ class VolunteerController extends Controller
     public function reject(Request $request, $id)
     {   
         $v = Volunteer::find($id);
-        $v->status = "tidak diterima";
+        $v->status = "rejected";
         $reject = $v->save();
 
         if($reject){
