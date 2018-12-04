@@ -1,14 +1,14 @@
 (function($) {
     $.fn.loadModal = function() {        
         var url = null;
-        var data = null;
-        var loaded = false;
+        data = null;
+        del_url = null;
+        submit_url = null;
+        yes_url = null;
+        no_url = null;
         $("#modal").on("show.bs.modal", function(e) {
             $(".modal-body").empty();
-            loaded = true;
-
-            if(loaded) {
-
+            
                 var md      = $('.modal-dialog');
                 md.removeClass('modal-lg');
                 
@@ -24,28 +24,29 @@
                 }
     
                 if(url) {
+                    $.ajaxSetup({cache:false});
                     $.get(url, function( content ) {
+                        submit_url = data['actionUrl'] ? data['actionUrl'] : null;
+                        yes_url = data['yesUrl'] ? data['yesUrl'] : null; 
+                        no_url = data['noUrl'] ? data['noUrl'] : null; 
                         $(".modal-body").html(content);
                     }).fail(function(response) {
                         console.log(response);
                     });
                 } else {
+                    del_url = data['actionUrl'];
                     $(".modal-body").html(data['text']);
                 }
     
                 generateBtn(data);
-            } else {
-                data = null;
-            }
-            // $('.select2').select2({
-            //     theme: "bootstrap4",
-            //     dropdownParent: $('#modal')
-            // });
+                e.stopImmediatePropagation();
+
         });
 
         $('#modal').on('hidden.bs.modal', function (e) {
             data = null;
-            loaded = false;
+            del_url = null;
+            submit_url = null;
         })
     }
 
@@ -56,6 +57,7 @@
             $(document).on('click',"#mbtn-delete", function(e){
                 e.preventDefault();
                 deleteData(data);
+                e.stopImmediatePropagation();
                 // loaded = false;
                 // data['actionUrl'] = null;
                 // return false;
@@ -68,6 +70,7 @@
             $(document).on('click','#mbtn-add', function(e){
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
+                e.stopImmediatePropagation();
                 // loaded = false;
                 // data['actionUrl'] = null;
                 // return false;
@@ -82,6 +85,7 @@
                 doSubmit(data, $('#modal form'));
                 // loaded = false;
                 // data['actionUrl'] = null;
+                e.stopImmediatePropagation();
                 // return false;
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
@@ -89,12 +93,11 @@
         }
 
         if(data['yes']) {
-            $(document).on('click','#mbtn-yes', function(e){
+            $("#modal").on('click','#mbtn-yes', function(e){
                 e.preventDefault();
-                yesnoSubmit(data['yesUrl'], data, 'yes');
-                loaded = false;
-                data['yesUrl'] = null;
-                return false;
+                yesnoSubmit(yes_url, data, 'yes');
+                e.stopImmediatePropagation();
+                // window.location.href = data['redirectAfter'];
             });
 
             $("#mbtn-yes").html("<i class='fas fa-check'></i> " + data['yes']);
@@ -102,12 +105,11 @@
         }
 
         if(data['no']) {
-            $(document).on('click','#mbtn-no', function(e){
+            $("#modal").on('click','#mbtn-no', function(e){
                 e.preventDefault();
-                yesnoSubmit(data['noUrl'], data, 'no');
-                loaded = false;
-                data['noUrl'] = null;
-                return false;
+                yesnoSubmit(no_url, data, 'no');
+                e.stopImmediatePropagation();
+                // window.location.href = data['redirectAfter'];
             });
             $("#mbtn-no").html("<i class='fas fa-times'></i> " + data['no']);
             $("#mbtn-no").show(100);
@@ -126,11 +128,14 @@
     }
 
     function doSubmit(data, form) {
-        if (data['actionUrl'] == null) {
-            return;
-        }
+        // if (data['actionUrl'] == null) {
+        //     return false;
+        // }
+        // $.ajaxSetup ({
+        //     cache: false
+        // });
         var form    = form,
-            action  = data['actionUrl'],
+            action  = submit_url,
             value   = form.serialize();
 
         $.ajax({
@@ -145,7 +150,7 @@
                     getFeedback(response.errors);
 
                     console.log(response.errors);
-
+                    return false;
                 } 
 
                 if(response.error) {
@@ -156,15 +161,16 @@
                         timer: 1500
                     });
                     
-
+                    return false;
                 }
 
                 if(response.success) {
-                    if(data['pjax-reload']) {
-                        $.each(data['pjax-reload'], function(index, val){
-                            $.pjax.reload(val);
-                        })
-                    }
+                    resetFeedback();
+                    // if(data['pjax-reload']) {
+                    //     $.each(data['pjax-reload'], function(index, val){
+                    //         $.pjax.reload(val);
+                    //     })
+                    // }
 
                     if(data['modal']) {
                         $('#modal').modal('hide');
@@ -194,8 +200,9 @@
                     if(data['pchange']) {
                         pchange(data['pchange-url']);
                     }
-                    
+                    return false;
                 }
+                return false;
             },
             error: function(response){
                 console.log(response);
@@ -205,11 +212,11 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
-                
+                return false;
             }
         });
 
-        loaded = false;
+        // loaded = false;
     }
 
     function pchange(url) {
@@ -218,7 +225,9 @@
         }
         var split = url.split("/");
             baseurl = split[0] + '//' + split[2] + '/';
-
+        $.ajaxSetup ({
+            cache: false
+        });
         $.get(url, function(response){
             console.log("img src : " + baseurl + response);
             $(".pchange").attr('src', baseurl + response);
@@ -229,6 +238,10 @@
         // var inputs = $('input:not([type="submit"]), textarea, select');
 
         $.each(errors, function(index, value){
+            var sp = index.split(".");
+            if(sp.length > 0) {
+                index = sp[0];
+            }
             $('#'+index).parent().append('<div class="invalid-feedback d-block">'+value+'</div>');
             $('#'+index).addClass('is-invalid');
         });
@@ -245,12 +258,15 @@
     }
 
     function deleteData(data){
-        if (data['actionUrl'] == null) {
-            return;
-        }
+        // if (data['actionUrl'] == null) {
+        //     return;
+        // }
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        // $.ajaxSetup ({
+        //     cache: false
+        // });
         $.ajax({
-            url: data['actionUrl'],
+            url: del_url,
             type: "POST",
             data: {'_method' : 'DELETE', '_token': csrf_token},
             success: function(response) {
@@ -279,7 +295,7 @@
                         timer: 1500
                     });
                 }
-                
+                return;
             }, 
             error: function(response){
                 console.log(response);
@@ -289,16 +305,16 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
+                return;
             }
         });
 
         
     }
 
-    function yesnoSubmit(url, data, type){
-        if (url == null) {
-            return;
-        }
+    function yesSubmit(url, data) {
+        if (url == null) {return;}
+
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url: url,
@@ -312,25 +328,14 @@
                 if(data['modal']) {
                     $('#modal').modal('hide');
                 }
+                swal({
+                    type: 'success',
+                    title: response.success,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 
-                if (type == 'yes') {
-                    swal({
-                        type: 'success',
-                        title: response.success,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                } else {
-                    swal({
-                        type: 'error',
-                        title: response.success,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-
                 $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
-                
             }
 
             if(response.errors) {
@@ -338,18 +343,132 @@
                     $('#modal').modal('hide');
                 }
                 swal({
-                    type: 'success',
+                    type: 'error',
                     title: response.error,
                     showConfirmButton: false,
                     timer: 1500
                 });
             }
-
             $('#mbtn-yes').off();
             $('#mbtn-no').off();
+            return false;
+
         }).fail(function(response){
             console.log(response);
+            return false;
         });
+    }
+
+    function noSubmit(url, data) {
+        if (url == null) {return;}
+
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {'_method' : 'PUT', '_token': csrf_token},
+            cache: false,
+            ifModified: true,
+            global: false
+        }).done(function(response) {
+            if(response.success) {
+                if(data['modal']) {
+                    $('#modal').modal('hide');
+                }
+                swal({
+                    type: 'success',
+                    title: response.success,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                
+                $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+            }
+
+            if(response.errors) {
+                if(data['modal']) {
+                    $('#modal').modal('hide');
+                }
+                swal({
+                    type: 'error',
+                    title: response.error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            $('#mbtn-yes').off();
+            $('#mbtn-no').off();
+            return false;
+        }).fail(function(response){
+            console.log(response);
+            return false;
+        });
+    }
+
+    function yesnoSubmit(url, data, type){
+        if (url == null) {
+            return;
+        } else {
+
+            var csrf_token = $('meta[name="csrf-token"]').attr('content'),
+            time = new Date().getTime();
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {'_method' : 'PUT', '_token': csrf_token, 'code': type},
+                async: false,
+                success: function(response) {
+                    if(response.success) {
+                        if(data['modal']) {
+                            $('#modal').modal('hide');
+                        }
+                        
+                        if (type == 'yes') {
+                            swal({
+                                type: 'success',
+                                title: response.success,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else {
+                            swal({
+                                type: 'error',
+                                title: response.success,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+    
+                        $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+                        // redireload(data['redirectAfter'],data['pjax-container']);
+                        // window.attr.href = data['redirectAfter'];
+                        // url = null;
+                        // return;
+                    }
+    
+                    if(response.errors) {
+                        if(data['modal']) {
+                            $('#modal').modal('hide');
+                        }
+                        swal({
+                            type: 'success',
+                            title: response.error,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        // return;
+                    }
+    
+                    $('#mbtn-yes').off();
+                    $('#mbtn-no').off();
+                    return;
+                }, error: function(response){
+                    console.log(response);
+                    return;
+                }
+            });
+            return false;
+        }
         
     }
     
@@ -492,6 +611,9 @@
             return;
         }
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup ({
+            cache: false
+        });
         $.ajax({
             url: url,
             type: "POST",
@@ -519,8 +641,11 @@
                 });
                 $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
             }
+            return;
+
         }).fail(function(response){
             console.log(response);
+            return;
         });
         
     }

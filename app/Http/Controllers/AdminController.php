@@ -18,7 +18,9 @@ use App\User_verification;
 use App\User_profile;
 use App\Withdrawal;
 use App\Notifications\VerifyDonation;
+use App\Notifications\VerifyAccount;
 use App\Notifications\RejectDonation;
+use App\Notifications\RejectAccount;
 use App\Notifications\AcceptProject;
 use App\Notifications\RejectProject;
 
@@ -173,19 +175,28 @@ class AdminController extends Controller
     }
 
     public function userVerify(Request $request, $id) {
-        if($request->action && $request->action === 'verify') {
-            $data['status'] = 'verified';
-        } else {
-            $data['status'] = 'unverified';
-        }
+        if($request->action) {
+            if($request->action === 'verify') {
+                $data['status'] = 'verified';
+            } else {
+                $data['status'] = 'unverified';
+            }
 
-        $v = User_verification::find(decrypt($id));
-        $update = $v->update($data);
-
-        if($update) {
-            $return = ['success' => "Pengguna ".$v->profile->name." berhasil diverifikasi"];
-        } else {
-            $return = ['error' => "Gagal memverifikasi pengguna"];
+            $v = User_verification::find(decrypt($id));
+            $update = $v->update($data);
+    
+            if($update) {
+                $when = now()->addSeconds(10);
+                if($request->action === 'verify') {
+                    $return = ['success' => "Pengguna ".$v->profile->name." berhasil diverifikasi"];
+                    $v->profile->user->notify((new VerifyAccount($v))->delay($when));
+                } else {
+                    $return = ['success' => "Pengguna ".$v->profile->name." ditolak untuk diverifikasi"];
+                    $v->profile->user->notify((new RejectAccount($v))->delay($when));
+                }
+            } else {
+                $return = ['error' => "Gagal memverifikasi pengguna"];
+            }
         }
 
         return response()->json($return);

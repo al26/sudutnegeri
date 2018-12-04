@@ -30,9 +30,11 @@
 
     $.fn.setBackUrl = function() {
         backUrl = document.location.href;
+        console.log(backUrl);
     }
 
     $.fn.getBackUrl = function() {
+        console.log(backUrl);
         return backUrl;
     }
 

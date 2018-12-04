@@ -1,11 +1,11 @@
-<form method="POST">
+<form method="POST" action="{{route('ba.update', ['id' => encrypt($bank_account->id)])}}">
     @csrf
     @method('PUT')
     <div class="form-group">
         <label for="bank_id">Nama Bank</label>
         <select class="form-control select2" id="bank_id" name="data[bank_id]">
             @foreach ($banks as $bank)
-                <option value="{{$bank->id}}" {{$bank->id === $bank_account->id ? 'selected' : ''}}>{{$bank->bank_name}}</option>
+                <option value="{{$bank->id}}" {{$bank->id === $bank_account->bank_id ? 'selected' : ''}}>{{$bank->bank_name}}</option>
             @endforeach
         </select>
     </div>

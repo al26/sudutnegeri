@@ -159,7 +159,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" id="profile-edit" class="offset-md-3 btn btn-primary">Simpan Perubahan</button>
+            <button type="submit" id="profile-edit" class="offset-md-3 btn btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}">Simpan Perubahan</button>
         </form>
     </div>
 </div>

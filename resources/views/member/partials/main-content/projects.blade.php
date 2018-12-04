@@ -17,7 +17,7 @@
                         <i class="fas fa-exclamation-triangle fa-10x text-danger"></i>
                     </div>
                     <span class="font-weight-bold">Akun Anda belum terverifikasi !</span><br>
-                    <span class="">Mohon <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" data-toggle="pjax" data-pjax="menu">verifikasi akun</a> Anda untuk dapat memulai proyek baru.</span>
+                    <span class="">Mohon <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" data-toggle="pjax" data-pjax="menu" onclick="javascript:$(this).setBackUrl();">verifikasi akun</a> Anda untuk dapat memulai proyek baru.</span>
                 @endif
             </div>
         </div>
@@ -67,7 +67,7 @@
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{$progressDana}}%"></div>
                                     </div>
-                                    <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target)}}</span>
+                                    <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target, false, true)}}</span>
                                 </div>
                                 <hr class="mt-1 mb-2">
                                 <div class="info-relawan">

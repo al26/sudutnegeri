@@ -50,8 +50,8 @@ class DonationInvoice extends Notification implements ShouldQueue
     {
         $project = Project::where('project_slug', $this->slug)->first();
 
-        return (new MailMessage)->subject('Sudut Negeri : Faktur investasi proyek')
-                                ->markdown('mail.invoice', ['user' => $this->user, 'project' => $project, 'donation' => $this->donation]);
+        return (new MailMessage)->subject('Faktur investasi proyek')
+                                ->markdown('mail.donation.invoice', ['user' => $this->user, 'project' => $project, 'donation' => $this->donation]);
     }
 
     /**

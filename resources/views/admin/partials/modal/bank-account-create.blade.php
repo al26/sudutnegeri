@@ -1,4 +1,4 @@
-<form method="POST">
+<form method="POST" action="{{route('ba.store')}}">
     @csrf
     <div class="form-group">
         <label for="bank_id">Nama Bank</label>

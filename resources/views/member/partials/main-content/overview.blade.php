@@ -125,7 +125,7 @@
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{$progressDana}}%"></div>
                                     </div>
-                                    <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target)}}</span>
+                                    <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target, false, true)}}</span>
                                 </div>
                                 <hr class="mt-1 mb-2">
                                 <div class="info-relawan">

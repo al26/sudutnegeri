@@ -42,7 +42,7 @@ class VerifyDonation extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('Sudut Negeri : Info investasi proyek')
+        return (new MailMessage)->subject('Info investasi proyek')
                                 ->markdown('mail.donation.verify', ['donation' => $this->donation]);
     }
 

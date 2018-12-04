@@ -130,7 +130,7 @@ Route::group(['prefix' => 'donation', 'middleware' => 'web'], function () {
 Route::group(['prefix' => 'volunteer', 'middleware' => 'web'], function () {
     Route::post('store', 'VolunteerController@store')->name('volunteer.store');
     Route::get('show/{id}', 'VolunteerController@show')->name('volunteer.show');
-    Route::put('update/{id}', 'VolunteerController@update')->name('volunteer.update');
+    Route::put('update/{id}/{code}', 'VolunteerController@update')->name('volunteer.update');
     Route::put('accept/{id}', 'VolunteerController@accept')->name('volunteer.accept');
     Route::put('reject/{id}', 'VolunteerController@reject')->name('volunteer.reject');
 });
@@ -152,7 +152,7 @@ Route::group(['prefix' => 'json'], function () {
         $data['name'] = $project->project_name;
 
         return response()->json($data, 200);
-    })->name('get.saldo');
+    })->middleware('auth')->name('get.saldo');
 
     Route::get('option/{table}', function (\Illuminate\Http\Request $request, $table) {
         $id = $request->id;
@@ -165,7 +165,7 @@ Route::group(['prefix' => 'json'], function () {
         }
         
         return response()->json($data);
-    })->name('json.option');
+    })->middleware('auth')->name('json.option');
 
     Route::get('projects', function (\Illuminate\Http\Request $request) {
         $projects = new \App\Project();
@@ -174,8 +174,14 @@ Route::group(['prefix' => 'json'], function () {
         if(!empty($request->key)){
             $key = $request->key;
             $regencies = App\Regency::where('name', 'LIKE', '%'.$key.'%')->pluck('id')->toArray();
-            $data = $projects->where('project_name','LIKE','%'.$key.'%')
-                             ->orWhereIn('regency_id', $regencies)
+            $data = $projects->where(function($query) use ($key, $regencies)  {
+                                $query->where('project_name','LIKE','%'.$key.'%')
+                                      ->orWhereIn('regency_id', $regencies);
+                             })
+                             ->where(function($query) {
+                                $query->where('project_status', 'published')
+                                      ->orWhere('project_status', 'finished');
+                             })
                              ->with('user.profile','location')
                              ->orderBy('id', 'DESC')
                              ->take(5)->get();
@@ -188,7 +194,7 @@ Route::group(['prefix' => 'json'], function () {
     Route::get('avatar', function (\Illuminate\Http\Request $request) {
         $res = \App\User_profile::where("id", decrypt($request->id))->pluck('profile_picture');
         return response()->json($res, 200);
-    })->name('pchange');
+    })->middleware('auth')->name('pchange');
     
 });
 
@@ -211,7 +217,7 @@ Route::post('location', function (\Illuminate\Http\Request $request) {
     // dd(json_encode($items));
 
     return response()->json(["items" => $items]);
-})->name('get.location');
+})->middleware('auth')->name('get.location');
 
 // Route::get('location-id', function (\Illuminate\Http\Request $request) {
 //     $key = $request->key;

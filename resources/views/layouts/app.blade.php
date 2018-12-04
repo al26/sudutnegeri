@@ -145,9 +145,7 @@
                                         $check = in_array(null, $prop);
                                     @endphp
         
-                                    @if ($check)
-                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action dv-menu {{(!empty(Request::segment(2)) && Request::segment(2) === 'setting') && (!empty(Request::segment(3)) && Request::segment(3) === 'profile') ? 'active' : ''}}"><i class="fas fw fa-user-edit mr-2"></i> Lengkapi Profil </a>
-                                    @endif
+                                    <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action dv-menu {{(!empty(Request::segment(2)) && Request::segment(2) === 'setting') && (!empty(Request::segment(3)) && Request::segment(3) === 'profile') ? 'active' : ''}}"><i class="fas fw fa-user-edit mr-2"></i> <?= $check ? 'Lengkapi' : 'Edit'?> Profil </a>
 
                                     {{-- <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action dv-menu">{!!$check ? '<i class="fas fw fa-user-edit mr-2"></i> Lengkapi Profil' : '<i class="fas fw fa-user-alt mr-2"></i> Profil Saya'!!}</a> --}}
         
@@ -265,24 +263,22 @@
                                 <div class="list-group border-0" style="min-width:200px">
                                     <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-tachometer-alt mr-2"></i> Dashboard</a>
 
-                                    <a href="{{route('dashboard', ['menu' => 'sudut'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-lightbulb mr-2"></i> Jadi Sudut</a>
+                                    <a href="{{route('dashboard', ['menu' => 'sudut'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-lightbulb mr-2"></i> &nbsp;&nbsp;Jadi Sudut</a>
                                     
-                                    <a href="{{route('project.browse', ['category' => 'all'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-heartbeat mr-2"></i>Jadi Negeri</a>
+                                    <a href="{{route('project.browse', ['category' => 'all'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-heartbeat mr-2"></i> &nbsp;Jadi Negeri</a>
                                     
                                     @php
                                         $prop = Auth::user()->profile->toArray();
                                         $check = in_array(null, $prop);
                                     @endphp
 
-                                    @if($check)
-                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-address-card mr-2"></i> Lengkapi Profil</a>
-                                    @endif
+                                    <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-user-edit mr-2"></i> <?= $check ? 'Lengkapi' : 'Edit'?> Profil</a>
                                     
                                     @if(empty(Auth::user()->password))
-                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-key mr-2"></i> Buat Password</a>
+                                        <a href="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-key mr-2"></i>  &nbsp;Buat Password</a>
                                     @endif
                                     
-                                    <a class="list-group-item list-group-item-action border-top-0 border-left-0 border-right-0" href="{{ route('logout') }}"
+                                    <a class="list-group-item list-group-item-action border-top-0 border-left-0 border-right-0 dv-menu" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                 document.getElementById('ds-logout-form').submit();"><i class="fas fw fa-sign-out-alt mr-2"></i> Keluar 
                                     </a>
