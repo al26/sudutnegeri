@@ -78765,6 +78765,10 @@ if ($.support.pjax) {
     $.fn.loadModal = function () {
         var url = null;
         data = null;
+        del_url = null;
+        submit_url = null;
+        yes_url = null;
+        no_url = null;
         $("#modal").on("show.bs.modal", function (e) {
             $(".modal-body").empty();
 
@@ -78785,24 +78789,26 @@ if ($.support.pjax) {
             if (url) {
                 $.ajaxSetup({ cache: false });
                 $.get(url, function (content) {
+                    submit_url = data['actionUrl'] ? data['actionUrl'] : null;
+                    yes_url = data['yesUrl'] ? data['yesUrl'] : null;
+                    no_url = data['noUrl'] ? data['noUrl'] : null;
                     $(".modal-body").html(content);
                 }).fail(function (response) {
                     console.log(response);
                 });
             } else {
+                del_url = data['actionUrl'];
                 $(".modal-body").html(data['text']);
             }
 
             generateBtn(data);
-
-            // $('.select2').select2({
-            //     theme: "bootstrap4",
-            //     dropdownParent: $('#modal')
-            // });
+            e.stopImmediatePropagation();
         });
 
         $('#modal').on('hidden.bs.modal', function (e) {
             data = null;
+            del_url = null;
+            submit_url = null;
         });
     };
 
@@ -78813,6 +78819,7 @@ if ($.support.pjax) {
             $(document).on('click', "#mbtn-delete", function (e) {
                 e.preventDefault();
                 deleteData(data);
+                e.stopImmediatePropagation();
                 // loaded = false;
                 // data['actionUrl'] = null;
                 // return false;
@@ -78825,6 +78832,7 @@ if ($.support.pjax) {
             $(document).on('click', '#mbtn-add', function (e) {
                 e.preventDefault();
                 doSubmit(data, $('#modal form'));
+                e.stopImmediatePropagation();
                 // loaded = false;
                 // data['actionUrl'] = null;
                 // return false;
@@ -78839,6 +78847,7 @@ if ($.support.pjax) {
                 doSubmit(data, $('#modal form'));
                 // loaded = false;
                 // data['actionUrl'] = null;
+                e.stopImmediatePropagation();
                 // return false;
             });
             $("#mbtn-edit").html("<i class='far fa-edit fw'></i> " + data['edit']);
@@ -78848,7 +78857,9 @@ if ($.support.pjax) {
         if (data['yes']) {
             $("#modal").on('click', '#mbtn-yes', function (e) {
                 e.preventDefault();
-                yesnoSubmit(data['yesUrl'], data, 'yes');
+                yesnoSubmit(yes_url, data, 'yes');
+                e.stopImmediatePropagation();
+                // window.location.href = data['redirectAfter'];
             });
 
             $("#mbtn-yes").html("<i class='fas fa-check'></i> " + data['yes']);
@@ -78858,7 +78869,9 @@ if ($.support.pjax) {
         if (data['no']) {
             $("#modal").on('click', '#mbtn-no', function (e) {
                 e.preventDefault();
-                yesnoSubmit(data['noUrl'], data, 'no');
+                yesnoSubmit(no_url, data, 'no');
+                e.stopImmediatePropagation();
+                // window.location.href = data['redirectAfter'];
             });
             $("#mbtn-no").html("<i class='fas fa-times'></i> " + data['no']);
             $("#mbtn-no").show(100);
@@ -78877,14 +78890,14 @@ if ($.support.pjax) {
     }
 
     function doSubmit(data, form) {
-        if (data['actionUrl'] == null) {
-            return;
-        }
-        $.ajaxSetup({
-            cache: false
-        });
+        // if (data['actionUrl'] == null) {
+        //     return false;
+        // }
+        // $.ajaxSetup ({
+        //     cache: false
+        // });
         var form = form,
-            action = data['actionUrl'],
+            action = submit_url,
             value = form.serialize();
 
         $.ajax({
@@ -78899,6 +78912,7 @@ if ($.support.pjax) {
                     getFeedback(response.errors);
 
                     console.log(response.errors);
+                    return false;
                 }
 
                 if (response.error) {
@@ -78908,14 +78922,17 @@ if ($.support.pjax) {
                         showConfirmButton: false,
                         timer: 1500
                     });
+
+                    return false;
                 }
 
                 if (response.success) {
-                    if (data['pjax-reload']) {
-                        $.each(data['pjax-reload'], function (index, val) {
-                            $.pjax.reload(val);
-                        });
-                    }
+                    resetFeedback();
+                    // if(data['pjax-reload']) {
+                    //     $.each(data['pjax-reload'], function(index, val){
+                    //         $.pjax.reload(val);
+                    //     })
+                    // }
 
                     if (data['modal']) {
                         $('#modal').modal('hide');
@@ -78945,8 +78962,9 @@ if ($.support.pjax) {
                     if (data['pchange']) {
                         pchange(data['pchange-url']);
                     }
+                    return false;
                 }
-                return;
+                return false;
             },
             error: function error(response) {
                 console.log(response);
@@ -78956,11 +78974,11 @@ if ($.support.pjax) {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                return;
+                return false;
             }
         });
 
-        loaded = false;
+        // loaded = false;
     }
 
     function pchange(url) {
@@ -79002,15 +79020,15 @@ if ($.support.pjax) {
     }
 
     function deleteData(data) {
-        if (data['actionUrl'] == null) {
-            return;
-        }
+        // if (data['actionUrl'] == null) {
+        //     return;
+        // }
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
-        $.ajaxSetup({
-            cache: false
-        });
+        // $.ajaxSetup ({
+        //     cache: false
+        // });
         $.ajax({
-            url: data['actionUrl'],
+            url: del_url,
             type: "POST",
             data: { '_method': 'DELETE', '_token': csrf_token },
             success: function success(response) {
@@ -79153,67 +79171,67 @@ if ($.support.pjax) {
     function yesnoSubmit(url, data, type) {
         if (url == null) {
             return;
-        }
-        var csrf_token = $('meta[name="csrf-token"]').attr('content'),
-            time = new Date().getTime();
-        $.ajaxSetup({
-            cache: false
-        });
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: { '_method': 'PUT', '_token': csrf_token, 'code': type },
-            async: false,
-            success: function success(response) {
-                if (response.success) {
-                    if (data['modal']) {
-                        $('#modal').modal('hide');
+        } else {
+
+            var csrf_token = $('meta[name="csrf-token"]').attr('content'),
+                time = new Date().getTime();
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: { '_method': 'PUT', '_token': csrf_token, 'code': type },
+                async: false,
+                success: function success(response) {
+                    if (response.success) {
+                        if (data['modal']) {
+                            $('#modal').modal('hide');
+                        }
+
+                        if (type == 'yes') {
+                            swal({
+                                type: 'success',
+                                title: response.success,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else {
+                            swal({
+                                type: 'error',
+                                title: response.success,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+
+                        $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                        // redireload(data['redirectAfter'],data['pjax-container']);
+                        // window.attr.href = data['redirectAfter'];
+                        // url = null;
+                        // return;
                     }
 
-                    if (type == 'yes') {
+                    if (response.errors) {
+                        if (data['modal']) {
+                            $('#modal').modal('hide');
+                        }
                         swal({
                             type: 'success',
-                            title: response.success,
+                            title: response.error,
                             showConfirmButton: false,
                             timer: 1500
                         });
-                    } else {
-                        swal({
-                            type: 'error',
-                            title: response.success,
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                        // return;
                     }
 
-                    $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
-                    // redireload(data['redirectAfter'],data['pjax-container']);
-                    // window.attr.href = data['redirectAfter'];
-                    url = null;
+                    $('#mbtn-yes').off();
+                    $('#mbtn-no').off();
+                    return;
+                }, error: function error(response) {
+                    console.log(response);
                     return;
                 }
-
-                if (response.errors) {
-                    if (data['modal']) {
-                        $('#modal').modal('hide');
-                    }
-                    swal({
-                        type: 'success',
-                        title: response.error,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    return;
-                }
-
-                $('#mbtn-yes').off();
-                $('#mbtn-no').off();
-                return;
-            }, error: function error(response) {
-                console.log(response);
-                return;
-            }
-        });
+            });
+            return false;
+        }
     }
 
     $.fn.activateCKEditor = function () {
@@ -79428,9 +79446,11 @@ if ($.support.pjax) {
 
     $.fn.setBackUrl = function () {
         backUrl = document.location.href;
+        console.log(backUrl);
     };
 
     $.fn.getBackUrl = function () {
+        console.log(backUrl);
         return backUrl;
     };
 })(jQuery);

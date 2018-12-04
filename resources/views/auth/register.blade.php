@@ -20,8 +20,8 @@
                 <h2 id="form-divider"><span>atau</span></h2>
                 
                 <div class="form-group">
-                    <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
-                    <label for="name" class="animated-label">{{ __('Nama Kamu') }}</label>
+                    <input id="name" type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                    <label for="name" class="animated-label">{{ __('Nama Kamu') }}<sup class="text-danger">*</sup></label>
 
                     @if ($errors->has('name'))
                         <span class="invalid-feedback" style="position: absolute; margin-bottom: .25rem;">
@@ -31,8 +31,8 @@
                 </div>
 
                 <div class="form-group">
-                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-                    <label for="email" class="animated-label">{{ __('E-Mail Kamu') }}</label>
+                    <input id="email" type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                    <label for="email" class="animated-label">{{ __('E-Mail Kamu') }}<sup class="text-danger">*</sup></label>
 
                     @if ($errors->has('email'))
                         <span class="invalid-feedback" style="position: absolute; margin-bottom: .25rem;">
@@ -42,8 +42,8 @@
                 </div>
 
                 <div class="form-group">
-                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-                    <label for="password" class="animated-label">{{ __('Kata sandi') }}</label>
+                    <input id="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                    <label for="password" class="animated-label">{{ __('Kata sandi') }}<sup class="text-danger">*</sup></label>
                     @if ($errors->has('password'))
                         <span class="invalid-feedback" style="position: absolute; margin-bottom: .25rem;">
                             <strong>{{ $errors->first('password') }}</strong>
@@ -52,9 +52,8 @@
                 </div>
 
                 <div class="form-group">
-
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                    <label for="password-confirm" class="animated-label">{{ __('Ketik ulang kata sandi') }}</label>
+                    <label for="password-confirm" class="animated-label">{{ __('Ketik ulang kata sandi') }}<sup class="text-danger">*</sup></label>
                 </div>
 
                 <div class="form-group mb-0">

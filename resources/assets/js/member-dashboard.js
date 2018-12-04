@@ -79,7 +79,8 @@ $(document).on('click', '#password-change', function(e){
 
 $(document).on('click', '#profile-edit', function(e){
     e.preventDefault();
-    $('#form-profile').ajaxCrudNonModal(['#mr', '#mt'], '/dashboard/setting/profile');
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-profile').ajaxCrudNonModal(['#mr', '#mt'], redirectTo);
 });
 
 $(document).on('click', '#upload-receipt', function(e){
@@ -89,7 +90,15 @@ $(document).on('click', '#upload-receipt', function(e){
 
 $(document).on('click', '#upload-verification', function(e){
     e.preventDefault();
-    $('#form-verification').ajaxCrudNonModal(['#mr'], '/dashboard/sudut/projects');
+    var redirectTo = $(this).attr('data-redirectAfter');
+    // var referrer = $(this).attr('data-referrer');
+    // var go;
+    // if(referrer!=null) {
+    //     go = referrer;
+    // } else {
+    //     go = redirectTo;
+    // }
+    $('#form-verification').ajaxCrudNonModal(['#mr'], redirectTo);
 });
 
 // $(document).on('click', '#activity-create-history', function(e) {
@@ -166,7 +175,7 @@ $('#mr').on('pjax:complete', function() {
 });
 
 $('#mc, #mr').on('pjax:complete', function() {
-    $('.select2').select2({theme: "bootstrap4",tags: true,});
+    $('.select2').select2({theme: "bootstrap4"});
     $('#example').DataTable();
     activateOptGenerator();
     $('.the-summernote').summernote({
@@ -193,7 +202,8 @@ $('#mc, #mr').on('pjax:complete', function() {
         height: 150
     });
     // $(document).ajaxSelect2("project_location", "/location");
-    $(document).ajaxSelect2("regency_id", "/location");
+    activateOptGenerator()
+    $(document).ajaxSelect2("form-create-project #regency_id", "/location");
     projecToCredit = $('#form-create-withdrawal').find('#project_id');
 });
 

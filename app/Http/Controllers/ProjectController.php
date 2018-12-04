@@ -92,7 +92,8 @@ class ProjectController extends Controller
             "close_reg"             => 'required|after_or_equal:today',
             "project_banner"        => 'required|image|mimes:jpg,jpeg,png,svg',
             "attachments"           => 'required',
-            // "attachments.*"         => 'mimes:jpg,jpeg,png,svg'
+            // "attachments.*"         => 'mimes:jpg,jpeg,png,svg',
+            // "attachments.*"         => 'mimetypes:application/pdf'
         ];
         $messages = [
             "project_name.required"             => ":attribute tidak boleh kosong",
@@ -114,7 +115,7 @@ class ProjectController extends Controller
             "attachments.required"              => "Dokumen verifikasi tidak boleh kosong",
             // "attachments.image"                 => "Jenis file yang diperbolehkan image hanya .jpg, .png, atau .svg",
             // "attachments.*.mimes"                 => "Jenis file yang diperbolehkan hanya .pdf",
-            // "attachments.mimetypes"                 => "Jenis file yang diperbolehkan hanya .pdf"
+            // "attachments.*.mimetypes"                 => "Jenis file yang diperbolehkan hanya .pdf"
         ];
         $attributes = [
             "project_name"          => 'Judul Proyek',
@@ -129,18 +130,25 @@ class ProjectController extends Controller
             "attachments"           => 'dokumen verifikasi'
         ];
                 
-        if($request->hasFile('attachments')) {
-            foreach ($request->attachments as $key => $a) {
+        if($request->hasFile('data.attachments')) {
+            foreach ($request->data['attachments'] as $key => $a) {
                 $rules["attachments.".$key] = "mimetypes:application/pdf"; 
                 $messages["attachments.".$key.".mimetypes"] = "Oops !!. Dokumen verifikasi ".$a->getClientOriginalName()." bukan berformat PDF";
             }
         }
 
-        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
+        $validator = Validator::make($request->data, $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             $return = ["errors" => $validator->messages()];
         } else {
+
+            // if($request->hasFile('attachments')) {
+            //     foreach ($request->attachments as $key => $a) {
+            //         $rules["attachments.".$key] = "mimetypes:application/pdf"; 
+            //         $messages["attachments.".$key.".mimetypes"] = "Oops !!. Dokumen verifikasi ".$a->getClientOriginalName()." bukan berformat PDF";
+            //     }
+            // }
 
             $data = $request->data;
             $data["project_slug"] = md5($request->data['project_name']);
@@ -163,8 +171,8 @@ class ProjectController extends Controller
             $attachment_name = [];
             $attachment_path = [];
             $attachment_link = [];
-            if($request->hasFile('attachments')){
-                $attachments = $request->attachments;
+            if($request->hasFile('data.attachments')){
+                $attachments = $request->data['attachments'];
                 $attachment_folder = $data['project_slug'].time();
                 if(count($attachments) >= 1) {
                     foreach ($attachments as $key => $a) {
@@ -178,6 +186,7 @@ class ProjectController extends Controller
             if(!empty($attachment_path)){
                 $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
             }
+            // $data['project_description'] = json_encode($data['project_description'], JSON_FORCE_OBJECT);
 
             // dd($data);
 

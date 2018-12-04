@@ -52,7 +52,7 @@
                     </div>
                 </div>
     
-                <button type="submit" id="upload-verification" class="btn btn-primary float-right">Verifikasi</button>
+            <button type="submit" id="upload-verification" class="btn btn-primary float-right" data-redirectAfter="{{route('dashboard', ['menu' => 'sudut', 'section' => 'projects'])}}" data-referrer="javascript:$(this).getBackUrl();">Verifikasi</button>
             </form>
         </div>
     @endif

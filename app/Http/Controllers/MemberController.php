@@ -196,31 +196,45 @@ class MemberController extends Controller
     }
 
     public function updateProfilePicture(Request $request, $id) {
-        $id = decrypt($id);
-        $path = "";
-        $filename = "";
+        $rules = ['avatar' => 'required|mimes:jpg,jpeg,png,svg'];
+        $messages = [
+            'avatar.required' => 'Anda belum memilih foto sebagai foto profil',
+            'avatar.mimes' => 'Format foto yang diperbolehkan hanya .JPG, .PNG, dan .SVG'
+        ];
+        $attributes = ['avatar' => 'Foto profil'];
 
-        $profile = Profile::findOrFail($id);
-        $old = substr($profile->profile_picture, 7);
+        
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
+        $return = [];
+        if ($validator->fails()) {
+            $return = ["errors" => $validator->messages()];
+        } else {
+            $id = decrypt($id);
+            $path = "";
+            $filename = "";
 
-        if($request->hasFile('avatar')) {
-            $filename = md5($id.time()).'.'.$request->avatar->getClientOriginalExtension();
-            $file = $request->file('avatar');
-            $path = $file->storeAs('profile_pictures', $filename);
-        }
+            $profile = Profile::findOrFail($id);
+            $old = substr($profile->profile_picture, 7);
 
-        if($path) {
-            $update = $profile->update(['profile_picture' => "storage/profile_pictures/$filename"]);
-            if($update) {
-                if($old !== '/profile_pictures/avatar.jpg'){
-                    Storage::delete($old); 
+            if($request->hasFile('avatar')) {
+                $filename = md5($id.time()).'.'.$request->avatar->getClientOriginalExtension();
+                $file = $request->file('avatar');
+                $path = $file->storeAs('profile_pictures', $filename);
+            }
+
+            if($path) {
+                $update = $profile->update(['profile_picture' => "storage/profile_pictures/$filename"]);
+                if($update) {
+                    if($old !== '/profile_pictures/avatar.jpg'){
+                        Storage::delete($old); 
+                    }
+                    $return = ['success' => "Foto profil berhasil diubah"];
+                } else {
+                    if (Storage::exists($path)) {
+                        Storage::delete($path);
+                    }
+                    $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
                 }
-                $return = ['success' => "Foto profil berhasil diubah"];
-            } else {
-                if (Storage::exists($path)) {
-                    Storage::delete($path);
-                }
-                $return = ['error' => "Terjadi kesalahan. Gagal mengubah foto profil"];
             }
         }
 
@@ -281,10 +295,10 @@ class MemberController extends Controller
     }
 
     public function verifyAccount(Request $request) {
-        $sicpath = "";
-        $sicname = "";
-        $vppath = "";
-        $vpname = "";
+        $sicpath = null;
+        $sicname = null;
+        $vppath = null;
+        $vpname = null;
 
         $rules = [
             "sic" => "required|image|mimes:jpg,jpeg,png,svg",
@@ -312,7 +326,7 @@ class MemberController extends Controller
         } else {
             $verify = Verification::where('user_profile_id', $request->user()->profile->id)->firstOrFail();
             $data['status'] = 'pending';
-            $oldPath = "";
+            $oldPath = null;
         
             if (!empty($verify->scan_id_card)) {
                 $segment = explode('/', $verify->scan_id_card);
@@ -323,7 +337,8 @@ class MemberController extends Controller
                     $oldPath = $segment[1]."/".$segment[2];
                 }   
             }
-    
+            
+            // dd($oldPath);
             if($request->hasFile('sic') && $request->hasFile('vp')) {
                 $folder = md5($verify->id.time()*26);
                 

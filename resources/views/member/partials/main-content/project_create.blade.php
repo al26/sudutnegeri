@@ -137,7 +137,7 @@
             <div class="form-group">
                 <label for="attachments">Dokumen Verifikasi</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="attachments" name="attachments[]" multiple onchange="javascript:dynamicFileList(this, 'attachments-list', 'attachment-label')">
+                    <input type="file" class="custom-file-input" id="attachments" name="data[attachments][]" multiple onchange="javascript:dynamicFileList(this, 'attachments-list', 'attachment-label')">
                     {{-- <input type="hidden" id="hidden-attachments" name="data[han]"> --}}
                     <label class="custom-file-label" for="attachments" id="attachment-label">Pilih File</label>
                 </div>

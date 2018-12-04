@@ -74,9 +74,9 @@ class BankAccountController extends Controller
                 $return = ['error' => 'Gagal menambah akun bank baru'];
             }
 
-            return response()->json($return);
             
         }
+        return response()->json($return);
     }
 
     /**

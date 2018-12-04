@@ -27,7 +27,7 @@ class CreateWithdrawalsTable extends Migration
             $table->string('account_name');
             $table->unsignedInteger('amount');
             $table->enum('status', ['pending', 'processed', 'confirmed']);
-            $table->string('attachment')->nullable();
+            $table->string('receipt')->nullable();
             $table->timestamps();
         });
     }
