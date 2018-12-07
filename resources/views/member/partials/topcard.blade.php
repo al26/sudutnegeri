@@ -56,6 +56,18 @@
                             Pengguna terverifikasi
                         </span><br>
                     @endif
+                    @if (Auth::user()->profile->verification->status === 'pending')
+                        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" data-toggle="pjax" data-pjax="menu" class="badge badge-warning align-self-center">
+                            <i class="mr-1 fas fw fa-pause" data-fa-transform="grow-3"></i>
+                            Belum terverifikasi
+                        </a><br>
+                    @endif
+                    @if (Auth::user()->profile->verification->status === 'unverified')
+                        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" data-toggle="pjax" data-pjax="menu" class="badge badge-danger align-self-center">
+                            <i class="mr-1 far fw fa-window-close" data-fa-transform="grow-3"></i>
+                            Tidak terverifikasi
+                        </a><br>
+                    @endif
                 @endif
                 <span class="--text _sub mt-1">Tergabung sejak : {{Idnme::print_date(Auth::user()->created_at, false)}}</span>
             </span>

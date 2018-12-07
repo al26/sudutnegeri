@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <button type="submit" id="upload-receipt" class="btn btn-primary">Unggah Bukti Transfer</button>
+            <button type="submit" id="upload-receipt" class="btn btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}">Unggah Bukti Transfer</button>
         </form>
     </div>
 </div>

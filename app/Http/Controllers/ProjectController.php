@@ -231,8 +231,12 @@ class ProjectController extends Controller
     public function manage(Request $request, $slug) {
         $data['project'] = Project::where("project_slug", $slug)->first();
         $data['historis'] = History::where('project_id', $data['project']->id)->get(); 
-        // dd($data['project']->);
-        return view('member.dashboard', ['menu' => 'sudut', 'section' => 'manage-project'], $data);
+        
+        if($request->user()->id === $data['project']->user->id) {
+            return view('member.dashboard', ['menu' => 'sudut', 'section' => 'manage-project'], $data);
+        } else {
+            return redirect()->route('history.manage', ['slug' => $slug]);
+        }
     }
 
     /**
@@ -362,7 +366,7 @@ class ProjectController extends Controller
         return view('guest.modal.project_filter', $data);
     }
 
-    public function finish($id) {
+    public function finish(Request $request, $id) {
         $project = Project::find(decrypt($id));
         $finished = $project->update(['project_status' => 'finished']);
         $finished .= $project->volunteers()->where('project_id', decrypt($id))->update(['status' => 'finished']);

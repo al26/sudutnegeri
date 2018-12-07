@@ -51,7 +51,10 @@ class MemberController extends Controller
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
         $data['volunteers'] = Volunteer::whereIn('project_id', $projects_id)->get();
         $user_around = Regency::where('province_id', $request->user()->profile->address->province_id)->pluck('id')->toArray();
-        $data['featured'] = Project::where('user_id', '!=', $request->user()->id)
+        $data['featured'] = Project::where(function($query) use ($request) {
+                                        $query->where('user_id', '!=', $request->user()->id)
+                                              ->where('project_status', 'published');
+                                    })
                                     ->where(function ($query) use ($request, $user_around) {
                                         $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
                                               ->orWhereIn('regency_id', $user_around);

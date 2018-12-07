@@ -19,7 +19,7 @@ class User_profile extends Model
     }
 
     public function verification() {
-        return $this->hasOne('App\User_verification', 'user_profile_id');
+        return $this->hasOne('App\User_verification', 'user_profile_id', 'id');
     }
 
     public function cv()

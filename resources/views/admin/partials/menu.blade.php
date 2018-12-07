@@ -1,3 +1,10 @@
+@php
+    $count['donations'] = $donations->where('status', 'pending')->count();
+    $count['projects'] = $projects->where('project_status', 'submitted')->count();
+    $count['members'] = $pending_members->count();
+    $count['withdrawals'] = $withdrawals->where('status', 'pending')->count();
+    $count = (object) $count;
+@endphp
 <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
     
@@ -16,17 +23,33 @@
                     </li>
                     {{-- <h3 class="menu-title">Menu Verifikasi</h3> --}}
                     <li class="">
-                        <a id="am-projects" href="{{route('admin.dashboard', ['menu' => 'projects'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-project-diagram"></i>Verifikasi Proyek</a>
+                        <a id="am-projects" href="{{route('admin.dashboard', ['menu' => 'projects'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-project-diagram"></i>Verifikasi Proyek 
+                        @if ($count->projects > 0)
+                            <span class="badge badge-warning text-white">{{$count->projects}}</span>
+                        @endif
+                        </a>
                     </li>
                     <li class="">
-                        <a id="am-users" href="{{route('admin.dashboard', ['menu' => 'users'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-users-cog"></i>Verifikasi Pengguna</a>
+                        <a id="am-users" href="{{route('admin.dashboard', ['menu' => 'users'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-users-cog"></i>Verifikasi Member 
+                        @if ($count->members > 0)
+                            <span class="badge badge-warning text-white">{{$count->members}}</span>
+                        @endif
+                        </a>
                     </li>
                     <li class="">
-                        <a id="am-donations" href="{{route('admin.dashboard', ['menu' => 'donations'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-coins"></i>Verifikasi Donasi</a>
+                        <a id="am-donations" href="{{route('admin.dashboard', ['menu' => 'donations'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-coins"></i>Verifikasi Investasi 
+                        @if ($count->donations > 0)
+                            <span class="badge badge-warning text-white">{{$count->donations}}</span>
+                        @endif
+                        </a>
                     </li>
                     {{-- <h3 class="menu-title">Menu Kostumisasi</h3> --}}
                     <li class="">
-                        <a id="am-withdrawal" href="{{route('admin.dashboard', ['menu' => 'withdrawal'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-money-bill-wave"></i>Pencairan Dana</a>
+                        <a id="am-withdrawal" href="{{route('admin.dashboard', ['menu' => 'withdrawal'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="menu-icon fas fw fa-money-bill-wave"></i>Pencairan Dana 
+                        @if ($count->withdrawals > 0)
+                            <span class="badge badge-warning text-white">{{$count->donations}}</span>
+                        @endif
+                        </a>
                     </li>
                     <li class="">
                         <a id="am-category" href="{{route('admin.dashboard', ['menu' => 'category'])}}"  data-toggle="pjax" data-pjax="adm-menu"> <i class="fas fw fa-sitemap menu-icon"></i>Kategori Proyek</a>

@@ -160,6 +160,8 @@ class VolunteerController extends Controller
         $accept = null;
         $reject = null;
         $v = Volunteer::find(decrypt($id));
+        $project = $v->project()->get()[0];
+        $registered_volunteer = $project->registered_volunteer;
         $when = now()->addSeconds(10);
         
         if ($request->code === 'yes') {
@@ -171,11 +173,21 @@ class VolunteerController extends Controller
         }
 
         if($accept){
-            $return = ["success" => $v->user->profile->name." berhasil didaftarkan sebagai relawan proyek "]; 
-            $v->user->notify((new AcceptVolunteer($v))->delay($when));
+            $registered_volunteer += 1;
+            $project->registered_volunteer = $registered_volunteer;
+            $upp = $project->save();
+            if($upp) {
+                $return = ["success" => $v->user->profile->name." berhasil didaftarkan sebagai relawan proyek "]; 
+                $v->user->notify((new AcceptVolunteer($v))->delay($when));
+            }
         } elseif($reject){
-            $return = ["success" => $v->user->profile->name." ditolak sebagai relawan proyek "]; 
-            $v->user->notify((new RejectVolunteer($v))->delay($when));
+            $registered_volunteer -= 1;
+            $project->registered_volunteer = $registered_volunteer;
+            $upp = $project->save();
+            if($upp) {
+                $return = ["success" => $v->user->profile->name." ditolak sebagai relawan proyek "]; 
+                $v->user->notify((new RejectVolunteer($v))->delay($when));
+            }
         } else {
             $return = ["erorr" => "Terjadi kesalahan. Silahkan coba lagi atau hubingi administrator"];
         }

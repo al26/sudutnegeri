@@ -52,7 +52,7 @@
             @foreach ($updates as $key => $item)
                 <div class="update-list">
                     <h3><a href="{{route('project.show', ['slug' => $item->project->project_slug, 'menu' => 'history'])}}" class="decoration-none text-secondary">{{$item->title}}</a></h3>
-                    <span class="--text _sub">ditulis oleh : {{$item->user->profile->name}} | {{Idnme::print_date($item->created_at)}}</span>
+                    <span class="--text _sub mb-2">ditulis oleh {{ucwords(strtolower($item->user->profile->name))}} pada {{Idnme::print_date($item->created_at)}} dari proyek <a href="{{route('project.show', ['slug' => $item->project->project_slug])}}" class="text-primary decoration-none">{{ucwords($item->project->project_name)}}</a> </span>
                     <div class="update-list-item _less my-2" id="upless-{{$key}}">
                         {!!chop_string($item->body)!!}... 
                     </div>

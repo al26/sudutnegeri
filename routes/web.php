@@ -217,7 +217,7 @@ Route::post('location', function (\Illuminate\Http\Request $request) {
     // dd(json_encode($items));
 
     return response()->json(["items" => $items]);
-})->middleware('auth')->name('get.location');
+})->name('get.location');
 
 // Route::get('location-id', function (\Illuminate\Http\Request $request) {
 //     $key = $request->key;

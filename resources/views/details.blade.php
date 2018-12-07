@@ -20,10 +20,20 @@
             $cd = $today->diffInHours($close_donation);
 
             // dd([$today, $close_reg, $close_donation, $cr, $cd]);
+            if (empty($menu)) $menu = "detail";
+            $data['project'] = $project;
+            $data['donators'] = $project->donations()->where('status', 'verified')->get();
+            $data['volunteers'] = $project->volunteers()->where('status', 'accepted')->orWhere('status', 'finished')->get();
         @endphp
         <div class="row">
             <div class="col-12 col-lg-4 sticky-side-info --container --left order-2 order-lg-1">
                 <div id="sticky--">
+                    @if ($project->project_status === 'finished')
+                        <div class="alert alert-info">
+                            <h4 class="alert-heading">Proyek telah berakhir !!!</h4>
+                            <p class="m-0">Terimakasih kepada {{$data['donators']->count()}} investor dan {{$data['volunteers']->count()}} relawan yang telah membantu menyukseskan proyek ini.</p>
+                        </div>
+                    @endif
                     <section class="card --content mb-lg-3 info-donasi">                        
                         <div class="card-body">
                             <div class="row m-0">
@@ -41,7 +51,7 @@
                             </div>
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            @if ($cd > 0)
+                            @if ($cd > 0 && $project->project_status !== 'finished')
                                 @auth
                                     @if ($project->user_id === Auth::user()->id)
                                         <span class="btn btn-small btn-secondary text-capitalize w-100 disabled">Mulai Investasi</span>
@@ -62,7 +72,7 @@
                             <span class="--text text-capitalize">{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}} relawan</span>
                             @if ($project->registered_volunteer > 0)
                                 @php
-                                    $registered_volunteer = $project->volunteers()->where('status', 'accepted')->get();
+                                    $registered_volunteer = $data['volunteers'];
                                 @endphp
                                 <div id="volunteer-carousel" class="owl-carousel owl-theme my-2">
                                     @foreach ($registered_volunteer as $volunteer)
@@ -75,7 +85,7 @@
                             <span class="--text text-capitalize">target {{$project->volunteer_quota}} relawan</span>                            
                         </div>
                         <div class="card-footer d-none d-lg-block">
-                            @if ($cr > 0)
+                            @if ($cr > 0 && $project->project_status !== 'finished')
                                 @auth
                                     @if ($project->user_id === Auth::user()->id)
                                         <span class="btn btn-small btn-danger text-capitalize w-100 disabled">Jadi Relawan</span>
@@ -143,12 +153,6 @@
                     </div>
                 </section>
                 <section class="card --content" id="hpn-content" data-pjax-container style="min-height:100vh">
-                    @php
-                        if (empty($menu)) $menu = "detail";
-                        $data['project'] = $project;
-                        $data['donators'] = $project->donations()->where('status', 'verified')->get();
-                        $data['volunteers'] = $project->volunteers()->where('status', 'accepted')->get();
-                    @endphp
                     <div class="card-body">
                         @include("guest.partials.project_$menu", $data)
                     </div>
@@ -197,7 +201,7 @@
                 swal({
                     type: 'error',
                     title: 'Oops...',
-                    text: 'Anda belum Login. Silahkan Login terlebih dahulu untuk melanjutkan donasi!',
+                    text: 'Anda belum Login. Silahkan Login terlebih dahulu untuk melanjutkan investasi!',
                     showConfirmButton: true,
                     confirmButtonText: 'Login di sini',
                     showCancelButton: true,
@@ -218,7 +222,7 @@
                 swal({
                     type: 'error',
                     title: 'Oops...',
-                    text: 'Anda belum Login. Silahkan Login terlebih dahulu untuk melanjutkan pendaftaran sebagai relawan!',
+                    text: 'Anda belum Login. Silahkan Login terlebih dahulu untuk mendaftar sebagai relawan!',
                     showConfirmButton: true,
                     confirmButtonText: 'Login di sini',
                     showCancelButton: true,

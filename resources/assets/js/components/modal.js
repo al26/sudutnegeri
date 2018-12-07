@@ -6,6 +6,9 @@
         submit_url = null;
         yes_url = null;
         no_url = null;
+        redirectTo = null;
+        reloads = null;
+        pcontainer = null;
         $("#modal").on("show.bs.modal", function(e) {
             $(".modal-body").empty();
             
@@ -17,19 +20,24 @@
                 
                 data['modal'] = true;
                 $(".modal-title").text(data['title']);
+                redirectTo = data['redirectAfter'] ? data['redirectAfter'] : null;
+                reloads = data['pjax-reload'] ? data['pjax-reload'] : null;
+                pcontainer = data['pjax-container'] ? data['pjax-container'] : null;
                 console.log(data);
     
                 if(data['lg']) {
                     md.addClass('modal-lg');
                 }
-    
+                
+                submit_url = data['actionUrl'] ? data['actionUrl'] : null;
+                yes_url = data['yesUrl'] ? data['yesUrl'] : null; 
+                no_url = data['noUrl'] ? data['noUrl'] : null;
+
                 if(url) {
                     $.ajaxSetup({cache:false});
-                    $.get(url, function( content ) {
-                        submit_url = data['actionUrl'] ? data['actionUrl'] : null;
-                        yes_url = data['yesUrl'] ? data['yesUrl'] : null; 
-                        no_url = data['noUrl'] ? data['noUrl'] : null; 
+                    $.get(url, function( content ) { 
                         $(".modal-body").html(content);
+                        // console.log(submit_url);
                     }).fail(function(response) {
                         console.log(response);
                     });
@@ -95,6 +103,7 @@
         if(data['yes']) {
             $("#modal").on('click','#mbtn-yes', function(e){
                 e.preventDefault();
+                console.log([yes_url, data]);
                 yesnoSubmit(yes_url, data, 'yes');
                 e.stopImmediatePropagation();
                 // window.location.href = data['redirectAfter'];
@@ -183,21 +192,22 @@
                         timer: 1500
                     });
 
-                    if(data['redirectAfter']){
+                    if(redirectTo !== null){
                         // redireload(data['redirectAfter'], data['pjax-reload']);
                         // $.pjax({
                         //     url: data['redirectAfter'], 
                         //     container: data['pjax-reload'][]
                         // });
-                        $.each(data['pjax-reload'], function(index, val){
+                        $.each(reloads, function(index, val){
                             $.pjax({
-                                url : data['redirectAfter'],
+                                url : redirectTo,
                                 container : val,
                             });
                         })
                     }
 
                     if(data['pchange']) {
+                        console.log([action, submit_url, data['pchange'], data['pchange-url']]);
                         pchange(data['pchange-url']);
                     }
                     return false;
@@ -281,7 +291,7 @@
                         timer: 1500
                     });
 
-                    $.pjax({url:data['redirectAfter'], container:data['pjax-container']})
+                    $.pjax({url:redirectTo, container:pcontainer})
                 }
 
                 if(response.errors) {
@@ -335,7 +345,7 @@
                     timer: 1500
                 });
                 
-                $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+                $.pjax({url:redirectTo, container:pcontainer});
             }
 
             if(response.errors) {
@@ -382,7 +392,7 @@
                     timer: 1500
                 });
                 
-                $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+                $.pjax({url:redirectTo, container:pcontainer});
             }
 
             if(response.errors) {
@@ -439,7 +449,7 @@
                             });
                         }
     
-                        $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+                        $.pjax({url:redirectTo, container:pcontainer});
                         // redireload(data['redirectAfter'],data['pjax-container']);
                         // window.attr.href = data['redirectAfter'];
                         // url = null;
@@ -591,6 +601,9 @@
                 "pjax-reload" : pjax,
                 "redirectAfter" : redirectAfter
             };
+        submit_url = form.attr('action');
+        redirectTo = redirectAfter;
+        reloads = pjax;
             
         doSubmit(data, form);
     }
@@ -629,7 +642,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
-                $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+                $.pjax({url:redirectTo, container:pcontainer});
             }
 
             if(response.error) {
@@ -639,7 +652,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
-                $.pjax({url:data['redirectAfter'], container:data['pjax-container']});
+                $.pjax({url:redirectTo, container:pcontainer});
             }
             return;
 
