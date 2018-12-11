@@ -1,4 +1,4 @@
-<section class="m-leftcard">
+<section class="m-leftcard" id="ml" data-pjax-container>
     <div class="card">
         @yield('menu')
     </div>

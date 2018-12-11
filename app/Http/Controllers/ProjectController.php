@@ -432,6 +432,7 @@ class ProjectController extends Controller
 
                 if(!empty($attachment_path)){
                     $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
+                    $data['project_status'] = 'submitted';
                 }
         
                 $update = $project->update($data);

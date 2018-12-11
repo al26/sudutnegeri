@@ -23,7 +23,10 @@
             if (empty($menu)) $menu = "detail";
             $data['project'] = $project;
             $data['donators'] = $project->donations()->where('status', 'verified')->get();
-            $data['volunteers'] = $project->volunteers()->where('status', 'accepted')->orWhere('status', 'finished')->get();
+            $data['volunteers'] = $project->volunteers()->where(function($query) {
+                $query->where('status', 'accepted')->orWhere('status', 'finished');
+            })->get();
+            // dd($data['volunteers']);
         @endphp
         <div class="row">
             <div class="col-12 col-lg-4 sticky-side-info --container --left order-2 order-lg-1">

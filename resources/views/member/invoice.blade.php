@@ -38,11 +38,12 @@
                 </div>
                 <img class="align-self-center ml-auto img-fluid col-6 p-0" src="{{asset($donation->bank->logo)}}" alt="Logo {{$donation->bank->bank_name}}">
             </div>
-        
+    
             <div class="col-12 px-0 mt-2">
                 <h5 class="font-weight-bold">Catatan :</h5>
-                <p class="text-justify">Mohon transfer sesuai total nominal yang tercantum diatas (<b>{{Idnme::print_rupiah($donation->amount + $donation->payment_code, false, true)}}</b>) untuk mempermudah proses verifikasi.</p> 
                 <p class="text-justify">Transfer dapat dilakukan menggunakan chanel apapun (ATM, Mobile Banking, Internet Banking, SMS Banking, maupun Teller).</p>
+                <p class="text-justify">Mohon transfer sesuai total nominal yang tercantum diatas (<b>{{Idnme::print_rupiah($donation->amount + $donation->payment_code, false, true)}}</b>) untuk mempermudah proses verifikasi.</p> 
+                <div class="alert alert-info text-justify">Segera lakukan verifikasi investasi Anda setelah melakukan transfer dengan mengunggah bukti transfer melalui menu investasi pada halaman dashboard akun Anda atau <a href="{{route('donation.upreceipt', ['id' => encrypt($donation->id)])}}" class="alert-link">upload di sini</a></div>
             </div>
 
             <div class="d-flex">

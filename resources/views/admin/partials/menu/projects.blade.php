@@ -64,7 +64,7 @@
                                     <span class="badge badge-{{$badge}}">{{$status}}</span>
                                 </td>
                                 <td>
-                                    @if ($project->project_status === 'finished' || $project->project_status === 'published')
+                                    @if ($project->project_status !== 'submitted')
                                         <span class="btn btn-sm btn-light disabled">Tak ada opsi</span>
                                     @else
                                         {{-- @if ($project->project_status === 'published')

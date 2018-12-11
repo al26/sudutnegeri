@@ -58,6 +58,22 @@
         })
     }
 
+    $.fn.ajaxCrudNonModal = function(pjax = null, redirectAfter = null) {
+        var form = $(this),
+            data = {
+                "actionUrl" : form.attr('action'),
+                "pjax-reload" : pjax,
+                "redirectAfter" : redirectAfter
+            };
+        submit_url = form.attr('action');
+        redirectTo = redirectAfter;
+        reloads = pjax;
+
+        console.log([pjax, redirectAfter, reloads, redirectTo]);
+            
+        doSubmit(data, form);
+    }
+
     function generateBtn(data) {
         resetBtn();
 
@@ -198,6 +214,7 @@
                         //     url: data['redirectAfter'], 
                         //     container: data['pjax-reload'][]
                         // });
+                        console.log("not null");
                         $.each(reloads, function(index, val){
                             $.pjax({
                                 url : redirectTo,
@@ -594,20 +611,6 @@
         });
     }
 
-    $.fn.ajaxCrudNonModal = function(pjax = null, redirectAfter = null) {
-        var form = $(this),
-            data = {
-                "actionUrl" : form.attr('action'),
-                "pjax-reload" : pjax,
-                "redirectAfter" : redirectAfter
-            };
-        submit_url = form.attr('action');
-        redirectTo = redirectAfter;
-        reloads = pjax;
-            
-        doSubmit(data, form);
-    }
-
     function redireload(url, container) {
         window.history.pushState("", "", url);
         $.ajax({
@@ -623,6 +626,11 @@
         if (url == null) {
             return;
         }
+        var redirectTo = data['redirectAfter'];
+        var pcontainer = data['pjax-container'];
+
+        console.log([redirectTo, pcontainer]);
+
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
         $.ajaxSetup ({
             cache: false
@@ -642,6 +650,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
+                console.log([redirectTo, pcontainer]);
                 $.pjax({url:redirectTo, container:pcontainer});
             }
 

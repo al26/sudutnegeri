@@ -1,3 +1,6 @@
+@php
+    // $donations = $donations->where('transfer_receipt', '!=', '');
+@endphp
 <div class="row">
     <div class="col-12">
         <div class="card">

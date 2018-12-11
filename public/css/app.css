@@ -14938,7 +14938,19 @@ body {
 }
 
 section#banner div#img-banner {
-  max-height: 30rem;
+  max-height: 14.4rem;
+}
+
+@media (min-width: 576px) {
+  section#banner div#img-banner {
+    max-height: 20rem;
+  }
+}
+
+@media (min-width: 992px) {
+  section#banner div#img-banner {
+    max-height: 30rem;
+  }
 }
 
 section#banner div#caption-banner {
@@ -14955,10 +14967,12 @@ section#banner div#caption-banner .card-board {
 
 section#banner div#caption-banner .card-board .cb-title {
   font-size: 1.5rem !important;
+  text-shadow: 1px 1px 1px black;
 }
 
 section#banner div#caption-banner .card-board .cb-desc {
   font-size: 1rem !important;
+  text-shadow: 1px 1px 1px black;
 }
 
 @media (min-width: 576px) {
@@ -15092,12 +15106,10 @@ section#banner div#caption-banner #right-board {
 }
 
 section#info {
-  background-image: url("/storage/background/blackboard.jpg");
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: auto;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+  margin-top: -3rem;
 }
 
 section#info .row > [class^="col-"] {
@@ -15111,6 +15123,12 @@ section#info .row > [class^="col-"]:last-child {
 @media (min-width: 576px) {
   section#info .row > [class^="col-"] {
     margin-bottom: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  section#info {
+    margin-top: -4rem;
   }
 }
 

@@ -37,7 +37,9 @@
                 <li class="list-inline-item mr-5">
                     <a data-toggle="pjax" data-pjax="menu" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}" class="text-white decoration-none">
                         <span class="--text">Aktivitas</span>
-                        <span class="--text _head">{{Auth::user()->volunteers()->where('status', 'accepted')->orWhere('status', 'finished')->count()}}</span>
+                        <span class="--text _head">{{Auth::user()->volunteers()->where(function($query) {
+                            $query->where('status', 'accepted')->orWhere('status', 'finished');
+                        })->count()}}</span>
                     </a>
                 </li>
                 <li class="list-inline-item">
@@ -51,19 +53,19 @@
             <span class="--text">
                 @if(!is_null(Auth::user()->profile->verification))
                     @if (Auth::user()->profile->verification->status === 'verified')
-                        <span class="badge badge-info align-self-center">
+                        <span class="badge badge-info align-self-center text-white">
                             <i class="mr-1 far fw fa-check-square" data-fa-transform="grow-3"></i>
                             Pengguna terverifikasi
                         </span><br>
                     @endif
                     @if (Auth::user()->profile->verification->status === 'pending')
-                        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" data-toggle="pjax" data-pjax="menu" class="badge badge-warning align-self-center">
+                        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" data-toggle="pjax" data-pjax="menu" class="badge badge-warning align-self-center text-white">
                             <i class="mr-1 fas fw fa-pause" data-fa-transform="grow-3"></i>
                             Belum terverifikasi
                         </a><br>
                     @endif
                     @if (Auth::user()->profile->verification->status === 'unverified')
-                        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" data-toggle="pjax" data-pjax="menu" class="badge badge-danger align-self-center">
+                        <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" data-toggle="pjax" data-pjax="menu" class="badge badge-danger align-self-center text-white">
                             <i class="mr-1 far fw fa-window-close" data-fa-transform="grow-3"></i>
                             Tidak terverifikasi
                         </a><br>
@@ -92,7 +94,7 @@
                     @case('negeri')
                         <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'donations' ? 'active' : ''}}" id="mobile-negeri-donations" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}"><small><i class="fas fw fa-coins mr-2"></i>Investasi Saya</small></a>
                         <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'activity' ? 'active' : ''}}" id="mobile-negeri-activity" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'activity'])}}"><small><i class="fas fw fa-hand-holding-heart mr-2"></i>Aktivitas Saya</small></a>
-                        <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'cv' ? 'active' : ''}}" id="mobile-negeri-cv" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'cv'])}}"><small><i class="fas fw fa-id-card mr-2"></i>Buat CV Saya</small></a>
+                        <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'cv' ? 'active' : ''}}" id="mobile-negeri-cv" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'cv'])}}"><small><i class="fas fw fa-id-card mr-2"></i>{{in_array(null, Auth::user()->profile->cv->toArray()) ? 'Buat' : 'Perbarui'}} CV Saya</small></a>
                         @break
                     @case('setting')
                         <a class="nav-item nav-link p-1 py-2 dh-menu {{$section === 'profile' ? 'active' : ''}}" id="mobile-setting-profile" data-pjax="main-content" href="{{route('dashboard', ['menu' => 'setting', 'section' => 'profile'])}}"><small><i class="fas fw fa-user-edit mr-2"></i>Edit Profil</small></a>

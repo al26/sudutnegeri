@@ -20,7 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('style')
 </head>
-<body>
+<body class="@yield('body-bg')">
         {{-- @yield('bg-nav', 'bg-gradient-secondary') --}}
     <div id="app">
         <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark @yield('bg-nav', 'bg-gradient-secondary')" style="height:3rem">
@@ -63,8 +63,8 @@
                             <div class="card-body bg-gradient-secondary">
                                 <p class="card-text text-light">Ayo bantu majukan pendidikan di Indonesia.</p>
                                 <div class="d-flex flex-row justify-content-start">
-                                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light mr-2">Masuk</a>
-                                    <a href="{{ route('register') }}" class="btn btn-sm btn-outline-light mr-2">Daftar</a>
+                                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light mr-2"><i class="fas fa-sign-in-alt fw"></i> Masuk</a>
+                                    <a href="{{ route('register') }}" class="btn btn-sm btn-outline-light mr-2"><i class="fas fa-user-plus fw"></i> Daftar</a>
                                 </div>
                             </div>
                         @else
@@ -234,8 +234,8 @@
                     @guest
                         <li class="nav-item">
                             <div class="d-flex justify-content between align-items-center">
-                                <a class="btn btn-md main-auth-btn text-capitalize mr-2" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a>
-                                <a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a>
+                                <a class="btn btn-md main-auth-btn text-capitalize mr-2" href="{{ route('login') }}"><i class="fas fa-sign-in-alt fw"></i> masuk</a>
+                                <a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}"><i class="fas fa-user-plus fw"></i> daftar</a>
                             </div>
                         </li>
                         {{-- <li class="nav-item"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a></li>

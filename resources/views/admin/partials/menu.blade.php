@@ -1,5 +1,5 @@
 @php
-    $count['donations'] = $donations->where('status', 'pending')->count();
+    $count['donations'] = $donations->where('status', 'pending')->where('transfer_receipt', '!=', '')->count();
     $count['projects'] = $projects->where('project_status', 'submitted')->count();
     $count['members'] = $pending_members->count();
     $count['withdrawals'] = $withdrawals->where('status', 'pending')->count();

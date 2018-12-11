@@ -78820,6 +78820,25 @@ if ($.support.pjax) {
         });
     };
 
+    $.fn.ajaxCrudNonModal = function () {
+        var pjax = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        var redirectAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+        var form = $(this),
+            data = {
+            "actionUrl": form.attr('action'),
+            "pjax-reload": pjax,
+            "redirectAfter": redirectAfter
+        };
+        submit_url = form.attr('action');
+        redirectTo = redirectAfter;
+        reloads = pjax;
+
+        console.log([pjax, redirectAfter, reloads, redirectTo]);
+
+        doSubmit(data, form);
+    };
+
     function generateBtn(data) {
         resetBtn();
 
@@ -78960,6 +78979,7 @@ if ($.support.pjax) {
                         //     url: data['redirectAfter'], 
                         //     container: data['pjax-reload'][]
                         // });
+                        console.log("not null");
                         $.each(reloads, function (index, val) {
                             $.pjax({
                                 url: redirectTo,
@@ -79353,23 +79373,6 @@ if ($.support.pjax) {
         });
     };
 
-    $.fn.ajaxCrudNonModal = function () {
-        var pjax = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        var redirectAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-        var form = $(this),
-            data = {
-            "actionUrl": form.attr('action'),
-            "pjax-reload": pjax,
-            "redirectAfter": redirectAfter
-        };
-        submit_url = form.attr('action');
-        redirectTo = redirectAfter;
-        reloads = pjax;
-
-        doSubmit(data, form);
-    };
-
     function redireload(url, container) {
         window.history.pushState("", "", url);
         $.ajax({
@@ -79385,6 +79388,11 @@ if ($.support.pjax) {
         if (url == null) {
             return;
         }
+        var redirectTo = data['redirectAfter'];
+        var pcontainer = data['pjax-container'];
+
+        console.log([redirectTo, pcontainer]);
+
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
         $.ajaxSetup({
             cache: false
@@ -79404,6 +79412,7 @@ if ($.support.pjax) {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                console.log([redirectTo, pcontainer]);
                 $.pjax({ url: redirectTo, container: pcontainer });
             }
 

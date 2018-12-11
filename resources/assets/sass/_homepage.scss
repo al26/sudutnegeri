@@ -5,7 +5,15 @@ body{
 
 section#banner {
 	div#img-banner {
-		max-height: 30rem;
+		max-height: 14.4rem;
+
+		@include media-breakpoint-up (sm) {
+			max-height: 20rem;
+		}
+
+		@include media-breakpoint-up (lg) {
+			max-height: 30rem;
+		}
 	}
 	div#caption-banner {
 		top: 1.5rem !important;
@@ -19,9 +27,11 @@ section#banner {
 			border: 0;
 			.cb-title {
 				font-size: 1.5rem !important;
+				text-shadow: 1px 1px 1px rgba(0,0,0,1);
 			}
 			.cb-desc {
 				font-size: 1rem !important;
+				text-shadow: 1px 1px 1px rgba(0,0,0,1);
 			}
 
 			@include media-breakpoint-up(sm) {
@@ -161,14 +171,14 @@ section#banner {
 }
 
 section#info {
-	// background-color: rgba($secondary-light, $alpha: .3);
-	background-image: url("/storage/background/blackboard.jpg");
-	background-attachment: fixed;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
+	// background-color: rgba($secondary, $alpha: 1);
+	// background-image: url("/storage/background/blackboard.jpg");
+	// background-attachment: fixed;
+	// background-position: center;
+	// background-repeat: no-repeat;
+	// background-size: cover;
 
-	height: auto;
+	// height: auto;
 
 	.row > [class^="col-"] {
 		margin-bottom: 1rem;
@@ -180,6 +190,15 @@ section#info {
 		@include media-breakpoint-up(sm) {
 			margin-bottom: 0;
 		}
+	}
+
+	background: transparent;
+	position: relative;
+	z-index: 1;
+	margin-top: -3rem;
+
+	@include media-breakpoint-up(lg) {
+		margin-top: -4rem;
 	}
 }
 // section#project {

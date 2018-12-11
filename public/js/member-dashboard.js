@@ -190,7 +190,7 @@ $(document).on('click', '#upload-verification', function (e) {
 $(document).on('click', '#cv-edit', function (e) {
     e.preventDefault();
     var redirectTo = $(this).attr('data-redirectAfter');
-    $('#form-cv').ajaxCrudNonModal(['#mr'], redirectTo);
+    $('#form-cv').ajaxCrudNonModal(['#mr', '#ml'], redirectTo);
 });
 
 $(document).on('click', '#create-history', function (e) {
