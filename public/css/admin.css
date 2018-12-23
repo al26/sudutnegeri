@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);table.dataTable {
+table.dataTable {
   clear: both;
   margin-top: 6px !important;
   margin-bottom: 6px !important;
@@ -13914,7 +13914,6 @@ table.dataTable thead th.sorting:before, table.dataTable thead th.sorting:after,
 body {
   background: #f1f2f7;
   display: table;
-  font-family: 'Open Sans' sans-serif !important;
   font-size: 16px;
   width: 100%;
 }
@@ -13925,7 +13924,6 @@ div[class*="col-"] {
 
 p {
   font-size: 16px;
-  font-family: 'Open Sans' sans-serif;
   font-weight: 400;
   line-height: 24px;
   color: #878787;
@@ -14023,7 +14021,6 @@ aside.left-panel {
 .navbar .navbar-brand {
   border-bottom: 1px solid #4e4e52;
   color: #f1f2f7 !important;
-  font-family: 'Open Sans';
   font-size: 22px;
   float: none;
   line-height: 50px;
@@ -14062,7 +14059,6 @@ aside.left-panel {
   color: #9496a1;
   clear: both;
   display: block;
-  font-family: 'Open Sans';
   font-size: 14px;
   font-weight: 700;
   line-height: 50px;
@@ -14094,7 +14090,6 @@ aside.left-panel {
   background: none !important;
   color: #c8c9ce !important;
   display: inline-block;
-  font-family: 'Open Sans';
   font-size: 14px;
   line-height: 30px;
   padding: 10px 0;
@@ -14122,7 +14117,6 @@ aside.left-panel {
 
 .navbar .navbar-nav li > a .badge {
   border-radius: 0;
-  font-family: 'Open Sans';
   font-weight: 600;
   float: right;
   margin: 6px 0 0 0;
@@ -14212,7 +14206,6 @@ aside.left-panel {
   background: #a9d86e;
   border-radius: 50%;
   color: #fff;
-  font-family: 'Open Sans';
   font-size: 9px;
   font-weight: 700;
   float: right;
@@ -14636,7 +14629,6 @@ header .form-inline .search-form.close {
 .user-area .user-menu {
   background: #fff;
   border: none;
-  font-family: 'Open Sans';
   left: inherit !important;
   right: 0;
   top: 55px !important;
@@ -14674,7 +14666,6 @@ header .form-inline .search-form.close {
   background: #d9534f;
   border-radius: 50%;
   color: #fff;
-  font-family: 'Open Sans';
   font-size: 9px;
   font-weight: 700;
   float: right;

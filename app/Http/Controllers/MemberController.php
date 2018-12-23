@@ -14,6 +14,7 @@ use App\User_verification as Verification;
 use App\Donation;
 use App\Volunteer;
 use App\Regency;
+use App\District;
 use App\User;
 use App\User_cv as CV;
 use Hash;
@@ -45,7 +46,6 @@ class MemberController extends Controller
         $data['user_projects'] = Project::where('user_id', $request->user()->id)->paginate(5);
         $data['user_profile']  = $request->user()->profile;
         $data['categories'] = Category::all();
-        $data['provinces'] = Province::all();
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
         $data['verified_investments'] = Donation::where('user_id', $request->user()->id)->where('status', 'verified')->get();
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
@@ -76,7 +76,24 @@ class MemberController extends Controller
                                                 ->pluck('id')
                                                 ->toArray()
                                     )->orderBy('created_at', 'desc')->take(3)->get();
-
+        if($request->user()->profile->address->province_id) {
+            $data['provinces'] = Province::where('id', '!=', $request->user()->profile->address->province_id)->get();
+            if($request->user()->profile->address->regency_id) {
+                $data['regencies'] = Regency::where('province_id', $request->user()->profile->address->province_id)                               ->where('id', '!=' , $request->user()->profile->address->regency_id)
+                                            ->get();
+                if($request->user()->profile->address->district_id) {
+                    $data['districts'] = District::where('regency_id', $request->user()->profile->address->regency_id)
+                                                ->where('id', '!=', $request->user()->profile->address->district_id)
+                                                ->get();
+                } else {
+                    $data['districts'] = District::where('regency_id', $request->user()->profile->address->regency_id)->get();
+                }
+            } else {
+                $data['regencies'] = Regency::where('id', $request->user()->profile->address->province_id)->get();
+            }
+        } else {
+            $data['provinces'] = Province::all();
+        }
         // dd($data['update']);
 
         return view('member.dashboard', ['menu' => $menu, 'section' => $section], $data);

@@ -36,11 +36,25 @@
                         </div>
                         <div class="form-group mt-2">
                             {{-- {{old('bank_id') ? dd(old('bank_id')) : ''}} --}}
+                            {{-- @if (!empty(old('data.bank_id')))
+                                @php
+                                    $nb = $banks->where('bank_id', old('data.bank_id'))->all();
+                                    $ob = $banks->where('bank_id', '!=' ,old('data.bank_id'))->all();
+                                    dd($nb[0]->bank->);
+                                @endphp
+                            @endif --}}
                             <label for="bank_id">Metode Pembayaran</label>
                             <select id="bank_id" name="data[bank_id]" class="select2 form-control {{$errors->first('bank_id') ? 'is-invalid' : ''}}">
                                 @if (!empty(old('data.bank_id')))
-                                    <option value="{{old('data.bank_id')}}" selected>{{"Transfer Bank ".$banks->where('id', old('data.bank_id'))->pluck('bank_name')[0]}}</option>
-                                    @foreach($banks->bank()->where('id', '!=' ,old('data.bank_id')) as $key => $bank)
+                                    @php
+                                        $nb = $banks->where('bank_id', old('data.bank_id'))->all();
+                                        $ob = $banks->where('bank_id', '!=' ,old('data.bank_id'))->all();
+                                    @endphp
+                                    {{-- <option value="{{old('data.bank_id')}}" selected>{{"Transfer Bank ".$nb[0]->bank->bank_name}}</option> --}}
+                                    @foreach($nb as $key => $bank)
+                                        <option value="{{$bank->bank->id}}">{{"Transfer Bank ".$bank->bank->bank_name}}</option>
+                                    @endforeach
+                                    @foreach($ob as $key => $bank)
                                         <option value="{{$bank->bank->id}}">{{"Transfer Bank ".$bank->bank->bank_name}}</option>
                                     @endforeach
                                 @else

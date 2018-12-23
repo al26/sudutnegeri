@@ -135,6 +135,11 @@
                             <select id="regency_id" name="data[regency_id]" class="select2 col-12">
                                 @if(!empty(Auth::user()->profile->address->regency_id))
                                     <option value="{{Auth::user()->profile->address->regency_id}}">{{Auth::user()->profile->address->regency->name}}</option>
+                                    @if (isset($regencies))
+                                        @foreach($regencies as $regency)
+                                            <option value="{{$regency->id}}">{{$regency->name}}</option>
+                                        @endforeach
+                                    @endif
                                 @else
                                     <option selected disabled>--Pilih Kabupaten/Kota--</option>
                                 @endif
@@ -148,6 +153,11 @@
                             <select id="district_id" name="data[district_id]" class="select2 col-12">
                                 @if(!empty(Auth::user()->profile->address->district_id))
                                     <option value="{{Auth::user()->profile->address->district_id}}">{{Auth::user()->profile->address->district->name}}</option>
+                                    @if (isset($districts))
+                                        @foreach($districts as $district)
+                                            <option value="{{$district->id}}">{{$district->name}}</option>
+                                        @endforeach
+                                    @endif
                                 @else
                                     <option selected disabled>--Pilih Kecamatan--</option>
                                 @endif

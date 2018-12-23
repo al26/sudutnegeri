@@ -26,17 +26,21 @@ class ProjectController extends Controller
         $project = Project::where(function($clause) {
             $clause->where('project_status','published')
                    ->orWhere('project_status', 'finished');
-        });
-
+        })->latest();
+        
         if (!empty($request->location) && $request->location !== 'all') {
             $project = $project->where('regency_id', $request->location);
-            $data['lokasi'] = $request->location;
+            $data['loc'] = $request->location;
+        } else {
+            $data['loc'] = "all";
         }
 
         if (!empty($request->category) && $request->category !== 'all') {
             $category = Category::where('slug', $request->category)->pluck('id')->toArray();
             $project = $project->whereIn('category_id', $category);
-            $data['category'] = $request->category;
+            $data['cat'] = $request->category;
+        } else {
+            $data['cat'] = "all";
         }
 
         if ($request->sort) {
@@ -47,9 +51,11 @@ class ProjectController extends Controller
             }  
 
             $data['sort'] = $request->sort;
+        } else {
+            $data['sort'] = "all";
         }
-
-        $data['projects'] = $project->paginate(6);
+        
+        $data['projects'] = $project->paginate(8);
         
         // dd($data);
 
