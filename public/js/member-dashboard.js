@@ -134,6 +134,7 @@ $(document).ready(function () {
     activateOptGenerator();
     $('.select2').select2({ theme: "bootstrap4" });
     $(document).ajaxSelect2("form-create-project #regency_id", "/location");
+    $(document).ajaxSelect2("form-edit-project #regency_id", "/location");
     // showMoreLess(100, 'Selengkapnya', 'Sebagian', '.update-list-item');
     getProjectBalance();
 });
@@ -256,6 +257,7 @@ $('#mc, #mr').on('pjax:complete', function () {
     // $(document).ajaxSelect2("project_location", "/location");
     activateOptGenerator();
     $(document).ajaxSelect2("form-create-project #regency_id", "/location");
+    $(document).ajaxSelect2("form-edit-project #regency_id", "/location");
     getProjectBalance();
 });
 
