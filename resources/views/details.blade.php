@@ -209,7 +209,7 @@
                     confirmButtonText: 'Login di sini',
                     showCancelButton: true,
                     cancelButtonText: 'Batal',
-                    preConfirm: () => {window.location.href = url}
+                    preConfirm: function() {window.location.href = url}
                 });
                 return false;
             } else {
@@ -230,7 +230,7 @@
                     confirmButtonText: 'Login di sini',
                     showCancelButton: true,
                     cancelButtonText: 'Batal',
-                    preConfirm: () => {window.location.href = url}
+                    preConfirm: function() {window.location.href = url}
                 });
                 return false;
             } else {

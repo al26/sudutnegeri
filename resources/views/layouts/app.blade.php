@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ app()->getLocale() }}"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="{{ app()->getLocale() }}"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="{{ app()->getLocale() }}"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ app()->getLocale() }}"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -203,32 +206,21 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="desktopNavbar">
-                    {{-- <ul class="navbar-nav mr-auto">
-                        <li> --}}
-                            {{-- <form class="form-inline d-inline" action="/action_page.php">
-                                <div class="input-group">
-                                    <input class="form-control rounded-0 py-2 px-3 text-light" type="text" placeholder="Cari project" autocomplete="false">
-                                    <span class="input-group-btn p-1">
-                                        <button class="btn btn-secondary rounded-circle py-1 px-2 text-light" type="submit"><i class="fas fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </form> --}}
-                            <div class="row mx-auto">
-                                <div class="col-12 p-0">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                        </div>
-                                        <input type="text" name="search" placeholder="Cari judul atau lokasi proyek" id="project-search" onkeyup="javascript:getSearcResult(this, '#project-search-result');">
-                                        <span id="project-search-result"></span>
+                    
+                    <div class="mx-auto">
+                        {{-- <div class="col-12 p-0"> --}}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-search"></i>
                                     </div>
                                 </div>
+                                <input type="text" name="search" placeholder="Cari judul atau lokasi proyek" id="project-search" onkeyup="javascript:getSearcResult(this, '#project-search-result');">
+                                <span id="project-search-result"></span>
                             </div>
-                        {{-- </li>
-                    </ul> --}}
-
+                        {{-- </div> --}}
+                    </div>
+                    
                 </div>
                 <ul class="navbar-nav ml-auto d-none d-lg-block">
                     @guest
