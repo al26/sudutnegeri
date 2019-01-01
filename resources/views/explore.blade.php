@@ -414,7 +414,7 @@
             @endforeach
         </div>
         <div class="row section-content float-right p-0 px-3">
-            {{ $projects->links() }}
+            {{ $projects->appends(['category' => $cat, 'location' => $loc, 'sort' => $sort])->links() }}
         </div>
     </div>
 @endsection

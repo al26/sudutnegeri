@@ -39,11 +39,12 @@
                         <textarea class="form-control the-summernote" id="body" rows="3" name="data[body]"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" id="create-history" data-redirectAfter="{{route('project.manage', ['slug' => $project->project_slug])}}">Simpan</button>
                     @if ($menu === 'sudut')
+                        <button type="submit" class="btn btn-primary" id="create-history" data-redirectAfter="{{route('project.manage', ['slug' => $project->project_slug])}}">Simpan</button>
                         <a href="{{route('project.manage', ['slug' => $project->project_slug])}}" class="btn btn-danger" data-toggle="pjax" data-pjax="main-content">Batal</a>
                     @endif
                     @if ($menu === 'negeri')
+                        <button type="submit" class="btn btn-primary" id="create-history" data-redirectAfter="{{route('history.manage', ['slug' => $project->project_slug])}}">Simpan</button>
                         <a href="{{route('history.manage', ['slug' => $project->project_slug])}}" class="btn btn-danger" data-toggle="pjax" data-pjax="main-content">Batal</a>
                     @endif
                 </form>

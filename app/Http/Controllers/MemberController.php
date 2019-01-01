@@ -14,6 +14,7 @@ use App\User_verification as Verification;
 use App\Donation;
 use App\Volunteer;
 use App\Regency;
+use App\District;
 use App\User;
 use App\User_cv as CV;
 use Hash;
@@ -45,13 +46,15 @@ class MemberController extends Controller
         $data['user_projects'] = Project::where('user_id', $request->user()->id)->paginate(5);
         $data['user_profile']  = $request->user()->profile;
         $data['categories'] = Category::all();
-        $data['provinces'] = Province::all();
         $data['investments'] = Donation::where('user_id', $request->user()->id)->get();
         $data['verified_investments'] = Donation::where('user_id', $request->user()->id)->where('status', 'verified')->get();
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
         $data['volunteers'] = Volunteer::whereIn('project_id', $projects_id)->get();
         $user_around = Regency::where('province_id', $request->user()->profile->address->province_id)->pluck('id')->toArray();
-        $data['featured'] = Project::where('user_id', '!=', $request->user()->id)
+        $data['featured'] = Project::where(function($query) use ($request) {
+                                        $query->where('user_id', '!=', $request->user()->id)
+                                              ->where('project_status', 'published');
+                                    })
                                     ->where(function ($query) use ($request, $user_around) {
                                         $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
                                               ->orWhereIn('regency_id', $user_around);
@@ -73,7 +76,24 @@ class MemberController extends Controller
                                                 ->pluck('id')
                                                 ->toArray()
                                     )->orderBy('created_at', 'desc')->take(3)->get();
-
+        if($request->user()->profile->address->province_id) {
+            $data['provinces'] = Province::where('id', '!=', $request->user()->profile->address->province_id)->get();
+            if($request->user()->profile->address->regency_id) {
+                $data['regencies'] = Regency::where('province_id', $request->user()->profile->address->province_id)                               ->where('id', '!=' , $request->user()->profile->address->regency_id)
+                                            ->get();
+                if($request->user()->profile->address->district_id) {
+                    $data['districts'] = District::where('regency_id', $request->user()->profile->address->regency_id)
+                                                ->where('id', '!=', $request->user()->profile->address->district_id)
+                                                ->get();
+                } else {
+                    $data['districts'] = District::where('regency_id', $request->user()->profile->address->regency_id)->get();
+                }
+            } else {
+                $data['regencies'] = Regency::where('id', $request->user()->profile->address->province_id)->get();
+            }
+        } else {
+            $data['provinces'] = Province::all();
+        }
         // dd($data['update']);
 
         return view('member.dashboard', ['menu' => $menu, 'section' => $section], $data);

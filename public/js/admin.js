@@ -78769,6 +78769,9 @@ if ($.support.pjax) {
         submit_url = null;
         yes_url = null;
         no_url = null;
+        redirectTo = null;
+        reloads = null;
+        pcontainer = null;
         $("#modal").on("show.bs.modal", function (e) {
             $(".modal-body").empty();
 
@@ -78780,19 +78783,24 @@ if ($.support.pjax) {
 
             data['modal'] = true;
             $(".modal-title").text(data['title']);
+            redirectTo = data['redirectAfter'] ? data['redirectAfter'] : null;
+            reloads = data['pjax-reload'] ? data['pjax-reload'] : null;
+            pcontainer = data['pjax-container'] ? data['pjax-container'] : null;
             console.log(data);
 
             if (data['lg']) {
                 md.addClass('modal-lg');
             }
 
+            submit_url = data['actionUrl'] ? data['actionUrl'] : null;
+            yes_url = data['yesUrl'] ? data['yesUrl'] : null;
+            no_url = data['noUrl'] ? data['noUrl'] : null;
+
             if (url) {
                 $.ajaxSetup({ cache: false });
                 $.get(url, function (content) {
-                    submit_url = data['actionUrl'] ? data['actionUrl'] : null;
-                    yes_url = data['yesUrl'] ? data['yesUrl'] : null;
-                    no_url = data['noUrl'] ? data['noUrl'] : null;
                     $(".modal-body").html(content);
+                    // console.log(submit_url);
                 }).fail(function (response) {
                     console.log(response);
                 });
@@ -78810,6 +78818,25 @@ if ($.support.pjax) {
             del_url = null;
             submit_url = null;
         });
+    };
+
+    $.fn.ajaxCrudNonModal = function () {
+        var pjax = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        var redirectAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+        var form = $(this),
+            data = {
+            "actionUrl": form.attr('action'),
+            "pjax-reload": pjax,
+            "redirectAfter": redirectAfter
+        };
+        submit_url = form.attr('action');
+        redirectTo = redirectAfter;
+        reloads = pjax;
+
+        console.log([pjax, redirectAfter, reloads, redirectTo]);
+
+        doSubmit(data, form);
     };
 
     function generateBtn(data) {
@@ -78857,6 +78884,7 @@ if ($.support.pjax) {
         if (data['yes']) {
             $("#modal").on('click', '#mbtn-yes', function (e) {
                 e.preventDefault();
+                console.log([yes_url, data]);
                 yesnoSubmit(yes_url, data, 'yes');
                 e.stopImmediatePropagation();
                 // window.location.href = data['redirectAfter'];
@@ -78945,21 +78973,23 @@ if ($.support.pjax) {
                         timer: 1500
                     });
 
-                    if (data['redirectAfter']) {
+                    if (redirectTo !== null) {
                         // redireload(data['redirectAfter'], data['pjax-reload']);
                         // $.pjax({
                         //     url: data['redirectAfter'], 
                         //     container: data['pjax-reload'][]
                         // });
-                        $.each(data['pjax-reload'], function (index, val) {
+                        console.log("not null");
+                        $.each(reloads, function (index, val) {
                             $.pjax({
-                                url: data['redirectAfter'],
+                                url: redirectTo,
                                 container: val
                             });
                         });
                     }
 
                     if (data['pchange']) {
+                        console.log([action, submit_url, data['pchange'], data['pchange-url']]);
                         pchange(data['pchange-url']);
                     }
                     return false;
@@ -79043,7 +79073,7 @@ if ($.support.pjax) {
                         timer: 1500
                     });
 
-                    $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                    $.pjax({ url: redirectTo, container: pcontainer });
                 }
 
                 if (response.errors) {
@@ -79097,7 +79127,7 @@ if ($.support.pjax) {
                     timer: 1500
                 });
 
-                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                $.pjax({ url: redirectTo, container: pcontainer });
             }
 
             if (response.errors) {
@@ -79145,7 +79175,7 @@ if ($.support.pjax) {
                     timer: 1500
                 });
 
-                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                $.pjax({ url: redirectTo, container: pcontainer });
             }
 
             if (response.errors) {
@@ -79202,7 +79232,7 @@ if ($.support.pjax) {
                             });
                         }
 
-                        $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                        $.pjax({ url: redirectTo, container: pcontainer });
                         // redireload(data['redirectAfter'],data['pjax-container']);
                         // window.attr.href = data['redirectAfter'];
                         // url = null;
@@ -79343,20 +79373,6 @@ if ($.support.pjax) {
         });
     };
 
-    $.fn.ajaxCrudNonModal = function () {
-        var pjax = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        var redirectAfter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-        var form = $(this),
-            data = {
-            "actionUrl": form.attr('action'),
-            "pjax-reload": pjax,
-            "redirectAfter": redirectAfter
-        };
-
-        doSubmit(data, form);
-    };
-
     function redireload(url, container) {
         window.history.pushState("", "", url);
         $.ajax({
@@ -79372,6 +79388,11 @@ if ($.support.pjax) {
         if (url == null) {
             return;
         }
+        var redirectTo = data['redirectAfter'];
+        var pcontainer = data['pjax-container'];
+
+        console.log([redirectTo, pcontainer]);
+
         var csrf_token = $('meta[name="csrf-token"]').attr('content');
         $.ajaxSetup({
             cache: false
@@ -79391,7 +79412,8 @@ if ($.support.pjax) {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                console.log([redirectTo, pcontainer]);
+                $.pjax({ url: redirectTo, container: pcontainer });
             }
 
             if (response.error) {
@@ -79401,7 +79423,7 @@ if ($.support.pjax) {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                $.pjax({ url: data['redirectAfter'], container: data['pjax-container'] });
+                $.pjax({ url: redirectTo, container: pcontainer });
             }
             return;
         }).fail(function (response) {

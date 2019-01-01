@@ -20,9 +20,13 @@ Route::get('/cv/{id}', function ($id) {
 })->middleware('web');
 
 Route::get('/', function () {
-    $data['projects'] = \App\Project::where('project_status', '!=', 'submitted')->take(10)->get();
+    $data['projects'] = \App\Project::where('project_status', 'published')->orWhere('project_status', 'finished')->take(10)->get();
     // dd(\App\User::all());
     $data['member'] = \App\User::where('role', 'member')->where('active', true)->get();
+    $data['count']['sinegeri'] = \App\Donation::where('status', 'verified')->distinct('user_id')->count('user_id');
+    $data['count']['sinegeri'] += \App\Volunteer::where('status', 'accepted')->orWhere('status', 'finished')->distinct('user_id')->count('user_id');
+    $data['count']['projects'] = \App\Project::where('project_status', 'published')->orWhere('project_status', 'finished')->count();
+    $data['count']['investments'] = \App\Donation::where('status', 'verified')->sum('amount');
     return view('home', $data);
 });
 
@@ -144,8 +148,9 @@ Route::group(['prefix' => 'json'], function () {
     Route::get('saldo', function(\Illuminate\Http\Request $request) {
         // $id = base64_decode(urldecode($request->project));
         $id = decrypt($request->project);
-        $project = \App\Project::findOrFail($id)->select('project_name','collected_funds')->get()[0];
-        $credited = \App\Withdrawal::where('project_id', $id)
+        // $id = $request->project;
+        $project = \App\Project::findOrFail($id);
+        $credited = $project->withdrawals()->where('project_id', $id)
                                     ->where('status', 'processed')
                                     ->sum('amount');
         $data['saldo'] = $project->collected_funds - $credited;
@@ -217,7 +222,7 @@ Route::post('location', function (\Illuminate\Http\Request $request) {
     // dd(json_encode($items));
 
     return response()->json(["items" => $items]);
-})->middleware('auth')->name('get.location');
+})->name('get.location');
 
 // Route::get('location-id', function (\Illuminate\Http\Request $request) {
 //     $key = $request->key;

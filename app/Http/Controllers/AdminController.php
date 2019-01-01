@@ -38,6 +38,7 @@ class AdminController extends Controller
         $data['banks'] = Bank::all();
         $data['bank_accounts'] = Account::all();
         $data['users'] = User_profile::where('updated_at', '!=', 'created_at')->whereNotNull('identity_card')->get();
+        $data['pending_members'] = User_verification::where('status', 'pending')->get();
         $data['withdrawals'] = Withdrawal::all();
         return view('admin.dashboard', $data);
     }

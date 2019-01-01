@@ -27,13 +27,74 @@
     </div>
     @if (Auth::user()->volunteers->count() <= 0)
     <div class="card-body">
-        <div class="text-center p-5 my-auto">
+        <div class="text-center pt-5 mb-3">
             <div class="my-3">
                 <i class="fas fa-hand-holding-heart fa-10x"></i>
             </div>
             <span class="font-weight-bold">Belum ada aktivitas kerelawanan !</span><br>
-            <span class=""><a href="{{route('project.browse')}}" data-toggle="pjax" data-pjax="menu">Pilih proyek</a> dan buat aktivitas kerelawanan Anda.</span>
+            @if ($featured->count() <= 0)
+                <span class=""><a href="{{route('project.browse')}}" data-toggle="pjax" data-pjax="menu">Pilih proyek</a> dan buat aktivitas kerelawanan Anda.</span>
+            @else
+                <span class="">Pilih proyek rekomendasi berikut atau <a href="{{route('project.browse')}}" data-toggle="pjax" data-pjax="menu">cari proyek lain</a></span>
+            @endif
         </div>
+        @if ($featured->count() > 0)
+            <div class="row section-content">
+                @foreach ($featured as $project)
+                    @php
+                        $progressDana = round(($project->collected_funds / $project->funding_target) * 100);
+                        $progressRelawan = round(($project->registered_volunteer / $project->volunteer_quota) * 100);
+                    @endphp
+                    <div class="d-campaigns col-12 col-sm-6 col-xl-4 card-deck">
+                        <div class="card card-shadow m-0 border-0 mb-3" style="min-height:485px">
+                            <div class="category-flag">
+                                <p>{{$project->category->category}}</p>
+                            </div>
+                            <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                            <div class="media campaigner">
+                                <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
+                                <div class="media-body">
+                                    {{$project->user->profile->name}}
+                                </div>
+                            </div>
+                            <div class="card-header bg-white font-weight-bold">
+                                <a href="{{route('project.show', ['slug' => $project->project_slug])}}" class="card-link"><h5 class="card-title m-0 project-title">{{$project->project_name}}</h5></a>
+                            </div>
+                            <div class="card-body pb-0 pt-4 _project-info hidden" id="info-{{$project->project_slug}}">
+                                <div class="row m-0">
+                                    <span class="col-12 --text p-0">Lokasi</span>
+                                    <span class="col-12 --text p-0 mb-2 font-weight-bold">{{ucwords(strtolower($project->location->name))}}</span>
+                                    
+                                    <span class="col-12 --text p-0">Batas Pendaftaran Relawan</span>
+                                    <span class="col-12 --text p-0 mb-2 font-weight-bold">{{Idnme::print_date($project->close_reg)}}</span>
+                                    
+                                    <span class="col-12 --text p-0">Batas Penerimaan Investasi</span>
+                                    <span class="col-12 --text p-0 m-0 font-weight-bold">{{Idnme::print_date($project->close_donation)}}</span>
+                                </div>
+                            </div>
+                            <div class="card-body pb-0 pt-4 _project-progress" id="progress-{{$project->project_slug}}">
+                                <div class="info-donasi">
+                                    <span class="--text text-capitalize">investasi terkumpul {{$progressDana}}%</span>
+                                    <span class="--text font-weight-bold text-capitalize">{{Idnme::print_rupiah($project->collected_funds, false, true)}}</span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: {{$progressDana}}%"></div>
+                                    </div>
+                                    <span class="--text text-capitalize">target {{Idnme::print_rupiah($project->funding_target)}}</span>
+                                </div>
+                                <hr class="mt-1 mb-2">
+                                <div class="info-relawan">
+                                    <span class="--text "><b>{{empty($project->registered_volunteer) ? "0" : $project->registered_volunteer}}</b> relawan tergabung dari target <b>{{$project->volunteer_quota}}</b> relawan</span>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-lighten">
+                                <button class="btn btn-link text-secondary-black decoration-none w-100 p-0" onclick="javascript:showAndHide(this, '#progress-{{$project->project_slug}}', '#info-{{$project->project_slug}}', 'Lihat Progress', 'Lihat Detail Proyek');" data-action="hide">Lihat Detail Proyek</button>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <a class="btn btn-secondary btn-sm" href="{{route('project.browse', ['category' => 'all'])}}">Lebih banyak proyek</a>
+        @endif
     </div>
     @else
         <div class="card-body">

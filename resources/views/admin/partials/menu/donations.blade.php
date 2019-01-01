@@ -1,3 +1,6 @@
+@php
+    // $donations = $donations->where('transfer_receipt', '!=', '');
+@endphp
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -5,7 +8,7 @@
                 <h4 class="m-0 p-0">Daftar Investasi Masuk</h4>
             </div>
             <div class="card-body table-responsive">
-                <table id="example" class="table table-striped table-bordered">
+                <table id="example" class="table table-striped table-bordered" data-order='{"col":5, "sort":"asc"}'>
                     <thead>
                         <tr>
                             <th>Judul Proyek</th>

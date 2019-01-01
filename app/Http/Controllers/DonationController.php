@@ -41,7 +41,7 @@ class DonationController extends Controller
         if($request->user()->id === $data['project']->user_id) {
             return redirect()->back();
         }
-        $data['banks'] = Bank_account::all();
+        $data['banks'] = Bank_account::with('bank')->get();
         return view('member.create_donation', $data);
     }
 
@@ -65,7 +65,7 @@ class DonationController extends Controller
             // "amount.numeric"    => "Mohon isikan dengan jumlah yang valid (berupa angka)",
             // "amount.digits"        => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000",
             "bank_id.required"  => "Mohon pilih salah satu dari :attribute yang tersedia",
-            "digits_between"    => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000 between"
+            "digits_between"    => "Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000"
         ];
 
         $attributes = [

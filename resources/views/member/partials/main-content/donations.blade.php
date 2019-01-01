@@ -11,16 +11,18 @@
     </div>
     @if ($investments->count() <= 0)
         <div class="card-body">    
-            <div class="text-center">
+            <div class="text-center mb-3">
                 <div class="my-3">
                     <i class="fas fa-coins fa-10x"></i>
                 </div>
                 <span class="font-weight-bold">Anda belum berinvestasi ke proyek manapun!!</span><br>
-                
                 @if ($featured->count() <= 0)
                     <span class=""><a href="{{route('project.browse', ['category' => 'all'])}}">Mulai Investasi</a></span>
+                @else
+                    <span class="">Mulai investasi ke proyek rekomendasi berikut atau <a href="{{route('project.browse', ['category' => 'all'])}}">cari proyek lain</a></span>
                 @endif
             </div>
+            {{-- <span class="--text text-center mt-3 mb-5">Rekomendasi proyek untuk Anda</span> --}}
             @if ($featured->count() > 0)
                 <div class="row section-content">
                     @foreach ($featured as $project)

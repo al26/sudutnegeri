@@ -34,7 +34,7 @@
                             <input type="password" class="form-control" id="new_pass_change_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_change_confirmation]" required>
                         </div>
                     </div>
-                    <button type="submit" id="password-change" class="btn btn-primary">Simpan Perubahan</button>    
+                    <button type="submit" id="password-change" class="btn btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}">Simpan Perubahan</button>    
                 </div>
             </form>
             @else
@@ -56,7 +56,7 @@
                             <input type="password" class="form-control" id="new_pass_confirmation" placeholder="Ketik ulang password baru" name="data[new_pass_confirmation]">
                         </div>
                     </div>
-                    <button type="submit" id="password-create" class="btn btn-primary">Buat Password</button>
+                    <button type="submit" id="password-create" class="btn btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'setting', 'section' => 'account'])}}">Buat Password</button>
                 </div>
             </form>
             @endif

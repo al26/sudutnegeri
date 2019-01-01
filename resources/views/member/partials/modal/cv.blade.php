@@ -1,19 +1,22 @@
 <div class="card border-0">
     <div class="card-body border-0 p-0">
         <section class="cv-header bg-secondary clearfix">
-            <div class="cv-title text-left text-secondary bg-white">
+            <div class="cv-title text-left text-white text-lg-secondary bg-lg-white">
                 <span class="--text m-0 font-weight-bold">CURRICULUM VITAE RELAWAN</span>
                 <span class="--text _sub m-0">CURRICULUM VITAE OF VOLUNTEERS</span>
             </div>
             <div class="cv-brand">
-                <h4 class="text-white m-0 text-center text-lg-left">
+                <h1 class="text-white m-0 text-right d-block d-lg-none">
+                    <i class="fab fw fa-staylinked" data-fa-transform="grow-5"></i>
+                </h1>
+                <h4 class="text-white m-0 text-center text-lg-left d-lg-block d-none">
                     <i class="fab fw fa-staylinked" data-fa-transform="grow-5"></i>
                     &nbsp;{{ config('app.name', 'SudutNegeri') }}
                 </h4>
             </div>
         </section>
         <section class="cv-top media my-3 px-3 row">
-            <img src="{{asset($user->profile->profile_picture)}}" alt="" class="img-fluid img-thumbnail ml-lg-3 order-lg-2 order-1 mx-auto mr-lg-0">
+            <img src="{{asset($user->profile->profile_picture)}}" alt="" class="img-thumbnail cv-ava ml-lg-3 order-lg-2 order-1 mx-auto mr-lg-0">
             <div class="media-body p-0 order-2 order-lg-1">
                 <span class="--text font-weight-bold _head pl-2 text-uppercase">{{$user->profile->name}}</span>
                 <span class="--text font-weight-bold pl-2 text-uppercase">{{$user->profile->profession.' '.$user->profile->institution}}</span>

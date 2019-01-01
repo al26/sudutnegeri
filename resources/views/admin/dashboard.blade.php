@@ -164,7 +164,7 @@
         $(document).loadModal();
         toggleActiveMenuTab();
         $('.select2').select2({theme: "bootstrap4"});
-
+        var order = $('#example').data('order') ? $('#example').data('order') : null;
         table = $('#example').DataTable(
             {
                 "language": {
@@ -188,9 +188,13 @@
                 autoWidth : true,
                 lengthChange : true,
                 stateSave : true,
-                fixedHeader : true
+                fixedHeader : true,
             }
         );
+        
+        if(order != null) {
+            table.order([order.col, order.sort]).draw();
+        }
     });
 
 
@@ -223,6 +227,7 @@
 
     $('#ac').on('pjax:complete', function() {
         table.destroy();
+        var order = $('#example').data('order') ? $('#example').data('order') : null;
         table = $('#example').DataTable(
             {
                 "language": {
@@ -249,6 +254,9 @@
                 fixedHeader : true
             }
         );
+        if(order != null) {
+            table.order([order.col, order.sort]).draw();
+        }
         $('.select2').select2({theme: "bootstrap4"});
     });
 

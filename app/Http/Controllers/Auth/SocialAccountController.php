@@ -71,7 +71,7 @@ class SocialAccountController extends Controller
             if ($reg) {
                 return redirect()->route('login')->withSuccess('Selamat, Anda telah terdaftar sebagai member SudutNegeri. -- <strong>Aktivasi Akun diperlukan</strong>.<br> Anda harus terlebih dahulu melakukan aktivasi akun untuk dapat masuk ke sistem SudutNegeri. Kami telah mengirimkan email aktivasi ke <strong>'.$user->email.'</strong>, mohon untuk memeriksa juga folder spam email Anda. Jika Anda tidak menerima email aktivasi, dapat kami <a class="btn btn-link p-0" href="'.$resend.'">kirim ulang email aktivasi</a>');
             } else {
-                return redirect()->route('login')->withdanger("Terjadi kesalahan, silahkan coba lagi. Silahkan hubungi administrator jika tetap gagal setelah beberapa kali percobaan");
+                return redirect()->route('login')->withdanger("Akun Anda mungkin sudah terdaftar, silahkan coba login menggunakan akun tersebut. Silahkan coba daftar kemali jika tetap tidak bisa login atau silahkan hubungi administrator jika tetap gagal setelah beberapa kali percobaan");
             }
         }
 
@@ -85,7 +85,7 @@ class SocialAccountController extends Controller
                 Auth::login($login, true);
             } else {
                 return redirect()->route('login')
-                                 ->withdanger('Akun Anda belum terdaftar atau belum aktif. Email aktivasi akan Anda dapatkan sesaat setelah proses pendaftran berhasil. Mohon periksa folder spam apabila tidak ditemukan email di kotak masuk. Anda dapat meminta sistem mengirimkan ulang email aktivasi dengan klik pada menu <a class="alert-link" href="'.$resend.'">Kirim saya email aktivasi</a> pada halaman login');
+                                 ->withdanger("Akun Anda belum terdaftar, belum aktif atau tidak terkoneksi ke akun $provider. Email aktivasi akan Anda dapatkan sesaat setelah proses pendaftran berhasil. Mohon periksa folder spam apabila tidak ditemukan email di kotak masuk. Anda dapat meminta sistem mengirimkan ulang email aktivasi dengan klik pada menu <a class='alert-link' href='$resend'>Kirim saya email aktivasi</a> pada halaman login");
             }
 
         }
@@ -112,48 +112,57 @@ class SocialAccountController extends Controller
             if ($account->user->active) {
                 return $account->user;
             }
-        } else {
-            $user = User::where('email', $providerUser->getEmail())->first();
-            if ($user) {
-                return $user;
-            }
-        }
+        } 
+        // else {
+        //     $user = User::where('email', $providerUser->getEmail())->first();
+        //     if ($user) {
+        //         return $user;
+        //     }
+        // }
 
         return false;
     }
 
     public function register($providerUser, $provider){
-        $user = User::create([  
-            'email' => $providerUser->getEmail(),
-            'activation_token' => str_random(150)
-        ]);
+        $account = SocialAccount::where('provider_name', $provider)
+                   ->where('provider_id', $providerUser->getId())
+                   ->first();
 
-        $user->profile()->create([
-            'name'  => $providerUser->getName(),
-        ]);
+        if ($account) {
+            return false;
+        } else {
+            $user = User::create([  
+                'email' => $providerUser->getEmail(),
+                'activation_token' => str_random(150)
+            ]);
 
-        $user->profile->address()->create([
-            'user_profile_id' => $user->profile->id,
-        ]);
+            $user->profile()->create([
+                'name'  => $providerUser->getName(),
+            ]);
 
-        $user->profile->verification()->create([
-            'user_profile_id' => $user->profile->id,
-            'status' => 'unverified'
-        ]);
+            $user->profile->address()->create([
+                'user_profile_id' => $user->profile->id,
+            ]);
 
-        $user->profile->cv()->create([
-            'user_profile_id' => $user->profile->id,
-        ]);
+            $user->profile->verification()->create([
+                'user_profile_id' => $user->profile->id,
+                'status' => 'unverified'
+            ]);
 
-        $user->socialAccounts()->create([
-            'provider_id'   => $providerUser->getId(),
-            'provider_name' => $provider,
-        ]);
+            $user->profile->cv()->create([
+                'user_profile_id' => $user->profile->id,
+            ]);
 
-        $when = now()->addSeconds(10);
-        $user->notify((new ActivationEmail($user))->delay($when));
+            $user->socialAccounts()->create([
+                'provider_id'   => $providerUser->getId(),
+                'provider_name' => $provider,
+            ]);
 
-        return true;
+            $when = now()->addSeconds(10);
+            $user->notify((new ActivationEmail($user))->delay($when));
+
+            return true;
+        }
     }
 
     public function findOrCreate($providerUser, $provider){

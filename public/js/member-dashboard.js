@@ -134,17 +134,21 @@ $(document).ready(function () {
     activateOptGenerator();
     $('.select2').select2({ theme: "bootstrap4" });
     $(document).ajaxSelect2("form-create-project #regency_id", "/location");
+    $(document).ajaxSelect2("form-edit-project #regency_id", "/location");
     // showMoreLess(100, 'Selengkapnya', 'Sebagian', '.update-list-item');
+    getProjectBalance();
 });
 
 $(document).on('click', '#password-create', function (e) {
     e.preventDefault();
-    $('#form-account').ajaxCrudNonModal(['#mr']);
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-account').ajaxCrudNonModal(['#mr'], redirectTo);
 });
 
 $(document).on('click', '#password-change', function (e) {
     e.preventDefault();
-    $('#form-account-change').ajaxCrudNonModal(['#mr']);
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-account-change').ajaxCrudNonModal(['#mr'], redirectTo);
 });
 
 $(document).on('click', '#profile-edit', function (e) {
@@ -155,7 +159,8 @@ $(document).on('click', '#profile-edit', function (e) {
 
 $(document).on('click', '#upload-receipt', function (e) {
     e.preventDefault();
-    $('#form-receipt').ajaxCrudNonModal(['#mr'], '/dashboard/negeri/donations');
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-receipt').ajaxCrudNonModal(['#mr'], redirectTo);
 });
 
 $(document).on('click', '#upload-verification', function (e) {
@@ -168,7 +173,7 @@ $(document).on('click', '#upload-verification', function (e) {
     // } else {
     //     go = redirectTo;
     // }
-    $('#form-verification').ajaxCrudNonModal(['#mr'], redirectTo);
+    $('#form-verification').ajaxCrudNonModal(['#mr', '#mt'], redirectTo);
 });
 
 // $(document).on('click', '#activity-create-history', function(e) {
@@ -185,7 +190,8 @@ $(document).on('click', '#upload-verification', function (e) {
 
 $(document).on('click', '#cv-edit', function (e) {
     e.preventDefault();
-    $('#form-cv').ajaxCrudNonModal(['#mr']);
+    var redirectTo = $(this).attr('data-redirectAfter');
+    $('#form-cv').ajaxCrudNonModal(['#mr', '#ml'], redirectTo);
 });
 
 $(document).on('click', '#create-history', function (e) {
@@ -214,23 +220,6 @@ $(document).on('click', '#create-withdrawal', function (e) {
     e.preventDefault();
     var redirectTo = $(this).attr('data-redirectAfter');
     $('#form-create-withdrawal').ajaxCrudNonModal(['#mr'], redirectTo);
-});
-
-projecToCredit = $('#form-create-withdrawal').find('#project_id');
-projecToCredit.on('change', function (e) {
-    // var project = encodeURIComponent(window.btoa(projecToCredit.val)),
-    var url = projecToCredit.attr('data-saldo') + "?project=" + projecToCredit.val();
-    $.get(url, function (data) {
-        var reverse = data.saldo.toString().split('').reverse().join(''),
-            ribuan = reverse.match(/\d{1,3}/g);
-        ribuan = ribuan.join('.').split('').reverse().join('');
-        var info = $('#form-create-withdrawal').find('#info-saldo');
-
-        if (info.hasClass('hidden')) {
-            info.removeClass('hidden');
-        }
-        info.text('Saldo proyek ' + data.name + ' saat ini : Rp ' + ribuan);
-    });
 });
 
 $(document).pjax('a[data-pjax=menu]', '#mc');
@@ -268,7 +257,8 @@ $('#mc, #mr').on('pjax:complete', function () {
     // $(document).ajaxSelect2("project_location", "/location");
     activateOptGenerator();
     $(document).ajaxSelect2("form-create-project #regency_id", "/location");
-    projecToCredit = $('#form-create-withdrawal').find('#project_id');
+    $(document).ajaxSelect2("form-edit-project #regency_id", "/location");
+    getProjectBalance();
 });
 
 function toggleActiveMenuTab() {
@@ -321,6 +311,27 @@ function callOnScroll() {
                 $('#mc').css('padding-top', '0');
             }
         }
+    });
+}
+
+function getProjectBalance() {
+    projecToCredit = $('#form-create-withdrawal').find('#project_id');
+    projecToCredit.on('change', function (e) {
+        // var project = encodeURIComponent(window.btoa(projecToCredit.val)),
+        var url = projecToCredit.attr('data-saldo') + "?project=" + projecToCredit.val();
+        console.log(url);
+        $.get(url, function (data) {
+            var reverse = data.saldo.toString().split('').reverse().join(''),
+                ribuan = reverse.match(/\d{1,3}/g);
+            ribuan = ribuan.join('.').split('').reverse().join('');
+            var info = $('#form-create-withdrawal').find('#info-saldo');
+
+            if (info.hasClass('hidden')) {
+                info.removeClass('hidden');
+            }
+            info.text('Saldo proyek ' + data.name + ' saat ini : Rp ' + ribuan);
+            console.log(info.text());
+        });
     });
 }
 

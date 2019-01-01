@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ app()->getLocale() }}"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="{{ app()->getLocale() }}"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="{{ app()->getLocale() }}"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ app()->getLocale() }}"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +23,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('style')
 </head>
-<body>
+<body class="@yield('body-bg')">
         {{-- @yield('bg-nav', 'bg-gradient-secondary') --}}
     <div id="app">
         <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark @yield('bg-nav', 'bg-gradient-secondary')" style="height:3rem">
@@ -63,8 +66,8 @@
                             <div class="card-body bg-gradient-secondary">
                                 <p class="card-text text-light">Ayo bantu majukan pendidikan di Indonesia.</p>
                                 <div class="d-flex flex-row justify-content-start">
-                                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light mr-2">Masuk</a>
-                                    <a href="{{ route('register') }}" class="btn btn-sm btn-outline-light mr-2">Daftar</a>
+                                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light mr-2"><i class="fas fa-sign-in-alt fw"></i> Masuk</a>
+                                    <a href="{{ route('register') }}" class="btn btn-sm btn-outline-light mr-2"><i class="fas fa-user-plus fw"></i> Daftar</a>
                                 </div>
                             </div>
                         @else
@@ -83,6 +86,18 @@
                                                     <i class="mr-1 far fw fa-check-square" data-fa-transform="grow-3"></i>
                                                     Pengguna terverifikasi
                                                 </span><br>
+                                            @endif
+                                            @if (Auth::user()->profile->verification->status === 'pending')
+                                                <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" class="badge badge-warning align-self-center">
+                                                    <i class="mr-1 fas fw fa-pause" data-fa-transform="grow-3"></i>
+                                                    Belum terverifikasi
+                                                </a><br>
+                                            @endif
+                                            @if (Auth::user()->profile->verification->status === 'unverified')
+                                                <a href="{{route('dashboard', ['menu' => 'sudut', 'section' => 'verify'])}}" class="badge badge-danger align-self-center">
+                                                    <i class="mr-1 far fw fa-window-close" data-fa-transform="grow-3"></i>
+                                                    Tidak terverifikasi
+                                                </a><br>
                                             @endif
                                         @endif
                                         <span class="--text _sub mt-1">Tergabung sejak : {{Idnme::print_date(Auth::user()->created_at, false)}}</span>
@@ -191,39 +206,28 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="desktopNavbar">
-                    {{-- <ul class="navbar-nav mr-auto">
-                        <li> --}}
-                            {{-- <form class="form-inline d-inline" action="/action_page.php">
-                                <div class="input-group">
-                                    <input class="form-control rounded-0 py-2 px-3 text-light" type="text" placeholder="Cari project" autocomplete="false">
-                                    <span class="input-group-btn p-1">
-                                        <button class="btn btn-secondary rounded-circle py-1 px-2 text-light" type="submit"><i class="fas fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </form> --}}
-                            <div class="row mx-auto">
-                                <div class="col-12 p-0">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                        </div>
-                                        <input type="text" name="search" placeholder="Cari judul atau lokasi proyek" id="project-search" onkeyup="javascript:getSearcResult(this, '#project-search-result');">
-                                        <span id="project-search-result"></span>
+                    
+                    <div class="mx-auto">
+                        {{-- <div class="col-12 p-0"> --}}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-search"></i>
                                     </div>
                                 </div>
+                                <input type="text" name="search" placeholder="Cari judul atau lokasi proyek" id="project-search" onkeyup="javascript:getSearcResult(this, '#project-search-result');">
+                                <span id="project-search-result"></span>
                             </div>
-                        {{-- </li>
-                    </ul> --}}
-
+                        {{-- </div> --}}
+                    </div>
+                    
                 </div>
                 <ul class="navbar-nav ml-auto d-none d-lg-block">
                     @guest
                         <li class="nav-item">
                             <div class="d-flex justify-content between align-items-center">
-                                <a class="btn btn-md main-auth-btn text-capitalize mr-2" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a>
-                                <a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}">daftar <i class="fas fa-user-plus fw"></i></a>
+                                <a class="btn btn-md main-auth-btn text-capitalize mr-2" href="{{ route('login') }}"><i class="fas fa-sign-in-alt fw"></i> masuk</a>
+                                <a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('register') }}"><i class="fas fa-user-plus fw"></i> daftar</a>
                             </div>
                         </li>
                         {{-- <li class="nav-item"><a class="btn btn-md main-auth-btn text-capitalize" href="{{ route('login') }}">masuk <i class="fas fa-sign-in-alt fw"></i></a></li>
@@ -265,7 +269,7 @@
 
                                     <a href="{{route('dashboard', ['menu' => 'sudut'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-lightbulb mr-2"></i> &nbsp;&nbsp;Jadi Sudut</a>
                                     
-                                    <a href="{{route('project.browse', ['category' => 'all'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-heartbeat mr-2"></i> &nbsp;Jadi Negeri</a>
+                                    <a href="{{route('dashboard', ['menu' => 'negeri', 'section' => 'donations'])}}" class="list-group-item list-group-item-action border-0"><i class="fas fw fa-heartbeat mr-2"></i> &nbsp;Jadi Negeri</a>
                                     
                                     @php
                                         $prop = Auth::user()->profile->toArray();

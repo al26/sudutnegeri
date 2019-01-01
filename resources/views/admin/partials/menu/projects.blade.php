@@ -5,7 +5,7 @@
                 <h4 class="m-0 p-0">Daftar Proyek</h4>
             </div>
             <div class="card-body table-responsive">
-                <table id="example" class="table table-striped table-bordered">
+                <table id="example" class="table table-striped table-bordered" data-order='{"col":6, "sort":"asc"}'>
                     <thead>
                         <tr>
                             <th>Judul Proyek</th>
@@ -57,14 +57,14 @@
                                 <td>{{$project->volunteer_quota}}</td>
                                 <td>
                                     @foreach ($docs as $key => $item)
-                                        <a class="btn-link text-primary decoration-none" href="{{route('file.view', ['path' => $item])}}" target="_blank"><i class="fas fa-external-link-alt"></i> Dokumen {{$key+1}}</a><br>
+                                        <a href="{{route('file.view', ['path' => $item])}}" target="_blank" class="badge badge-secondary text-white" target="_blank"><i class="fas fa-receipt"></i> Dokumen {{$key+1}}</a><br>
                                     @endforeach
                                 </td>
                                 <td>
                                     <span class="badge badge-{{$badge}}">{{$status}}</span>
                                 </td>
                                 <td>
-                                    @if ($project->project_status === 'finished' || $project->project_status === 'published')
+                                    @if ($project->project_status !== 'submitted')
                                         <span class="btn btn-sm btn-light disabled">Tak ada opsi</span>
                                     @else
                                         {{-- @if ($project->project_status === 'published')

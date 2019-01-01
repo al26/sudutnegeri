@@ -5,7 +5,7 @@
                 <h4 class="m-0 p-0">Daftar Pengguna</h4>
             </div>
             <div class="card-body table-responsive">
-                <table id="example" class="table table-striped table-bordered">
+                <table id="example" class="table table-striped table-bordered" data-order='{"col":6, "sort":"asc"}'>
                     <thead>
                         <tr>
                             <th>No. Identitas</th>

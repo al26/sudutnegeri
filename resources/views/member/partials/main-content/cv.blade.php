@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 
-                <button type="submit" id="cv-edit" class="offset-md-3 btn btn-primary">Buat CV</button>
+                <button type="submit" id="cv-edit" class="offset-md-3 btn btn-primary" data-redirectAfter="{{route('dashboard', ['menu' => 'negeri', 'section' => 'cv'])}}">{{!in_array(null, $cv) ? "Perbarui" : "Buat" }} CV</button>
             </form>
         </div>
     @endif

@@ -13,14 +13,24 @@
         .cv-brand {
             padding: 1rem;
             // margin-left: auto;
-            margin-right: 2rem;
+            margin-right: 1rem;
         }
     
         .cv-title {
             padding: 1rem;
-            margin-left: 2rem;
+            margin-left: 1rem;
             margin-right: auto;
             border: none;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        .cv-ava {
+            height: 18rem;
+            width: 18rem;
+            margin-top: 1rem;
+            object-fit: cover !important;
+            vertical-align: middle;
         }
     }
 }

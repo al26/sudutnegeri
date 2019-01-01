@@ -26,17 +26,21 @@ class ProjectController extends Controller
         $project = Project::where(function($clause) {
             $clause->where('project_status','published')
                    ->orWhere('project_status', 'finished');
-        });
-
+        })->latest();
+        
         if (!empty($request->location) && $request->location !== 'all') {
             $project = $project->where('regency_id', $request->location);
-            $data['lokasi'] = $request->location;
+            $data['loc'] = $request->location;
+        } else {
+            $data['loc'] = "all";
         }
 
         if (!empty($request->category) && $request->category !== 'all') {
             $category = Category::where('slug', $request->category)->pluck('id')->toArray();
             $project = $project->whereIn('category_id', $category);
-            $data['category'] = $request->category;
+            $data['cat'] = $request->category;
+        } else {
+            $data['cat'] = "all";
         }
 
         if ($request->sort) {
@@ -47,9 +51,11 @@ class ProjectController extends Controller
             }  
 
             $data['sort'] = $request->sort;
+        } else {
+            $data['sort'] = "all";
         }
-
-        $data['projects'] = $project->paginate(6);
+        
+        $data['projects'] = $project->paginate(8);
         
         // dd($data);
 
@@ -231,8 +237,12 @@ class ProjectController extends Controller
     public function manage(Request $request, $slug) {
         $data['project'] = Project::where("project_slug", $slug)->first();
         $data['historis'] = History::where('project_id', $data['project']->id)->get(); 
-        // dd($data['project']->);
-        return view('member.dashboard', ['menu' => 'sudut', 'section' => 'manage-project'], $data);
+        
+        if($request->user()->id === $data['project']->user->id) {
+            return view('member.dashboard', ['menu' => 'sudut', 'section' => 'manage-project'], $data);
+        } else {
+            return redirect()->route('history.manage', ['slug' => $slug]);
+        }
     }
 
     /**
@@ -362,7 +372,7 @@ class ProjectController extends Controller
         return view('guest.modal.project_filter', $data);
     }
 
-    public function finish($id) {
+    public function finish(Request $request, $id) {
         $project = Project::find(decrypt($id));
         $finished = $project->update(['project_status' => 'finished']);
         $finished .= $project->volunteers()->where('project_id', decrypt($id))->update(['status' => 'finished']);
@@ -428,6 +438,7 @@ class ProjectController extends Controller
 
                 if(!empty($attachment_path)){
                     $data['attachments'] = json_encode($attachment_link, JSON_FORCE_OBJECT);
+                    $data['project_status'] = 'submitted';
                 }
         
                 $update = $project->update($data);
