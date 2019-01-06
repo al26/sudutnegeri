@@ -28,6 +28,19 @@
 @endphp
 
 <div class="col-12">
+    {{-- <div class="card">
+        <div class="card-header">Dashboard Admin</div>
+
+        <div class="card-body">
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            You are logged in!
+        </div>
+    </div> --}}
     <div class="alert  alert-success alert-dismissible fade show" role="alert">
         Selamat datang kembali, {{Auth::user()->profile->name}}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
