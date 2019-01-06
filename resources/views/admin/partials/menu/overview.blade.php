@@ -51,10 +51,7 @@
         <section class="card">
             <div class="card-header user-header alt bg-dark">
                 <div class="media">
-                    {{-- <a href="#"> --}}
-                        {{-- <img class="align-self-center rounded-circle mr-3" data-cfstyle="width:85px; height:85px;" alt="" data-cfsrc="images/admin.jpg" style="width:85px; height:85px;" src="https://colorlib.com/polygon/sufee/images/admin.jpg"> --}}
-                        <i class="fas fw fa-project-diagram mr-2 fa-5x text-white"></i>
-                    {{-- </a> --}}
+                    <i class="fas fw fa-project-diagram mr-2 fa-5x text-white"></i>
                     <div class="media-body">
                         <h2 class="text-light display-6">{{$project_count['new']}}</h2>
                         <p class="mt-3 text-white">Proyek Baru</p>
@@ -87,10 +84,7 @@
         <section class="card">
             <div class="card-header user-header alt bg-dark">
                 <div class="media">
-                    {{-- <a href="#"> --}}
-                        {{-- <img class="align-self-center rounded-circle mr-3" data-cfstyle="width:85px; height:85px;" alt="" data-cfsrc="images/admin.jpg" style="width:85px; height:85px;" src="https://colorlib.com/polygon/sufee/images/admin.jpg"> --}}
-                        <i class="fas fa-user-friends fw mr-2 fa-5x text-white"></i>
-                    {{-- </a> --}}
+                    <i class="fas fa-user-friends fw mr-2 fa-5x text-white"></i>
                     <div class="media-body">
                         <h2 class="text-light display-6">{{$member_count['new']}}</h2>
                         <p class="mt-3 text-white">Member Baru</p>
@@ -112,9 +106,6 @@
                 <li class="list-group-item">
                     Member Tidak Terferifikasi <span class="badge badge-primary float-right">{{$member_count['unverified']}}</span>
                 </li>
-                {{-- <li class="list-group-item">
-                    Proyek Selesai <span class="badge badge-primary float-right">10</span>
-                </li> --}}
             </ul>
 
         </section>
@@ -123,10 +114,7 @@
         <section class="card">
             <div class="card-header user-header alt bg-dark">
                 <div class="media">
-                    {{-- <a href="#"> --}}
-                        {{-- <img class="align-self-center rounded-circle mr-3" data-cfstyle="width:85px; height:85px;" alt="" data-cfsrc="images/admin.jpg" style="width:85px; height:85px;" src="https://colorlib.com/polygon/sufee/images/admin.jpg"> --}}
-                        <i class="fas fw fa-coins mr-2 fa-5x text-white"></i>
-                    {{-- </a> --}}
+                    <i class="fas fw fa-coins mr-2 fa-5x text-white"></i>
                     <div class="media-body">
                         <h2 class="text-light display-6">{{$donation_count['new']}}</h2>
                         <p class="mt-3 text-white">Investasi Baru</p>
@@ -148,9 +136,6 @@
                 <li class="list-group-item">
                     Investasi Tidak Terferifikasi <span class="badge badge-primary float-right">{{$donation_count['unverified']}}</span>
                 </li>
-                {{-- <li class="list-group-item">
-                    Proyek Selesai <span class="badge badge-primary float-right">10</span>
-                </li> --}}
             </ul>
 
         </section>
