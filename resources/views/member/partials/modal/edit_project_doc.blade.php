@@ -7,7 +7,7 @@
             <input type="file" class="custom-file-input" id="attachments" name="attachments[]" multiple onchange="javascript:dynamicFileList(this, 'attachments-list', 'attachment-label')" required>
             <label class="custom-file-label" for="attachments" id="attachment-label">Pilih File</label>
         </div>
-        <small class="form-text text-muted">Lampirkan sebuah foto dengan format .jpg, .png, atau .svg</small>
+        <small class="form-text text-muted">Lampirkan dokumen verifikasi dengan format .pdf</small>
         <ul class="dynamic-list" id="attachments-list"></ul>
     </div>
 </form>

@@ -75,9 +75,14 @@ class DonationController extends Controller
         ];
 
         $data = $request->data;
-        // dd($data);
+        // dd(intval($data['amount']));
         $validator = Validator::make($data, $rules, $messages, $attributes);
-
+        
+        $validator->after(function ($validator) use ($data) {
+            if (intval($data['amount']) > 4000000000) {
+                $validator->errors()->add('amount', 'Isikan dengan minimal 10.000 dan kelipatan ribuan, maksimal 4.000.000.000');
+            }
+        });
         if ($validator->fails()) {
             $return = redirect()->back()->withErrors($validator)->withInput();
         } else {

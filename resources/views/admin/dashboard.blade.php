@@ -131,7 +131,7 @@
         </div>
     </div> --}}
 
-    <div class="content mt-3" id="ac" data-pjax-container>
+    <div class="content mt-3">
 
         @if(Session::get('success'))
             <div class="col-sm-12">
@@ -226,37 +226,37 @@
 
 
     $('#ac').on('pjax:complete', function() {
-        table.destroy();
-        var order = $('#example').data('order') ? $('#example').data('order') : null;
-        table = $('#example').DataTable(
-            {
-                "language": {
-                    "sProcessing":   "Sedang proses...",
-                    "sLengthMenu":   "Tampilan _MENU_ entri",
-                    "sZeroRecords":  "Tidak ditemukan data yang sesuai",
-                    "sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
-                    "sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
-                    "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-                    "sInfoPostFix":  "",
-                    "sSearch":       "Cari:",
-                    "sUrl":          "",
-                    "oPaginate": {
-                        "sFirst":    "Awal",
-                        "sPrevious": "Balik",
-                        "sNext":     "Lanjut",
-                        "sLast":     "Akhir"
-                    }
-                },
-                responsive : true,
-                autoWidth : true,
-                lengthChange : true,
-                stateSave : true,
-                fixedHeader : true
-            }
-        );
-        if(order != null) {
-            table.order([order.col, order.sort]).draw();
-        }
+        // table.destroy();
+        // var order = $('#example').data('order') ? $('#example').data('order') : null;
+        // table = $('#example').DataTable(
+        //     {
+        //         "language": {
+        //             "sProcessing":   "Sedang proses...",
+        //             "sLengthMenu":   "Tampilan _MENU_ entri",
+        //             "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+        //             "sInfo":         "Tampilan _START_ sampai _END_ dari _TOTAL_ entri",
+        //             "sInfoEmpty":    "Tampilan 0 hingga 0 dari 0 entri",
+        //             "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+        //             "sInfoPostFix":  "",
+        //             "sSearch":       "Cari:",
+        //             "sUrl":          "",
+        //             "oPaginate": {
+        //                 "sFirst":    "Awal",
+        //                 "sPrevious": "Balik",
+        //                 "sNext":     "Lanjut",
+        //                 "sLast":     "Akhir"
+        //             }
+        //         },
+        //         responsive : true,
+        //         autoWidth : true,
+        //         lengthChange : true,
+        //         stateSave : true,
+        //         fixedHeader : true
+        //     }
+        // );
+        // if(order != null) {
+        //     table.order([order.col, order.sort]).draw();
+        // }
         $('.select2').select2({theme: "bootstrap4"});
     });
 

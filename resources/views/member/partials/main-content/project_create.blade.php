@@ -141,7 +141,7 @@
                     {{-- <input type="hidden" id="hidden-attachments" name="data[han]"> --}}
                     <label class="custom-file-label" for="attachments" id="attachment-label">Pilih File</label>
                 </div>
-                <small class="form-text text-muted">Lampirkan sebuah foto dengan format .jpg, .png, atau .svg</small>
+                <small class="form-text text-muted">Lampirkan dokumen verifikasi dengan format .pdf</small>
                 <ul class="dynamic-list" id="attachments-list"></ul>
             </div>
             <button type="submit" id="create-project" class="btn btn-md btn-primary">Buat Proyek</button>
