@@ -40,11 +40,11 @@
                 <div class="media">
                     {{-- <a href="#"> --}}
                         {{-- <img class="align-self-center rounded-circle mr-3" data-cfstyle="width:85px; height:85px;" alt="" data-cfsrc="images/admin.jpg" style="width:85px; height:85px;" src="https://colorlib.com/polygon/sufee/images/admin.jpg"> --}}
-                        <i class="fas fw fa-project-diagram mr-2 fa-5x"></i>
+                        <i class="fas fw fa-project-diagram mr-2 fa-5x text-white"></i>
                     {{-- </a> --}}
                     <div class="media-body">
                         <h2 class="text-light display-6">{{$project_count['new']}}</h2>
-                        <p class="mt-3">Proyek Baru</p>
+                        <p class="mt-3 text-white">Proyek Baru</p>
                     </div>
                 </div>
             </div>
