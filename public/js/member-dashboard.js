@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 66);
+/******/ 	return __webpack_require__(__webpack_require__.s = 59);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 66:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(67);
+module.exports = __webpack_require__(60);
 
 
 /***/ }),
 
-/***/ 67:
+/***/ 60:
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
@@ -191,7 +191,11 @@ $(document).on('click', '#upload-verification', function (e) {
 $(document).on('click', '#cv-edit', function (e) {
     e.preventDefault();
     var redirectTo = $(this).attr('data-redirectAfter');
-    $('#form-cv').ajaxCrudNonModal(['#mr', '#ml'], redirectTo);
+    $('#form-cv').ajaxCrudNonModal(['#mc'], redirectTo);
+    // $.pjax({
+    //     url : redirectTo,
+    //     container : '#mc',
+    // });
 });
 
 $(document).on('click', '#create-history', function (e) {

@@ -43,7 +43,7 @@
                                 }
                             @endphp    
                             <tr>
-                                <td><a href="{{route('project.show', ['slug' => $donation->project->project_slug])}}" class="btn-link text-black" target="_blank">{{$donation->project->project_name}}</a></td>
+                                <td><a href="{{route('project.show', ['slug' => $donation->project->project_slug])}}" class="btn-link text-primary decoration-none" target="_blank">{{$donation->project->project_name}}</a></td>
                                 <td>{{$donation->user->profile->name}}</td>
                                 <td>{{$donation->amount}}</td>
                                 <td>{{$donation->bank->bank_name}}</td>

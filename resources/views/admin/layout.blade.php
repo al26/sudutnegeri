@@ -30,7 +30,7 @@
 
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </head>
-<body>
+<body id="ac" data-pjax-container>
 
     @yield('content')
 

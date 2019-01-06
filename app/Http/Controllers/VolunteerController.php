@@ -38,7 +38,9 @@ class VolunteerController extends Controller
         if($request->user()->id === $data['project']->user_id) {
             return redirect()->back();
         }
-        $data['current_activity'] = Volunteer::where(['status' => 'pending', 'user_id' => $request->user()])->first();
+        $data['current_activity'] = Volunteer::where(function($clause) {
+            $clause->where('status','pending')->orWhere('status', 'accepted');
+        })->where('user_id', $request->user()->id )->first();
         $data['existing_volunteers'] = Volunteer::where('project_id', $data['project']->id)->pluck('user_id')->toArray();
         $data['questions'] = Question::where('project_id', $data['project']->id)->get();        
         return view('member.create_volunteer', $data);
