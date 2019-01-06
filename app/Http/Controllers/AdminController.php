@@ -33,6 +33,7 @@ class AdminController extends Controller
     public function index($menu = null) {
         $data['menu'] = $menu;
         $data['donations'] = Donation::all();
+        $data['members'] = User_verification::all();
         $data['projects'] = Project::all();
         $data['categories'] = Category::all();
         $data['banks'] = Bank::all();
