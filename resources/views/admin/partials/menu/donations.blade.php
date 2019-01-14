@@ -1,3 +1,4 @@
+@section('title', 'Verifikasi Investasi')
 @php
     // $donations = $donations->where('transfer_receipt', '!=', '');
 @endphp

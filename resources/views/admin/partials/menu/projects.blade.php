@@ -1,3 +1,4 @@
+@section('title', 'Verifikasi Proyek')
 <div class="row">
     <div class="col-12">
         <div class="card">
