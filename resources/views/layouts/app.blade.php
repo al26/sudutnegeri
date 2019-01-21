@@ -20,6 +20,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/dataTables-bs4.css') }}"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}"> --}}
     <!-- Styles -->
+    {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"> --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('style')
 </head>
@@ -457,10 +458,11 @@
     </div>
 
     <!-- Scripts -->
-    <script>
-        FontAwesomeConfig = { searchPseudoElements: true };
-    </script>
+    {{-- <script>
+        FontAwesomeConfig = { searchPseudoElements: true }
+    </script> --}}
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script> --}}
+    {{-- <script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1" crossorigin="anonymous"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
     $(function(){

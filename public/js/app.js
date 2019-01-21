@@ -23423,6 +23423,7 @@ try {
   // require('bootstrap-select');
   // require('jquery-bootstrap-scrolling-tabs');
   __webpack_require__(15);
+  // require('datatables.net-bs4/js/dataTables.bootstrap4');
   __webpack_require__(17);
   __webpack_require__(19);
   __webpack_require__(20);

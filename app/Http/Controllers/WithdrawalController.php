@@ -53,6 +53,13 @@ class WithdrawalController extends Controller
             "amount" => ['required','digits_between:5, 10',
                             function($attribute, $value, $fail) use ($request) {
                                 $saldo = \App\Project::where('id', decrypt($request->data['project_id']))->pluck('collected_funds')[0];
+
+                                $credited = \App\Withdrawal::where([
+                                    'project_id' => decrypt($request->data['project_id']),
+                                    'status'     => 'processed'  
+                                ])->sum('amount');
+
+                                $saldo -= $credited;
                                 
                                 if($value > $saldo) {
                                     return $fail('Mohon masukan jumlah penarikan lebih kecil dari saldo. Saldo : '. Idnme::print_rupiah($saldo, false, true));
