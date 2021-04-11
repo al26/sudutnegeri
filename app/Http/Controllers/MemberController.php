@@ -51,14 +51,20 @@ class MemberController extends Controller
         $projects_id = Project::where('user_id', $request->user()->id)->pluck('id')->toArray();
         $data['volunteers'] = Volunteer::whereIn('project_id', $projects_id)->get();
         $user_around = Regency::where('province_id', $request->user()->profile->address->province_id)->pluck('id')->toArray();
+        $interest = explode(",",$request->user()->profile->interest);
         $data['featured'] = Project::where(function($query) use ($request) {
                                         $query->where('user_id', '!=', $request->user()->id)
                                               ->where('project_status', 'published');
                                     })
-                                    ->where(function ($query) use ($request, $user_around) {
-                                        $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
+                                    ->when(count($interest) && count($user_around), function($thruty) use ($user_around, $interest) {
+                                        $query->whereIn('category_id', $interest)
                                               ->orWhereIn('regency_id', $user_around);
-                                    })->latest()->limit(6)->get();
+                                    })
+                                    ->latest()->limit(6)->get();
+                                    // ->where(function ($query) use ($request, $user_around) {
+                                    //     $query->whereIn('category_id', explode(",",$request->user()->profile->interest))
+                                    //           ->orWhereIn('regency_id', $user_around);
+                                    // })->latest()->limit(6)->get();
         $data['updates'] = History::whereIn('project_id', 
                                         Donation::where('user_id', $request->user()->id)
                                                 ->where('status', 'verified')
