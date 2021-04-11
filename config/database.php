@@ -1,5 +1,7 @@
 <?php
 
+$HEROKU_PGSQL=parse_url('postgres://grjuozttlxtvhh:1df312a6ee76589cbc80c89f06800f92fecea33f1065f710fbb4634c97670c25@ec2-23-23-245-89.compute-1.amazonaws.com:5432/d9hv4r8kjs6qn4');
+
 return [
 
     /*
@@ -13,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'heroku_pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,6 +54,20 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+        ],
+
+        'heroku_pgsql' => [
+            'driver' => 'pgsql',
+            'host' => $HEROKU_PGSQL['host'],
+            'port' => $HEROKU_PGSQL['port'],
+            'database' => ltrim($HEROKU_PGSQL['path'], "/"),
+            'username' => $HEROKU_PGSQL['user'],
+            'password' => $HEROKU_PGSQL['pass'],
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ],
 
         'pgsql' => [
