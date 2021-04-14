@@ -50,9 +50,9 @@
                             <div class="category-flag">
                                 <p>{{$project->category->category}}</p>
                             </div>
-                            <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                            <img class="card-img-top img-fit" src="{{secure_asset($project->project_banner)}}" alt="Card image cap">
                             <div class="media campaigner">
-                                <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
+                                <img class="mr-3" src="{{secure_asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
                                 <div class="media-body">
                                     {{$project->user->profile->name}}
                                 </div>
@@ -108,7 +108,7 @@
                     <div class="card col">
                         <div class="row">
                             <div class="col-12 col-md-5">
-                                <img src="{{asset($current_activity->project->project_banner)}}" class="img-fluid mb-3 mb-md-0 img-thumbnail" alt="Project Banner">
+                                <img src="{{secure_asset($current_activity->project->project_banner)}}" class="img-fluid mb-3 mb-md-0 img-thumbnail" alt="Project Banner">
                             </div>
                             <div class="col-12 col-md-7">
                                 <div class="card-block px-2">

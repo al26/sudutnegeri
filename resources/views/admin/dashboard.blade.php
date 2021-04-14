@@ -97,7 +97,7 @@
             <div class="col-sm-5">
                 <div class="user-area dropdown float-right">
                     <a href="#" class="dropdown-toggle d-flex flex-row justify-content-between align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="user-avatar rounded-0 mr-3 my-0" src="{{asset(Auth::user()->profile->profile_picture)}}" alt="User Avatar">
+                        <img class="user-avatar rounded-0 mr-3 my-0" src="{{secure_asset(Auth::user()->profile->profile_picture)}}" alt="User Avatar">
                         <span><small>{{Auth::user()->profile->name}}</small></span>
                     </a>
 

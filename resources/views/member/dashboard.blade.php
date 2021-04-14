@@ -31,5 +31,5 @@
         //     console.error( error );
         // } );
 </script>
-<script src="{{asset('js/member-dashboard.js')}}"></script>
+<script src="{{secure_asset('js/member-dashboard.js')}}"></script>
 @endsection

@@ -16,7 +16,7 @@
             </div>
         </section>
         <section class="cv-top media my-3 px-3 row">
-            <img src="{{asset($user->profile->profile_picture)}}" alt="" class="img-thumbnail cv-ava ml-lg-3 order-lg-2 order-1 mx-auto mr-lg-0">
+            <img src="{{secure_asset($user->profile->profile_picture)}}" alt="" class="img-thumbnail cv-ava ml-lg-3 order-lg-2 order-1 mx-auto mr-lg-0">
             <div class="media-body p-0 order-2 order-lg-1">
                 <span class="--text font-weight-bold _head pl-2 text-uppercase">{{$user->profile->name}}</span>
                 <span class="--text font-weight-bold pl-2 text-uppercase">{{$user->profile->profession.' '.$user->profile->institution}}</span>

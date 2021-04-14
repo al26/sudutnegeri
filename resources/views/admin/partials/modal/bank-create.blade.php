@@ -10,9 +10,9 @@
     </div>
     <div class="row mb-3 text-center">
         <div class="col-12">
-            <img id="bank-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/profile_pictures/no_image_placeholder.png')}}">
+            <img id="bank-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{secure_asset('storage/profile_pictures/no_image_placeholder.png')}}">
             <img id="bank-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
-            <img id="bank-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+            <img id="bank-loader" src="{{secure_asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
         </div>
     </div>
     

@@ -38,7 +38,7 @@
                             <tr>
                                 <th scope="row"><h5 class="font-weight-bold">Bank</h5></th>
                                 <td>
-                                    <img class="align-self-center ml-auto" src="{{asset($donation->bank->logo)}}" height="50" alt="Logo {{$donation->bank->bank_name}}">
+                                    <img class="align-self-center ml-auto" src="{{secure_asset($donation->bank->logo)}}" height="50" alt="Logo {{$donation->bank->bank_name}}">
                                 </td>
                             </tr>
                         </tbody>
@@ -51,7 +51,7 @@
   <div class="col-12 col-lg-6">
     {{-- <p class="mb-2 text-center">Bukti Transfer</p>
     <h4 class="mb-0 text-center">{nama project}</h4> --}}
-    <img class="align-self-center ml-auto img-fluid" src="{{asset($donation->transfer_receipt)}}" alt="receipt">
+    <img class="align-self-center ml-auto img-fluid" src="{{secure_asset($donation->transfer_receipt)}}" alt="receipt">
 
   </div>
 </div>

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CV</title>
 
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{secure_asset('css/app.css')}}">
 </head>
 <body class="bg-white">
     <div class="card container border-0">
@@ -47,7 +47,7 @@
                         <li class="list-group-item border-0 font-weight-bold py-3"><span class="fa-li"><i class="fas fa-user-graduate" data-fa-transform="grow-15"></i></span>{{$user->profile->cv->education}}</li>
                     </ul>
                 </div>
-                <img src="{{asset($user->profile->profile_picture)}}" alt="" class="img-fluid img-thumbnail ml-3">
+                <img src="{{secure_asset($user->profile->profile_picture)}}" alt="" class="img-fluid img-thumbnail ml-3">
             </section>
             <section class="cv-data">
                 <dl class="row p-3">
@@ -117,6 +117,6 @@
 
 
 
-    <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{secure_asset('js/app.js')}}"></script>
 </body>
 </html>

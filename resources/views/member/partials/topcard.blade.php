@@ -1,5 +1,5 @@
 <div class="card border-0 d-none d-lg-block">
-    <img id="p-cover" class="card-img-top" src="{{asset('storage/profile_pictures/cover_default.jpg')}}" alt="Cover Photo">
+    <img id="p-cover" class="card-img-top" src="{{secure_asset('storage/profile_pictures/cover_default.jpg')}}" alt="Cover Photo">
     {{-- <div id="p-cover-overlay">
         <i class="fas fw fa-camera-retro"></i> Perbarui Foto Sampul</a>
     </div> --}}
@@ -15,7 +15,7 @@
     </div>
     <div class="card-img-overlay d-flex justify-content-center p-0" style="bottom:4rem">
         <div id="p-pic-container" class="text-center mr-5 mt-5">
-            <img id="p-pic" class="img-thumbnail pchange" src="{{asset(Auth::user()->profile->profile_picture)}}" alt="Profile Picture">
+            <img id="p-pic" class="img-thumbnail pchange" src="{{secure_asset(Auth::user()->profile->profile_picture)}}" alt="Profile Picture">
             <a id="p-pic-overlay" class="text-white decoration-none" href="{{route('avatar.edit', ['id' => encrypt(Auth::user()->profile->id)])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => encrypt(Auth::user()->profile->id)])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => encrypt(Auth::user()->profile->id)])}}"}'><i class="fas fw fa-camera-retro"></i> Perbarui Foto Profil</a>
         </div>
         <div id="p-data" class="mt-5">

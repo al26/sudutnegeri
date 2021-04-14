@@ -7,7 +7,7 @@
             <div class="carousel-inner">
                 @foreach (Storage::files('homepage_carousel') as $item)
                     <div class="carousel-item {{$loop->first ? 'active' : ''}}">
-                        <img src="{{ asset(Storage::url('homepage_carousel/').File::basename($item) ) }}" alt="First Image" class="img-fluid img-blur">
+                        <img src="{{ secure_asset(Storage::url('homepage_carousel/').File::basename($item) ) }}" alt="First Image" class="img-fluid img-blur">
                     </div>
                 @endforeach
             </div>
@@ -96,7 +96,7 @@
         <div class="accordion container">
             <ul>
               @foreach (Storage::files('public/profile_pictures') as $item)
-                <li style="background-image: url({{ asset(Storage::url('public/profile_pictures/').File::basename($item)) }});">
+                <li style="background-image: url({{ secure_asset(Storage::url('public/profile_pictures/').File::basename($item)) }});">
                     <div><a href=""><h2>Title x</h2><p>Content x</p></a></div>
                 </li>
               @endforeach
@@ -172,9 +172,9 @@
                             <div class="category-flag">
                                 <p>{{$project->category->category}}</p>
                             </div>
-                            <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                            <img class="card-img-top img-fit" src="{{secure_asset($project->project_banner)}}" alt="Card image cap">
                             <div class="media campaigner">
-                                <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
+                                <img class="mr-3" src="{{secure_asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
                                 <div class="media-body">
                                     {{$project->user->profile->name}}
                                 </div>

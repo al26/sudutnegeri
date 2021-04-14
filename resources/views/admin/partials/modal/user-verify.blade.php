@@ -64,7 +64,7 @@
         </div> --}}
     </div>
     <div class="col-12 col-lg-6 pr-3 pl-1">
-        <img class="align-self-center ml-auto img-fluid" src="{{asset($verification->scan_id_card)}}" alt="Scan / Foto Kartu Identitas">
+        <img class="align-self-center ml-auto img-fluid" src="{{secure_asset($verification->scan_id_card)}}" alt="Scan / Foto Kartu Identitas">
     </div>
 </div>
 <div class="row">
@@ -73,7 +73,7 @@
     </div>
     <hr>
     <div class="col-12 d-flex flex-row justify-content-center">
-        <img class="align-self-center mx-auto img-fluid" src="{{asset($verification->verification_picture)}}" alt="Foto Verifikasi">
+        <img class="align-self-center mx-auto img-fluid" src="{{secure_asset($verification->verification_picture)}}" alt="Foto Verifikasi">
     </div>
 </div>
       

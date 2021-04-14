@@ -28,7 +28,7 @@
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 
-    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/admin.css') }}" rel="stylesheet">
 </head>
 <body id="ac" data-pjax-container>
 
@@ -50,7 +50,7 @@
     {{-- <script>
         FontAwesomeConfig = { searchPseudoElements: true };
     </script> --}}
-    <script src="{{ asset('js/admin.js') }}"></script>
+    <script src="{{ secure_asset('js/admin.js') }}"></script>
     @yield('script')
     {{-- <script>
         ( function ( $ ) {

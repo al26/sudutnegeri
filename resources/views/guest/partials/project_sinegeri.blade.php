@@ -16,13 +16,13 @@
                     <div class="col-12 col-md-6 col-xl-4">
                         <div class="media mb-2">
                             @if($donatur->anonymouse)
-                                <img class="mr-3" src="{{asset('storage/profile_pictures/avatar.jpg')}}" alt="Generic placeholder image" width="50">
+                                <img class="mr-3" src="{{secure_asset('storage/profile_pictures/avatar.jpg')}}" alt="Generic placeholder image" width="50">
                                 <div class="media-body">
                                     <span class="mb-2 --text">Anonim</span>
                                     <span class="mb-0 --text _sub">{{Idnme::print_rupiah($donatur->amount, false, true)}}</span>
                                 </div>
                             @else
-                                <img class="mr-3" src="{{asset($donatur->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
+                                <img class="mr-3" src="{{secure_asset($donatur->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
                                 <div class="media-body">
                                     <span class="mb-2 --text">{{$donatur->user->profile->name}}</span>
                                     <span class="mb-0 --text _sub">{{Idnme::print_rupiah($donatur->amount, false, true)}}</span>
@@ -43,7 +43,7 @@
                 @foreach ($volunteers as $volunteer)
                     <div class="col-12 col-md-6 col-xl-4">
                         <div class="media mb-2">
-                            <img class="mr-3" src="{{asset($volunteer->user->profile->profile_picture)}}" alt="Foto Profil Relawan" width="50">
+                            <img class="mr-3" src="{{secure_asset($volunteer->user->profile->profile_picture)}}" alt="Foto Profil Relawan" width="50">
                             <div class="media-body">
                                 <span class="mb-2 --text">{{$volunteer->user->profile->name}}</span>
                                 <span class="mb-0 --text _sub">{{$volunteer->user->profile->profession}}</span>

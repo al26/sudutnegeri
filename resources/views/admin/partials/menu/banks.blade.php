@@ -20,7 +20,7 @@
                             <tr>
                                 <td>{{$bank->bank_code}}</td>
                                 <td>{{$bank->bank_name}}</td>
-                                <td><img src="{{asset($bank->logo)}}" alt="Logo Bank" class="img-fluid" width="100"></td>
+                                <td><img src="{{secure_asset($bank->logo)}}" alt="Logo Bank" class="img-fluid" width="100"></td>
                                 <td>
                                     <a href="{{route('banks.edit', ['id' => encrypt($bank->id)])}}" class="btn btn-sm btn-primary text-white my-1" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Ubah Data Bank", "cancel":"batal", "edit":"Simpan", "actionUrl":"{{route('banks.update', ['id' => encrypt($bank->id)])}}","redirectAfter":"{{route('admin.dashboard', ['menu' => 'banks'])}}","pjax-reload":["#ac"]}'><i class="fas fa-edit"></i> Ubah</a>
                                     <a href="" class="btn btn-sm btn-danger text-white my-1" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Hapus Bank","text":"Bank {{$bank->bank_name}} akan dihapus dari daftar bank. Lanjutkan hapus ?", "actionUrl":"{{route('banks.destroy', ['id' => encrypt($bank->id)])}}","delete":"Hapus", "cancel":"Batalkan","redirectAfter":"{{route('admin.dashboard', ['menu' => 'banks'])}}","pjax-container":"#ac"}'><i class="far fa-trash-alt"></i> Hapus</a>

@@ -33,7 +33,7 @@
                             <tr>
                                 <th scope="row">Bank</th>
                                 <td>
-                                    <img class="align-self-center ml-auto" src="{{asset($withdrawal->bank->logo)}}" height="50" alt="Logo {{$withdrawal->bank->bank_name}}">
+                                    <img class="align-self-center ml-auto" src="{{secure_asset($withdrawal->bank->logo)}}" height="50" alt="Logo {{$withdrawal->bank->bank_name}}">
                                 </td>
                             </tr>
                         </tbody>
@@ -47,9 +47,9 @@
                     </div>
                     <div class="row mb-3 text-center">
                         <div class="col-12">
-                            <img id="proceed-withdrawal-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/profile_pictures/no_image_placeholder.png')}}">
-                            <img id="proceed-withdrawal-preview" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/profile_pictures/no_image_placeholder.png')}}" style="display:none;">
-                            <img id="proceed-withdrawal-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+                            <img id="proceed-withdrawal-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{secure_asset('storage/profile_pictures/no_image_placeholder.png')}}">
+                            <img id="proceed-withdrawal-preview" alt="preview" class="img-fluid img-thumbnail" src="{{secure_asset('storage/profile_pictures/no_image_placeholder.png')}}" style="display:none;">
+                            <img id="proceed-withdrawal-loader" src="{{secure_asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
                         </div>
                     </div>
                     

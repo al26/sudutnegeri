@@ -35,9 +35,9 @@
                                 <div class="category-flag">
                                     <p>{{$project->category->category}}</p>
                                 </div>
-                                <img class="card-img-top img-fit" src="{{asset($project->project_banner)}}" alt="Card image cap">
+                                <img class="card-img-top img-fit" src="{{secure_asset($project->project_banner)}}" alt="Card image cap">
                                 <div class="media campaigner">
-                                    <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
+                                    <img class="mr-3" src="{{secure_asset($project->user->profile->profile_picture)}}" alt="Profile Picture">
                                     <div class="media-body">
                                         {{$project->user->profile->name}}
                                     </div>

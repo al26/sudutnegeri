@@ -25,9 +25,9 @@
                     <label for="receipt">Unggah foto/scan {{Auth::user()->profile->identity_card}} Anda</label>
                     <div class="row mb-3 text-center">
                         <div class="col-12">
-                            <img id="sic-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
+                            <img id="sic-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{secure_asset('storage/no-image.jpg')}}">
                             <img id="sic-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
-                            <img id="sic-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+                            <img id="sic-loader" src="{{secure_asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
                         </div>
                     </div>
                     
@@ -40,9 +40,9 @@
                     <label for="receipt">Unggah foto selfi dengan {{Auth::user()->profile->identity_card}} Anda</label>
                     <div class="row mb-3 text-center">
                         <div class="col-12">
-                            <img id="vp-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
+                            <img id="vp-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{secure_asset('storage/no-image.jpg')}}">
                             <img id="vp-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
-                            <img id="vp-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+                            <img id="vp-loader" src="{{secure_asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
                         </div>
                     </div>
                     

@@ -54,9 +54,9 @@
                     <label for="project_banner">Baner Proyek</label>
                     <div class="row mb-3 text-center">
                         <div class="col-12">
-                            <img id="pb-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{!empty($project->project_banner) ?asset($project->project_banner) : asset('storage/no-image.jpg')}}">
+                            <img id="pb-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{!empty($project->project_banner) ?secure_asset($project->project_banner) : secure_asset('storage/no-image.jpg')}}">
                             <img id="pb-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
-                            <img id="pb-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+                            <img id="pb-loader" src="{{secure_asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
                         </div>
                     </div>
                     <div class="custom-file">

@@ -72,9 +72,9 @@
                     <label for="attachment">Scan/foto ktp pemilik rekening <b>(jika bukan atas nama sendiri)</b></label>
                     <div class="row mb-3 text-center">
                         <div class="col-12">
-                            <img id="wd-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{asset('storage/no-image.jpg')}}">
+                            <img id="wd-preview-default" alt="preview" class="img-fluid img-thumbnail" src="{{secure_asset('storage/no-image.jpg')}}">
                             <img id="wd-preview" alt="preview" class="img-fluid img-thumbnail" src="" style="display:none;">
-                            <img id="wd-loader" src="{{asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
+                            <img id="wd-loader" src="{{secure_asset('storage/loader/spinner.gif')}}" alt="loader" class="img-fluid"  style="display:none">
                         </div>
                     </div>
                     <div class="custom-file">

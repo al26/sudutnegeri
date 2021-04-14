@@ -15,12 +15,12 @@
 
     
     <!-- owl carousel plugin -->
-    {{-- <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}"> --}}
-    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('css/dataTables-bs4.css') }}"> --}}
-    {{-- <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ secure_asset('css/owl.carousel.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ secure_asset('css/animate.css') }}">
+    {{-- <link rel="stylesheet" href="{{ secure_asset('css/dataTables-bs4.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ secure_asset('css/summernote-bs4.css') }}"> --}}
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
     @yield('style')
 </head>
 <body class="@yield('body-bg')">
@@ -32,7 +32,7 @@
                     <span class="fas fa-search"></span>
                 </button>
                 <a class="navbar-brand p-0" href="{{ url('/') }}">
-                    {{-- <img class="" src="{{asset('storage/app_logo/logo.png')}}" alt="{{ config('app.name', 'SudutNegeri') }}"> --}}
+                    {{-- <img class="" src="{{secure_asset('storage/app_logo/logo.png')}}" alt="{{ config('app.name', 'SudutNegeri') }}"> --}}
                     <i class="fab fw fa-staylinked text-white" data-fa-transform="grow-5"></i>
                     {{ config('app.name', 'SudutNegeri') }}
                 </a>
@@ -104,7 +104,7 @@
                                     </span>
                                 </div>
                                 <a href="{{route('avatar.edit', ['id' => encrypt(Auth::user()->profile->id)])}}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-modal='{"title":"Perbarui Foto Profil","edit":"Simpan Perubahan", "lg":true, "cancel":"Batal", "actionUrl":"{{route('avatar.update', ['id' => encrypt(Auth::user()->profile->id)])}}", "pjax-reload":false, "pchange":true, "pchange-url":"{{route('pchange', ['id' => encrypt(Auth::user()->profile->id)])}}"}'>
-                                    <img class="d-flex ml-3 rounded-0 img-fluid img-thumbnail pchange" src="{{ asset(Auth::user()->profile->profile_picture) }}" alt="Image Icon" style="width: 100px;">
+                                    <img class="d-flex ml-3 rounded-0 img-fluid img-thumbnail pchange" src="{{ secure_asset(Auth::user()->profile->profile_picture) }}" alt="Image Icon" style="width: 100px;">
                                 </a>
                             </div>
                             <ul class="list-inline m-0 py-1 px-3 bg-secondary d-flex flex-row justify-content-around">
@@ -235,7 +235,7 @@
                     @else
                         <li class="nav-item d-flex flex-row align-items-center">
                             {{-- <a href="{{route('dashboard', ['menu' => 'overview'])}}" class="btn d-flex flex-row align-items-center" data-toggle="tooltip" data-placement="bottom" title="Dashboard">
-                                <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar"> 
+                                <img src="{{secure_asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar"> 
                                 <span class="ml-2 text-white">{{Auth::user()->profile->name}}</span>
                             </a> --}}
 
@@ -250,7 +250,7 @@
                             </form> --}}
 
                             <a class="d-md-flex flex-row align-items-center text-white decoration-none" id="user-desktop-menu">
-                                <img src="{{asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar pchange mr-3"> 
+                                <img src="{{secure_asset(Auth::user()->profile->profile_picture)}}" alt="user_profile_picture" class="avatar pchange mr-3"> 
                                 {{-- @php
                                     $name = explode(" ", Auth::user()->profile->name);    
                                 @endphp
@@ -335,7 +335,7 @@
                         <ul class="list-inline">
                             @foreach (Storage::files('public/sponsors_logo') as $item)
                                 <li class="list-inline-item">
-                                    <img src="{{ asset(Storage::url('public/sponsors_logo/').File::basename($item)) }}" class="img-fluid">
+                                    <img src="{{ secure_asset(Storage::url('public/sponsors_logo/').File::basename($item)) }}" class="img-fluid">
                                 </li>
                             @endforeach
                         </ul> --}}
@@ -430,7 +430,7 @@
                         <ul class="list-inline">
                             @foreach (Storage::files('sponsors_logo') as $item)
                                 <li class="list-inline-item">
-                                    <img src="{{ asset(Storage::url('sponsors_logo/').File::basename($item)) }}" class="img-fluid rounded border p-2">
+                                    <img src="{{ secure_asset(Storage::url('sponsors_logo/').File::basename($item)) }}" class="img-fluid rounded border p-2">
                                 </li>
                             @endforeach
                         </ul>
@@ -461,7 +461,7 @@
         FontAwesomeConfig = { searchPseudoElements: true };
     </script>
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script> --}}
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ secure_asset('js/app.js') }}"></script>
     <script>
     $(function(){
         // Enables popover

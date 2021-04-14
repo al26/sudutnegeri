@@ -10,7 +10,7 @@ Terima kasih telah berinvestasi ke proyek {{$project->project_name}}. Berikut ad
 
 Silahkan lakukan transfer ke rekening Sudut Negeri sesuai dengan ketentuan berikut :
 {{-- ![logo]
-[logo]:{{asset($donation->bank->logo)}} --}}
+[logo]:{{secure_asset($donation->bank->logo)}} --}}
 @component('mail::table')
 |**Bank Tujuan**                       |**Kode Bank**                 |**No. Rekening**                                     |**Atas nama**                                      |
 |:-------------------------------------|:----------------------------:|:---------------------------------------------------:|--------------------------------------------------:|

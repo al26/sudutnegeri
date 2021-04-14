@@ -80,7 +80,7 @@
                                 <div id="volunteer-carousel" class="owl-carousel owl-theme my-2">
                                     @foreach ($registered_volunteer as $volunteer)
                                         <div class="item">                                   
-                                            <img class="" src="{{ asset($volunteer->user->profile->profile_picture) }}" alt="Foto Profil Relawan" title="{{$volunteer->user->profile->name}}" data-toggle="tooltip" data-placement="top">
+                                            <img class="" src="{{ secure_asset($volunteer->user->profile->profile_picture) }}" alt="Foto Profil Relawan" title="{{$volunteer->user->profile->name}}" data-toggle="tooltip" data-placement="top">
                                         </div>
                                     @endforeach
                                 </div>
@@ -118,7 +118,7 @@
             <div class="col-12 col-lg-8 featured --container --right order-1 order-lg-2">
                 <section class="card --content mb-lg-3">
                     <div class="--img">
-                        <img src="{{asset($project->project_banner)}}" alt="Project Image" class="img-thumbnail img-fluid img-fit _big">
+                        <img src="{{secure_asset($project->project_banner)}}" alt="Project Image" class="img-thumbnail img-fluid img-fit _big">
                     </div>
                     <div class="--headline">
                         <span class="--text _head">{{$project->project_name}}</span>
@@ -128,7 +128,7 @@
                     </div>
                     <div class="--author">
                         <div class="media">
-                            <img class="mr-3" src="{{asset($project->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
+                            <img class="mr-3" src="{{secure_asset($project->user->profile->profile_picture)}}" alt="Generic placeholder image" width="50">
                             <div class="media-body">
                                 <p class="mb-2">Si Sudut</p>
                                 <h5 class="mb-0">{{$project->user->profile->name}}</h5>
